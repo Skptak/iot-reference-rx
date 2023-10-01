@@ -104,7 +104,7 @@ int tc_hmac_init(TCHmacState_t ctx);
 /**
  *  @brief HMAC update procedure
  *  Mixes data_length bytes addressed by data into state
- *  @return returns TC_CRYPTO_SUCCCESS (1)
+ *  @return returns TC_CRYPTO_SUCCESS (1)
  *          returns TC_CRYPTO_FAIL (0) if: ctx == NULL or key == NULL
  *  @note Assumes state has been initialized by tc_hmac_init
  *  @param ctx IN/OUT -- state of HMAC computation so far
@@ -124,7 +124,7 @@ int tc_hmac_update(TCHmacState_t ctx, const void *data,
  *                key == NULL or
  *                taglen != TC_SHA256_DIGEST_SIZE
  *  @note ctx is erased before exiting. This should never be changed/removed.
- *  @note Assumes the tag bufer is at least sizeof(hmac_tag_size(state)) bytes
+ *  @note Assumes the tag buffer is at least sizeof(hmac_tag_size(state)) bytes
  *  state has been initialized by tc_hmac_init
  *  @param tag IN/OUT -- buffer to receive computed HMAC tag
  *  @param taglen IN -- size of tag in bytes

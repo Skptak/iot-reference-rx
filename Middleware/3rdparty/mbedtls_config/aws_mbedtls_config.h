@@ -183,7 +183,7 @@
  */
 #define MBEDTLS_PLATFORM_MEMORY
 
-#ifdef CONFIG_MEDTLS_USE_AFR_MEMORY
+#ifdef CONFIG_MBEDTLS_USE_AFR_MEMORY
     #include <stddef.h>
 
     extern void * pvCalloc( size_t xNumElements,

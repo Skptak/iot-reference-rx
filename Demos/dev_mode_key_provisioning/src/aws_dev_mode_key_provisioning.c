@@ -79,7 +79,7 @@ extern void vLoggingPrint( const char * pcFormat );
 #define keyprovisioningFORCE_GENERATE_NEW_KEY_PAIR    0
 
 /* Delay before generating new key-pair, if keyprovisioningFORCE_GENERATE_NEW_KEY_PAIR
- * is enabled. This is to avoid possible race-condition (due to devce reset) between
+ * is enabled. This is to avoid possible race-condition (due to device reset) between
  * execution of an existing image on device generates key-pair on device and flashing of
  * new image on device. */
 #ifndef keyprovisioningDELAY_BEFORE_KEY_PAIR_GENERATION_SECS
@@ -1058,7 +1058,7 @@ static CK_RV prvGetProvisionedState( CK_SESSION_HANDLE xSession,
 /*-----------------------------------------------------------*/
 
 /* Write the ASN.1 encoded bytes of the device public key to the console.
- * This is for debugging purposes as well as to faciliate developer-driven
+ * This is for debugging purposes as well as to facilitate developer-driven
  * certificate enrollment for onboard crypto hardware (i.e. if available). */
 static void prvWriteHexBytesToConsole( char * pcDescription,
                                        uint8_t * pucData,

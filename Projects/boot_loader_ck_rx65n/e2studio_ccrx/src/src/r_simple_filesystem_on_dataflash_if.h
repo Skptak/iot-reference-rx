@@ -57,7 +57,7 @@ typedef struct _sfd_descriptor
 #define SFD_MIRROR_SECTION_NAME _BOOTLOADER_KEY_STORAGE_MIRROR
 
 /******************************************************************************
- Interface funcsions
+ Interface functions
  ******************************************************************************/
 sfd_err_t R_SFD_Open(void);
 SFD_HANDLE R_SFD_SaveObject(uint8_t *label, uint32_t label_length, uint8_t *data, uint32_t data_length);
@@ -65,7 +65,7 @@ SFD_HANDLE R_SFD_FindObject( uint8_t *label, uint8_t label_length );
 sfd_err_t R_SFD_GetObjectValue(SFD_HANDLE xHandle, uint8_t **data, uint32_t *data_length);
 sfd_err_t R_SFD_Scan(uint8_t **label, uint32_t *label_length, uint8_t **data, uint32_t *data_length);
 sfd_err_t R_SFD_ResetScan(void);
-uint32_t R_SFD_ReadPysicalSize(void);
+uint32_t R_SFD_ReadPhysicalSize(void);
 uint32_t R_SFD_ReadAllocatedStorageSize(void);
 uint32_t R_SFD_ReadFreeSize(void);
 sfd_err_t R_SFD_Close(void);

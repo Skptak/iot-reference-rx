@@ -29,3 +29,7 @@ ignorePaths:
   - 'docs'
   - 'ThirdParty'
   - 'History.txt'
+  - '3rdparty'
+  - 'mcu'
+  - 'doc'
+  - 'smc_gen'

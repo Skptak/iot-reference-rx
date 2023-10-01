@@ -114,7 +114,7 @@ int tc_ctr_prng_init(TCCtrPrng_t * const ctx,
  *          entropylen < (TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE)
  *  @note It is better to reseed an existing prng context rather than
  *        re-initialise, so that any existing entropy in the context is
- *        presereved.  This offers some protection against undetected failures
+ *        preserved.  This offers some protection against undetected failures
  *        of the entropy source.
  *  @note Assumes tc_ctr_prng_init has been called for ctx
  *  @param ctx IN/OUT -- the PRNG state

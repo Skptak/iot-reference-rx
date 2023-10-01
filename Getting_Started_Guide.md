@@ -63,21 +63,21 @@ git submodule update --init --recursive
 ## 3 Poting project 
 ### 3.1 Structure skeleton
 
-### 3.2 Buid mbed network transport implementation
+### 3.2 Build mbed network transport implementation
 #### 3.2.1 Using Ethernet
-Using [FreeRTOS-Plus-TCP] layer to poting ethernet
+Using [FreeRTOS-Plus-TCP] layer to porting ethernet
 
 * Copy [socket_wrapper/freertos_plus_tcp](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/sockets_wrapper/freertos_plus_tcp) to Middleware/abstractions/secure_sockets
-* Copy [using_mbedtls_pkcs11](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/using_mbedtls_pkcs11) to Middleware/mbedstls_utils
-* Copy [mbedtls_freertos](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Utilities/mbedtls_freertos) to Middleware/mbedstls_utils. 
+* Copy [using_mbedtls_pkcs11](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/using_mbedtls_pkcs11) to Middleware/mbedtls_utils
+* Copy [mbedtls_freertos](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Utilities/mbedtls_freertos) to Middleware/mbedtls_utils. 
 *Note:Using mbedtls_bio_freertos_tcp.c*
 
 #### 3.2.1 Using Cellular
 Using .h [FreeRTOS-Plus-TCP] layer to port
 
 * Copy and modify [socket_wrapper/cellular](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/sockets_wrapper/cellular) to Middleware/abstractions/secure_sockets
-* Copy [using_mbedtls_pkcs11](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/using_mbedtls_pkcs11) to Middleware/mbedstls_utils
-* Copy [mbedtls_freertos](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Utilities/mbedtls_freertos) to Middleware/mbedstls_utils. 
+* Copy [using_mbedtls_pkcs11](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Application-Protocols/network_transport/using_mbedtls_pkcs11) to Middleware/mbedtls_utils
+* Copy [mbedtls_freertos](https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS-Plus/Source/Utilities/mbedtls_freertos) to Middleware/mbedtls_utils. 
 *Note:Using mbedtls_bio_freertos_cellular.c*
 
 | RX MCU and Board | Old Structure|New Structure |

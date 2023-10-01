@@ -861,7 +861,7 @@ int prvFleetProvisioningTask( void * pvParameters )
             }
             else
             {
-                LogInfo( ( "Sucessfully established connection with provisioned credentials." ) );
+                LogInfo( ( "Successfully established connection with provisioned credentials." ) );
                 xConnectionEstablished = true;
             }
         }

@@ -152,13 +152,13 @@ static uint8_t * otaPal_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define OTA_FLASHING_IN_PROGRESS                              ( 0 )
 #define OTA_FLASHING_COMPLETE                                 ( 1 )
 
-#define OTA_SIGUNATURE_SEQUENCE_TOP_VALUE                     ( 0x30 )
-#define OTA_SIGUNATURE_INTEGER_VALUE                          ( 0x02 )
-#define OTA_SIGUNATURE_NOT_INCLUDE_NEGATIVE_NUMBER_VALUE      ( 0x20 )
-#define OTA_SIGUNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE          ( 0x21 )
-#define OTA_SIGUNATURE_DATA_HALF_LENGTH                       ( 32 )
-#define OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH                   ( 2 )
-#define OTA_SIGUNATURE_SKIP                                   ( 2 )
+#define OTA_SIGNATURE_SEQUENCE_TOP_VALUE                     ( 0x30 )
+#define OTA_SIGNATURE_INTEGER_VALUE                          ( 0x02 )
+#define OTA_SIGNATURE_NOT_INCLUDE_NEGATIVE_NUMBER_VALUE      ( 0x20 )
+#define OTA_SIGNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE          ( 0x21 )
+#define OTA_SIGNATURE_DATA_HALF_LENGTH                       ( 32 )
+#define OTA_SIGNATURE_SEQUENCE_INFO_LENGTH                   ( 2 )
+#define OTA_SIGNATURE_SKIP                                   ( 2 )
 
 #define OTA_FLASH_MIN_PGM_SIZE_MASK                           ( 0xFFFFFFFF - FLASH_CF_MIN_PGM_SIZE + 1 )
 
@@ -236,7 +236,7 @@ static FRAGMENTED_FLASH_BLOCK_LIST * fragmented_flash_block_list_assemble( FRAGM
 
 static QueueHandle_t xQueue;
 static TaskHandle_t xTask;
-static xSemaphoreHandle xSemaphoreFlashig;
+static xSemaphoreHandle xSemaphoreFlashing;
 static xSemaphoreHandle xSemaphoreWriteBlock;
 static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static FRAGMENTED_FLASH_BLOCK_LIST * fragmented_flash_block_list;
@@ -261,8 +261,8 @@ OtaPalStatus_t otaPal_CreateFileForRx( OtaFileContext_t * const pFileContext )
             /* create task/queue/semaphore for flashing */
             xQueue = xQueueCreate( otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof( PACKET_BLOCK_FOR_QUEUE ) );
             xTaskCreate( ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES, &xTask );
-            xSemaphoreFlashig = xSemaphoreCreateBinary();
-            xSemaphoreGive( xSemaphoreFlashig );
+            xSemaphoreFlashing = xSemaphoreCreateBinary();
+            xSemaphoreGive( xSemaphoreFlashing );
             xSemaphoreWriteBlock = xSemaphoreCreateMutex();
             xSemaphoreGive( xSemaphoreWriteBlock );
             fragmented_flash_block_list = NULL;
@@ -346,10 +346,10 @@ OtaPalStatus_t otaPal_Abort( OtaFileContext_t * const pFileContext )
             xQueue = NULL;
         }
 
-        if( NULL != xSemaphoreFlashig )
+        if( NULL != xSemaphoreFlashing )
         {
-            vSemaphoreDelete( xSemaphoreFlashig );
-            xSemaphoreFlashig = NULL;
+            vSemaphoreDelete( xSemaphoreFlashing );
+            xSemaphoreFlashing = NULL;
         }
 
         if( NULL != xSemaphoreWriteBlock )
@@ -507,10 +507,10 @@ OtaPalStatus_t otaPal_CloseFile( OtaFileContext_t * const pFileContext )
             xQueue = NULL;
         }
 
-        if( NULL != xSemaphoreFlashig )
+        if( NULL != xSemaphoreFlashing )
         {
-            vSemaphoreDelete( xSemaphoreFlashig );
-            xSemaphoreFlashig = NULL;
+            vSemaphoreDelete( xSemaphoreFlashing );
+            xSemaphoreFlashing = NULL;
         }
 
         if( NULL != xSemaphoreWriteBlock )
@@ -554,7 +554,7 @@ static OtaPalStatus_t otaPal_CheckFileSignature( OtaFileContext_t * const pFileC
             /* Replace length bytes from offset. */
             memcpy( &assembled_flash_buffer[ tmp->content.offset ], tmp->content.binary, tmp->content.length );
             /* Flashing memory. */
-            xSemaphoreTake( xSemaphoreFlashig, portMAX_DELAY );
+            xSemaphoreTake( xSemaphoreFlashing, portMAX_DELAY );
             R_FLASH_Close();
             R_FLASH_Open();
             cb_func_info.pcallback = ota_header_flashing_callback;
@@ -572,7 +572,7 @@ static OtaPalStatus_t otaPal_CheckFileSignature( OtaFileContext_t * const pFileC
             {
             }
 
-            xSemaphoreGive( xSemaphoreFlashig );
+            xSemaphoreGive( xSemaphoreFlashing );
             load_firmware_control_block.total_image_length += tmp->content.length;
             tmp = fragmented_flash_block_list_delete( tmp, tmp->content.offset );
         }
@@ -580,8 +580,8 @@ static OtaPalStatus_t otaPal_CheckFileSignature( OtaFileContext_t * const pFileC
     }
     else
     {
-    	xSemaphoreTake( xSemaphoreFlashig, portMAX_DELAY );
-    	xSemaphoreGive( xSemaphoreFlashig );
+    	xSemaphoreTake( xSemaphoreFlashing, portMAX_DELAY );
+    	xSemaphoreGive( xSemaphoreFlashing );
     }
 
     /* Verify an ECDSA-SHA256 signature. */
@@ -1018,31 +1018,31 @@ static int32_t ota_context_update_user_firmware_header( OtaFileContext_t * pFile
     /* Parse the signature and extract ECDSA-SHA256 signature data. */
     source_pointer = pFileContext->pSignature->data;
     destination_pointer = p_block_header->signature;
-    data_length = *( source_pointer + 1 ) + OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH;
+    data_length = *( source_pointer + 1 ) + OTA_SIGNATURE_SEQUENCE_INFO_LENGTH;
     memset( destination_pointer, 0, sizeof( destination_pointer ) );
 
-    if( OTA_SIGUNATURE_SEQUENCE_TOP_VALUE == *source_pointer )
+    if( OTA_SIGNATURE_SEQUENCE_TOP_VALUE == *source_pointer )
     {
-        source_pointer += OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH;
+        source_pointer += OTA_SIGNATURE_SEQUENCE_INFO_LENGTH;
 
         while( 1 )
         {
-            if( OTA_SIGUNATURE_INTEGER_VALUE == *source_pointer )
+            if( OTA_SIGNATURE_INTEGER_VALUE == *source_pointer )
             {
                 source_pointer++;
 
-                if( OTA_SIGUNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE == *source_pointer )
+                if( OTA_SIGNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE == *source_pointer )
                 {
-                    source_pointer += OTA_SIGUNATURE_SKIP;
+                    source_pointer += OTA_SIGNATURE_SKIP;
                 }
                 else
                 {
                     source_pointer++;
                 }
 
-                memcpy( destination_pointer, source_pointer, OTA_SIGUNATURE_DATA_HALF_LENGTH );
-                source_pointer += OTA_SIGUNATURE_DATA_HALF_LENGTH;
-                destination_pointer += OTA_SIGUNATURE_DATA_HALF_LENGTH;
+                memcpy( destination_pointer, source_pointer, OTA_SIGNATURE_DATA_HALF_LENGTH );
+                source_pointer += OTA_SIGNATURE_DATA_HALF_LENGTH;
+                destination_pointer += OTA_SIGNATURE_DATA_HALF_LENGTH;
 
                 if( ( source_pointer - pFileContext->pSignature->data ) == data_length )
                 {
@@ -1338,7 +1338,7 @@ static void ota_flashing_task( void * pvParameters )
     while( 1 )
     {
         xQueueReceive( xQueue, &packet_block_for_queue2, portMAX_DELAY );
-        xSemaphoreTake( xSemaphoreFlashig, portMAX_DELAY );
+        xSemaphoreTake( xSemaphoreFlashing, portMAX_DELAY );
         memcpy( block, packet_block_for_queue2.p_packet, packet_block_for_queue2.length );
         ulOffset = packet_block_for_queue2.ulOffset;
         length = packet_block_for_queue2.length;
@@ -1371,7 +1371,7 @@ static void ota_flashing_callback( void * event )
     }
 
     static portBASE_TYPE xHigherPriorityTaskWoken;
-    xSemaphoreGiveFromISR( xSemaphoreFlashig, &xHigherPriorityTaskWoken );
+    xSemaphoreGiveFromISR( xSemaphoreFlashing, &xHigherPriorityTaskWoken );
 }
 
 static void ota_header_flashing_callback( void * event )

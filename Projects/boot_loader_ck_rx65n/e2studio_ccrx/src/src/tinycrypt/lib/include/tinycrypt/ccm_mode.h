@@ -140,7 +140,7 @@ int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint8_t *nonce,
  *          counter is 2 bytes long
  *        The byte FLAGS is composed by the following 8 bits:
  *          0-2 bits: used to represent the value of q-1
- *          3-7 btis: always 0's
+ *          3-7 bits: always 0's
  *
  * @note: The sequence b for authentication is formatted as follows:
  *        b = [FLAGS | nonce | length(mac length)], where:
@@ -186,7 +186,7 @@ int tc_ccm_generation_encryption(uint8_t *out, unsigned int olen,
  *          counter is 2 bytes long
  *        The byte FLAGS is composed by the following 8 bits:
  *          0-2 bits: used to represent the value of q-1
- *          3-7 btis: always 0's
+ *          3-7 bits: always 0's
  *
  * @note: The sequence b for authentication is formatted as follows:
  *        b = [FLAGS | nonce | length(mac length)], where:

@@ -1180,7 +1180,7 @@
           <Option>-include="C:\downloads\iot-reference-rx-fork\Demos\OtaOverMqtt"</Option>
           <Option>-include="C:\downloads\iot-reference-rx-fork\Middleware\AWS\Fleet-Provisioning-for-AWS-IoT-embedded-sdk\source\include"</Option>
           <Option>-include="C:\downloads\iot-reference-rx-fork\Demos\common\Mqtt_Demo_Helpers"</Option>
-          <Option>-define=MBEDTLS_CONFIG_FILE="&lt;aws_mbedtls_config.h&gt;",CONFIG_MEDTLS_USE_AFR_MEMORY,MBEDTLS_CMAC_C,MBEDTLS_ERROR_C,MBEDTLS_THREADING_C,MBEDTLS_ALLOW_PRIVATE_ACCESS,_COMPLEX,__RX=1,__RENESAS__,__LITTLE_ENDIAN__,UNITY_INCLUDE_CONFIG_H,__FUNCTION__=__func__</Option>
+          <Option>-define=MBEDTLS_CONFIG_FILE="&lt;aws_mbedtls_config.h&gt;",CONFIG_MBEDTLS_USE_AFR_MEMORY,MBEDTLS_CMAC_C,MBEDTLS_ERROR_C,MBEDTLS_THREADING_C,MBEDTLS_ALLOW_PRIVATE_ACCESS,_COMPLEX,__RX=1,__RENESAS__,__LITTLE_ENDIAN__,UNITY_INCLUDE_CONFIG_H,__FUNCTION__=__func__</Option>
           <Option>-utf8</Option>
           <Option>-nomessage=11174,21644,20010,23034,23035,20177,23033</Option>
           <Option>-debug</Option>
@@ -1696,7 +1696,7 @@
           <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\afr_new_structure\${ProjName}\src\smc_gen\r_irq_rx"</IncludePathForAsm>
           <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\afr_new_structure\${ProjName}\src\smc_gen\r_irq_rx\src"</IncludePathForAsm>
           <MacroForC>MBEDTLS_CONFIG_FILE="&lt;aws_mbedtls_config.h&gt;"</MacroForC>
-          <MacroForC>CONFIG_MEDTLS_USE_AFR_MEMORY</MacroForC>
+          <MacroForC>CONFIG_MBEDTLS_USE_AFR_MEMORY</MacroForC>
           <MacroForC>MBEDTLS_CMAC_C</MacroForC>
           <MacroForC>MBEDTLS_ERROR_C</MacroForC>
           <MacroForC>MBEDTLS_THREADING_C</MacroForC>

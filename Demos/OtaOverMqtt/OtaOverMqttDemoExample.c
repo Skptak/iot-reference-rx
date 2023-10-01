@@ -541,7 +541,7 @@ static void prvMQTTAgentTask( void * pParam );
  *
  * The implementation uses MQTT agent to queue a publish request. It then waits
  * for the request complete notification from the agent. The notification along with result of the
- * operation is sent back to the caller task using xTaksNotify API. For publishes involving QOS 1 and
+ * operation is sent back to the caller task using xTaskNotify API. For publishes involving QOS 1 and
  * QOS2 the operation is complete once an acknowledgment (PUBACK) is received. OTA agent uses this function
  * to fetch new job, provide status update and send other control related messages to the MQTT broker.
  *
@@ -605,7 +605,7 @@ static OtaMqttStatus_t prvMQTTUnsubscribe( const char * pTopicFilter,
  * within ota_config.h. This function is used to fetch a free buffer from the pool for processing
  * by the OTA agent task. It uses a mutex for thread safe access to the pool.
  *
- * @return A pointer to an unusued buffer. NULL if there are no buffers available.
+ * @return A pointer to an unused buffer. NULL if there are no buffers available.
  */
 static OtaEventData_t * prvOTAEventBufferGet( void );
 
@@ -679,7 +679,7 @@ static void prvMqttDataCallback( void * pContext,
  *
  * The callback is not subscribed with MQTT broker, but only with local subscription manager.
  * A wildcard OTA job topic is used for subscription so that all unsolicited messages related to OTA is
- * forwarded to this callback for filteration. Right now the callback is used to filter responses to job requests
+ * forwarded to this callback for filtration. Right now the callback is used to filter responses to job requests
  * from the OTA service.
  *
  * @param[in] pvIncomingPublishCallbackContext MQTT context which stores the connection.
@@ -1055,12 +1055,12 @@ static void prvCommandCallback( MQTTAgentCommandContext_t * pxCommandContext,
 static void prvMQTTSubscribeCompleteCallback( MQTTAgentCommandContext_t * pxCommandContext,
                                               MQTTAgentReturnInfo_t * pxReturnInfo )
 {
-    MQTTAgentSubscribeArgs_t * pSubsribeArgs;
+    MQTTAgentSubscribeArgs_t * pSubscribeArgs;
 
     if( pxReturnInfo->returnCode == MQTTSuccess )
     {
-        pSubsribeArgs = ( MQTTAgentSubscribeArgs_t * ) ( pxCommandContext->pArgs );
-        prvRegisterOTACallback( pSubsribeArgs->pSubscribeInfo->pTopicFilter, pSubsribeArgs->pSubscribeInfo->topicFilterLength );
+        pSubscribeArgs = ( MQTTAgentSubscribeArgs_t * ) ( pxCommandContext->pArgs );
+        prvRegisterOTACallback( pSubscribeArgs->pSubscribeInfo->pTopicFilter, pSubscribeArgs->pSubscribeInfo->topicFilterLength );
     }
 
     /* Store the result in the application defined context so the task that
@@ -2056,7 +2056,7 @@ static BaseType_t prvRunOTADemo( void )
     }
 
     /**
-     * Remvove callback for receiving messages intended for OTA agent from broker,
+     * Remove callback for receiving messages intended for OTA agent from broker,
      * for which the topic has not been subscribed for.
      */
     removeSubscription( ( SubscriptionElement_t * ) xGlobalMqttAgentContext.pIncomingCallbackContext,

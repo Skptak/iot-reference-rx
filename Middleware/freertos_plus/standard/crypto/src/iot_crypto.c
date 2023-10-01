@@ -64,7 +64,7 @@ typedef struct SignatureVerificationState
 /*-----------------------------------------------------------*/
 
 /* If mbedTLS is using AFR managed memory, it needs access to an implementation of calloc. */
-#ifdef CONFIG_MEDTLS_USE_AFR_MEMORY
+#ifdef CONFIG_MBEDTLS_USE_AFR_MEMORY
 
 /**
  * @brief Implements libc calloc semantics using the FreeRTOS heap
@@ -81,7 +81,7 @@ typedef struct SignatureVerificationState
 
         return pvNew;
     }
-#endif /* ifdef CONFIG_MEDTLS_USE_AFR_MEMORY */
+#endif /* ifdef CONFIG_MBEDTLS_USE_AFR_MEMORY */
 
 /*-----------------------------------------------------------*/
 /*--------- mbedTLS threading functions for FreeRTOS --------*/

@@ -408,7 +408,7 @@ sfd_err_t R_SFD_ResetScan(void)
 	return SFD_SUCCESS;
 }
 
-uint32_t R_SFD_ReadPysicalSize(void)
+uint32_t R_SFD_ReadPhysicalSize(void)
 {
 	return (FLASH_DF_BLOCK_SIZE * FLASH_NUM_BLOCKS_DF);
 }
