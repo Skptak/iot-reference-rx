@@ -126,7 +126,7 @@
 #elif defined( BSP_MCU_RX72N )
     #define MCU_RX72N
     #define MCU_RX72_ALL
-#else  /* if   defined( BSP_MCU_RX111 ) */
+#else /* if   defined( BSP_MCU_RX111 ) */
     #error "!!! No 'targets' folder for this MCU Group !!!"
 #endif /* if   defined( BSP_MCU_RX111 ) */
 

@@ -485,7 +485,7 @@ static CborError value_to_pretty( CborStreamFunction stream,
                {
                    /* CBOR stores the negative number X as -1 - X
                     * (that is, -1 is stored as 0, -2 as 1 and so forth) */
-                   if( ++val )          /* unsigned overflow may happen */
+                   if( ++val ) /* unsigned overflow may happen */
                    {
                        err = stream( out, "-%" PRIu64, val );
                    }
@@ -701,7 +701,7 @@ static CborError value_to_pretty( CborStreamFunction stream,
 
                        break;
                    }
-            #else  /* ifndef CBOR_NO_FLOATING_POINT */
+            #else /* ifndef CBOR_NO_FLOATING_POINT */
                 case CborDoubleType:
                 case CborFloatType:
                 case CborHalfFloatType:

@@ -834,15 +834,15 @@ static CborError validate_value( CborValue * it,
         case CborFloatType:
         case CborDoubleType:
             #ifdef CBOR_NO_FLOATING_POINT
-            return CborErrorUnsupportedType;
+                return CborErrorUnsupportedType;
             #else
-            err = validate_floating_point( it, type, flags );
+                err = validate_floating_point( it, type, flags );
 
-            if( err )
-            {
-                return err;
-            }
-            break;
+                if( err )
+                {
+                    return err;
+                }
+                break;
             #endif /* !CBOR_NO_FLOATING_POINT */
 
         case CborInvalidType:

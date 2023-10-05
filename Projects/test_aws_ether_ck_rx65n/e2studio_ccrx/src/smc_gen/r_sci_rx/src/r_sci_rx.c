@@ -799,7 +799,7 @@ static void power_off( sci_hdl_t const hdl )
         /* Configure SMR for asynchronous mode, single processor, and user settings */
         if( SCI_PARITY_OFF == p_cfg->parity_en )
         {
-            p_cfg->parity_type = 0;     /* ensure random value is not ORed into SMR */
+            p_cfg->parity_type = 0; /* ensure random value is not ORed into SMR */
         }
 
         /* Configure SMR */
@@ -814,7 +814,7 @@ static void power_off( sci_hdl_t const hdl )
 
             if( 1000 == bit_err )
             {
-                err = SCI_ERR_INVALID_ARG;      /* impossible baud rate; 100% error */
+                err = SCI_ERR_INVALID_ARG; /* impossible baud rate; 100% error */
             }
             else
             {
@@ -905,8 +905,8 @@ static void power_off( sci_hdl_t const hdl )
 
         /* Configure SMR for SSPI/SYNC mode */
         hdl->rom->regs->SMR.BYTE = 0x80;
-        hdl->rom->regs->SCMR.BIT.SMIF = 0;      /* default */
-        hdl->rom->regs->SIMR1.BIT.IICM = 0;     /* default */
+        hdl->rom->regs->SCMR.BIT.SMIF = 0;  /* default */
+        hdl->rom->regs->SIMR1.BIT.IICM = 0; /* default */
 
         /* Configure SPI register for clock polarity/phase and single master */
         if( SCI_MODE_SSPI == hdl->mode )
@@ -932,7 +932,7 @@ static void power_off( sci_hdl_t const hdl )
 
         if( 1000 == bit_err )
         {
-            err = SCI_ERR_INVALID_ARG;  /* impossible bit rate; 100% error */
+            err = SCI_ERR_INVALID_ARG; /* impossible bit rate; 100% error */
         }
 
         *p_priority = p_cfg->int_priority;
@@ -1057,7 +1057,7 @@ sci_err_t R_SCI_Send( sci_hdl_t const hdl,
                     }
                 }
             #endif
-        #else  /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
+        #else /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
             if( true != hdl->tx_idle )
             {
                 return SCI_ERR_XCVR_BUSY;
@@ -1081,7 +1081,7 @@ sci_err_t R_SCI_Send( sci_hdl_t const hdl,
                             hdl->rom->regs->FCR.BIT.TFRST = 0x01;
                         }
                     #endif /* if ( TX_DTC_DMACA_ENABLE & 0x01 || TX_DTC_DMACA_ENABLE & 0x02 ) */
-                #else  /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
+                #else /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
                     /* TX FIFO use check */
                     if( 0x00 < hdl->rom->regs->FDR.BIT.T )
                     {
@@ -1215,7 +1215,7 @@ sci_err_t R_SCI_Send( sci_hdl_t const hdl,
                     }
                 }
             #endif
-        #else  /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
+        #else /* if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 ) */
             if( SCI_SUCCESS == err )
             {
                 hdl->tx_idle = false;
@@ -1436,9 +1436,9 @@ sci_err_t R_SCI_Send( sci_hdl_t const hdl,
 
         #if SCI_CFG_PARAM_CHECKING_ENABLE
             /* Check arguments */
-            if( ( ( ( NULL == hdl ) || ( FIT_NO_PTR == hdl ) ) ||  /* Check if hdl is available or not   */
+            if( ( ( ( NULL == hdl ) || ( FIT_NO_PTR == hdl ) ) ||       /* Check if hdl is available or not   */
                   ( ( NULL == p_src ) || ( FIT_NO_PTR == p_src ) ) ) || /* Check if p_src is available or not */
-                ( ( NULL == p_dst ) || ( FIT_NO_PTR == p_dst ) ) ) /* Check if p_dst is available or not */
+                ( ( NULL == p_dst ) || ( FIT_NO_PTR == p_dst ) ) )      /* Check if p_dst is available or not */
             {
                 return SCI_ERR_NULL_PTR;
             }
@@ -1787,7 +1787,7 @@ sci_err_t R_SCI_Receive( sci_hdl_t const hdl,
                     sci_fifo_ctrl_t * p_ctrl;
                     p_ctrl = &hdl->queue[ hdl->qindex_app_rx ];
                     p_ctrl->p_rx_buf = p_dst;
-                    p_ctrl->rx_cnt = length;      /* length must be set after buf ptr */
+                    p_ctrl->rx_cnt = length; /* length must be set after buf ptr */
                     p_ctrl->p_rx_fraction_buf = p_dst;
                     p_ctrl->rx_fraction = length;
                     #if SCI_CFG_FIFO_INCLUDED
@@ -1818,7 +1818,7 @@ sci_err_t R_SCI_Receive( sci_hdl_t const hdl,
                         sci_fifo_ctrl_t * p_ctrl;
                         p_ctrl = &hdl->queue[ hdl->qindex_app_rx ];
                         p_ctrl->p_rx_buf = p_dst;
-                        p_ctrl->rx_cnt = length;      /* length must be set after buf ptr */
+                        p_ctrl->rx_cnt = length; /* length must be set after buf ptr */
                         p_ctrl->p_rx_fraction_buf = p_dst;
                         p_ctrl->rx_fraction = length;
                         #if ( SCI_CFG_FIFO_INCLUDED )
@@ -1907,7 +1907,7 @@ sci_err_t R_SCI_Receive( sci_hdl_t const hdl,
         if( true == hdl->tx_idle )
         {
             hdl->u_rx_data.buf = p_dst;
-            hdl->save_rx_data = true;            /* save the data clocked in */
+            hdl->save_rx_data = true; /* save the data clocked in */
             hdl->tx_idle = false;
             hdl->tx_cnt = length;
             hdl->rx_cnt = length;
@@ -1927,7 +1927,7 @@ sci_err_t R_SCI_Receive( sci_hdl_t const hdl,
                             sci_fifo_ctrl_t * p_ctrl;
                             p_ctrl = &hdl->queue[ hdl->qindex_app_rx ];
                             p_ctrl->p_rx_buf = p_dst;
-                            p_ctrl->rx_cnt = length;  /* length must be set after buf ptr */
+                            p_ctrl->rx_cnt = length; /* length must be set after buf ptr */
                             p_ctrl->p_rx_fraction_buf = p_dst;
                             p_ctrl->rx_fraction = length;
                             return sci_send_sync_data_fifo_dma_dtc( hdl, NULL, p_dst, length, false );
@@ -2219,8 +2219,8 @@ static void sci_receive( sci_hdl_t const hdl )
 
             if( SCI_SUCCESS == err )
             {
-                p_tctrl->p_tx_buf = p_src;        /* dummy byte sent when NULL (Sync) */
-                p_tctrl->tx_cnt = length;         /* length must be set after buf ptr */
+                p_tctrl->p_tx_buf = p_src; /* dummy byte sent when NULL (Sync) */
+                p_tctrl->tx_cnt = length;  /* length must be set after buf ptr */
 
                 #if ( TX_DTC_DMACA_ENABLE & 0x01 )
                     if( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable )
@@ -2241,7 +2241,7 @@ static void sci_receive( sci_hdl_t const hdl )
                 #if ( ( RX_DTC_DMACA_ENABLE ) && ( SCI_CFG_SSPI_INCLUDED || SCI_CFG_SYNC_INCLUDED ) )
                     hdl->rom->regs->SSRFIFO.BIT.RDF = 0;
                 #endif
-                DISABLE_TXI_INT;           /* disable interrupt in icu */
+                DISABLE_TXI_INT; /* disable interrupt in icu */
 
                 hdl->tx_idle = false;
 
@@ -2278,7 +2278,7 @@ static void sci_receive( sci_hdl_t const hdl )
                     if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
                     {
                         sci_fifo_ctrl_t * p_rctrl;
-                        volatile uint8_t byte;  /* volatile to remove "not used" warning */
+                        volatile uint8_t byte; /* volatile to remove "not used" warning */
                         volatile uint8_t tmp_reg_frdr;
 
                         #if ( RX_DTC_DMACA_ENABLE & 0x02 )
@@ -2475,7 +2475,7 @@ static void sci_receive( sci_hdl_t const hdl )
                     if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
                     {
                         sci_fifo_ctrl_t * p_rctrl;
-                        volatile uint8_t byte;  /* volatile to remove "not used" warning */
+                        volatile uint8_t byte; /* volatile to remove "not used" warning */
                         uint8_t tmp_reg_frdr;
                         sci_cb_args_t args;
                         #if ( RX_DTC_DMACA_ENABLE & 0x02 )
@@ -2889,7 +2889,7 @@ static void sci_error( sci_hdl_t const hdl )
                 /* WAIT_LOOP */
                 while( 0 != hdl->rom->regs->FDR.BIT.R )
                 {
-                    dummy = hdl->rom->regs->FRDR.WORD;          /* FRDR dummy read */
+                    dummy = hdl->rom->regs->FRDR.WORD; /* FRDR dummy read */
                 }
 
                 /* Clear error condition */
@@ -2901,7 +2901,7 @@ static void sci_error( sci_hdl_t const hdl )
 
                     if( 0x00 != ( SCI_SSRFIFO & SCI_RCVR_ERR_MASK ) )
                     {
-                        R_BSP_NOP();                            /* read and Compare */
+                        R_BSP_NOP(); /* read and Compare */
                     }
                 }
             }
@@ -3042,7 +3042,7 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
             /* Casting void* type is valid */
             baud = ( sci_baud_t * ) p_args;
             #if ( SCI_CFG_ASYNC_INCLUDED )
-            hdl->pclk_speed = baud->pclk;       /* save for break generation */
+                hdl->pclk_speed = baud->pclk;   /* save for break generation */
             #endif
             hdl->rom->regs->SCR.BYTE &= ( ~SCI_EN_XCVR_MASK );
             SCI_SCR_DUMMY_READ;
@@ -3052,7 +3052,7 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
 
             if( 1000 == bit_err )
             {
-                err = SCI_ERR_INVALID_ARG;  /* impossible baud rate; 100% error */
+                err = SCI_ERR_INVALID_ARG; /* impossible baud rate; 100% error */
             }
             else
             {
@@ -3068,7 +3068,7 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
                 /* PFS & port pins must be configured for CTS prior to calling this */
                 hdl->rom->regs->SCR.BYTE &= ( ~SCI_EN_XCVR_MASK );
                 SCI_SCR_DUMMY_READ;
-                hdl->rom->regs->SPMR.BIT.CTSE = 1;  /* enable CTS input */
+                hdl->rom->regs->SPMR.BIT.CTSE = 1; /* enable CTS input */
                 SCI_IR_TXI_CLEAR;
                 hdl->rom->regs->SCR.BYTE |= SCI_EN_XCVR_MASK;
             }
@@ -3086,10 +3086,10 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
                     if( true == hdl->fifo_ctrl )
                     {
                         #if ( ( SCI_DTC_DMACA_DISABLE != RX_DTC_DMACA_ENABLE ) || ( SCI_DTC_DMACA_DISABLE != TX_DTC_DMACA_ENABLE ) )
-                        if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
-                        {
-                            return SCI_ERR_DTC_DMACA_NOT_SUPPORT;
-                        }
+                            if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
+                            {
+                                return SCI_ERR_DTC_DMACA_NOT_SUPPORT;
+                            }
                         #endif
                         /* save current TX FIFO threshold */
                         hdl->tx_curr_thresh = *( ( uint8_t * ) p_args );
@@ -3115,10 +3115,10 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
                     if( true == hdl->fifo_ctrl )
                     {
                         #if ( ( SCI_DTC_DMACA_DISABLE != RX_DTC_DMACA_ENABLE ) || ( SCI_DTC_DMACA_DISABLE != TX_DTC_DMACA_ENABLE ) )
-                        if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) || ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
-                        {
-                            return SCI_ERR_DTC_DMACA_NOT_SUPPORT;
-                        }
+                            if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) || ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
+                            {
+                                return SCI_ERR_DTC_DMACA_NOT_SUPPORT;
+                            }
                         #endif
                         /* save current RX FIFO threshold */
                         hdl->rx_curr_thresh = *( ( uint8_t * ) p_args );
@@ -3190,21 +3190,21 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
             if( SCI_MODE_ASYNC == hdl->mode )
             {
                 #if ( SCI_CFG_ASYNC_INCLUDED )
-                err = sci_async_cmds( hdl, cmd, p_args );
+                    err = sci_async_cmds( hdl, cmd, p_args );
                 #endif
             }
             /* IRDA-SPECIFIC COMMANDS */
             else if( SCI_MODE_IRDA == hdl->mode )
             {
                 #if ( SCI_CFG_IRDA_INCLUDED )
-                err = sci_irda_cmds( hdl, cmd, p_args );
+                    err = sci_irda_cmds( hdl, cmd, p_args );
                 #endif
             }
             /* SSPI/SYNC-SPECIFIC COMMANDS */
             else
             {
                 #if ( SCI_CFG_SSPI_INCLUDED || SCI_CFG_SYNC_INCLUDED )
-                err = sci_sync_cmds( hdl, cmd, p_args );
+                    err = sci_sync_cmds( hdl, cmd, p_args );
                 #endif
             }
 

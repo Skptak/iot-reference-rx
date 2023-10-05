@@ -485,12 +485,12 @@ uint32_t R_ADC_GetVersion( void )
  *******************************************************************************/
     void adc_enable_s12adi0( void )
     {
-        IR( S12AD, S12ADI0 ) = 0;           /* clear flag */
-        S12AD.ADCSR.BIT.ADIE = 1;           /* enable in peripheral */
+        IR( S12AD, S12ADI0 ) = 0; /* clear flag */
+        S12AD.ADCSR.BIT.ADIE = 1; /* enable in peripheral */
 
         if( 0 != ICU.IPR[ IPR_S12AD_S12ADI0 ].BYTE )
         {
-            R_BSP_InterruptRequestEnable( VECT( S12AD, S12ADI0 ) );    /* enable in ICU */
+            R_BSP_InterruptRequestEnable( VECT( S12AD, S12ADI0 ) ); /* enable in ICU */
         }
     } /* End of function adc_enable_s12adi0() */
 

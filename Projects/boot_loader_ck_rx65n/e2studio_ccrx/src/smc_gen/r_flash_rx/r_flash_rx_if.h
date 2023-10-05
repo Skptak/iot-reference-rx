@@ -405,7 +405,7 @@ typedef enum _flash_interrupt_event
 /*Event type for ISR callback*/
     typedef struct
     {
-        flash_interrupt_event_t event;  /* Which Flash event caused this interrupt */
+        flash_interrupt_event_t event; /* Which Flash event caused this interrupt */
     } flash_int_cb_args_t;
 
 #endif /* ifdef FLASH_HAS_ISR_CALLBACK_CMD */
@@ -437,12 +437,12 @@ typedef enum _flash_interrupt_event
 /* Control() FLASH_CMD_BANK_GET: Gets bank address at next reset. Running app is at FFF00000. */
     typedef enum _flash_bank
     {
-        FLASH_BANK1 = 0,                /* BANKSEL.BANKSWP is 000 */
-        FLASH_BANK0 = 1,                /* BANKSEL.BANKSWP is 111 */
-        FLASH_BANK0_FFE00000 = 0,       /* BANKSEL.BANKSWP is 000 */
-        FLASH_BANK1_FFF00000 = 0,       /* BANKSEL.BANKSWP is 000 */
-        FLASH_BANK0_FFF00000 = 1,       /* BANKSEL.BANKSWP is 111 */
-        FLASH_BANK1_FFE00000 = 1        /* BANKSEL.BANKSWP is 111 */
+        FLASH_BANK1 = 0,          /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK0 = 1,          /* BANKSEL.BANKSWP is 111 */
+        FLASH_BANK0_FFE00000 = 0, /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK1_FFF00000 = 0, /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK0_FFF00000 = 1, /* BANKSEL.BANKSWP is 111 */
+        FLASH_BANK1_FFE00000 = 1  /* BANKSEL.BANKSWP is 111 */
     } flash_bank_t;
 
 #endif /* ifdef FLASH_HAS_APP_SWAP */
@@ -453,8 +453,8 @@ typedef enum _flash_interrupt_event
 /* Control() FLASH_CMD_ACCESSWINDOW_SET/GET */
     typedef struct _flash_access_window_config
     {
-        uint32_t start_addr;            /* start address of code flash Access Window */
-        uint32_t end_addr;              /* end address of code flash Access Window */
+        uint32_t start_addr; /* start address of code flash Access Window */
+        uint32_t end_addr;   /* end address of code flash Access Window */
     } flash_access_window_config_t;
 
 #endif
@@ -466,8 +466,8 @@ typedef enum _flash_interrupt_event
     typedef struct _flash_lockbit_config
     {
         flash_block_address_t block_start_address;
-        flash_res_t result;             /* Returned by API when using FLASH_CMD_LOCKBIT_READ */
-        uint32_t num_blocks;            /* Set by user for FLASH_CMD_LOCKBIT_WRITE */
+        flash_res_t result;  /* Returned by API when using FLASH_CMD_LOCKBIT_READ */
+        uint32_t num_blocks; /* Set by user for FLASH_CMD_LOCKBIT_WRITE */
     } flash_lockbit_config_t;
 
 #endif
@@ -504,8 +504,8 @@ typedef enum _flash_interrupt_event
     typedef struct _flash_non_cached
     {
         uint32_t type_mask;
-        uint32_t start_addr;                /* must be on 16-byte boundary */
-        flash_non_cached_size_t size;       /* number bytes to not cache */
+        uint32_t start_addr;          /* must be on 16-byte boundary */
+        flash_non_cached_size_t size; /* number bytes to not cache */
     } flash_non_cached_t;
 
 #endif /* if FLASH_HAS_NON_CACHED_RANGES */

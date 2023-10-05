@@ -278,7 +278,7 @@
 
         if( flash_type == FLASH_TYPE_DATA_FLASH )
         {
-            FLASH.FENTRYR.WORD = 0xAA80;    /*Transition to DF P/E mode */
+            FLASH.FENTRYR.WORD = 0xAA80; /*Transition to DF P/E mode */
             #if ( FLASH_TYPE == 4 )
                 while( FLASH.FENTRYR.WORD != 0x0080 )
                 {
@@ -298,7 +298,7 @@
         /* WARNING! Do not #if this out when CF is not enabled. Needed for flash_reset() on parts with no DF. */
         else if( flash_type == FLASH_TYPE_CODE_FLASH )
         {
-            FLASH.FENTRYR.WORD = 0xAA01;        /*Transition to CF P/E mode */
+            FLASH.FENTRYR.WORD = 0xAA01; /*Transition to CF P/E mode */
             #if ( FLASH_TYPE == 4 )
                 while( FLASH.FENTRYR.WORD != 0x0001 )
                 {

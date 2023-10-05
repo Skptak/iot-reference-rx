@@ -135,7 +135,7 @@
                 "ENV1=temp01",
                 "ENV2=temp02",
                 "ENV9=end",
-                '\0'            /* Terminal for environment variables */
+                '\0' /* Terminal for environment variables */
             };
 
             char ** environ = env_list;
@@ -265,7 +265,7 @@
                 }
                 else
                 {
-                    return -1;                  /*Others */
+                    return -1; /*Others */
                 }
             } /* End of function open() */
 
@@ -296,8 +296,8 @@
                         const unsigned char * buf,
                         long count )
             {
-                long i;                 /* A variable for counter */
-                unsigned char c;        /* An output character */
+                long i;          /* A variable for counter */
+                unsigned char c; /* An output character */
 
                 /* Checking the mode of file , output each character
                  * Checking the attribute for Write-Only, Read-Only or Read-Write
@@ -321,12 +321,12 @@
                     }
                     else
                     {
-                        return -1;      /* Incorrect file number */
+                        return -1; /* Incorrect file number */
                     }
                 }
                 else
                 {
-                    return -1;          /* An error */
+                    return -1; /* An error */
                 }
             } /* End of function write() */
 

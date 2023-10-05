@@ -93,7 +93,7 @@
     {                                               \
         return FLASH_ERR_PARAM;                     \
     }
-#else  /* if ( FLASH_CFG_PARAM_CHECKING_ENABLE == 1 ) */
+#else /* if ( FLASH_CFG_PARAM_CHECKING_ENABLE == 1 ) */
     #define FLASH_RETURN_IF_PCFG_NULL     /* parameter checking disabled */
     #define FLASH_RETURN_IF_ROM_LT_32K    /* parameter checking disabled */
     #define FLASH_RETURN_IF_BAD_SAS       /* parameter checking disabled */
@@ -164,15 +164,15 @@ flash_int_cb_args_t g_flash_int_error_cb_args; /* Callback argument structure fo
 /*Structure that holds the parameters for current operations*/
 volatile current_param_t g_current_parameters =
 {
-    0,                                                   /* Source Address */
-    0,                                                   /* Destination Address */
-    0,                                                   /* Total Count */
-    0,                                                   /* Current Count */
-    FLASH_CUR_INVALID,                                   /* Current Operation */
-    0,                                                   /* Minimum Program Size */
-    0,                                                   /* Wait Count for current operation */
-    false,                                               /* DF BGO Disabled */
-    false,                                               /* CF BGO Disabled */
+    0,                 /* Source Address */
+    0,                 /* Destination Address */
+    0,                 /* Total Count */
+    0,                 /* Current Count */
+    FLASH_CUR_INVALID, /* Current Operation */
+    0,                 /* Minimum Program Size */
+    0,                 /* Wait Count for current operation */
+    false,             /* DF BGO Disabled */
+    false,             /* CF BGO Disabled */
 };
 
 static bool g_driver_opened = false;
@@ -408,13 +408,13 @@ flash_err_t r_flash_close( void )
         uint8_t caching_was_enabled;
 
         #if FLASH_CFG_PARAM_CHECKING_ENABLE
-            if( ( ( p_cfg->start_addr & 0xF ) != 0 ) ||                  /* address not on 16-byte boundary */
-                ( ( p_cfg->start_addr & 0xFFC00000 ) != 0xFFC00000 ) ||  /* address not ROM address */
-                ( p_cfg->size < FLASH_NON_CACHED_16_BYTES ) ||           /* size less than minimum 16 bytes */
-                ( p_cfg->size > MCU_ROM_SIZE_BYTES ) ||                  /* size greater than ROM size */
-                ( ( -p_cfg->size & p_cfg->size ) != p_cfg->size ) ||     /* size not power of 2 (check for more than 1 bit set) */
+            if( ( ( p_cfg->start_addr & 0xF ) != 0 ) ||                                           /* address not on 16-byte boundary */
+                ( ( p_cfg->start_addr & 0xFFC00000 ) != 0xFFC00000 ) ||                           /* address not ROM address */
+                ( p_cfg->size < FLASH_NON_CACHED_16_BYTES ) ||                                    /* size less than minimum 16 bytes */
+                ( p_cfg->size > MCU_ROM_SIZE_BYTES ) ||                                           /* size greater than ROM size */
+                ( ( -p_cfg->size & p_cfg->size ) != p_cfg->size ) ||                              /* size not power of 2 (check for more than 1 bit set) */
                 ( ( p_cfg->start_addr + p_cfg->size ) <= ( uint32_t ) FLASH_CF_BLOCK_INVALID ) || /* area goes past end of ROM */
-                ( ( p_cfg->type_mask & ~FLASH_NON_CACHED_MASK ) != 0 ) ) /* unknown flag set */
+                ( ( p_cfg->type_mask & ~FLASH_NON_CACHED_MASK ) != 0 ) )                          /* unknown flag set */
             {
                 return FLASH_ERR_PARAM;
             }
@@ -527,10 +527,10 @@ flash_err_t r_flash_erase( flash_block_address_t block_start_address,
         #if ( FLASH_TYPE == 1 )
             flash_reset();
             flash_pe_mode_exit();
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
         #else
             flash_reset();
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
         #endif
         return err;
     }
@@ -648,7 +648,7 @@ flash_err_t get_erase_flash_type( flash_block_address_t block_start_address,
                     return check_cf_block_total( block_start_address, num_blocks );
                 #endif
             #endif // param checking
-        #else  /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
+        #else /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
             return FLASH_ERR_FAILURE;
         #endif /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
     }
@@ -719,7 +719,7 @@ static bool is_cf_addr( uint32_t addr )
         bool result = false;
         uint32_t result_addr = addr + num_bytes - 1;
 
-        if( num_bytes > MCU_ROM_REGION_SIZE_BYTES )                 /* num_bytes too large */
+        if( num_bytes > MCU_ROM_REGION_SIZE_BYTES ) /* num_bytes too large */
         {
             result = true;
         }
@@ -741,7 +741,7 @@ static bool is_cf_addr( uint32_t addr )
                         result = true;
                     }
                 }
-            #else  /* ifdef FLASH_IN_DUAL_BANK_MODE */
+            #else /* ifdef FLASH_IN_DUAL_BANK_MODE */
                 if( result_addr <= ( uint32_t ) FLASH_CF_BLOCK_INVALID ) /* overflow/wrap-around */
                 {
                     result = true;
@@ -783,7 +783,7 @@ static bool is_cf_addr( uint32_t addr )
                     info->size_boundary = FLASH_CF_LO_BANK_SMALL_BLOCK_ADDR;
                     info->low_addr = FLASH_CF_LO_BANK_LO_ADDR;
                 }
-            #else  /* ifdef FLASH_IN_DUAL_BANK_MODE */
+            #else /* ifdef FLASH_IN_DUAL_BANK_MODE */
                 info->size_boundary = FLASH_CF_BLOCK_7;
                 info->low_addr = ( flash_block_address_t ) ( ( uint32_t ) FLASH_CF_BLOCK_INVALID + 1 );
             #endif /* ifdef FLASH_IN_DUAL_BANK_MODE */
@@ -983,7 +983,7 @@ flash_err_t set_erase_params( flash_block_address_t block_start_address,
 
         if( FLASH_SUCCESS != err )
         {
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
             return err;
         }
 
@@ -992,7 +992,7 @@ flash_err_t set_erase_params( flash_block_address_t block_start_address,
 
         if( FLASH_SUCCESS != err )
         {
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
             return err;
         }
 
@@ -1009,7 +1009,7 @@ flash_err_t set_erase_params( flash_block_address_t block_start_address,
                     }
                 }
             }
-            else                                /* CODE FLASH */
+            else /* CODE FLASH */
             {
                 if( false == g_current_parameters.bgo_enabled_cf )
                 {
@@ -1028,7 +1028,7 @@ flash_err_t set_erase_params( flash_block_address_t block_start_address,
         if( FLASH_SUCCESS != err )
         {
             flash_reset();
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
             return err;
         }
 
@@ -1059,7 +1059,7 @@ flash_err_t set_erase_params( flash_block_address_t block_start_address,
                 flash_reset();
             }
 
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
         }
 
         return err;
@@ -1227,10 +1227,10 @@ flash_err_t r_flash_write( uint32_t src_address,
         #if ( FLASH_TYPE == 1 )
             flash_reset();
             flash_pe_mode_exit();
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
         #else
             flash_reset();
-            flash_release_state();  /* unlock driver */
+            flash_release_state(); /* unlock driver */
         #endif
         return err;
     }
@@ -1327,7 +1327,7 @@ flash_err_t get_bc_pgm_flash_type( uint32_t address,
                     return FLASH_ERR_BYTES;
                 }
             #endif // param checking
-        #else  /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
+        #else /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
             return FLASH_ERR_FAILURE; /* code flash address, but code flash disabled */
         #endif /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
     }
@@ -1559,7 +1559,7 @@ flash_err_t r_flash_control( flash_cmd_t cmd,
                     R_BSP_NOP();
                 }
 
-                FLASH.ROMCE.BIT.ROMCEN = 1;         /* enable cache */
+                FLASH.ROMCE.BIT.ROMCEN = 1; /* enable cache */
 
                 if( 1 != FLASH.ROMCE.BIT.ROMCEN )
                 {
@@ -1568,7 +1568,7 @@ flash_err_t r_flash_control( flash_cmd_t cmd,
             }
             else if( FLASH_CMD_ROM_CACHE_DISABLE == cmd )
             {
-                FLASH.ROMCE.BIT.ROMCEN = 0;         /* disable cache */
+                FLASH.ROMCE.BIT.ROMCEN = 0; /* disable cache */
             }
             else if( FLASH_CMD_ROM_CACHE_STATUS == cmd )
             {
@@ -1644,7 +1644,7 @@ flash_err_t r_flash_control( flash_cmd_t cmd,
 
                 err = R_CF_ToggleStartupArea();
                 #if ( FLASH_CFG_CODE_FLASH_BGO == 0 )
-                    flash_release_state();  /* Unlock driver */
+                    flash_release_state(); /* Unlock driver */
                 #endif // (FLASH_CFG_CODE_FLASH_BGO == 0)
             }
         #endif // (FLASH_HAS_BOOT_SWAP == 1)
@@ -1684,7 +1684,7 @@ flash_err_t r_flash_control( flash_cmd_t cmd,
 
                 err = R_CF_SetAccessWindow( pAccessInfo );
                 #if ( FLASH_CFG_CODE_FLASH_BGO == 0 )
-                    flash_release_state();  /* Unlock the driver */
+                    flash_release_state(); /* Unlock the driver */
                 #endif // (FLASH_CFG_CODE_FLASH_BGO == 0)
             }
         #endif // (FLASH_HAS_CF_ACCESS_WINDOW == 1)

@@ -429,7 +429,7 @@
                     IR( FCU, FRDYI ) = 0;
                     flash_InterruptRequestEnable( VECT( FCU, FRDYI ) );
                 #endif
-                flash_df_pe_mode_enter();   /* Sets PCKA clock */
+                flash_df_pe_mode_enter(); /* Sets PCKA clock */
             #endif
         }
 
@@ -899,7 +899,7 @@
 
                 FLASH.FWB2 = ( uint16_t ) ( *psrc_addr & 0xFFFF );
                 FLASH.FWB3 = ( uint16_t ) ( *psrc_addr >> 16 );
-            #else  /* if defined( MCU_RX23_ALL ) || defined( MCU_RX24_ALL ) || ( FLASH_TYPE_VARIETY == FLASH_TYPE_VARIETY_A ) */
+            #else /* if defined( MCU_RX23_ALL ) || defined( MCU_RX24_ALL ) || ( FLASH_TYPE_VARIETY == FLASH_TYPE_VARIETY_A ) */
                 /* Write start address setting */
                 FLASH.FSARH = ( uint8_t ) ( ( dest_addr_idx >> 16 ) & 0x0F );
                 FLASH.FSARL = ( uint16_t ) ( dest_addr_idx & 0xFFFC );

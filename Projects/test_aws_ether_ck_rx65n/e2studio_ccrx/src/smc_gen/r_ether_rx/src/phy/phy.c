@@ -809,8 +809,8 @@
 ***********************************************************************************************************************/
     int16_t pmgi_initial( uint16_t pmgi_channel )
     {
-        int32_t f;  /* Frequency */
-        int32_t n;  /* n term in equation */
+        int32_t f; /* Frequency */
+        int32_t n; /* n term in equation */
 
         /* set the frequency of MDC */
         f = BSP_PCLKA_HZ;

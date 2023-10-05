@@ -158,12 +158,12 @@ typedef enum e_adc_cb_evt         /* callback function events */
     || defined( BSP_MCU_RX71M ) || defined( BSP_MCU_RX72T ) || defined( BSP_MCU_RX72M )       \
     || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N ) || defined( BSP_MCU_RX671 )       \
     || defined( BSP_MCU_RX660 ) )
-        ADC_EVT_CONDITION_MET,      /* chans/sensors met comparator condition */
+        ADC_EVT_CONDITION_MET, /* chans/sensors met comparator condition */
     #endif
     #if ( defined( BSP_MCU_RX65_ALL ) || defined( BSP_MCU_RX66T ) || defined( BSP_MCU_RX72T ) \
     || defined( BSP_MCU_RX72M ) || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N )       \
     || defined( BSP_MCU_RX671 ) || defined( BSP_MCU_RX660 ) )
-        ADC_EVT_CONDITION_METB      /* chans/sensors met comparator condition */
+        ADC_EVT_CONDITION_METB /* chans/sensors met comparator condition */
     #endif
 } adc_cb_evt_t;
 
@@ -174,12 +174,12 @@ typedef struct st_adc_cb_args /* callback arguments */
     || defined( BSP_MCU_RX71M ) || defined( BSP_MCU_RX72T ) || defined( BSP_MCU_RX72M )       \
     || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N ) || defined( BSP_MCU_RX671 )       \
     || defined( BSP_MCU_RX660 ) )
-        uint32_t compare_flags;     /* valid only for compare event in Window A */
+        uint32_t compare_flags; /* valid only for compare event in Window A */
     #endif
     #if ( defined( BSP_MCU_RX65_ALL ) || defined( BSP_MCU_RX66T ) || defined( BSP_MCU_RX72T ) \
     || defined( BSP_MCU_RX72M ) || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N )       \
     || defined( BSP_MCU_RX671 ) || defined( BSP_MCU_RX660 ) )
-        uint32_t compare_flagsb;    /* valid only for compare event in Window B */
+        uint32_t compare_flagsb; /* valid only for compare event in Window B */
     #endif
     #if ( defined( BSP_MCU_RX64M ) || defined( BSP_MCU_RX65_ALL ) || defined( BSP_MCU_RX66T ) \
     || defined( BSP_MCU_RX71M ) || defined( BSP_MCU_RX72T ) || defined( BSP_MCU_RX72M )       \

@@ -147,7 +147,7 @@
  * "-----END RSA PRIVATE KEY-----\n"
  */
     #define keyCLIENT_PRIVATE_KEY_PEM                   NULL
-#else  /* if ( TRANSPORT_INTERFACE_TEST_ENABLED ) */
+#else /* if ( TRANSPORT_INTERFACE_TEST_ENABLED ) */
 
 /*
  * @brief PEM-encoded client certificate.

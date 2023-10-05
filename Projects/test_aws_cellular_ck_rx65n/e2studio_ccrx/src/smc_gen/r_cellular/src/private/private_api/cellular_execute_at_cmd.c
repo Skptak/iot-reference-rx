@@ -127,7 +127,7 @@ e_cellular_err_t cellular_execute_at_command( st_cellular_ctrl_t * const p_ctrl,
                 atc_ret = CELLULAR_ATC_ERR_MODULE_COM;
                 goto cellular_execute_at_command_fail;
             }
-        #else  /* if CELLULAR_CFG_CTS_SW_CTRL == 0 */
+        #else /* if CELLULAR_CFG_CTS_SW_CTRL == 0 */
             length = strlen( ( const char * ) p_ctrl->sci_ctrl.atc_buff ); /* (&uint8_t[])->(char*) */
 
             do

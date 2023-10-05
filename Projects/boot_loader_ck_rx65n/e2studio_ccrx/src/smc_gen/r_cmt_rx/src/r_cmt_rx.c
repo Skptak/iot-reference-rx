@@ -168,7 +168,7 @@ static volatile struct st_cmt0 R_BSP_EVENACCESS_SFR * const g_cmt_channels[ CMT_
         #else
             #error "Error! Invalid channel"
         #endif
-    #else  /* if   CMT_RX_NUM_CHANNELS == 4 */
+    #else /* if   CMT_RX_NUM_CHANNELS == 4 */
         #error "Error! r_cmt_rx is not setup for this many CMT channels. Please refer to g_cmt_channels[] in r_cmt_rx.c"
     #endif /* if   CMT_RX_NUM_CHANNELS == 4 */
 /*#elif BSP_CFG_RTOS_USED == 2    / * SEGGER embOS * / */
@@ -232,7 +232,7 @@ static const uint32_t g_cmt_clock_dividers[] = { 8, 32, 128, 512 };
     #else
         static void (* g_cmt_callbacks[ CMT_RX_NUM_CHANNELS ])( void * pdata );
     #endif
-#else  /* if BSP_CFG_RTOS_USED == 0 */
+#else /* if BSP_CFG_RTOS_USED == 0 */
     static void (* g_cmt_callbacks[ CMT_RX_NUM_CHANNELS ])( void * pdata );
 #endif /* if BSP_CFG_RTOS_USED == 0 */
 
@@ -263,7 +263,7 @@ static bool cmt_setup_channel( uint32_t channel,
     #else
         static void cmt_isr_common( uint32_t channel );
     #endif
-#else  /* if BSP_CFG_RTOS_USED == 0 */
+#else /* if BSP_CFG_RTOS_USED == 0 */
     static void cmt_isr_common( uint32_t channel );
 #endif /* if BSP_CFG_RTOS_USED == 0 */
 static bool cmt_create( uint32_t frequency_hz,
@@ -614,15 +614,15 @@ bool R_CMT_Control( uint32_t channel,
                             break;
 
                             #if   CMT_RX_NUM_CHANNELS == 4
-                        case 2:
-                            /*CMT2.CMCNT count is stopped*/
-                            CMT.CMSTR1.BIT.STR2 = 0;
-                            break;
+                                case 2:
+                                    /*CMT2.CMCNT count is stopped*/
+                                    CMT.CMSTR1.BIT.STR2 = 0;
+                                    break;
 
-                        case 3:
-                            /*CMT3.CMCNT count is stopped*/
-                            CMT.CMSTR1.BIT.STR3 = 0;
-                            break;
+                                case 3:
+                                    /*CMT3.CMCNT count is stopped*/
+                                    CMT.CMSTR1.BIT.STR3 = 0;
+                                    break;
                             #endif
 
                         default:
@@ -657,15 +657,15 @@ bool R_CMT_Control( uint32_t channel,
                         break;
 
                         #if   CMT_RX_NUM_CHANNELS == 4
-                    case 2:
-                        /*CMT2.CMCNT count is stopped*/
-                        CMT.CMSTR1.BIT.STR2 = 0;
-                        break;
+                            case 2:
+                                /*CMT2.CMCNT count is stopped*/
+                                CMT.CMSTR1.BIT.STR2 = 0;
+                                break;
 
-                    case 3:
-                        /*CMT3.CMCNT count is stopped*/
-                        CMT.CMSTR1.BIT.STR3 = 0;
-                        break;
+                            case 3:
+                                /*CMT3.CMCNT count is stopped*/
+                                CMT.CMSTR1.BIT.STR3 = 0;
+                                break;
                         #endif
                     default:
                         break;
@@ -693,15 +693,15 @@ bool R_CMT_Control( uint32_t channel,
                             break;
 
                             #if   CMT_RX_NUM_CHANNELS == 4
-                        case 2:
-                            /*CMT2.CMCNT count is started*/
-                            CMT.CMSTR1.BIT.STR2 = 1;
-                            break;
+                                case 2:
+                                    /*CMT2.CMCNT count is started*/
+                                    CMT.CMSTR1.BIT.STR2 = 1;
+                                    break;
 
-                        case 3:
-                            /*CMT3.CMCNT count is started*/
-                            CMT.CMSTR1.BIT.STR3 = 1;
-                            break;
+                                case 3:
+                                    /*CMT3.CMCNT count is started*/
+                                    CMT.CMSTR1.BIT.STR3 = 1;
+                                    break;
                             #endif
                         default:
                             break;
@@ -765,15 +765,15 @@ bool R_CMT_Control( uint32_t channel,
                             break;
 
                             #if CMT_RX_NUM_CHANNELS == 4
-                        case 2:
-                            /* Set interrupt priority using ICU register. */
-                            IPR( CMT2, CMI2 ) = priority;
-                            break;
+                                case 2:
+                                    /* Set interrupt priority using ICU register. */
+                                    IPR( CMT2, CMI2 ) = priority;
+                                    break;
 
-                        case 3:
-                            /* Set interrupt priority using ICU register. */
-                            IPR( CMT3, CMI3 ) = priority;
-                            break;
+                                case 3:
+                                    /* Set interrupt priority using ICU register. */
+                                    IPR( CMT3, CMI3 ) = priority;
+                                    break;
                             #endif
                         default:
                             /* Should never get here. */
@@ -807,20 +807,20 @@ bool R_CMT_Control( uint32_t channel,
                         break;
 
                         #if CMT_RX_NUM_CHANNELS == 4
-                    case 2:
-                        /* Get priority of CMT channel 2 from IPR register */
-                        priority = ( cmt_priority_t ) IPR( CMT2, CMI2 );
-                        break;
+                            case 2:
+                                /* Get priority of CMT channel 2 from IPR register */
+                                priority = ( cmt_priority_t ) IPR( CMT2, CMI2 );
+                                break;
 
-                    case 3:
-                        /* Get priority of CMT channel 3 from IPR register */
-                        priority = ( cmt_priority_t ) IPR( CMT3, CMI3 );
-                        break;
+                            case 3:
+                                /* Get priority of CMT channel 3 from IPR register */
+                                priority = ( cmt_priority_t ) IPR( CMT3, CMI3 );
+                                break;
 
-                    default:
-                        /* Should never get here. */
-                        ret = false;
-                        break;
+                            default:
+                                /* Should never get here. */
+                                ret = false;
+                                break;
                         #endif /* if CMT_RX_NUM_CHANNELS == 4 */
                 }
 
@@ -906,7 +906,7 @@ static bool cmt_create( uint32_t frequency_hz,
                 #else
                     g_cmt_callbacks[ *channel ] = callback;
                 #endif
-            #else  /* if BSP_CFG_RTOS_USED == 0 */
+            #else /* if BSP_CFG_RTOS_USED == 0 */
                 g_cmt_callbacks[ *channel ] = callback;
             #endif /* if BSP_CFG_RTOS_USED == 0 */
 
@@ -996,7 +996,7 @@ static bool cmt_create_priority( uint32_t frequency_hz,
                 #else
                     g_cmt_callbacks[ channel ] = callback;
                 #endif
-            #else  /* if BSP_CFG_RTOS_USED == 0 */
+            #else /* if BSP_CFG_RTOS_USED == 0 */
                 g_cmt_callbacks[ channel ] = callback;
             #endif /* if BSP_CFG_RTOS_USED == 0 */
 
@@ -1624,7 +1624,7 @@ uint32_t R_CMT_GetVersion( void )
             }
             /* End of function cmt_isr_common */
         #endif /* if ( ( BSP_CFG_RTOS_SYSTEM_TIMER != 0 && _RI_TRACE_TIMER != 0 ) || ( BSP_CFG_RTOS_SYSTEM_TIMER != 1 && _RI_TRACE_TIMER != 1 ) ) */
-    #else  /* if CMT_RX_NUM_CHANNELS == 2 */
+    #else /* if CMT_RX_NUM_CHANNELS == 2 */
         R_BSP_PRAGMA_STATIC_INLINE( cmt_isr_common )
         void cmt_isr_common( uint32_t channel )
         {
@@ -1747,7 +1747,7 @@ uint32_t R_CMT_GetVersion( void )
 * Arguments    : none
 * Return Value : none
 ***********************************************************************************************************************/
-    #if BSP_CFG_RTOS_USED == 0  /* Non-OS */
+    #if BSP_CFG_RTOS_USED == 0 /* Non-OS */
         R_BSP_PRAGMA_STATIC_INTERRUPT( cmt2_isr, VECT( CMT2, CMI2 ) )
         R_BSP_ATTRIB_STATIC_INTERRUPT void cmt2_isr( void )
         {
@@ -1785,7 +1785,7 @@ uint32_t R_CMT_GetVersion( void )
 * Arguments    : none
 * Return Value : none
 ***********************************************************************************************************************/
-    #if BSP_CFG_RTOS_USED == 0  /* Non-OS */
+    #if BSP_CFG_RTOS_USED == 0 /* Non-OS */
         R_BSP_PRAGMA_STATIC_INTERRUPT( cmt3_isr, VECT( CMT3, CMI3 ) )
         R_BSP_ATTRIB_STATIC_INTERRUPT void cmt3_isr( void )
         {

@@ -106,7 +106,7 @@
     #include "./src/targets/rx72m/r_flash_rx72m.h"
 #elif defined( MCU_RX72N )
     #include "./src/targets/rx72n/r_flash_rx72n.h"
-#else  /* if   defined( MCU_RX111 ) */
+#else /* if   defined( MCU_RX111 ) */
     #error "!!! No 'targets' folder for this MCU Group !!!"
 #endif /* if   defined( MCU_RX111 ) */
 

@@ -132,7 +132,7 @@
     #define BSP_PRV_PORTG_NE_PIN_MASK        ( 0xFF ) /* Missing pins: PG0 PG1 PG2 PG3 PG4 PG5 PG6 PG7 */
     #define BSP_PRV_PORTJ_NE_PIN_MASK        ( 0xFF ) /* Missing pins: PJ0 PJ1 PJ2 PJ3 PJ4 PJ5 PJ6 PJ7 */
 
-#else  /* if   ( BSP_PACKAGE_PINS == 177 ) || ( BSP_PACKAGE_PINS == 176 ) */
+#else /* if   ( BSP_PACKAGE_PINS == 177 ) || ( BSP_PACKAGE_PINS == 176 ) */
     #error "ERROR - This package is not defined in mcu_init.c"
 #endif /* if   ( BSP_PACKAGE_PINS == 177 ) || ( BSP_PACKAGE_PINS == 176 ) */
 

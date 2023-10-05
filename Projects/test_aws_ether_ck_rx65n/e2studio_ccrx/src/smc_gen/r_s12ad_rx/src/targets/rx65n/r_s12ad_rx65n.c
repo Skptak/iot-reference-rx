@@ -117,9 +117,9 @@
 
     volatile uint16_t R_BSP_EVENACCESS_SFR * const gp_dreg0_ptrs[ ADC_REG_MAX + 1 ] =
     {
-        &S12AD.ADDR0,                           /* channel 0 */
-        &S12AD.ADDR1,                           /* channel 1 */
-        &S12AD.ADDR2,                           /* channel 2 */
+        &S12AD.ADDR0, /* channel 0 */
+        &S12AD.ADDR1, /* channel 1 */
+        &S12AD.ADDR2, /* channel 2 */
         &S12AD.ADDR3,
         &S12AD.ADDR4,
         &S12AD.ADDR5,
@@ -127,7 +127,7 @@
         &S12AD.ADDR7,
         NULL,
         NULL,
-        NULL,                                   /* channel 10 */
+        NULL, /* channel 10 */
         NULL,
         NULL,
         NULL,
@@ -137,20 +137,20 @@
         NULL,
         NULL,
         NULL,
-        NULL,                                   /* channel 20 */
-        NULL,                                   /* sensor */
+        NULL,                /* channel 20 */
+        NULL,                /* sensor */
         NULL,
-        &S12AD.ADDBLDR.WORD,                    /* double trigger register */
-        &S12AD.ADDBLDRA,                        /* double trigger registerA */
-        &S12AD.ADDBLDRB,                        /* double trigger registerB */
-        &S12AD.ADRD.WORD                        /* self-diagnosis register */
+        &S12AD.ADDBLDR.WORD, /* double trigger register */
+        &S12AD.ADDBLDRA,     /* double trigger registerA */
+        &S12AD.ADDBLDRB,     /* double trigger registerB */
+        &S12AD.ADRD.WORD     /* self-diagnosis register */
     };
 
     volatile uint16_t R_BSP_EVENACCESS_SFR * const gp_dreg1_ptrs[ ADC_REG_MAX + 1 ] =
     {
-        &S12AD1.ADDR0,                           /* channel 0 */
-        &S12AD1.ADDR1,                           /* channel 1 */
-        &S12AD1.ADDR2,                           /* channel 2 */
+        &S12AD1.ADDR0, /* channel 0 */
+        &S12AD1.ADDR1, /* channel 1 */
+        &S12AD1.ADDR2, /* channel 2 */
         &S12AD1.ADDR3,
         &S12AD1.ADDR4,
         &S12AD1.ADDR5,
@@ -169,12 +169,12 @@
         &S12AD1.ADDR18,
         &S12AD1.ADDR19,
         &S12AD1.ADDR20,
-        &S12AD1.ADTSDR,                        /* temperature sensor */
-        &S12AD1.ADOCDR,                        /* voltage sensor */
-        &S12AD1.ADDBLDR,                       /* double trigger register */
-        &S12AD1.ADDBLDRA,                      /* double trigger registerA */
-        &S12AD1.ADDBLDRB,                      /* double trigger registerB */
-        &S12AD1.ADRD.WORD                      /* self-diagnosis register */
+        &S12AD1.ADTSDR,   /* temperature sensor */
+        &S12AD1.ADOCDR,   /* voltage sensor */
+        &S12AD1.ADDBLDR,  /* double trigger register */
+        &S12AD1.ADDBLDRA, /* double trigger registerA */
+        &S12AD1.ADDBLDRB, /* double trigger registerB */
+        &S12AD1.ADRD.WORD /* self-diagnosis register */
     };
 
 /* In ROM. Sample State (SST) Register pointers */
@@ -182,9 +182,9 @@
 /* 8-bit register pointers */
     volatile uint8_t R_BSP_EVENACCESS_SFR * const gp_sreg0_ptrs[ ADC_SST_REG_MAX + 1 ] =
     {
-        &S12AD.ADSSTR0,                         /* channel 0 */
-        &S12AD.ADSSTR1,                         /* channel 1 */
-        &S12AD.ADSSTR2,                         /* channel 2 */
+        &S12AD.ADSSTR0, /* channel 0 */
+        &S12AD.ADSSTR1, /* channel 1 */
+        &S12AD.ADSSTR2, /* channel 2 */
         &S12AD.ADSSTR3,
         &S12AD.ADSSTR4,
         &S12AD.ADSSTR5,
@@ -206,9 +206,9 @@
 
     volatile uint8_t R_BSP_EVENACCESS_SFR * const gp_sreg1_ptrs[ ADC_SST_REG_MAX + 1 ] =
     {
-        &S12AD1.ADSSTR0,                         /* channel 0 */
-        &S12AD1.ADSSTR1,                         /* channel 1 */
-        &S12AD1.ADSSTR2,                         /* channel 2 */
+        &S12AD1.ADSSTR0, /* channel 0 */
+        &S12AD1.ADSSTR1, /* channel 1 */
+        &S12AD1.ADSSTR2, /* channel 2 */
         &S12AD1.ADSSTR3,
         &S12AD1.ADSSTR4,
         &S12AD1.ADSSTR5,
@@ -222,9 +222,9 @@
         &S12AD1.ADSSTR13,
         &S12AD1.ADSSTR14,
         &S12AD1.ADSSTR15,
-        &S12AD1.ADSSTRL,                         /* channels 16-20 */
-        &S12AD1.ADSSTRT,                         /* temperature sensor */
-        &S12AD1.ADSSTRO                          /* voltage sensor */
+        &S12AD1.ADSSTRL, /* channels 16-20 */
+        &S12AD1.ADSSTRT, /* temperature sensor */
+        &S12AD1.ADSSTRO  /* voltage sensor */
     };
 
     #if ADC_CFG_PARAM_CHECKING_ENABLE == 1
@@ -550,7 +550,7 @@
                  ( ADC_MODE_SS_MULTI_CH_GROUPED_DBLTRIG_A_GROUPC == mode ) )
         {
             p_regs->ADCSR.BIT.ADCS = ADC_ADCS_GROUP_SCAN;
-            p_regs->ADGCTRGR.BIT.GRCE = 1;   /* Use Group C */
+            p_regs->ADGCTRGR.BIT.GRCE = 1; /* Use Group C */
         }
         else
         {
@@ -566,7 +566,7 @@
             ( ADC_MODE_SS_MULTI_CH_GROUPED_DBLTRIG_A == mode ) ||
             ( ADC_MODE_SS_MULTI_CH_GROUPED_DBLTRIG_A_GROUPC == mode ) )
         {
-            p_regs->ADCSR.BIT.DBLE = 1;     /* enable double trigger */
+            p_regs->ADCSR.BIT.DBLE = 1; /* enable double trigger */
         }
 
         /* SET TRIGGER AND INTERRUPT PRIORITY REGISTER FIELDS */
@@ -577,13 +577,13 @@
 
         if( ADC_TRIG_ASYNC_ADTRG == p_cfg->trigger )
         {
-            p_regs->ADCSR.BIT.EXTRG = 1;    /* set ext trigger for async trigger */
+            p_regs->ADCSR.BIT.EXTRG = 1; /* set ext trigger for async trigger */
         }
 
         if( ADC_ADCS_GROUP_SCAN == p_regs->ADCSR.BIT.ADCS )
         {
             p_regs->ADSTRGR.BIT.TRSB = p_cfg->trigger_groupb;
-            p_regs->ADGCTRGR.BIT.TRSC = p_cfg->trigger_groupc;  /* for Group C */
+            p_regs->ADGCTRGR.BIT.TRSC = p_cfg->trigger_groupc; /* for Group C */
 
             if( 0 == unit )
             {
@@ -615,7 +615,7 @@
         }
 
         /* SET REGISTER FIELDS FOR REMAINING PARAMETERS */
-        p_regs->ADCER.BIT.ADPRC = p_cfg->resolution;  /* must all be separate */
+        p_regs->ADCER.BIT.ADPRC = p_cfg->resolution; /* must all be separate */
         p_regs->ADCER.BIT.ADRFMT = ( ADC_ALIGN_LEFT == p_cfg->alignment ) ? 1 : 0;
         p_regs->ADCER.BIT.ACE = ( ADC_CLEAR_AFTER_READ_ON == p_cfg->clearing ) ? 1 : 0;
 
@@ -885,10 +885,10 @@
                     {
                         if( ( p_charge->num_states < ADC_DDA_STATE_CNT_MIN ) ||
                             ( p_charge->num_states > ADC_DDA_STATE_CNT_MAX ) ||
-                            ( 0 != p_regs->ADCER.BIT.DIAGM ) ||         /* self-diagnosis enabled */
-                            ( 0 != p_regs->ADEXICR.BIT.EXOEN ) ||       /* ANEX enabled */
+                            ( 0 != p_regs->ADCER.BIT.DIAGM ) ||           /* self-diagnosis enabled */
+                            ( 0 != p_regs->ADEXICR.BIT.EXOEN ) ||         /* ANEX enabled */
                             ( 0 != ( p_regs->ADEXICR.WORD & 0x0F00 ) ) || /* sensors enabled */
-                            ( 0 != ( p_regs->ADGCEXCR.BYTE & 0x03 ) ) ) /* sensors enabled for Group C */
+                            ( 0 != ( p_regs->ADGCEXCR.BYTE & 0x03 ) ) )   /* sensors enabled for Group C */
                         {
                             return ADC_ERR_ILLEGAL_ARG;
                         }
@@ -933,7 +933,7 @@
                 /* Cast from void pointer to adc_cmpwin_t */
                 p_cmpwin = ( adc_cmpwin_t * ) p_args;
 
-                p_regs->ADCMPCR.BIT.WCMPE = 0;  /* disable window function */
+                p_regs->ADCMPCR.BIT.WCMPE = 0; /* disable window function */
 
                 err = adc_en_comparator_level0( unit, p_cmpwin );
                 break;
@@ -948,7 +948,7 @@
                         return ADC_ERR_ILLEGAL_ARG;
                     }
                 #endif
-                p_regs->ADCMPCR.BIT.WCMPE = 1;  /* enable window function */
+                p_regs->ADCMPCR.BIT.WCMPE = 1; /* enable window function */
 
                 err = adc_en_comparator_level0( unit, p_cmpwin );
                 break;
@@ -963,11 +963,11 @@
                 break;
 
             case ADC_CMD_ENABLE_TRIG:
-                p_regs->ADCSR.BIT.TRGE = 1;   /* enable sync/async triggers */
+                p_regs->ADCSR.BIT.TRGE = 1; /* enable sync/async triggers */
                 break;
 
             case ADC_CMD_DISABLE_TRIG:
-                p_regs->ADCSR.BIT.TRGE = 0;   /* disable sync/async triggers */
+                p_regs->ADCSR.BIT.TRGE = 0; /* disable sync/async triggers */
                 break;
 
             case ADC_CMD_SCAN_NOW:
@@ -983,7 +983,7 @@
 
                 break;
 
-            case ADC_CMD_CHECK_SCAN_DONE:   /* default/Group A or Group B */
+            case ADC_CMD_CHECK_SCAN_DONE: /* default/Group A or Group B */
 
                 if( 1 == p_regs->ADCSR.BIT.ADST )
                 {
@@ -1110,11 +1110,11 @@
                 break;
 
             case ADC_CMD_ENABLE_INT:
-                p_regs->ADCSR.BIT.ADIE = 1;   /* enable S12ADI0 interrupt */
+                p_regs->ADCSR.BIT.ADIE = 1; /* enable S12ADI0 interrupt */
                 break;
 
             case ADC_CMD_DISABLE_INT:
-                p_regs->ADCSR.BIT.ADIE = 0;   /* disable S12ADI0 interrupt */
+                p_regs->ADCSR.BIT.ADIE = 0; /* disable S12ADI0 interrupt */
                 break;
 
             case ADC_CMD_ENABLE_INT_GROUPB:
@@ -1324,7 +1324,7 @@
             {
                 R_BSP_InterruptWrite( BSP_INT_SRC_BL1_S12AD0_S12CMPAI, adc_s12cmpia0_isr );
                 R_BSP_InterruptWrite( BSP_INT_SRC_BL1_S12AD1_S12CMPAI1, adc_s12cmpia1_isr );
-                p_regs->ADCMPCR.BIT.CMPAIE = 1;         /* enable interrupt in ADC */
+                p_regs->ADCMPCR.BIT.CMPAIE = 1; /* enable interrupt in ADC */
                 #if ( ( R_BSP_VERSION_MAJOR == 5 ) && ( R_BSP_VERSION_MINOR >= 30 ) ) || ( R_BSP_VERSION_MAJOR >= 6 )
                     R_BSP_InterruptControl( BSP_INT_SRC_EMPTY, BSP_INT_CMD_FIT_INTERRUPT_DISABLE, &int_ctrl );
                 #endif /* #if ((R_BSP_VERSION_MAJOR == 5) && (R_BSP_VERSION_MINOR >= 30)) || (R_BSP_VERSION_MAJOR >= 6) */
@@ -1353,7 +1353,7 @@
             {
                 R_BSP_InterruptWrite( BSP_INT_SRC_BL1_S12AD0_S12CMPBI, adc_s12cmpib0_isr );
                 R_BSP_InterruptWrite( BSP_INT_SRC_BL1_S12AD1_S12CMPBI1, adc_s12cmpib1_isr );
-                p_regs->ADCMPCR.BIT.CMPBIE = 1;         /* enable interrupt in ADC */
+                p_regs->ADCMPCR.BIT.CMPBIE = 1; /* enable interrupt in ADC */
                 #if ( ( R_BSP_VERSION_MAJOR == 5 ) && ( R_BSP_VERSION_MINOR >= 30 ) ) || ( R_BSP_VERSION_MAJOR >= 6 )
                     R_BSP_InterruptControl( BSP_INT_SRC_EMPTY, BSP_INT_CMD_FIT_INTERRUPT_DISABLE, &int_ctrl );
                 #endif /* #if ((R_BSP_VERSION_MAJOR == 5) && (R_BSP_VERSION_MINOR >= 30)) || (R_BSP_VERSION_MAJOR >= 6) */
@@ -1583,9 +1583,9 @@
 
         if( ADC_GRPA_PRIORITY_OFF != p_config->priority_groupa )
         {
-            trig_a = p_regs->ADSTRGR.BIT.TRSA;          /* save TRSA */
-            trig_b = p_regs->ADSTRGR.BIT.TRSB;          /* save TRSB */
-            trig_c = p_regs->ADGCTRGR.BIT.TRSC;         /* save TRSC */
+            trig_a = p_regs->ADSTRGR.BIT.TRSA;  /* save TRSA */
+            trig_b = p_regs->ADSTRGR.BIT.TRSB;  /* save TRSB */
+            trig_c = p_regs->ADGCTRGR.BIT.TRSC; /* save TRSC */
             p_regs->ADSTRGR.BIT.TRSA = ADC_TRIG_NONE;
             p_regs->ADSTRGR.BIT.TRSB = ADC_TRIG_NONE;
             p_regs->ADGCTRGR.BIT.TRSC = ADC_TRIG_NONE;
@@ -1607,7 +1607,7 @@
 
             p_regs->ADGSPCR.WORD = p_config->priority_groupa;
 
-            p_regs->ADSTRGR.BIT.TRSA = trig_a;       /* restore TRSA */
+            p_regs->ADSTRGR.BIT.TRSA = trig_a; /* restore TRSA */
 
             if( 0 == p_regs->ADGSPCR.BIT.GBRP )
             {
@@ -1664,10 +1664,10 @@
         /* SET DOUBLE TRIGGER CHANNEL */
         if( 1 == p_regs->ADCSR.BIT.DBLE )
         {
-            tmp_mask = p_config->chan_mask;     /* tmp_mask is non-Group/Group A chans */
+            tmp_mask = p_config->chan_mask; /* tmp_mask is non-Group/Group A chans */
 
             /* WAIT_LOOP */
-            while( tmp_mask >>= 1 )             /* determine bit/ch number */
+            while( tmp_mask >>= 1 ) /* determine bit/ch number */
             {
                 i++;
             }
@@ -1819,9 +1819,9 @@
                 ( p_config->chan_mask_groupc & ADC_MASK_SENSORS ) )
             {
                 if( ( 0 == unit ) ||
-                    ( 1 == S12AD1.ADCSR.BIT.DBLE ) ||   /* double trigger mode */
+                    ( 1 == S12AD1.ADCSR.BIT.DBLE ) ||          /* double trigger mode */
                     ( 0 != ( S12AD1.ADDISCR.BYTE & 0x0F ) ) || /* disconnect detection assist enabled */
-                    ( true == p_config->anex_enable ) ) /* external amplifier enabled */
+                    ( true == p_config->anex_enable ) )        /* external amplifier enabled */
                 {
                     return ADC_ERR_ILLEGAL_ARG;
                 }
@@ -1873,7 +1873,7 @@
 
             if( 0 != p_config->sample_hold_mask )
             {
-                if( 1 == unit )                 /* S&H only on unit 0 */
+                if( 1 == unit ) /* S&H only on unit 0 */
                 {
                     return ADC_ERR_ILLEGAL_ARG;
                 }
@@ -1970,7 +1970,7 @@
             #endif
             R_BSP_RegisterProtectEnable( BSP_REG_PROTECT_LPC_CGC_SWR );
 
-            TEMPS.TSCR.BIT.TSEN = 1;                /* enable temp sensor */
+            TEMPS.TSCR.BIT.TSEN = 1; /* enable temp sensor */
 
             if( 1 != TEMPS.TSCR.BIT.TSEN )
             {
@@ -1981,7 +1981,7 @@
             /* 30us delay */
             R_BSP_SoftwareDelay( 30, BSP_DELAY_MICROSECS );
 
-            TEMPS.TSCR.BIT.TSOE = 1;                /* enable temp sensor output to adc */
+            TEMPS.TSCR.BIT.TSOE = 1; /* enable temp sensor output to adc */
         }
 
         /* INTERNAL REFERENCE VOLTAGE SENSOR */
@@ -1995,21 +1995,21 @@
 
             if( p_config->chan_mask & ADC_MASK_VOLT )
             {
-                S12AD1.ADEXICR.BIT.OCSA = 1;        /* select temperature output to GroupA */
+                S12AD1.ADEXICR.BIT.OCSA = 1; /* select temperature output to GroupA */
                 S12AD1.ADEXICR.BIT.OCSB = 0;
                 S12AD1.ADGCEXCR.BIT.OCSC = 0;
             }
             else if( p_config->chan_mask_groupb & ADC_MASK_VOLT )
             {
                 S12AD1.ADEXICR.BIT.OCSA = 0;
-                S12AD1.ADEXICR.BIT.OCSB = 1;        /* select temperature output to GroupB */
+                S12AD1.ADEXICR.BIT.OCSB = 1; /* select temperature output to GroupB */
                 S12AD1.ADGCEXCR.BIT.OCSC = 0;
             }
             else
             {
                 S12AD1.ADEXICR.BIT.OCSA = 0;
                 S12AD1.ADEXICR.BIT.OCSB = 0;
-                S12AD1.ADGCEXCR.BIT.OCSC = 1;       /* select temperature output to GroupC */
+                S12AD1.ADGCEXCR.BIT.OCSC = 1; /* select temperature output to GroupC */
             }
 
             S12AD1.ADEXICR.BIT.OCSAD = ( p_config->add_mask & ADC_MASK_VOLT ) ? 1 : 0;
@@ -2188,7 +2188,7 @@
 
         /* This program does not disable IPR register of Group interrupt.
          * Because, other peripheral is possible to use same vector Group interrupt. */
-        R_BSP_InterruptRequestDisable( VECT( ICU, GROUPBL1 ) );             /* disable group */
+        R_BSP_InterruptRequestDisable( VECT( ICU, GROUPBL1 ) ); /* disable group */
 
         #if ( ( R_BSP_VERSION_MAJOR == 5 ) && ( R_BSP_VERSION_MINOR >= 30 ) ) || ( R_BSP_VERSION_MAJOR >= 6 )
             R_BSP_InterruptControl( BSP_INT_SRC_EMPTY, BSP_INT_CMD_FIT_INTERRUPT_DISABLE, &int_ctrl );
@@ -2198,16 +2198,16 @@
         #if ( ( R_BSP_VERSION_MAJOR == 5 ) && ( R_BSP_VERSION_MINOR >= 30 ) ) || ( R_BSP_VERSION_MAJOR >= 6 )
             R_BSP_InterruptControl( BSP_INT_SRC_EMPTY, BSP_INT_CMD_FIT_INTERRUPT_ENABLE, &int_ctrl );
         #endif /* #if ((R_BSP_VERSION_MAJOR == 5) && (R_BSP_VERSION_MINOR >= 30)) || (R_BSP_VERSION_MAJOR >= 6) */
-        p_regs->ADCMPCR.BIT.CMPAIE = 0;         /* disable interrupt in ADC */
+        p_regs->ADCMPCR.BIT.CMPAIE = 0;       /* disable interrupt in ADC */
 
-        if( 0 == p_regs->ADCMPCR.BIT.CMPAIE )   /* dummy read for waiting until set the value of CMPIE */
+        if( 0 == p_regs->ADCMPCR.BIT.CMPAIE ) /* dummy read for waiting until set the value of CMPIE */
         {
             R_BSP_NOP();
         }
 
-        p_regs->ADCMPCR.BIT.CMPBIE = 0;         /* disable interrupt in ADC */
+        p_regs->ADCMPCR.BIT.CMPBIE = 0;       /* disable interrupt in ADC */
 
-        if( 0 == p_regs->ADCMPCR.BIT.CMPBIE )   /* dummy read for waiting until set the value of CMPIE */
+        if( 0 == p_regs->ADCMPCR.BIT.CMPBIE ) /* dummy read for waiting until set the value of CMPIE */
         {
             R_BSP_NOP();
         }
@@ -2270,7 +2270,7 @@
 
         if( 0 != ICU.GENBL1.LONG )
         {
-            R_BSP_InterruptRequestEnable( VECT( ICU, GROUPBL1 ) );             /* enable group */
+            R_BSP_InterruptRequestEnable( VECT( ICU, GROUPBL1 ) ); /* enable group */
         }
 
         /* Power down peripheral */

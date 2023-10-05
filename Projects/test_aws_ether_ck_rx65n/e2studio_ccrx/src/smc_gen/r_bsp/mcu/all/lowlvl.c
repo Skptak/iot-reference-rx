@@ -48,11 +48,11 @@
 ***********************************************************************************************************************/
     typedef struct
     {
-        uint32_t tx_data;   /* Debug Virtual Console TX data */
-        char wk1[ 12 ];     /* spacer */
-        uint32_t rx_data;   /* Debug Virtual Console RX data */
-        char wk2[ 44 ];     /* spacer */
-        uint32_t dbgstat;   /* Debug Virtual Console Status */
+        uint32_t tx_data; /* Debug Virtual Console TX data */
+        char wk1[ 12 ];   /* spacer */
+        uint32_t rx_data; /* Debug Virtual Console RX data */
+        char wk2[ 44 ];   /* spacer */
+        uint32_t dbgstat; /* Debug Virtual Console Status */
     } st_dbg_t;
 
 /***********************************************************************************************************************

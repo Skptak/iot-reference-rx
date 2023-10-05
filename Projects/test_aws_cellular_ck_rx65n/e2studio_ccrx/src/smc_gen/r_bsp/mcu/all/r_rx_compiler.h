@@ -405,7 +405,7 @@
         #define _R_BSP_ATTRIB_SECTION_CHANGE_P( section_tag )            __R_BSP_ATTRIB_SECTION_CHANGE_F( P ## section_tag )
 
         #define R_BSP_ATTRIB_SECTION_CHANGE( type, section_tag, ... )    _R_BSP_ATTRIB_SECTION_CHANGE_ ## type ## __VA_ARGS__( section_tag )
-        #define R_BSP_ATTRIB_SECTION_CHANGE_END                /* none */
+        #define R_BSP_ATTRIB_SECTION_CHANGE_END    /* none */
 
     #elif defined( __ICCRX__ )
 
@@ -429,7 +429,7 @@
         #define _R_BSP_ATTRIB_SECTION_CHANGE_P( section_tag )            __R_BSP_ATTRIB_SECTION_CHANGE_F( P ## section_tag )
 
         #define R_BSP_ATTRIB_SECTION_CHANGE( type, section_tag, ... )    _R_BSP_ATTRIB_SECTION_CHANGE_ ## type ## __VA_ARGS__( section_tag )
-        #define R_BSP_ATTRIB_SECTION_CHANGE_END                /* none */
+        #define R_BSP_ATTRIB_SECTION_CHANGE_END    /* none */
 
     #endif /* if defined( __CCRX__ ) */
 

@@ -113,7 +113,7 @@
                 #define cbor_ntohs( x )    ( ( ( uint16_t ) x >> 8 ) | ( ( uint16_t ) x << 8 ) )
                 #define cbor_htons    cbor_ntohs
             #endif
-        #else  /* if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ */
+        #else /* if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ */
             #define cbor_ntohll
             #define cbor_htonll
             #define cbor_ntohl
@@ -187,7 +187,7 @@
         #elif __little_endian__ == 1
             #define ntohll( x )    ( ( cbor_ntohl( ( ( uint32_t ) ( x ) ) ) * UINT64_C( 0x100000000 ) ) + ( cbor_ntohl( ( ( x ) >> 32 ) ) ) )
             #define htonll    ntohll
-        #else  /* if ( defined( __BYTE_ORDER__ ) && defined( __ORDER_BIG_ENDIAN__ ) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__ ) || ( defined( __BYTE_ORDER ) && defined( __BIG_ENDIAN ) && __BYTE_ORDER == __BIG_ENDIAN ) || ( defined( BYTE_ORDER ) && defined( BIG_ENDIAN ) && BYTE_ORDER == BIG_ENDIAN ) || ( defined( _BIG_ENDIAN ) && !defined( _LITTLE_ENDIAN ) ) || ( defined( __BIG_ENDIAN__ ) && !defined( __LITTLE_ENDIAN__ ) ) || defined( __ARMEB__ ) || defined( __MIPSEB__ ) || defined( __s390__ ) || defined( __sparc__ ) */
+        #else /* if ( defined( __BYTE_ORDER__ ) && defined( __ORDER_BIG_ENDIAN__ ) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__ ) || ( defined( __BYTE_ORDER ) && defined( __BIG_ENDIAN ) && __BYTE_ORDER == __BIG_ENDIAN ) || ( defined( BYTE_ORDER ) && defined( BIG_ENDIAN ) && BYTE_ORDER == BIG_ENDIAN ) || ( defined( _BIG_ENDIAN ) && !defined( _LITTLE_ENDIAN ) ) || ( defined( __BIG_ENDIAN__ ) && !defined( __LITTLE_ENDIAN__ ) ) || defined( __ARMEB__ ) || defined( __MIPSEB__ ) || defined( __s390__ ) || defined( __sparc__ ) */
 /*#      error "Unable to determine byte order!" */
         #endif /* if ( defined( __BYTE_ORDER__ ) && defined( __ORDER_BIG_ENDIAN__ ) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__ ) || ( defined( __BYTE_ORDER ) && defined( __BIG_ENDIAN ) && __BYTE_ORDER == __BIG_ENDIAN ) || ( defined( BYTE_ORDER ) && defined( BIG_ENDIAN ) && BYTE_ORDER == BIG_ENDIAN ) || ( defined( _BIG_ENDIAN ) && !defined( _LITTLE_ENDIAN ) ) || ( defined( __BIG_ENDIAN__ ) && !defined( __LITTLE_ENDIAN__ ) ) || defined( __ARMEB__ ) || defined( __MIPSEB__ ) || defined( __s390__ ) || defined( __sparc__ ) */
     #endif /* ifndef ntohll */
@@ -213,7 +213,7 @@
     #define likely( x )          ( x )
     #define unlikely( x )        ( x )
     #define unreachable()        __assume( 0 )
-#else  /* ifdef __GNUC__ */
+#else /* ifdef __GNUC__ */
     #define likely( x )          ( x )
     #define unlikely( x )        ( x )
     #define unreachable()        do {} while( 0 )

@@ -547,8 +547,8 @@ void sci_disable_ints( sci_hdl_t const hdl )
             case ( SCI_CMD_EN_NOISE_CANCEL ):
                 hdl->rom->regs->SCR.BYTE &= ( ~SCI_EN_XCVR_MASK );
                 SCI_SCR_DUMMY_READ;
-                hdl->rom->regs->SEMR.BIT.NFEN = 1;  /* enable noise filter */
-                hdl->rom->regs->SNFR.BYTE = 0;      /* clock divided by 1 (default) */
+                hdl->rom->regs->SEMR.BIT.NFEN = 1; /* enable noise filter */
+                hdl->rom->regs->SNFR.BYTE = 0;     /* clock divided by 1 (default) */
                 SCI_IR_TXI_CLEAR;
                 hdl->rom->regs->SCR.BYTE |= SCI_EN_XCVR_MASK;
                 break;
@@ -602,23 +602,23 @@ void sci_disable_ints( sci_hdl_t const hdl )
 
             case ( SCI_CMD_TX_Q_FLUSH ):
                 #if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 )
-                R_BYTEQ_Flush( hdl->u_tx_data.que );
+                    R_BYTEQ_Flush( hdl->u_tx_data.que );
                 #else
                     /* Disable TXI interrupt */
-                DISABLE_TXI_INT;
-                R_BYTEQ_Flush( hdl->u_tx_data.que );
-                ENABLE_TXI_INT;
+                    DISABLE_TXI_INT;
+                    R_BYTEQ_Flush( hdl->u_tx_data.que );
+                    ENABLE_TXI_INT;
                 #endif
                 break;
 
             case ( SCI_CMD_RX_Q_FLUSH ):
                 #if ( SCI_CFG_USE_CIRCULAR_BUFFER == 1 )
-                R_BYTEQ_Flush( hdl->u_rx_data.que );
+                    R_BYTEQ_Flush( hdl->u_rx_data.que );
                 #else
                     /* Disable RXI interrupt */
-                DISABLE_RXI_INT;
-                R_BYTEQ_Flush( hdl->u_rx_data.que );
-                ENABLE_RXI_INT;
+                    DISABLE_RXI_INT;
+                    R_BYTEQ_Flush( hdl->u_rx_data.que );
+                    ENABLE_RXI_INT;
                 #endif
                 break;
 
@@ -637,34 +637,34 @@ void sci_disable_ints( sci_hdl_t const hdl )
                 DISABLE_TXI_INT;
                 R_BYTEQ_Flush( hdl->u_tx_data.que );
                 #if ( TX_DTC_DMACA_ENABLE )
-                if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
-                {
-                    sci_fifo_ctrl_t * p_tctrl = &hdl->queue[ hdl->qindex_app_rx ];
-                    p_tctrl->tx_cnt = 0;
-                    p_tctrl->tx_fraction = 0;
-                    #if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) )
-                    if( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable )
+                    if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
                     {
-                        dtc_cmd_arg_t args_dtc;
-                        args_dtc.act_src = hdl->rom->dtc_tx_act_src;
-                        R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
+                        sci_fifo_ctrl_t * p_tctrl = &hdl->queue[ hdl->qindex_app_rx ];
+                        p_tctrl->tx_cnt = 0;
+                        p_tctrl->tx_fraction = 0;
+                        #if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) )
+                            if( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable )
+                            {
+                                dtc_cmd_arg_t args_dtc;
+                                args_dtc.act_src = hdl->rom->dtc_tx_act_src;
+                                R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
+                            }
+                        #endif
+                        #if ( ( TX_DTC_DMACA_ENABLE & 0x02 ) || ( RX_DTC_DMACA_ENABLE & 0x02 ) )
+                            if( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable )
+                            {
+                                dmaca_stat_t stat_dmaca;
+                                R_DMACA_Control( hdl->rom->dmaca_tx_channel, DMACA_CMD_DISABLE, &stat_dmaca );
+                            }
+                        #endif
+                        #if SCI_CFG_FIFO_INCLUDED
+                            if( true == hdl->fifo_ctrl )
+                            {
+                                /* reset TX FIFO */
+                                hdl->rom->regs->FCR.BIT.TFRST = 0x01;
+                            }
+                        #endif
                     }
-                    #endif
-                    #if ( ( TX_DTC_DMACA_ENABLE & 0x02 ) || ( RX_DTC_DMACA_ENABLE & 0x02 ) )
-                    if( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable )
-                    {
-                        dmaca_stat_t stat_dmaca;
-                        R_DMACA_Control( hdl->rom->dmaca_tx_channel, DMACA_CMD_DISABLE, &stat_dmaca );
-                    }
-                    #endif
-                    #if SCI_CFG_FIFO_INCLUDED
-                    if( true == hdl->fifo_ctrl )
-                    {
-                        /* reset TX FIFO */
-                        hdl->rom->regs->FCR.BIT.TFRST = 0x01;
-                    }
-                    #endif
-                }
                 #endif /* if ( TX_DTC_DMACA_ENABLE ) */
 
                 ENABLE_TXI_INT;
@@ -791,41 +791,41 @@ void sci_disable_ints( sci_hdl_t const hdl )
                 DISABLE_RXI_INT;
                 DISABLE_ERI_INT;
                 #if ( TX_DTC_DMACA_ENABLE )
-                if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
-                {
-                    sci_fifo_ctrl_t * p_tctrl = &hdl->queue[ hdl->qindex_app_rx ];
-                    p_tctrl->tx_cnt = 0;
-                    p_tctrl->tx_fraction = 0;
-                    #if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) )
-                    if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) && ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
+                    if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) || ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) )
                     {
-                        /* Set condition for reset TDFR to generate interrupt in next time */
-                        hdl->qindex_int_tx = 1;
-                        dtc_cmd_arg_t args_dtc;
-                        args_dtc.act_src = hdl->rom->dtc_tx_act_src;
-                        R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
+                        sci_fifo_ctrl_t * p_tctrl = &hdl->queue[ hdl->qindex_app_rx ];
+                        p_tctrl->tx_cnt = 0;
+                        p_tctrl->tx_fraction = 0;
+                        #if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) )
+                            if( ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) && ( SCI_DTC_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
+                            {
+                                /* Set condition for reset TDFR to generate interrupt in next time */
+                                hdl->qindex_int_tx = 1;
+                                dtc_cmd_arg_t args_dtc;
+                                args_dtc.act_src = hdl->rom->dtc_tx_act_src;
+                                R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
 
-                        args_dtc.act_src = hdl->rom->dtc_rx_act_src;
-                        R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
+                                args_dtc.act_src = hdl->rom->dtc_rx_act_src;
+                                R_DTC_Control( DTC_CMD_ACT_SRC_DISABLE, NULL, &args_dtc );
+                            }
+                        #endif /* if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) ) */
+                        #if ( ( TX_DTC_DMACA_ENABLE & 0x02 ) || ( RX_DTC_DMACA_ENABLE & 0x02 ) )
+                            if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) && ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
+                            {
+                                R_DMACA_Close( hdl->rom->dmaca_tx_channel );
+                                R_DMACA_Close( hdl->rom->dmaca_rx_channel );
+                            }
+                        #endif
+                        #if SCI_CFG_FIFO_INCLUDED
+                            if( true == hdl->fifo_ctrl )
+                            {
+                                /* reset TX FIFO */
+                                hdl->rom->regs->FCR.BIT.TFRST = 0x01;
+                                /* reset RX FIFO */
+                                hdl->rom->regs->FCR.BIT.RFRST = 0x01;
+                            }
+                        #endif
                     }
-                    #endif /* if ( ( TX_DTC_DMACA_ENABLE & 0x01 ) || ( RX_DTC_DMACA_ENABLE & 0x01 ) ) */
-                    #if ( ( TX_DTC_DMACA_ENABLE & 0x02 ) || ( RX_DTC_DMACA_ENABLE & 0x02 ) )
-                    if( ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_tx_enable ) && ( SCI_DMACA_ENABLE == hdl->rom->dtc_dmaca_rx_enable ) )
-                    {
-                        R_DMACA_Close( hdl->rom->dmaca_tx_channel );
-                        R_DMACA_Close( hdl->rom->dmaca_rx_channel );
-                    }
-                    #endif
-                    #if SCI_CFG_FIFO_INCLUDED
-                    if( true == hdl->fifo_ctrl )
-                    {
-                        /* reset TX FIFO */
-                        hdl->rom->regs->FCR.BIT.TFRST = 0x01;
-                        /* reset RX FIFO */
-                        hdl->rom->regs->FCR.BIT.RFRST = 0x01;
-                    }
-                    #endif
-                }
                 #endif /* if ( TX_DTC_DMACA_ENABLE ) */
                 hdl->rom->regs->SCR.BYTE &= ( ~( SCI_SCR_REI_MASK | SCI_SCR_RE_MASK | SCI_SCR_TE_MASK ) );
 
@@ -843,26 +843,26 @@ void sci_disable_ints( sci_hdl_t const hdl )
                     hdl->callback( ( void * ) &args );
                 }
 
-                *hdl->rom->ir_rxi = 0;              /* clear rxi interrupt flag */
+                *hdl->rom->ir_rxi = 0; /* clear rxi interrupt flag */
                 #if SCI_CFG_FIFO_INCLUDED
                     #if ( TX_DTC_DMACA_ENABLE )
-                if( ( SCI_DTC_DMACA_DISABLE != hdl->rom->dtc_dmaca_tx_enable ) && ( true != hdl->fifo_ctrl ) )
-                {
-                    *hdl->rom->ir_txi = 0;
-                }
+                        if( ( SCI_DTC_DMACA_DISABLE != hdl->rom->dtc_dmaca_tx_enable ) && ( true != hdl->fifo_ctrl ) )
+                        {
+                            *hdl->rom->ir_txi = 0;
+                        }
                     #endif
                 #else
                     #if ( TX_DTC_DMACA_ENABLE )
-                if( ( SCI_DTC_DMACA_DISABLE != hdl->rom->dtc_dmaca_tx_enable ) )
-                {
-                    *hdl->rom->ir_txi = 0;
-                }
+                        if( ( SCI_DTC_DMACA_DISABLE != hdl->rom->dtc_dmaca_tx_enable ) )
+                        {
+                            *hdl->rom->ir_txi = 0;
+                        }
                     #endif
                 #endif /* if SCI_CFG_FIFO_INCLUDED */
 
-                DISABLE_ERI_INT;                    /* clear eri interrupt flag */
-                ENABLE_ERI_INT;                     /* enable rx err interrupts in ICU */
-                ENABLE_RXI_INT;                     /* enable receive interrupts in ICU */
+                DISABLE_ERI_INT; /* clear eri interrupt flag */
+                ENABLE_ERI_INT;  /* enable rx err interrupts in ICU */
+                ENABLE_RXI_INT;  /* enable receive interrupts in ICU */
 
                 /* Enable receive interrupt in peripheral after rcvr or will get "extra" interrupt */
                 hdl->rom->regs->SCR.BYTE |= ( SCI_SCR_RE_MASK | SCI_SCR_TE_MASK );
@@ -883,29 +883,29 @@ void sci_disable_ints( sci_hdl_t const hdl )
                 #endif /* if RX_DTC_DMACA_ENABLE */
             case ( SCI_CMD_CHANGE_SPI_MODE ):
                 #if SCI_CFG_PARAM_CHECKING_ENABLE
-                if( SCI_MODE_SSPI != hdl->mode )
-                {
-                    return SCI_ERR_INVALID_ARG;
-                }
+                    if( SCI_MODE_SSPI != hdl->mode )
+                    {
+                        return SCI_ERR_INVALID_ARG;
+                    }
 
-                /* Check parameters */
-                if( ( NULL == p_args ) || ( FIT_NO_PTR == p_args ) )
-                {
-                    return SCI_ERR_NULL_PTR;
-                }
+                    /* Check parameters */
+                    if( ( NULL == p_args ) || ( FIT_NO_PTR == p_args ) )
+                    {
+                        return SCI_ERR_NULL_PTR;
+                    }
 
-                /* Casting pointer void* type is valid */
-                spi_mode = *( ( sci_spi_mode_t * ) p_args );
+                    /* Casting pointer void* type is valid */
+                    spi_mode = *( ( sci_spi_mode_t * ) p_args );
 
-                if( ( SCI_SPI_MODE_0 != spi_mode ) && ( SCI_SPI_MODE_1 != spi_mode ) &&
-                    ( SCI_SPI_MODE_2 != spi_mode ) && ( SCI_SPI_MODE_3 != spi_mode ) )
-                {
-                    return SCI_ERR_INVALID_ARG;
-                }
+                    if( ( SCI_SPI_MODE_0 != spi_mode ) && ( SCI_SPI_MODE_1 != spi_mode ) &&
+                        ( SCI_SPI_MODE_2 != spi_mode ) && ( SCI_SPI_MODE_3 != spi_mode ) )
+                    {
+                        return SCI_ERR_INVALID_ARG;
+                    }
                 #endif /* if SCI_CFG_PARAM_CHECKING_ENABLE */
                 hdl->rom->regs->SCR.BYTE &= ( ~SCI_EN_XCVR_MASK );
                 SCI_SCR_DUMMY_READ;
-                hdl->rom->regs->SPMR.BYTE &= 0x3F;  /* clear previous mode */
+                hdl->rom->regs->SPMR.BYTE &= 0x3F; /* clear previous mode */
                 hdl->rom->regs->SPMR.BYTE |= ( *( ( uint8_t * ) p_args ) );
                 SCI_IR_TXI_CLEAR;
                 hdl->rom->regs->SCR.BYTE |= SCI_EN_XCVR_MASK;

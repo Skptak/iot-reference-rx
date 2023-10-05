@@ -133,7 +133,7 @@
     #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH12 )
     #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH12_TX_BUFSIZ )
     #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH12_RX_BUFSIZ )
-#else  /* ifndef CELLULAR_CFG_UART_SCI_CH */
+#else /* ifndef CELLULAR_CFG_UART_SCI_CH */
     #error "Error! Invalid setting for CELLULAR_UART_SCI_CH in cellular_config.h"
 #endif /* CELLULAR_CFG_UART_SCI_CH */
 

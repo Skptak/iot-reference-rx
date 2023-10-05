@@ -256,7 +256,7 @@ static int32_t cellular_send_data( st_cellular_ctrl_t * const p_ctrl,
             }
 
             complete_length += send_size;
-        #else  /* if CELLULAR_CFG_CTS_SW_CTRL == 0 */
+        #else /* if CELLULAR_CFG_CTS_SW_CTRL == 0 */
             sci_send_size = 0;
 
             do

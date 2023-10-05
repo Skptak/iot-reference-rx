@@ -91,7 +91,7 @@
     #include "./targets/rx72m/r_sci_rx72m_private.h"     /* RX72M */
 #elif defined( BSP_MCU_RX72N )
     #include "./targets/rx72n/r_sci_rx72n_private.h"     /* RX72N */
-#else  /* if defined( BSP_MCU_RX110 ) */
+#else /* if defined( BSP_MCU_RX110 ) */
     #error "ERROR - r_sci_rxXXX_private.h not included."
 #endif /* if defined( BSP_MCU_RX110 ) */
 

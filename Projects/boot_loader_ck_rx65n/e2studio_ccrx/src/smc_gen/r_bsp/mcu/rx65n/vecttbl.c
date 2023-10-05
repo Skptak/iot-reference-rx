@@ -233,7 +233,7 @@
         #if defined( __CCRX__ ) || defined( __GNUC__ )
             R_BSP_ATTRIB_SECTION_CHANGE_RESETVECT void( * const Reset_Vector[] )( void ) =
             {
-                R_BSP_POWER_ON_RESET_FUNCTION       /* 0xfffffffc  RESET */
+                R_BSP_POWER_ON_RESET_FUNCTION /* 0xfffffffc  RESET */
             }
             R_BSP_ATTRIB_SECTION_CHANGE_END
         #endif /* defined(__CCRX__), defined(__GNUC__) */

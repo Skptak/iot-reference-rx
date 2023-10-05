@@ -87,7 +87,7 @@
 #elif BSP_CFG_SCI_UART_TERMINAL_CHANNEL == ( 12 )
     #define R_SCI_PinSet_serial_term()    R_SCI_PinSet_SCI12()
     #define SCI_CH_serial_term    SCI_CH12
-#else  /* if !defined( BSP_CFG_SCI_UART_TERMINAL_ENABLE ) */
+#else /* if !defined( BSP_CFG_SCI_UART_TERMINAL_ENABLE ) */
     #error "Error! Invalid setting for MY_BSP_CFG_SERIAL_TERM_SCI in r_bsp_config.h"
 #endif /* if !defined( BSP_CFG_SCI_UART_TERMINAL_ENABLE ) */
 

@@ -56,7 +56,7 @@
     #undef  BSP_CFG_RTOS_SYSTEM_TIMER
     #define BSP_CFG_RTOS_SYSTEM_TIMER    _RI_CLOCK_TIMER
 #elif BSP_CFG_RTOS_USED == 5 /* Azure RTOS */
-#else  /* if BSP_CFG_RTOS_USED == 0 */
+#else /* if BSP_CFG_RTOS_USED == 0 */
 #endif /* if BSP_CFG_RTOS_USED == 0 */
 
 /***********************************************************************************************************************

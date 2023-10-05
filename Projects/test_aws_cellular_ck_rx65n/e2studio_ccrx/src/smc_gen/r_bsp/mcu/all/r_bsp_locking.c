@@ -104,7 +104,7 @@ bool R_BSP_SoftwareLock( BSP_CFG_USER_LOCKING_TYPE * const plock )
         }
 
         return ret;
-    #else  /* if BSP_CFG_USER_LOCKING_ENABLED == 0 */
+    #else /* if BSP_CFG_USER_LOCKING_ENABLED == 0 */
         /* User is going to handle the locking themselves. */
         return BSP_CFG_USER_LOCKING_SW_LOCK_FUNCTION( plock );
     #endif /* if BSP_CFG_USER_LOCKING_ENABLED == 0 */

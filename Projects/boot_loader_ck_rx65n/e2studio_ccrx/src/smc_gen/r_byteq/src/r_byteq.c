@@ -108,7 +108,7 @@ byteq_err_t R_BYTEQ_Open( uint8_t * const p_buf,
 
         if( NULL == p_buf )
         {
-            return BYTEQ_ERR_NULL_PTR;  /* return if no buffer pointer */
+            return BYTEQ_ERR_NULL_PTR; /* return if no buffer pointer */
         }
 
         if( size < 2 )
@@ -193,7 +193,7 @@ byteq_err_t R_BYTEQ_Put( byteq_hdl_t const hdl,
     #if ( BYTEQ_CFG_PARAM_CHECKING_ENABLE == 1 )
         if( NULL == hdl )
         {
-            return BYTEQ_ERR_NULL_PTR;      /* return if no handle */
+            return BYTEQ_ERR_NULL_PTR; /* return if no handle */
         }
     #endif
 
@@ -218,7 +218,7 @@ byteq_err_t R_BYTEQ_Put( byteq_hdl_t const hdl,
 
             R_BSP_InterruptsDisable();
 
-            if( hdl->in_index >= hdl->size )    /* adjust index */
+            if( hdl->in_index >= hdl->size ) /* adjust index */
             {
                 hdl->in_index = 0;
             }
@@ -235,7 +235,7 @@ byteq_err_t R_BYTEQ_Put( byteq_hdl_t const hdl,
                 hdl->in_index = 0;
             }
         }
-    #else  /* if ( BYTEQ_CFG_CRITICAL_SECTION == 1 ) */
+    #else /* if ( BYTEQ_CFG_CRITICAL_SECTION == 1 ) */
         /* load byte into queue */
         hdl->buffer[ hdl->in_index++ ] = byte; /* add byte */
 
@@ -249,15 +249,15 @@ byteq_err_t R_BYTEQ_Put( byteq_hdl_t const hdl,
         if( 0 != psw_bit_i_val )
         {
             R_BSP_InterruptsDisable();
-            hdl->count++;                       /* adjust count */
+            hdl->count++; /* adjust count */
             R_BSP_InterruptsEnable();
         }
         else
         {
-            hdl->count++;                       /* adjust count */
+            hdl->count++; /* adjust count */
         }
-    #else  /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
-        hdl->count++;                       /* adjust count */
+    #else /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
+        hdl->count++; /* adjust count */
     #endif /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
 
     return BYTEQ_SUCCESS;
@@ -284,12 +284,12 @@ byteq_err_t R_BYTEQ_Get( byteq_hdl_t const hdl,
     #if ( BYTEQ_CFG_PARAM_CHECKING_ENABLE == 1 )
         if( NULL == hdl )
         {
-            return BYTEQ_ERR_NULL_PTR;      /* return if no handle */
+            return BYTEQ_ERR_NULL_PTR; /* return if no handle */
         }
 
         if( NULL == p_byte )
         {
-            return BYTEQ_ERR_INVALID_ARG;   /* return if invalid location */
+            return BYTEQ_ERR_INVALID_ARG; /* return if invalid location */
         }
     #endif
 
@@ -313,7 +313,7 @@ byteq_err_t R_BYTEQ_Get( byteq_hdl_t const hdl,
 
             R_BSP_InterruptsDisable();
 
-            if( hdl->out_index >= hdl->size )   /* adjust index */
+            if( hdl->out_index >= hdl->size ) /* adjust index */
             {
                 hdl->out_index = 0;
             }
@@ -329,7 +329,7 @@ byteq_err_t R_BYTEQ_Get( byteq_hdl_t const hdl,
                 hdl->out_index = 0;
             }
         }
-    #else  /* if ( BYTEQ_CFG_CRITICAL_SECTION == 1 ) */
+    #else /* if ( BYTEQ_CFG_CRITICAL_SECTION == 1 ) */
         *p_byte = hdl->buffer[ hdl->out_index++ ]; /* get byte */
 
         if( hdl->out_index >= hdl->size )          /* adjust index */
@@ -342,15 +342,15 @@ byteq_err_t R_BYTEQ_Get( byteq_hdl_t const hdl,
         if( 0 != psw_bit_i_val )
         {
             R_BSP_InterruptsDisable();
-            hdl->count--;                       /* adjust count */
+            hdl->count--; /* adjust count */
             R_BSP_InterruptsEnable();
         }
         else
         {
-            hdl->count--;                       /* adjust count */
+            hdl->count--; /* adjust count */
         }
-    #else  /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
-        hdl->count--;                       /* adjust count */
+    #else /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
+        hdl->count--; /* adjust count */
     #endif /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
 
     return BYTEQ_SUCCESS;
@@ -401,7 +401,7 @@ byteq_err_t R_BYTEQ_Flush( byteq_hdl_t const hdl )
             hdl->out_index = 0;
             hdl->count = 0;
         }
-    #else  /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
+    #else /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
         /* RESET QUEUE */
 
         hdl->in_index = 0;
@@ -437,7 +437,7 @@ byteq_err_t R_BYTEQ_Used( byteq_hdl_t const hdl,
 
         if( NULL == p_cnt )
         {
-            return BYTEQ_ERR_INVALID_ARG;   /* return if invalid location */
+            return BYTEQ_ERR_INVALID_ARG; /* return if invalid location */
         }
     #endif
 
@@ -457,7 +457,7 @@ byteq_err_t R_BYTEQ_Used( byteq_hdl_t const hdl,
         {
             *p_cnt = hdl->count;
         }
-    #else  /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
+    #else /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
         *p_cnt = hdl->count;
     #endif /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
     return BYTEQ_SUCCESS;
@@ -488,7 +488,7 @@ byteq_err_t R_BYTEQ_Unused( byteq_hdl_t const hdl,
 
         if( NULL == p_cnt )
         {
-            return BYTEQ_ERR_INVALID_ARG;   /* return if invalid location */
+            return BYTEQ_ERR_INVALID_ARG; /* return if invalid location */
         }
     #endif
 
@@ -511,7 +511,7 @@ byteq_err_t R_BYTEQ_Unused( byteq_hdl_t const hdl,
             /* Get p_cnt. */
             *p_cnt = ( uint16_t ) ( hdl->size - hdl->count );
         }
-    #else  /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
+    #else /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
         *p_cnt = ( uint16_t ) ( hdl->size - hdl->count );
     #endif /* if ( BYTEQ_CFG_PROTECT_QUEUE == 1 ) */
 
@@ -543,9 +543,9 @@ byteq_err_t R_BYTEQ_Close( byteq_hdl_t const hdl )
     #endif
 
     #if BYTEQ_CFG_USE_HEAP_FOR_CTRL_BLKS
-        free( hdl );                    /* free QCB memory */
+        free( hdl );        /* free QCB memory */
     #else
-        hdl->buffer = NULL;             /* mark QCB as free */
+        hdl->buffer = NULL; /* mark QCB as free */
     #endif
 
     return BYTEQ_SUCCESS;

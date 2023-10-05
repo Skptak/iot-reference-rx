@@ -138,15 +138,15 @@
         ADC_MODE_SS_MULTI_CH_GROUPED_GROUPC, /* 3 trigger sources, scan multiple channels */
         ADC_MODE_SS_MULTI_CH_GROUPED_DBLTRIG_A,
         ADC_MODE_SS_MULTI_CH_GROUPED_DBLTRIG_A_GROUPC,
-        ADC_MODE_MAX                /* This definition DO NOT USE for R_ADC_Open() argument. */
+        ADC_MODE_MAX /* This definition DO NOT USE for R_ADC_Open() argument. */
     } adc_mode_t;
 
 
     typedef enum e_adc_res
     {
-        ADC_RESOLUTION_12_BIT = 0,  /* 13 ADCLKs conversion (15 self diagnosis) */
-        ADC_RESOLUTION_10_BIT = 1,  /* 11 ADCLKs conversion (13 self diagnosis) */
-        ADC_RESOLUTION_8_BIT = 2    /* 9 ADCLKs conversion (11 self diagnosis) */
+        ADC_RESOLUTION_12_BIT = 0, /* 13 ADCLKs conversion (15 self diagnosis) */
+        ADC_RESOLUTION_10_BIT = 1, /* 11 ADCLKs conversion (13 self diagnosis) */
+        ADC_RESOLUTION_8_BIT = 2   /* 9 ADCLKs conversion (11 self diagnosis) */
     } adc_res_t;
 
     typedef enum e_adc_align
@@ -157,7 +157,7 @@
 
     typedef enum e_adc_add
     {
-        ADC_ADD_OFF = 0,            /* addition is turned off for chans/sensors */
+        ADC_ADD_OFF = 0, /* addition is turned off for chans/sensors */
         ADC_ADD_TWO_SAMPLES = 1,
         ADC_ADD_THREE_SAMPLES = 2,
         ADC_ADD_FOUR_SAMPLES = 3,
@@ -243,7 +243,7 @@
     typedef enum e_adc_cmd
     {
         /* Commands for special hardware configurations */
-        ADC_CMD_SET_DDA_STATE_CNT,  /* for Disconnect Detection Assist */
+        ADC_CMD_SET_DDA_STATE_CNT, /* for Disconnect Detection Assist */
         ADC_CMD_SET_SAMPLE_STATE_CNT,
 
         /* Command to configure channels, sensors, and comparator */
@@ -253,11 +253,11 @@
         ADC_CMD_COMP_COMB_STATUS,     /* get status for WindowA/B composite condition */
 
         /* Commands to enable hardware triggers or cause software trigger */
-        ADC_CMD_ENABLE_TRIG,        /* ADCSR.TRGE=1 for sync/async triggers */
-        ADC_CMD_SCAN_NOW,           /* software trigger start scan */
+        ADC_CMD_ENABLE_TRIG, /* ADCSR.TRGE=1 for sync/async triggers */
+        ADC_CMD_SCAN_NOW,    /* software trigger start scan */
 
         /* Commands to poll for scan completion and comparator results */
-        ADC_CMD_CHECK_SCAN_DONE,    /* for Normal or GroupA scan */
+        ADC_CMD_CHECK_SCAN_DONE, /* for Normal or GroupA scan */
         ADC_CMD_CHECK_SCAN_DONE_GROUPA,
         ADC_CMD_CHECK_SCAN_DONE_GROUPB,
         ADC_CMD_CHECK_SCAN_DONE_GROUPC,
@@ -277,7 +277,7 @@
 
 /* for ADC_CMD_SET_DDA_STATE_CNT */
 
-    typedef enum e_adc_charge       /* Disconnection Detection Assist (DDA) */
+    typedef enum e_adc_charge /* Disconnection Detection Assist (DDA) */
     {
         ADC_DDA_DISCHARGE = 0x00,
         ADC_DDA_PRECHARGE = 0x01,
@@ -288,13 +288,13 @@
     typedef struct st_adc_dda
     {
         adc_charge_t method;
-        uint8_t num_states;         /* 2-15 */
+        uint8_t num_states; /* 2-15 */
     } adc_dda_t;
 
 
 /* for ADC_CMD_SET_SAMPLE_STATE_CNT */
 
-    typedef enum e_adc_sst_reg      /* sample state registers */
+    typedef enum e_adc_sst_reg /* sample state registers */
     {
         ADC_SST_CH0 = 0,
         ADC_SST_CH1,
@@ -303,7 +303,7 @@
         ADC_SST_CH4,
         ADC_SST_CH5,
         ADC_SST_CH6,
-        ADC_SST_CH7,                /* end unit 0 */
+        ADC_SST_CH7, /* end unit 0 */
         ADC_SST_CH8,
         ADC_SST_CH9,
         ADC_SST_CH10,
@@ -323,7 +323,7 @@
     typedef struct st_adc_time
     {
         adc_sst_reg_t reg_id;
-        uint8_t num_states;         /* ch8-20 use the same value */
+        uint8_t num_states; /* ch8-20 use the same value */
     } adc_sst_t;
 
 
@@ -341,7 +341,7 @@
         ADC_GRPA_GRPB_GRPC_RESTART_CONT_SCAN = 0xC003,     /* groupb and groupc restart immediately and scans continuously */
     } adc_grpa_t;
 
-    typedef enum e_adc_diag             /* Self-Diagnosis Channel */
+    typedef enum e_adc_diag /* Self-Diagnosis Channel */
     {
         ADC_DIAG_OFF = 0x00,
         ADC_DIAG_0_VOLT = 0x01,
@@ -351,21 +351,21 @@
     } adc_diag_t;
 
 
-    typedef struct st_adc_ch_cfg        /* bit 0 is ch0; bit 15 is ch15 */
+    typedef struct st_adc_ch_cfg    /* bit 0 is ch0; bit 15 is ch15 */
     {
-        uint32_t chan_mask;             /* channels/bits 0-15 */
-        uint32_t chan_mask_groupb;      /* valid for group modes */
-        uint32_t chan_mask_groupc;      /* valid for group modes */
-        adc_grpa_t priority_groupa;     /* valid for group modes */
-        uint32_t add_mask;              /* valid if add enabled in Open() */
-        adc_diag_t diag_method;         /* self-diagnosis virtual channel */
-        bool anex_enable;               /* unit1: use external amplifier */
-        uint8_t sample_hold_mask;       /* channels/bits 0-2 */
-        uint8_t sample_hold_states;     /* minimum .4us */
+        uint32_t chan_mask;         /* channels/bits 0-15 */
+        uint32_t chan_mask_groupb;  /* valid for group modes */
+        uint32_t chan_mask_groupc;  /* valid for group modes */
+        adc_grpa_t priority_groupa; /* valid for group modes */
+        uint32_t add_mask;          /* valid if add enabled in Open() */
+        adc_diag_t diag_method;     /* self-diagnosis virtual channel */
+        bool anex_enable;           /* unit1: use external amplifier */
+        uint8_t sample_hold_mask;   /* channels/bits 0-2 */
+        uint8_t sample_hold_states; /* minimum .4us */
     } adc_ch_cfg_t;
 
 
-    typedef enum e_adc_comp_cond        /* Window A/B Composite Conditions */
+    typedef enum e_adc_comp_cond /* Window A/B Composite Conditions */
     {
         ADC_COND_OR = 0x00,
         ADC_COND_EXOR = 0x01,
@@ -373,33 +373,33 @@
     } adc_comp_cond_t;
 
 
-    typedef enum e_adc_comp_stat       /* Window A/B Composite Status */
+    typedef enum e_adc_comp_stat     /* Window A/B Composite Status */
     {
-        ADC_COMP_COND_NOTMET = 0x00,   /* Window A/B Composite Condition not met */
-        ADC_COMP_COND_MET = 0x01       /* Window A/B Composite Condition met */
+        ADC_COMP_COND_NOTMET = 0x00, /* Window A/B Composite Condition not met */
+        ADC_COMP_COND_MET = 0x01     /* Window A/B Composite Condition met */
     } adc_comp_stat_t;
 
 
 /* for ADC_CMD_EN_COMPARATOR_LEVEL and ADC_CMD_EN_COMPARATOR_WINDOW */
 
-    typedef struct st_adc_cmpwin_cfg         /* Window A bit-OR ADC_MASK_xxx to indicate channels/sensors
-                                              * Window B ADC_COMP_WINB_xxx to indicate channels/sensors */
+    typedef struct st_adc_cmpwin_cfg  /* Window A bit-OR ADC_MASK_xxx to indicate channels/sensors
+                                      * Window B ADC_COMP_WINB_xxx to indicate channels/sensors */
     {
-        uint32_t compare_mask;               /* channels/sensors to compare */
-        uint32_t compare_maskb;              /* channels/sensors to compareb */
-        uint32_t inside_window_mask;         /* condition met when within range
-                                              * default=0 met when outside range */
-        uint32_t inside_window_maskb;        /* condition met when within range
-                                              * default=0 met when outside range */
+        uint32_t compare_mask;        /* channels/sensors to compare */
+        uint32_t compare_maskb;       /* channels/sensors to compareb */
+        uint32_t inside_window_mask;  /* condition met when within range
+                                       * default=0 met when outside range */
+        uint32_t inside_window_maskb; /* condition met when within range
+                                       * default=0 met when outside range */
         uint16_t level_lo;
         uint16_t level_lob;
         uint16_t level_hi;
         uint16_t level_hib;
-        adc_comp_cond_t comp_cond;           /* window A/B composite conditions setting */
-        uint8_t int_priority;                /* S12CMPAI and S12CMPBI priority level
-                                              * 1=low 15=hi 0=polled */
-        bool windowa_enable;                 /* comparison window A enable */
-        bool windowb_enable;                 /* comparison window B enable */
+        adc_comp_cond_t comp_cond; /* window A/B composite conditions setting */
+        uint8_t int_priority;      /* S12CMPAI and S12CMPBI priority level
+                                    * 1=low 15=hi 0=polled */
+        bool windowa_enable;       /* comparison window A enable */
+        bool windowb_enable;       /* comparison window B enable */
     } adc_cmpwin_t;
 
 

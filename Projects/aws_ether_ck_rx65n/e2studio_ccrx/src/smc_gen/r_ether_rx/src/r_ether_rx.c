@@ -1864,7 +1864,7 @@ ether_return_t R_ETHER_WakeOnLAN( uint32_t channel )
                     {
                         ret = ETHER_ERR_OTHER;
                     }
-                #else  /* if ( ETHER_CFG_USE_LINKSTA == 1 ) */
+                #else /* if ( ETHER_CFG_USE_LINKSTA == 1 ) */
                     /* It is confirmed not to become Link down while changing the setting. */
                     ret = R_ETHER_CheckLink_ZC( channel );
                 #endif /* if ( ETHER_CFG_USE_LINKSTA == 1 ) */

@@ -101,7 +101,7 @@
 /* valid: 0001 1111 0000 0110; invalid 1110 0000 1111 1001 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFFFE0F9 )
 
-    #else  /* if BSP_PACKAGE_PINS == 64 */
+    #else /* if BSP_PACKAGE_PINS == 64 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /*  */
 
@@ -149,7 +149,7 @@
 
 /* valid: 0000 0000 0001 1110 0000 0011 1110 0111; invalid 1111 1111 1110 0001 1111 1100 0001 1000 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFE1FC18 )
-    #else  /* if BSP_PACKAGE_PINS == 100 */
+    #else /* if BSP_PACKAGE_PINS == 100 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* #if BSP_PACKAGE_PINS == 100 */
 
@@ -199,7 +199,7 @@
 /* valid: 0000 0000 0001 1110 0000 0111 1110 0111; invalid 1111 1111 1110 0001 1111 1000 1111 1000 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFE1F8F8 )
 
-    #else  /* if BSP_PACKAGE_PINS == 80 */
+    #else /* if BSP_PACKAGE_PINS == 80 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* #if BSP_PACKAGE_PINS == 80 */
 
@@ -223,7 +223,7 @@
 
 /* valid: 0000 0000 0001 1110 0000 0011 0100 0111; invalid 1111 1111 1110 0001 1111 1100 1011 1000 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFE1FCB8 )
-    #else  /* if BSP_PACKAGE_PINS == 100 */
+    #else /* if BSP_PACKAGE_PINS == 100 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 100 */
 
@@ -247,7 +247,7 @@
 
 /* valid: 0000 0000 0001 1110 0000 0011 0100 0111; invalid 1111 1111 1110 0001 1111 1100 1011 1000 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFE1FCB8 )
-    #else  /* if BSP_PACKAGE_PINS == 100 */
+    #else /* if BSP_PACKAGE_PINS == 100 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 100 */
 
@@ -271,7 +271,7 @@
 
 /* valid: 0000 0000 0000 0011 0000 0001 1111 1111; invalid 1111 1111 1111 1100 1111 1110 0000 0000 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xFFFCFE00 )
-    #else  /* if BSP_PACKAGE_PINS == 64 */
+    #else /* if BSP_PACKAGE_PINS == 64 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 64 */
 
@@ -311,7 +311,7 @@
 /* valid: 0000 1000 0001 1100 0000 0011 1110 0010; invalid 1111 0111 1110 0011 1111 1100 0001 1101 */
         #define ADC_PRV_INVALID_CH_MASK    ( 0xF7E3FC1D )
 
-    #else  /* if BSP_PACKAGE_PINS == 85 */
+    #else /* if BSP_PACKAGE_PINS == 85 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 85 */
 
@@ -338,7 +338,7 @@
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFFFEFFF8 ) /* all channels valid (0-2,16) */
         #define ADC_PRV_INVALID_CH_MASK2    ( 0xFFFFE83F ) /* all channels valid (6-10, sensors) */
 
-    #else  /* if BSP_PACKAGE_PINS == 100 */
+    #else /* if BSP_PACKAGE_PINS == 100 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 100 */
 
@@ -359,7 +359,7 @@
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFFFEFFF0 ) /* all channels valid (0-3,16) */
         #define ADC_PRV_INVALID_CH_MASK2    ( 0xFFFFE0C0 ) /* all channels valid (0-5,8-11, sensors) */
 
-    #else  /* if BSP_PACKAGE_PINS == 144 */
+    #else /* if BSP_PACKAGE_PINS == 144 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 144 */
 
@@ -389,7 +389,7 @@
 /* valid: 0110 0000 0011 1111 1111 1111; invalid 1001 1111 1100 0000 0000 0000 */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFF9FC000 ) /* chans 0-13, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 177 */
+    #else /* if BSP_PACKAGE_PINS == 177 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 177 */
 
@@ -423,7 +423,7 @@
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFFFFFFF0 ) /* channels 0-3 valid */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFF9FC33F ) /* chans 6, 7 10-13, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 177 */
+    #else /* if BSP_PACKAGE_PINS == 177 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 177 */
 
@@ -446,7 +446,7 @@
     #elif BSP_PACKAGE_PINS == 48
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFCFFE118 ) /* channels 0-2 5-7 9-12 sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 144 */
+    #else /* if BSP_PACKAGE_PINS == 144 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 177 */
 
@@ -497,7 +497,7 @@
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFFFFFFFE ) /* channels 0 valid */
         #define ADC_PRV_INVALID_CH_MASK2    ( 0xFFF3F2FF ) /* channels 8, 10, 11, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 144 */
+    #else /* if BSP_PACKAGE_PINS == 144 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 144 */
 
@@ -525,7 +525,7 @@
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFFFFFFF0 ) /* channels 0-3 valid */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFFFFCFC3 ) /* channels 2-5, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 145 */
+    #else /* if BSP_PACKAGE_PINS == 145 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 145 */
 
@@ -556,7 +556,7 @@
                 * (BSP_CFG_MCU_PART_FUNCTION == 0xE) || \
                 * (BSP_CFG_MCU_PART_FUNCTION == 0x10)) */
 
-    #else  /* if BSP_PACKAGE_PINS == 144 */
+    #else /* if BSP_PACKAGE_PINS == 144 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 144 */
 #endif /* if ( defined( BSP_MCU_RX72T ) ) */
@@ -579,7 +579,7 @@
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFFFFFFF8 ) /* channels 0-2  */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFF983931 ) /* channels 1-3, 6, 7, 9, 10, 14-18, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 224 */
+    #else /* if BSP_PACKAGE_PINS == 224 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 224 */
 #endif /* if ( defined( BSP_MCU_RX72M ) ) */
@@ -606,7 +606,7 @@
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFFFFFF00 ) /* all channels valid (0-7) */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFF9FC000 ) /* chans 0-13, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 224 */
+    #else /* if BSP_PACKAGE_PINS == 224 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* BSP_PACKAGE_PINS == 224 */
 #endif /* if ( defined( BSP_MCU_RX66N ) ) */
@@ -633,7 +633,7 @@
         #define ADC_PRV_INVALID_CH_MASK0    ( 0xFFFFFF00 ) /* all channels valid (0-7) */
         #define ADC_PRV_INVALID_CH_MASK1    ( 0xFF9FC000 ) /* chans 0-13, sensors valid */
 
-    #else  /* if BSP_PACKAGE_PINS == 224 */
+    #else /* if BSP_PACKAGE_PINS == 224 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /*  */
 #endif /* if ( defined( BSP_MCU_RX72N ) ) */
@@ -654,12 +654,12 @@ typedef struct st_adc_ctrl /* ADC Control Block */
     || defined( BSP_MCU_RX71M ) || defined( BSP_MCU_RX72T ) || defined( BSP_MCU_RX72M )       \
     || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N ) || defined( BSP_MCU_RX671 )       \
     || defined( BSP_MCU_RX660 ) )
-        uint32_t cmpi_mask;         /* for GRPBL1 */
+        uint32_t cmpi_mask; /* for GRPBL1 */
     #endif
     #if ( defined( BSP_MCU_RX65_ALL ) || defined( BSP_MCU_RX66T ) || defined( BSP_MCU_RX72T ) \
     || defined( BSP_MCU_RX72M ) || defined( BSP_MCU_RX66N ) || defined( BSP_MCU_RX72N )       \
     || defined( BSP_MCU_RX671 ) || defined( BSP_MCU_RX660 ) )
-        uint32_t cmpi_maskb;        /* for GRPBL1 WINDOWB */
+        uint32_t cmpi_maskb; /* for GRPBL1 WINDOWB */
     #endif
 } adc_ctrl_t;
 

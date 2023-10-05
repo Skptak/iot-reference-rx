@@ -56,15 +56,15 @@
 /* MCU ROM and RAM structure definition */
     typedef struct
     {
-        uint8_t * rom_s;  /* Start address of the initialized data section in ROM */
-        uint8_t * rom_e;  /* End address of the initialized data section in ROM */
-        uint8_t * ram_s;  /* Start address of the initialized data section in RAM */
+        uint8_t * rom_s; /* Start address of the initialized data section in ROM */
+        uint8_t * rom_e; /* End address of the initialized data section in ROM */
+        uint8_t * ram_s; /* Start address of the initialized data section in RAM */
     } st_dtbl_t;
 
     typedef struct
     {
-        uint8_t * b_s;    /* Start address of non-initialized data section */
-        uint8_t * b_e;    /* End address of non-initialized data section */
+        uint8_t * b_s; /* Start address of non-initialized data section */
+        uint8_t * b_e; /* End address of non-initialized data section */
     } st_btbl_t;
 
 /***********************************************************************************************************************

@@ -145,7 +145,7 @@
     #elif BSP_CFG_MCU_PART_PACKAGE == 0xC
         #define BSP_PACKAGE_TFBGA64     ( 1 )
         #define BSP_PACKAGE_PINS        ( 64 )
-    #else  /* if   BSP_CFG_MCU_PART_PACKAGE == 0x0 */
+    #else /* if   BSP_CFG_MCU_PART_PACKAGE == 0x0 */
         #error "ERROR - BSP_CFG_MCU_PART_PACKAGE - Unknown package chosen in r_bsp_config.h"
     #endif /* if   BSP_CFG_MCU_PART_PACKAGE == 0x0 */
 
@@ -170,7 +170,7 @@
         #define BSP_ROM_SIZE_BYTES           ( 2097152 )
         #define BSP_RAM_SIZE_BYTES           ( 655360 )
         #define BSP_DATA_FLASH_SIZE_BYTES    ( 32768 )
-    #else  /* if   BSP_CFG_MCU_PART_MEMORY_SIZE == 0x4 */
+    #else /* if   BSP_CFG_MCU_PART_MEMORY_SIZE == 0x4 */
         #error "ERROR - BSP_CFG_MCU_PART_MEMORY_SIZE - Unknown memory size chosen in r_bsp_config.h"
     #endif /* if   BSP_CFG_MCU_PART_MEMORY_SIZE == 0x4 */
 
@@ -212,7 +212,7 @@
         #else
             #error "ERROR - Valid PLL clock source must be chosen in r_bsp_config.h using BSP_CFG_PLL_SRC macro."
         #endif
-    #else  /* if   BSP_CFG_CLOCK_SOURCE == 0 */
+    #else /* if   BSP_CFG_CLOCK_SOURCE == 0 */
         #error "ERROR - BSP_CFG_CLOCK_SOURCE - Unknown clock source chosen in r_bsp_config.h"
     #endif /* if   BSP_CFG_CLOCK_SOURCE == 0 */
 

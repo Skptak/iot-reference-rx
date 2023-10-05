@@ -512,7 +512,7 @@ irq_err_t R_IRQ_Open( irq_number_t irq_number,
     #if defined( VECT_ICU_IRQ15 )
 }
 
-else      /* IRQs 8-15 share these registers. */
+else /* IRQs 8-15 share these registers. */
 {
     /* Disable digital filter.  */
     ICU.IRQFLTE1.BYTE &= ( ~ien_mask );
@@ -767,7 +767,7 @@ irq_err_t R_IRQ_Close( irq_handle_t handle )
     #if defined( VECT_ICU_IRQ15 )
 }
 
-else      /* IRQs 8-15 share these registers. */
+else /* IRQs 8-15 share these registers. */
 {
     /* Disable digital filter.  */
     ICU.IRQFLTE1.BYTE &= ( ~( handle->ien_bit_mask ) );

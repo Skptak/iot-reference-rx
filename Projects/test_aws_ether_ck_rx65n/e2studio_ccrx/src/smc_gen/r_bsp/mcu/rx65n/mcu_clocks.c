@@ -221,7 +221,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x50000000;
         #elif BSP_CFG_FCK_DIV == 64
             tmp_clock |= 0x60000000;
-        #else  /* if   BSP_CFG_FCK_DIV == 1 */
+        #else /* if   BSP_CFG_FCK_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_FCK_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_FCK_DIV == 1 */
 
@@ -240,7 +240,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x05000000;
         #elif BSP_CFG_ICK_DIV == 64
             tmp_clock |= 0x06000000;
-        #else  /* if   BSP_CFG_ICK_DIV == 1 */
+        #else /* if   BSP_CFG_ICK_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_ICK_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_ICK_DIV == 1 */
 
@@ -259,7 +259,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x00050000;
         #elif BSP_CFG_BCK_DIV == 64
             tmp_clock |= 0x00060000;
-        #else  /* if   BSP_CFG_BCK_DIV == 1 */
+        #else /* if   BSP_CFG_BCK_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_BCK_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_BCK_DIV == 1 */
 
@@ -284,7 +284,7 @@ uint32_t get_iclk_freq_hz( void )
             {
                 R_BSP_NOP();
             }
-        #else  /* if BSP_CFG_BCLK_OUTPUT == 0 */
+        #else /* if BSP_CFG_BCLK_OUTPUT == 0 */
         #error "Error! Invalid setting for BSP_CFG_BCLK_OUTPUT in r_bsp_config.h"
         #endif /* if BSP_CFG_BCLK_OUTPUT == 0 */
 
@@ -314,7 +314,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x00005000;
         #elif BSP_CFG_PCKA_DIV == 64
             tmp_clock |= 0x00006000;
-        #else  /* if   BSP_CFG_PCKA_DIV == 1 */
+        #else /* if   BSP_CFG_PCKA_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_PCKA_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_PCKA_DIV == 1 */
 
@@ -333,7 +333,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x00000500;
         #elif BSP_CFG_PCKB_DIV == 64
             tmp_clock |= 0x00000600;
-        #else  /* if   BSP_CFG_PCKB_DIV == 1 */
+        #else /* if   BSP_CFG_PCKB_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_PCKB_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_PCKB_DIV == 1 */
 
@@ -352,7 +352,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x00000050;
         #elif BSP_CFG_PCKC_DIV == 64
             tmp_clock |= 0x00000060;
-        #else  /* if   BSP_CFG_PCKC_DIV == 1 */
+        #else /* if   BSP_CFG_PCKC_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_PCKC_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_PCKC_DIV == 1 */
 
@@ -371,7 +371,7 @@ uint32_t get_iclk_freq_hz( void )
             tmp_clock |= 0x00000005;
         #elif BSP_CFG_PCKD_DIV == 64
             tmp_clock |= 0x00000006;
-        #else  /* if   BSP_CFG_PCKD_DIV == 1 */
+        #else /* if   BSP_CFG_PCKD_DIV == 1 */
         #error "Error! Invalid setting for BSP_CFG_PCKD_DIV in r_bsp_config.h"
         #endif /* if   BSP_CFG_PCKD_DIV == 1 */
 
@@ -908,7 +908,7 @@ uint32_t get_iclk_freq_hz( void )
                  * If you use simulator, the flag is not set to 1, resulting in an infinite loop. */
                 R_BSP_NOP();
             }
-        #else  /* if BSP_PRV_PLL_CLK_OPERATING == 1 */
+        #else /* if BSP_PRV_PLL_CLK_OPERATING == 1 */
             /* PLL is stopped after reset. */
         #endif /* if BSP_PRV_PLL_CLK_OPERATING == 1 */
 

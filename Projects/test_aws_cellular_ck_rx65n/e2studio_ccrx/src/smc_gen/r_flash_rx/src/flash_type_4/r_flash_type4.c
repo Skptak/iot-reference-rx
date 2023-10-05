@@ -249,7 +249,7 @@
 
         #define FLASH_PE_MODE_SECTION       R_BSP_ATTRIB_SECTION_CHANGE( P, FRAM )
         #define FLASH_SECTION_CHANGE_END    R_BSP_ATTRIB_SECTION_CHANGE_END
-    #else  /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
+    #else /* if ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) */
         #define FLASH_PE_MODE_SECTION
         #define FLASH_SECTION_CHANGE_END
     #endif // #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
@@ -271,13 +271,13 @@
         flash_err_t err;
 
 
-        if( FLASH.FSTATR.BIT.SECERR )  /* error due to access window locking */
+        if( FLASH.FSTATR.BIT.SECERR ) /* error due to access window locking */
         {
             err = FLASH_ERR_SECURITY;
         }
         else if( ( FLASH.FASTAT.BIT.CFAE ) || ( FLASH.FSTATR.BIT.ILGLERR ) )
         {
-            err = FLASH_ERR_ADDRESS;        /* tried to access invalid address */
+            err = FLASH_ERR_ADDRESS; /* tried to access invalid address */
         }
         else if( ( FLASH.FSTATR.BIT.PRGERR ) || ( FLASH.FSTATR.BIT.ERSERR ) )
         {
@@ -324,7 +324,7 @@
                 }
             #endif
 
-            if( FLASH.FSTATR.BIT.SECERR )  /* access window protected */
+            if( FLASH.FSTATR.BIT.SECERR ) /* access window protected */
             {
                 event = FLASH_INT_EVENT_ERR_SECURITY;
             }
@@ -443,7 +443,7 @@
                             sas_flag = FLASH_SAS_DEFAULT;
                         }
                     }
-                    else                                    /* switch based upon current state */
+                    else /* switch based upon current state */
                     {
                         if( FLASH_SAS_ALTERNATE == FLASH.FSUACR.BIT.SAS )
                         {
