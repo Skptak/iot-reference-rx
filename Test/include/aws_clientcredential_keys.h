@@ -62,7 +62,7 @@
 	 * @note This setting is required by JITR because the issuer is used by the AWS
 	 * IoT gateway for routing the device's initial request. (The device client
 	 * certificate must always be sent as well.) For more information about JITR, see:
-	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html,
+	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html
 	 *  https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/.
 	 *
 	 * If you're not using JITR, set below to NULL.
@@ -116,7 +116,7 @@
 	 * @note This setting is required by JITR because the issuer is used by the AWS
 	 * IoT gateway for routing the device's initial request. (The device client
 	 * certificate must always be sent as well.) For more information about JITR, see:
-	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html,
+	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html
 	 *  https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/.
 	 *
 	 * If you're not using JITR, set below to NULL.
@@ -169,7 +169,7 @@
 	 * @note This setting is required by JITR because the issuer is used by the AWS
 	 * IoT gateway for routing the device's initial request. (The device client
 	 * certificate must always be sent as well.) For more information about JITR, see:
-	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html,
+	 *  https://docs.aws.amazon.com/iot/latest/developerguide/jit-provisioning.html
 	 *  https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/.
 	 *
 	 * If you're not using JITR, set below to NULL.

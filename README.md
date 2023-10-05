@@ -35,19 +35,26 @@ See [ FreeRTOS TCP/IP ](https://github.com/FreeRTOS/FreeRTOS-Plus-TCP) for detai
 See [ MbedTLS ](https://github.com/Mbed-TLS/mbedtls/tree/d65aeb37349ad1a50e0f6c9b694d4b5290d60e49) for details.
 
 ### Command Line Interface (CLI)
-The CLI interface located in the Common/cli directory is used to provision the device. It also provides other Unix-like utilities. See [Common/cli](Common/cli/ReadMe.md) for details.
+The CLI interface located in the Common/cli directory is used to provision the
+device. It also provides other Unix-like utilities. See 
+[Common/cli](Common/cli/ReadMe.md) for details.
 
 ### Key-Value Store <todo: confirm which s/w renesas would use>
 The key-value store located in the Common/kvstore directory is used to store runtime configuration values in non-volatile flash memory.
-See [Common/kvstore](Common/kvstore/ReadMe.md) for details.
+
 
 ### PkiObject API <todo: confirm which scheme renesas would use>
-The PkiObject API takes care of some of the mundane tasks in converting between different representations of cryptographic objects such as public keys, private keys, and certificates. See [Common/crypto](Common/crypto/ReadMe.md) for details.
+The PkiObject API takes care of some of the mundane tasks in converting between
+different representations of cryptographic objects such as public keys, private
+keys, and certificates.
 
 ### Mbedtls Transport <todo: confirm renesas can do this>
-The *Common/net/mbedtls_transport.c* file contains a transport layer implementation for coreMQTT and coreHTTP which uses mbedtls to encrypt the connection in a way supported by AWS IoT Core.
+The [mbedtls_transport.c](Middleware/Application-Protocols/network_transport/using_mbedtls_pkcs11/transport_mbedtls_pkcs11.c) file contains a transport layer
+implementation for coreMQTT and coreHTTP which uses mbedtls to encrypt the
+connection in a way supported by AWS IoT Core.
 
-Optionally, client key / certificate authentication may be used with the mbedtls transport or this parameter may be set to NULL if not needed.
+Optionally, client key / certificate authentication may be used with the mbedtls
+transport or this parameter may be set to NULL if not needed.
 ### Cloning the Repository
 For long path name:
 ```
@@ -72,6 +79,9 @@ To get started running demos, see the [Getting Started Guide](Getting_Started_Gu
 See [CONTRIBUTING](https://github.com/renesas/iot-reference-rx/blob/main/CONTRIBUTING.md) for more information.
 
 ## License
-Source code located in the *Projects*, *Common*, *Middleware/AWS*, and *Middleware/FreeRTOS* directories are available under the terms of the MIT License. See the LICENSE file for more details.
+Source code located in the *Projects*, *Common*, *Middleware/AWS*, and
+*Middleware/FreeRTOS* directories are available under the terms of the MIT
+License. See the LICENSE file for more details.
 
-Other libraries located in the *Drivers* and *Middleware* directories are available under the terms specified in each source file.
+Other libraries located in the *Drivers* and *Middleware* directories are
+available under the terms specified in each source file.

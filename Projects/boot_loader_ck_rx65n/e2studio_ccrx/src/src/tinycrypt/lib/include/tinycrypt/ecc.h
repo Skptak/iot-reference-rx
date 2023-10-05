@@ -143,8 +143,8 @@ void x_side_default(uECC_word_t *result, const uECC_word_t *x,
 		    uECC_Curve curve);
 
 /*
- * @brief Computes result = product % curve_p
- * from http://www.nsa.gov/ia/_files/nist-routines.pdf
+ * @brief Computes result = product % curve_p from
+ * https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf
  * @param result OUT -- product % curve_p
  * @param product IN -- value to be reduced mod curve_p
  */
