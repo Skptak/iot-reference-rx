@@ -3042,7 +3042,7 @@ sci_err_t R_SCI_Control( sci_hdl_t const hdl,
             /* Casting void* type is valid */
             baud = ( sci_baud_t * ) p_args;
             #if ( SCI_CFG_ASYNC_INCLUDED )
-                hdl->pclk_speed = baud->pclk;   /* save for break generation */
+                hdl->pclk_speed = baud->pclk; /* save for break generation */
             #endif
             hdl->rom->regs->SCR.BYTE &= ( ~SCI_EN_XCVR_MASK );
             SCI_SCR_DUMMY_READ;
