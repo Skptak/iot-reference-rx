@@ -61,6 +61,7 @@ typedef struct TaskParam
 /* Function declaration. */
 uint32_t MqttTestGetTimeMs( void );
 void prvTransportTestDelay( uint32_t delayMs );
+
 /**
  * @brief Socket send and receive timeouts to use.  Specified in milliseconds.
  */
@@ -81,6 +82,7 @@ static NetworkConnectStatus_t prvTransportNetworkConnect( void * pvNetworkContex
                                                           void * pvNetworkCredentials )
 {
     TlsTransportStatus_t xStatus = TLS_TRANSPORT_SUCCESS;
+
     xStatus = TLS_FreeRTOS_Connect( pvNetworkContext,
                                     pxHostInfo->pHostName,
                                     pxHostInfo->port,
@@ -115,12 +117,12 @@ static void ThreadWrapper( void * pParam )
 /*-----------------------------------------------------------*/
 
 
-int FRTest_GenerateRandInt(void)
+int FRTest_GenerateRandInt( void )
 {
+    uint32_t random_number = 0;
 
-	uint32_t random_number = 0;
-	get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
-	return random_number;
+    get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
+    return random_number;
 }
 
 /*-----------------------------------------------------------*/
@@ -206,7 +208,7 @@ void FRTest_MemoryFree( void * ptr )
 {
     return vPortFree( ptr );
 }
-uint32_t FRTest_GetTimeMs(void)
+uint32_t FRTest_GetTimeMs( void )
 {
     return MqttTestGetTimeMs();
 }
@@ -231,74 +233,74 @@ uint32_t MqttTestGetTimeMs( void )
 }
 /*-----------------------------------------------------------*/
 #if ( MQTT_TEST_ENABLED == 1 )
-void SetupMqttTestParam( MqttTestParam_t * pTestParam )
-{
-    configASSERT( pTestParam != NULL );
-	TlsTransportParams_t *xTlsTransportParams0 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
-	TlsTransportParams_t *xTlsTransportParams1 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
-    xNetworkContext.pParams = xTlsTransportParams0;
-    xSecondNetworkContext.pParams = xTlsTransportParams1;
-    /* Initialization of timestamp for MQTT. */
-    ulGlobalEntryTimeMs = MqttTestGetTimeMs();
+    void SetupMqttTestParam( MqttTestParam_t * pTestParam )
+    {
+        configASSERT( pTestParam != NULL );
+        TlsTransportParams_t * xTlsTransportParams0 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
+        TlsTransportParams_t * xTlsTransportParams1 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
+        xNetworkContext.pParams = xTlsTransportParams0;
+        xSecondNetworkContext.pParams = xTlsTransportParams1;
+        /* Initialization of timestamp for MQTT. */
+        ulGlobalEntryTimeMs = MqttTestGetTimeMs();
 
-    /* Setup the transport interface. */
-    xTransport.send = TLS_FreeRTOS_send;
-    xTransport.recv = TLS_FreeRTOS_recv;
-    xTransport.writev = NULL;
+        /* Setup the transport interface. */
+        xTransport.send = TLS_FreeRTOS_send;
+        xTransport.recv = TLS_FreeRTOS_recv;
+        xTransport.writev = NULL;
 
-    xNetworkCredentials.pRootCa = ( unsigned char * ) democonfigROOT_CA_PEM;
-    xNetworkCredentials.rootCaSize = sizeof( democonfigROOT_CA_PEM );
-    xNetworkCredentials.pClientCertLabel = pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
-    xNetworkCredentials.pPrivateKeyLabel = pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
-    xNetworkCredentials.disableSni = pdFALSE;
-	xNetworkCredentials.pAlpnProtos = NULL;
+        xNetworkCredentials.pRootCa = ( unsigned char * ) democonfigROOT_CA_PEM;
+        xNetworkCredentials.rootCaSize = sizeof( democonfigROOT_CA_PEM );
+        xNetworkCredentials.pClientCertLabel = pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
+        xNetworkCredentials.pPrivateKeyLabel = pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
+        xNetworkCredentials.disableSni = pdFALSE;
+        xNetworkCredentials.pAlpnProtos = NULL;
 
-    pTestParam->pTransport = &xTransport;
-    pTestParam->pNetworkContext = &xNetworkContext;
-    pTestParam->pSecondNetworkContext = &xSecondNetworkContext;
-    pTestParam->pNetworkConnect = prvTransportNetworkConnect;
-    pTestParam->pNetworkDisconnect = prvTransportNetworkDisconnect;
-    pTestParam->pNetworkCredentials = &xNetworkCredentials;
-    pTestParam->pGetTimeMs = MqttTestGetTimeMs;
-}
+        pTestParam->pTransport = &xTransport;
+        pTestParam->pNetworkContext = &xNetworkContext;
+        pTestParam->pSecondNetworkContext = &xSecondNetworkContext;
+        pTestParam->pNetworkConnect = prvTransportNetworkConnect;
+        pTestParam->pNetworkDisconnect = prvTransportNetworkDisconnect;
+        pTestParam->pNetworkCredentials = &xNetworkCredentials;
+        pTestParam->pGetTimeMs = MqttTestGetTimeMs;
+    }
 #endif /* TRANSPORT_INTERFACE_TEST_ENABLED == 1 */
 
 #if ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 )
-void SetupTransportTestParam( TransportTestParam_t * pTestParam )
-{
-	TlsTransportParams_t *xTlsTransportParams0 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
-	TlsTransportParams_t *xTlsTransportParams1 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
-    xNetworkContext.pParams = xTlsTransportParams0;
-    xSecondNetworkContext.pParams = xTlsTransportParams1;
+    void SetupTransportTestParam( TransportTestParam_t * pTestParam )
+    {
+        TlsTransportParams_t * xTlsTransportParams0 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
+        TlsTransportParams_t * xTlsTransportParams1 = ( TlsTransportParams_t * ) pvPortMalloc( sizeof( TlsTransportParams_t ) );
 
-    configASSERT( pTestParam != NULL );
-    /* Setup the transport interface. */
-    xTransport.send = TLS_FreeRTOS_send;
-    xTransport.recv = TLS_FreeRTOS_recv;
-    xTransport.writev = NULL;
+        xNetworkContext.pParams = xTlsTransportParams0;
+        xSecondNetworkContext.pParams = xTlsTransportParams1;
 
-    xNetworkCredentials.pRootCa = ( unsigned char * ) ECHO_SERVER_ROOT_CA;
-    xNetworkCredentials.rootCaSize = sizeof( ECHO_SERVER_ROOT_CA );
-    xNetworkCredentials.pClientCertLabel = pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
-    xNetworkCredentials.pPrivateKeyLabel = pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
-    xNetworkCredentials.disableSni = pdTRUE;
-//    xNetworkCredentials.pAlpnProtos = NULL;
+        configASSERT( pTestParam != NULL );
+        /* Setup the transport interface. */
+        xTransport.send = TLS_FreeRTOS_send;
+        xTransport.recv = TLS_FreeRTOS_recv;
+        xTransport.writev = NULL;
 
-    pTestParam->pTransport = &xTransport;
-    pTestParam->pNetworkContext = &xNetworkContext;
-    pTestParam->pSecondNetworkContext = &xSecondNetworkContext;
-    pTestParam->pNetworkConnect = prvTransportNetworkConnect;
-    pTestParam->pNetworkDisconnect = prvTransportNetworkDisconnect;
-    pTestParam->pNetworkCredentials = &xNetworkCredentials;
+        xNetworkCredentials.pRootCa = ( unsigned char * ) ECHO_SERVER_ROOT_CA;
+        xNetworkCredentials.rootCaSize = sizeof( ECHO_SERVER_ROOT_CA );
+        xNetworkCredentials.pClientCertLabel = pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
+        xNetworkCredentials.pPrivateKeyLabel = pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
+        xNetworkCredentials.disableSni = pdTRUE;
+/*    xNetworkCredentials.pAlpnProtos = NULL; */
 
-}
-#endif
+        pTestParam->pTransport = &xTransport;
+        pTestParam->pNetworkContext = &xNetworkContext;
+        pTestParam->pSecondNetworkContext = &xSecondNetworkContext;
+        pTestParam->pNetworkConnect = prvTransportNetworkConnect;
+        pTestParam->pNetworkDisconnect = prvTransportNetworkDisconnect;
+        pTestParam->pNetworkCredentials = &xNetworkCredentials;
+    }
+#endif /* if ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 ) */
 
 #if ( OTA_PAL_TEST_ENABLED == 1 )
-void SetupOtaPalTestParam( OtaPalTestParam_t * pTestParam )
-{
-    pTestParam->pageSize = ( 1UL << otaconfigLOG2_FILE_BLOCK_SIZE );
-}
+    void SetupOtaPalTestParam( OtaPalTestParam_t * pTestParam )
+    {
+        pTestParam->pageSize = ( 1UL << otaconfigLOG2_FILE_BLOCK_SIZE );
+    }
 #endif /* if ( OTA_PAL_TEST_ENABLED == 1 ) */
 void prvQualificationTestTask( void * pvParameters )
 {

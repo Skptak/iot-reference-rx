@@ -47,29 +47,29 @@
 
 /* Logging configuration for the Demo. */
 #ifndef LIBRARY_LOG_NAME
-#define LIBRARY_LOG_NAME    "MQTTDemo"
+    #define LIBRARY_LOG_NAME    "MQTTDemo"
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+    #define LIBRARY_LOG_LEVEL    LOG_INFO
 #endif
 
 #include "iot_logging_task.h"
 
-//#define democonfigCLIENT_CERTIFICATE_PEM    keyCLIENT_CERTIFICATE_PEM
-//#define democonfigCLIENT_PRIVATE_KEY_PEM    keyCLIENT_PRIVATE_KEY_PEM
-//#define democonfigCLIENT_USERNAME			  keyJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM
+/*#define democonfigCLIENT_CERTIFICATE_PEM    keyCLIENT_CERTIFICATE_PEM */
+/*#define democonfigCLIENT_PRIVATE_KEY_PEM    keyCLIENT_PRIVATE_KEY_PEM */
+/*#define democonfigCLIENT_USERNAME			  keyJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM */
 
 /* Select only one demo task to run. */
 #define SIMPLE_PUBSUB_DEMO
-//#define PKCS_MUTUAL_AUTH_DEMO
-//#define OTA_OVER_MQTT_DEMO
-//#define FLEET_PROVISIONING_DEMO
+/*#define PKCS_MUTUAL_AUTH_DEMO */
+/*#define OTA_OVER_MQTT_DEMO */
+/*#define FLEET_PROVISIONING_DEMO */
 
-#if defined(FLEET_PROVISIONING_DEMO)
-#define democonfigROOT_CA_PEM             "...insert here..."
+#if defined( FLEET_PROVISIONING_DEMO )
+    #define democonfigROOT_CA_PEM    "...insert here..."
 #else
-#define democonfigROOT_CA_PEM               tlsSTARFIELD_ROOT_CERTIFICATE_PEM
+    #define democonfigROOT_CA_PEM    tlsSTARFIELD_ROOT_CERTIFICATE_PEM
 #endif
 
 /**
@@ -90,7 +90,7 @@
  * account ID, and <template-name> with the name of your provisioning template.
  *
  */
-#define democonfigCLAIM_CERT_PEM            "...insert here..."
+#define democonfigCLAIM_CERT_PEM             "...insert here..."
 
 /**
  * @brief Path of the file containing the provisioning claim private key. This
@@ -103,7 +103,7 @@
  * @note This private key should be PEM-encoded.
  *
  */
-#define democonfigCLAIM_PRIVATE_KEY_PEM     "...insert here..."
+#define democonfigCLAIM_PRIVATE_KEY_PEM      "...insert here..."
 
 /**
  * @brief An option to disable Server Name Indication.
@@ -134,7 +134,7 @@
  *!!! be read by software, such as a production serial number, instead of a
  *!!! hard coded constant.
  */
-#define democonfigFP_DEMO_ID    "FPDemoID"__TIME__
+#define democonfigFP_DEMO_ID                 "FPDemoID"__TIME__
 
 /**
  * @brief The MQTT client identifier used in this example.  Each client identifier
@@ -147,11 +147,11 @@
  * binary is used at the same time to connect to the broker.
  */
 #ifndef democonfigCLIENT_IDENTIFIER
-#if defined(FLEET_PROVISIONING_DEMO)
-    #define democonfigCLIENT_IDENTIFIER    "client"democonfigFP_DEMO_ID
-#else
-    #define democonfigCLIENT_IDENTIFIER    clientcredentialIOT_THING_NAME
-#endif
+    #if defined( FLEET_PROVISIONING_DEMO )
+        #define democonfigCLIENT_IDENTIFIER    "client"democonfigFP_DEMO_ID
+    #else
+        #define democonfigCLIENT_IDENTIFIER    clientcredentialIOT_THING_NAME
+    #endif
 #endif
 
 /**
@@ -163,7 +163,7 @@
  * Settings/Custom Endpoint, or using the describe-endpoint API.
  *
  */
-#define democonfigMQTT_BROKER_ENDPOINT     clientcredentialMQTT_BROKER_ENDPOINT
+#define democonfigMQTT_BROKER_ENDPOINT          clientcredentialMQTT_BROKER_ENDPOINT
 
 /**
  * @brief AWS IoT MQTT broker port number.
@@ -173,7 +173,7 @@
  * @note Port 443 requires use of the ALPN TLS extension with the ALPN protocol
  * name. When using port 8883, ALPN is not required.
  */
-#define democonfigMQTT_BROKER_PORT    ( clientcredentialMQTT_BROKER_PORT )
+#define democonfigMQTT_BROKER_PORT              ( clientcredentialMQTT_BROKER_PORT )
 
 /**
  * @brief Name of the provisioning template to use for the RegisterThing
@@ -195,7 +195,7 @@
  * the provisioning template name is "FleetProvisioningDemoTemplate".
  * However, if you used CloudFormation to set up the demo, the template name is "CF_FleetProvisioningDemoTemplate"
  */
- #define democonfigPROVISIONING_TEMPLATE_NAME    "...insert here..."
+#define democonfigPROVISIONING_TEMPLATE_NAME    "...insert here..."
 
 /**
  * @brief Subject name to use when creating the certificate signing request (CSR)
@@ -214,7 +214,7 @@
  * In the Windows port, this stack only holds a structure. The actual
  * stack is created by an operating system thread.
  */
-#define democonfigDEMO_STACKSIZE        configMINIMAL_STACK_SIZE * 8
+#define democonfigDEMO_STACKSIZE         configMINIMAL_STACK_SIZE * 8
 
 /**
  * @brief Set the stack size of the main demo task.
@@ -222,14 +222,14 @@
  * In the Windows port, this stack only holds a structure. The actual
  * stack is created by an operating system thread.
  */
-#define democonfigDEMO_TASK_PRIORITY    ( tskIDLE_PRIORITY + 1 )
+#define democonfigDEMO_TASK_PRIORITY     ( tskIDLE_PRIORITY + 1 )
 
-#define democonfigNETWORK_BUFFER_SIZE    ( configMINIMAL_STACK_SIZE  )
+#define democonfigNETWORK_BUFFER_SIZE    ( configMINIMAL_STACK_SIZE )
 
 #include "core_mqtt.h" /* Include coreMQTT header for MQTT_LIBRARY_VERSION macro. */
-#define democonfigMQTT_LIB    "core-mqtt@"MQTT_LIBRARY_VERSION
+#define democonfigMQTT_LIB               "core-mqtt@"MQTT_LIBRARY_VERSION
 
-#define democonfigDISABLE_SNI       ( pdFALSE )
+#define democonfigDISABLE_SNI            ( pdFALSE )
 
 /**
  * @brief ALPN (Application-Layer Protocol Negotiation) protocol name for AWS IoT MQTT.
@@ -239,29 +239,31 @@
  * in the link below.
  * https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/
  */
-#define AWS_IOT_MQTT_ALPN           "\x0ex-amzn-mqtt-ca"
+#define AWS_IOT_MQTT_ALPN                "\x0ex-amzn-mqtt-ca"
 
 /**
  * @brief This is the ALPN (Application-Layer Protocol Negotiation) string
  * required by AWS IoT for password-based authentication using TCP port 443.
  */
-#define AWS_IOT_CUSTOM_AUTH_ALPN    "\x04mqtt"
+#define AWS_IOT_CUSTOM_AUTH_ALPN         "\x04mqtt"
+
 /**
  * @brief The MQTT metrics string expected by AWS IoT.
  */
+
 /**
  * @brief The name of the operating system that the application is running on.
  * The current value is given as an example. Please update for your specific
  * operating system.
  */
-#define democonfigOS_NAME       "FreeRTOS"
+#define democonfigOS_NAME                   "FreeRTOS"
 
 /**
  * @brief The version of the operating system that the application is running
  * on. The current value is given as an example. Please update for your specific
  * operating system version.
  */
-#define democonfigOS_VERSION    "V10.4.3"
+#define democonfigOS_VERSION                "V10.4.3"
 
 /**
  * @brief The name of the hardware platform the application is running on. The
@@ -291,8 +293,8 @@
  * This is to support both metrics reporting and username/password based client
  * authentication by AWS IoT.
  */
-#define CLIENT_USERNAME_WITH_METRICS    democonfigCLIENT_USERNAME AWS_IOT_METRICS_STRING
+    #define CLIENT_USERNAME_WITH_METRICS    democonfigCLIENT_USERNAME AWS_IOT_METRICS_STRING
 #endif
 
-//#define democonfigUSE_TLS                   0
+/*#define democonfigUSE_TLS                   0 */
 #endif /* DEMO_CONFIG_H */

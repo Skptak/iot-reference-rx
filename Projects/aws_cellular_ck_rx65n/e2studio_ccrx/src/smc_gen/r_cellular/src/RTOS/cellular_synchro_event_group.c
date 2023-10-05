@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_synchro_event_group.c
  * Description  : Function to synchronize between multiple tasks.
@@ -45,60 +46,62 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_synchro_event_group
  ****************************************************************************************/
-uint32_t cellular_synchro_event_group(void * const xEventGroup,
-                                        const uint32_t uxBitsToSet,
-                                        const uint32_t uxBitsToWaitFor,
-                                        const uint32_t xTicksToWait)
+uint32_t cellular_synchro_event_group( void * const xEventGroup,
+                                       const uint32_t uxBitsToSet,
+                                       const uint32_t uxBitsToWaitFor,
+                                       const uint32_t xTicksToWait )
 {
     uint32_t ret = 0;
 
-    if (NULL != xEventGroup)
+    if( NULL != xEventGroup )
     {
-#if BSP_CFG_RTOS_USED == (1)
-        if (CELLULAR_TIME_OUT_MAX_DELAY == xTicksToWait)
-        {
-            ret = xEventGroupSync((EventGroupHandle_t)xEventGroup,
-                                    (EventBits_t)uxBitsToSet,
-                                    (EventBits_t)uxBitsToWaitFor,
-                                    (TickType_t)portMAX_DELAY);
-        }
-        else
-        {
-            ret = xEventGroupSync((EventGroupHandle_t)xEventGroup,
-                                    (EventBits_t)uxBitsToSet,
-                                    (EventBits_t)uxBitsToWaitFor,
-                                    (TickType_t)xTicksToWait);
-        }
-#elif BSP_CFG_RTOS_USED == (5)
-        UINT rtos_ret;
-
-        rtos_ret = tx_event_flags_set((TX_EVENT_FLAGS_GROUP *)xEventGroup,
-                                        (ULONG)uxBitsToSet,
-                                        (UINT)TX_OR);
-        if (TX_SUCCESS == rtos_ret)
-        {
-            if (CELLULAR_TIME_OUT_MAX_DELAY == xTicksToWait)
+        #if BSP_CFG_RTOS_USED == ( 1 )
+            if( CELLULAR_TIME_OUT_MAX_DELAY == xTicksToWait )
             {
-                rtos_ret = tx_event_flags_get((TX_EVENT_FLAGS_GROUP *)xEventGroup,
-                                                (ULONG)uxBitsToWaitFor,
-                                                (UINT)TX_AND,
-                                                (ULONG *)&ret,
-                                                (ULONG)TX_WAIT_FOREVER);
+                ret = xEventGroupSync( ( EventGroupHandle_t ) xEventGroup,
+                                       ( EventBits_t ) uxBitsToSet,
+                                       ( EventBits_t ) uxBitsToWaitFor,
+                                       ( TickType_t ) portMAX_DELAY );
             }
             else
             {
-                rtos_ret = tx_event_flags_get((TX_EVENT_FLAGS_GROUP *)xEventGroup,
-                                                (ULONG)uxBitsToWaitFor,
-                                                (UINT)TX_AND,
-                                                (ULONG *)&ret,
-                                                (ULONG)xTicksToWait);
+                ret = xEventGroupSync( ( EventGroupHandle_t ) xEventGroup,
+                                       ( EventBits_t ) uxBitsToSet,
+                                       ( EventBits_t ) uxBitsToWaitFor,
+                                       ( TickType_t ) xTicksToWait );
             }
-        }
-#endif
+        #elif BSP_CFG_RTOS_USED == ( 5 )
+            UINT rtos_ret;
+
+            rtos_ret = tx_event_flags_set( ( TX_EVENT_FLAGS_GROUP * ) xEventGroup,
+                                           ( ULONG ) uxBitsToSet,
+                                           ( UINT ) TX_OR );
+
+            if( TX_SUCCESS == rtos_ret )
+            {
+                if( CELLULAR_TIME_OUT_MAX_DELAY == xTicksToWait )
+                {
+                    rtos_ret = tx_event_flags_get( ( TX_EVENT_FLAGS_GROUP * ) xEventGroup,
+                                                   ( ULONG ) uxBitsToWaitFor,
+                                                   ( UINT ) TX_AND,
+                                                   ( ULONG * ) &ret,
+                                                   ( ULONG ) TX_WAIT_FOREVER );
+                }
+                else
+                {
+                    rtos_ret = tx_event_flags_get( ( TX_EVENT_FLAGS_GROUP * ) xEventGroup,
+                                                   ( ULONG ) uxBitsToWaitFor,
+                                                   ( UINT ) TX_AND,
+                                                   ( ULONG * ) &ret,
+                                                   ( ULONG ) xTicksToWait );
+                }
+            }
+        #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function cellular_synchro_event_group
+ * End of function cellular_synchro_event_group
  *********************************************************************************************************************/

@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_private_api.h
  * Description  : Configures the driver.
@@ -33,119 +34,119 @@
  * Macro definitions
  *********************************************************************************************************************/
 #ifndef CELLULAR_CFG_UART_SCI_CH
-#error "Error! Need to define CELLULAR_CFG_UART_SCI_CH in cellular_config.h"
-#elif CELLULAR_CFG_UART_SCI_CH == (0)
-#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
+    #error "Error! Need to define CELLULAR_CFG_UART_SCI_CH in cellular_config.h"
+#elif CELLULAR_CFG_UART_SCI_CH == ( 0 )
+    #if defined( __CCRX__ ) || defined( __ICCRX__ ) || defined( __RX__ )
 /* Store R_SCI_PinSet_SCI0() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI0())
-#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI0() )
+    #elif defined( __CCRL__ ) || defined( __ICCRL78__ ) || defined( __RL )
 /*  */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
-#endif
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH0)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH0_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH0_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (1)
-#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
+    #endif
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH0 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH0_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH0_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 1 )
+    #if defined( __CCRX__ ) || defined( __ICCRX__ ) || defined( __RX__ )
 /* Store R_SCI_PinSet_SCI1() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI1())
-#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI1() )
+    #elif defined( __CCRL__ ) || defined( __ICCRL78__ ) || defined( __RL )
 /* Emptying R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
-#endif
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH1)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH1_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH1_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (2)
-#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
+    #endif
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH1 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH1_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH1_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 2 )
+    #if defined( __CCRX__ ) || defined( __ICCRX__ ) || defined( __RX__ )
 /* Store R_SCI_PinSet_SCI2() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI2())
-#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI2() )
+    #elif defined( __CCRL__ ) || defined( __ICCRL78__ ) || defined( __RL )
 /* Emptying R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
-#endif
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH2)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH2_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH2_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (3)
-#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
+    #endif
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH2 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH2_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH2_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 3 )
+    #if defined( __CCRX__ ) || defined( __ICCRX__ ) || defined( __RX__ )
 /* Store R_SCI_PinSet_SCI3() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI3())
-#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI3() )
+    #elif defined( __CCRL__ ) || defined( __ICCRL78__ ) || defined( __RL )
 /* Emptying R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
-#endif
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH3)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH3_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH3_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (4)
+        #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()
+    #endif
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH3 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH3_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH3_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 4 )
 /* Store R_SCI_PinSet_SCI4() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI4())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH4)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH4_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH4_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (5)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI4() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH4 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH4_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH4_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 5 )
 /* Store R_SCI_PinSet_SCI5() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI5())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH5)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH5_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH5_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (6)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI5() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH5 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH5_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH5_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 6 )
 /* Store R_SCI_PinSet_SCI6() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI6())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH6)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH6_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH6_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (7)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI6() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH6 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH6_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH6_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 7 )
 /* Store R_SCI_PinSet_SCI7() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI7())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH7)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH7_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH7_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (8)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI7() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH7 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH7_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH7_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 8 )
 /* Store R_SCI_PinSet_SCI8() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI8())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH8)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH8_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH8_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (9)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI8() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH8 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH8_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH8_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 9 )
 /* Store R_SCI_PinSet_SCI9() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI9())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH9)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH9_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH9_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (10)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI9() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH9 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH9_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH9_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 10 )
 /* Store R_SCI_PinSet_SCI10() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI10())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH10)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH10_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH10_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (11)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI10() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH10 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH10_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH10_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 11 )
 /* Store R_SCI_PinSet_SCI11() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI11())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH11)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH11_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH11_RX_BUFSIZ)
-#elif CELLULAR_CFG_UART_SCI_CH == (12)
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI11() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH11 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH11_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH11_RX_BUFSIZ )
+#elif CELLULAR_CFG_UART_SCI_CH == ( 12 )
 /* Store R_SCI_PinSet_SCI12() in R_SCI_CFG_PINSET_CELLULAR_SERIAL() */
-#define R_SCI_CFG_PINSET_CELLULAR_SERIAL()      (R_SCI_PinSet_SCI12())
-#define R_SCI_CFG_CELLULAR_SERIAL_CH            (SCI_CH12)
-#define R_SCI_CFG_TX_BUFSIZE                    (SCI_CFG_CH12_TX_BUFSIZ)
-#define R_SCI_CFG_RX_BUFSIZE                    (SCI_CFG_CH12_RX_BUFSIZ)
-#else
-#error "Error! Invalid setting for CELLULAR_UART_SCI_CH in cellular_config.h"
+    #define R_SCI_CFG_PINSET_CELLULAR_SERIAL()    ( R_SCI_PinSet_SCI12() )
+    #define R_SCI_CFG_CELLULAR_SERIAL_CH    ( SCI_CH12 )
+    #define R_SCI_CFG_TX_BUFSIZE            ( SCI_CFG_CH12_TX_BUFSIZ )
+    #define R_SCI_CFG_RX_BUFSIZE            ( SCI_CFG_CH12_RX_BUFSIZ )
+#else  /* ifndef CELLULAR_CFG_UART_SCI_CH */
+    #error "Error! Invalid setting for CELLULAR_UART_SCI_CH in cellular_config.h"
 #endif /* CELLULAR_CFG_UART_SCI_CH */
 
-#if R_SCI_CFG_TX_BUFSIZE < (2048)
-#error "The SCI send buffer size is too small."
+#if R_SCI_CFG_TX_BUFSIZE < ( 2048 )
+    #error "The SCI send buffer size is too small."
 #endif
-#if R_SCI_CFG_RX_BUFSIZE < (2048)
-#error "The SCI receive buffer size is too small."
+#if R_SCI_CFG_RX_BUFSIZE < ( 2048 )
+    #error "The SCI receive buffer size is too small."
 #endif
-#if BSP_CFG_RTOS_USED == (1)
-#if CELLULAR_CFG_SCI_PRIORITY > configMAX_SYSCALL_INTERRUPT_PRIORITY
-#error "SCI interrupt priority is outside the control of the FreeRTOS."
-#endif
+#if BSP_CFG_RTOS_USED == ( 1 )
+    #if CELLULAR_CFG_SCI_PRIORITY > configMAX_SYSCALL_INTERRUPT_PRIORITY
+        #error "SCI interrupt priority is outside the control of the FreeRTOS."
+    #endif
 #endif
 
 /**********************************************************************************************************************
@@ -154,8 +155,9 @@
 extern st_cellular_ctrl_t * gp_cellular_ctrl;
 
 /*****************************************************************************
- * Private Functions
- *****************************************************************************/
+* Private Functions
+*****************************************************************************/
+
 /****************************************************************************
  * Function Name  @fn            cellular_power_down
  * Description    @details       Stop the power supply to the module.
@@ -168,7 +170,7 @@ extern st_cellular_ctrl_t * gp_cellular_ctrl;
  *                @retval        CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING -
  *                                  Other AT commands are running.
  ***************************************************************************/
-e_cellular_err_t cellular_power_down (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_power_down( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************
  * Function Name  @fn            cellular_serial_open
@@ -180,7 +182,7 @@ e_cellular_err_t cellular_power_down (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_SERIAL_OPEN -
  *                                  Serial initialization failed.
  *********************************************************************************************/
-e_cellular_err_t cellular_serial_open (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_serial_open( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************
  * Function Name  @fn            cellular_serial_close
@@ -188,7 +190,7 @@ e_cellular_err_t cellular_serial_open (st_cellular_ctrl_t * const p_ctrl);
  * Arguments      @param[in/out] p_ctrl -
  *                                  Pointer to managed structure.
  *********************************************************************************************/
-void cellular_serial_close (st_cellular_ctrl_t * const p_ctrl);
+void cellular_serial_close( st_cellular_ctrl_t * const p_ctrl );
 
 /****************************************************************************
  * Function Name  @fn            cellular_semaphore_init
@@ -200,7 +202,7 @@ void cellular_serial_close (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_SEMAPHORE_INIT -
  *                                  Failed to initialize the semaphore.
  ***************************************************************************/
-e_cellular_err_t cellular_semaphore_init (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_semaphore_init( st_cellular_ctrl_t * const p_ctrl );
 
 /****************************************************************************
  * Function Name  @fn            cellular_socket_init
@@ -212,7 +214,7 @@ e_cellular_err_t cellular_semaphore_init (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_BYTEQ_OPEN -
  *                                  Failed to initialize the byte queue.
  ***************************************************************************/
-e_cellular_err_t cellular_socket_init (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_socket_init( st_cellular_ctrl_t * const p_ctrl );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_timeout_init
@@ -222,7 +224,8 @@ e_cellular_err_t cellular_socket_init (st_cellular_ctrl_t * const p_ctrl);
  *                @param[in]     timeout_ms -
  *                                  Timeout millisecond.
  ******************************************************************************/
-void cellular_timeout_init (st_cellular_time_ctrl_t * const p_timeout_ctrl, const uint32_t timeout_ms);
+void cellular_timeout_init( st_cellular_time_ctrl_t * const p_timeout_ctrl,
+                            const uint32_t timeout_ms );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_check_timeout
@@ -234,7 +237,7 @@ void cellular_timeout_init (st_cellular_time_ctrl_t * const p_timeout_ctrl, cons
  *                @retval        CELLULAR_TIMEOUT; -
  *                                  Timeout occurs.
  ******************************************************************************/
-e_cellular_timeout_check_t cellular_check_timeout (st_cellular_time_ctrl_t * const p_timeout_ctrl);
+e_cellular_timeout_check_t cellular_check_timeout( st_cellular_time_ctrl_t * const p_timeout_ctrl );
 
 /************************************************************************
  * Function Name  @fn            cellular_shutdownsocket
@@ -250,7 +253,8 @@ e_cellular_timeout_check_t cellular_check_timeout (st_cellular_time_ctrl_t * con
  *                @retval        CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING -
  *                                  Other AT commands are running.
  ***********************************************************************/
-e_cellular_err_t cellular_shutdownsocket (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no);
+e_cellular_err_t cellular_shutdownsocket( st_cellular_ctrl_t * const p_ctrl,
+                                          const uint8_t socket_no );
 
 /************************************************************************
  * Function Name  @fn            cellular_closesocket
@@ -266,7 +270,8 @@ e_cellular_err_t cellular_shutdownsocket (st_cellular_ctrl_t * const p_ctrl, con
  *                @retval        CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING -
  *                                  Other AT commands are running.
  ***********************************************************************/
-e_cellular_err_t cellular_closesocket (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no);
+e_cellular_err_t cellular_closesocket( st_cellular_ctrl_t * const p_ctrl,
+                                       const uint8_t socket_no );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_disconnect
@@ -280,7 +285,7 @@ e_cellular_err_t cellular_closesocket (st_cellular_ctrl_t * const p_ctrl, const 
  *                @retval        CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING -
  *                                  Other AT commands are running.
  ******************************************************************************/
-e_cellular_err_t cellular_disconnect (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_disconnect( st_cellular_ctrl_t * const p_ctrl );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_module_reset
@@ -292,7 +297,7 @@ e_cellular_err_t cellular_disconnect (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ******************************************************************************/
-e_cellular_err_t cellular_module_reset (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_module_reset( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************
  * Function Name  @fn            cellular_irq_open
@@ -304,7 +309,7 @@ e_cellular_err_t cellular_module_reset (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_IRQ_OPEN -
  *                                  IRQ initialization failed.
  *********************************************************************************************/
-e_cellular_err_t cellular_irq_open (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_irq_open( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************
  * Function Name  @fn            cellular_irq_close
@@ -312,7 +317,7 @@ e_cellular_err_t cellular_irq_open (st_cellular_ctrl_t * const p_ctrl);
  * Arguments      @param[in/out] p_ctrl -
  *                                  Pointer to managed structure.
  *********************************************************************************************/
-void cellular_irq_close (st_cellular_ctrl_t * const p_ctrl);
+void cellular_irq_close( st_cellular_ctrl_t * const p_ctrl );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_rts_ctrl
@@ -320,19 +325,19 @@ void cellular_irq_close (st_cellular_ctrl_t * const p_ctrl);
  * Arguments      @param[in]     lowhigh -
  *                                  Control direction.
  ******************************************************************************/
-void cellular_rts_ctrl (const uint8_t lowhigh);
+void cellular_rts_ctrl( const uint8_t lowhigh );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_rts_hw_flow_enable
  * Description    @details       Enable hardware flow.
  ******************************************************************************/
-void cellular_rts_hw_flow_enable (void);
+void cellular_rts_hw_flow_enable( void );
 
 /*******************************************************************************
  * Function Name  @fn            cellular_rts_hw_flow_disable
  * Description    @details       Disable hardware flow.
  ******************************************************************************/
-void cellular_rts_hw_flow_disable (void);
+void cellular_rts_hw_flow_disable( void );
 
 /***********************************************************************************************
  * Function Name  @fn            cellular_recv_task
@@ -340,10 +345,10 @@ void cellular_rts_hw_flow_disable (void);
  * Arguments      @param[in/out] p_pvParameters -
  *                                  Pointer to the parameter given at the time of task creation.
  **********************************************************************************************/
-#if BSP_CFG_RTOS_USED == (1)
-void cellular_recv_task (void * p_pvParameters);
-#elif BSP_CFG_RTOS_USED == (5)
-void cellular_recv_task (ULONG p_pvParameters);
+#if BSP_CFG_RTOS_USED == ( 1 )
+    void cellular_recv_task( void * p_pvParameters );
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    void cellular_recv_task( ULONG p_pvParameters );
 #endif
 
 /**************************************************************************************************************
@@ -352,10 +357,10 @@ void cellular_recv_task (ULONG p_pvParameters);
  * Arguments      @param[in/out] p_pvParameters -
  *                                  Pointer to the parameter given at the time of task creation.
  *************************************************************************************************************/
-#if BSP_CFG_RTOS_USED == (1)
-void cellular_ring_task (void * p_pvParameters);
-#elif BSP_CFG_RTOS_USED == (5)
-void cellular_ring_task (ULONG p_pvParameters);
+#if BSP_CFG_RTOS_USED == ( 1 )
+    void cellular_ring_task( void * p_pvParameters );
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    void cellular_ring_task( ULONG p_pvParameters );
 #endif
 
 /****************************************************************************
@@ -370,7 +375,7 @@ void cellular_ring_task (ULONG p_pvParameters);
  *                @retval        CELLULAR_ERR_CREATE_TASK -
  *                                  Failed to create task.
  ***************************************************************************/
-e_cellular_err_t cellular_start_recv_task (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_start_recv_task( st_cellular_ctrl_t * const p_ctrl );
 
 /****************************************************************************
  * Function Name  @fn            cellular_start_ring_task
@@ -384,7 +389,7 @@ e_cellular_err_t cellular_start_recv_task (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_CREATE_TASK -
  *                                  Failed to create task.
  ***************************************************************************/
-e_cellular_err_t cellular_start_ring_task (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_err_t cellular_start_ring_task( st_cellular_ctrl_t * const p_ctrl );
 
 /****************************************************************************
  * Function Name  @fn            cellular_set_atc_number
@@ -394,7 +399,8 @@ e_cellular_err_t cellular_start_ring_task (st_cellular_ctrl_t * const p_ctrl);
  *                @param[in]     command -
  *                                  Running AT command number.
  ***************************************************************************/
-void cellular_set_atc_number (st_cellular_ctrl_t * const p_ctrl, const e_atc_list_t command);
+void cellular_set_atc_number( st_cellular_ctrl_t * const p_ctrl,
+                              const e_atc_list_t command );
 
 /****************************************************************************
  * Function Name  @fn            cellular_get_atc_response
@@ -416,7 +422,7 @@ void cellular_set_atc_number (st_cellular_ctrl_t * const p_ctrl, const e_atc_lis
  *                @retval        ATC_RETURN_AP_CONNECTING -
  *                                  Module response is "CONNECT".
  *************************************************************************/
-e_cellular_atc_return_t cellular_get_atc_response (st_cellular_ctrl_t * const p_ctrl);
+e_cellular_atc_return_t cellular_get_atc_response( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************
  * Function Name  @fn            cellular_execute_at_command
@@ -440,9 +446,10 @@ e_cellular_atc_return_t cellular_get_atc_response (st_cellular_ctrl_t * const p_
  *                @retval        CELLULAR_ATC_ERR_TIMEOUT -
  *                                  Time out.
  ************************************************************************************/
-e_cellular_err_t cellular_execute_at_command (st_cellular_ctrl_t * const p_ctrl, const uint32_t timeout_ms,
-                                                        const e_cellular_atc_return_t expect_code,
-                                                                const e_atc_list_t command);
+e_cellular_err_t cellular_execute_at_command( st_cellular_ctrl_t * const p_ctrl,
+                                              const uint32_t timeout_ms,
+                                              const e_cellular_atc_return_t expect_code,
+                                              const e_atc_list_t command );
 
 /****************************************************************************************
  * Function Name  @fn            cellular_smcwrx
@@ -456,7 +463,8 @@ e_cellular_err_t cellular_execute_at_command (st_cellular_ctrl_t * const p_ctrl,
  *                @retval        CELLULAR_ATC_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***************************************************************************************/
-e_cellular_err_t cellular_smcwrx (st_cellular_ctrl_t * const p_ctrl, const uint16_t earfcn);
+e_cellular_err_t cellular_smcwrx( st_cellular_ctrl_t * const p_ctrl,
+                                  const uint16_t earfcn );
 
 /**************************************************************************************************************
  * Function Name  @fn            cellular_smcwtx
@@ -474,8 +482,10 @@ e_cellular_err_t cellular_smcwrx (st_cellular_ctrl_t * const p_ctrl, const uint1
  *                @retval        CELLULAR_ATC_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *************************************************************************************************************/
-e_cellular_err_t cellular_smcwtx (st_cellular_ctrl_t * const p_ctrl, const uint8_t enable,
-                                    const uint16_t earfcn, const int32_t level);
+e_cellular_err_t cellular_smcwtx( st_cellular_ctrl_t * const p_ctrl,
+                                  const uint8_t enable,
+                                  const uint16_t earfcn,
+                                  const int32_t level );
 
 /**************************************************************************************************************
  * Function Name  @fn            cellular_getpdpaddr
@@ -485,6 +495,7 @@ e_cellular_err_t cellular_smcwtx (st_cellular_ctrl_t * const p_ctrl, const uint8
  *                @param[in/out] p_addr -
  *                                  Pointer to structure to store address.
  *************************************************************************************************************/
-void cellular_getpdpaddr (st_cellular_ctrl_t * const p_ctrl, st_cellular_ipaddr_t * const p_addr);
+void cellular_getpdpaddr( st_cellular_ctrl_t * const p_ctrl,
+                          st_cellular_ipaddr_t * const p_addr );
 
 #endif /* CELLULAR_PRIVATE_API_H */

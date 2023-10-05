@@ -22,10 +22,10 @@
 **
 ****************************************************************************/
 
-#define _BSD_SOURCE 1
-#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE                1
+#define _DEFAULT_SOURCE            1
 #ifndef __STDC_LIMIT_MACROS
-#  define __STDC_LIMIT_MACROS 1
+    #define __STDC_LIMIT_MACROS    1
 #endif
 
 #include "cbor.h"
@@ -49,9 +49,10 @@
  *
  * \sa cbor_encoder_create_array(), cbor_encoder_create_map()
  */
-CborError cbor_encoder_close_container_checked(CborEncoder *encoder, const CborEncoder *containerEncoder)
+CborError cbor_encoder_close_container_checked( CborEncoder * encoder,
+                                                const CborEncoder * containerEncoder )
 {
-    return cbor_encoder_close_container(encoder, containerEncoder);
+    return cbor_encoder_close_container( encoder, containerEncoder );
 }
 
 /** @} */

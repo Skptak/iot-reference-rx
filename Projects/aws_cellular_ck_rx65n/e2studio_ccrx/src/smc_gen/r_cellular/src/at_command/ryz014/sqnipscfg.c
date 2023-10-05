@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnipscfg.c
  * Description  : Function to execute the AT command (SQNIPSCFG).
@@ -46,24 +47,26 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnipscfg
  ************************************************************************************************/
-e_cellular_err_t atc_sqnipscfg(st_cellular_ctrl_t * const p_ctrl, const uint8_t mode)
+e_cellular_err_t atc_sqnipscfg( st_cellular_ctrl_t * const p_ctrl,
+                                const uint8_t mode )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[2][6] = {0};
+    uint8_t str[ 2 ][ 6 ] = { 0 };
 
-    sprintf((char *)str[0], "%d", mode);                                // (uint8_t *)->(char *)
-    sprintf((char *)str[1], "%d", CELLULAR_CFG_PSM_PREPARATION_TIME);   // (uint8_t *)->(char *)
+    sprintf( ( char * ) str[ 0 ], "%d", mode );                              /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 1 ], "%d", CELLULAR_CFG_PSM_PREPARATION_TIME ); /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str[0], str[1]};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str[ 0 ], str[ 1 ] };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SET_INTER_CONFIG][0], // (const uint8_t * const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                    // (const uint8_t * const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SET_INTER_CONFIG ][ 0 ], /* (const uint8_t * const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                           /* (const uint8_t * const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_INTER_CONFIG);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_INTER_CONFIG );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnipscfg
  *********************************************************************************************************************/

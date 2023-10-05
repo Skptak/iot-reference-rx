@@ -319,6 +319,7 @@ static void prvWriteHexBytesToConsole( char * pcDescription,
 }
 
 /*-----------------------------------------------------------*/
+
 /* Attempt to provision the device with a client certificate, associated
  * private and public key pair, and optional Just-in-Time Registration certificate.
  * If either component of the key pair is unavailable in storage, generate a new

@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_disconnect.c
  * Description  : Function to disconnect from the access point.
@@ -47,20 +48,23 @@
 /*******************************************************************************
  * Function Name  @fn            cellular_disconnect
  ******************************************************************************/
-e_cellular_err_t cellular_disconnect(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t cellular_disconnect( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
     {
-        ret = atc_cgatt(p_ctrl, ATC_AP_DISCONNECT);
-        if (CELLULAR_SUCCESS == ret)
+        ret = atc_cgatt( p_ctrl, ATC_AP_DISCONNECT );
+
+        if( CELLULAR_SUCCESS == ret )
         {
             p_ctrl->system_state = CELLULAR_SYSTEM_OPEN;
         }
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+
+        cellular_give_semaphore( p_ctrl->at_semaphore );
     }
     else
     {
@@ -69,6 +73,7 @@ e_cellular_err_t cellular_disconnect(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_disconnect
  *********************************************************************************************************************/

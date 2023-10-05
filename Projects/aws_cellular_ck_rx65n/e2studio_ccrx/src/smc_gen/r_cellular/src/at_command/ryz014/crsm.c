@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : crsm.c
  * Description  : Function to execute the AT command (CRSM).
@@ -46,30 +47,36 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_crsm
  ************************************************************************************************/
-e_cellular_err_t atc_crsm(st_cellular_ctrl_t * const p_ctrl, const uint8_t command, const uint16_t fileid,
-                            const uint8_t para_1, const uint8_t para_2, const uint8_t para_3,
-                            const uint8_t * data, const uint8_t * pathid)
+e_cellular_err_t atc_crsm( st_cellular_ctrl_t * const p_ctrl,
+                           const uint8_t command,
+                           const uint16_t fileid,
+                           const uint8_t para_1,
+                           const uint8_t para_2,
+                           const uint8_t para_3,
+                           const uint8_t * data,
+                           const uint8_t * pathid )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[5][10] = {0};
+    uint8_t str[ 5 ][ 10 ] = { 0 };
 
-    sprintf((char *)str[0], "%d", command);     // (uint8_t *)->(char *)
-    sprintf((char *)str[1], "%d", fileid);      // (uint8_t *)->(char *)
-    sprintf((char *)str[2], "%d", para_1);      // (uint8_t *)->(char *)
-    sprintf((char *)str[3], "%d", para_2);      // (uint8_t *)->(char *)
-    sprintf((char *)str[4], "%d", para_3);      // (uint8_t *)->(char *)
+    sprintf( ( char * ) str[ 0 ], "%d", command ); /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 1 ], "%d", fileid );  /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 2 ], "%d", para_1 );  /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 3 ], "%d", para_2 );  /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 4 ], "%d", para_3 );  /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] =
-                            {str[0], str[1], str[2], str[3], str[4], data, pathid};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] =
+    { str[ 0 ], str[ 1 ], str[ 2 ], str[ 3 ], str[ 4 ], data, pathid };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SEND_COMMAND_TO_SIM][0],  // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                        // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SEND_COMMAND_TO_SIM ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                              /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SEND_COMMAND_TO_SIM);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SEND_COMMAND_TO_SIM );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_crsm
  *********************************************************************************************************************/

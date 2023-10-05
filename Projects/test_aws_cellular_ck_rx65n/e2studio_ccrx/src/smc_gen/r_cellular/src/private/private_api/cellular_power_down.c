@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_power_down.c
  * Description  : Function to shut down the module.
@@ -47,17 +48,17 @@
 /****************************************************************************
  * Function Name  @fn            cellular_power_down
  ***************************************************************************/
-e_cellular_err_t cellular_power_down(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t cellular_power_down( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_ERR_TAKE;
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
 
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
     {
-        ret = atc_sqnsshdn(p_ctrl);
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+        ret = atc_sqnsshdn( p_ctrl );
+        cellular_give_semaphore( p_ctrl->at_semaphore );
     }
     else
     {
@@ -66,6 +67,7 @@ e_cellular_err_t cellular_power_down(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function cellular_power_down
+ * End of function cellular_power_down
  *********************************************************************************************************************/

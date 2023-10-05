@@ -26,6 +26,7 @@
 #ifndef __AWS_CLIENTCREDENTIAL__H__
 #define __AWS_CLIENTCREDENTIAL__H__
 #include "test_param_config.h"
+
 /*
  * @brief MQTT Broker endpoint.
  *

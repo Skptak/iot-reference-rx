@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_free.c
  * Description  : Function to free memory.
@@ -45,19 +46,18 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_free
  ****************************************************************************************/
-void cellular_free(void * p_free)
+void cellular_free( void * p_free )
 {
-    if (NULL != p_free)
+    if( NULL != p_free )
     {
-#if BSP_CFG_RTOS_USED == (1)
-        vPortFree(p_free);
-#elif BSP_CFG_RTOS_USED == (5)
-        tx_block_release(p_free);
-#endif
+        #if BSP_CFG_RTOS_USED == ( 1 )
+            vPortFree( p_free );
+        #elif BSP_CFG_RTOS_USED == ( 5 )
+            tx_block_release( p_free );
+        #endif
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_free
  *********************************************************************************************************************/

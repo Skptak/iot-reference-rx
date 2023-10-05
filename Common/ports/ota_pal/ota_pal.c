@@ -152,13 +152,13 @@ static uint8_t * otaPal_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define OTA_FLASHING_IN_PROGRESS                              ( 0 )
 #define OTA_FLASHING_COMPLETE                                 ( 1 )
 
-#define OTA_SIGNATURE_SEQUENCE_TOP_VALUE                     ( 0x30 )
-#define OTA_SIGNATURE_INTEGER_VALUE                          ( 0x02 )
-#define OTA_SIGNATURE_NOT_INCLUDE_NEGATIVE_NUMBER_VALUE      ( 0x20 )
-#define OTA_SIGNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE          ( 0x21 )
-#define OTA_SIGNATURE_DATA_HALF_LENGTH                       ( 32 )
-#define OTA_SIGNATURE_SEQUENCE_INFO_LENGTH                   ( 2 )
-#define OTA_SIGNATURE_SKIP                                   ( 2 )
+#define OTA_SIGNATURE_SEQUENCE_TOP_VALUE                      ( 0x30 )
+#define OTA_SIGNATURE_INTEGER_VALUE                           ( 0x02 )
+#define OTA_SIGNATURE_NOT_INCLUDE_NEGATIVE_NUMBER_VALUE       ( 0x20 )
+#define OTA_SIGNATURE_INCLUDE_NEGATIVE_NUMBER_VALUE           ( 0x21 )
+#define OTA_SIGNATURE_DATA_HALF_LENGTH                        ( 32 )
+#define OTA_SIGNATURE_SEQUENCE_INFO_LENGTH                    ( 2 )
+#define OTA_SIGNATURE_SKIP                                    ( 2 )
 
 #define OTA_FLASH_MIN_PGM_SIZE_MASK                           ( 0xFFFFFFFF - FLASH_CF_MIN_PGM_SIZE + 1 )
 
@@ -580,8 +580,8 @@ static OtaPalStatus_t otaPal_CheckFileSignature( OtaFileContext_t * const pFileC
     }
     else
     {
-    	xSemaphoreTake( xSemaphoreFlashing, portMAX_DELAY );
-    	xSemaphoreGive( xSemaphoreFlashing );
+        xSemaphoreTake( xSemaphoreFlashing, portMAX_DELAY );
+        xSemaphoreGive( xSemaphoreFlashing );
     }
 
     /* Verify an ECDSA-SHA256 signature. */
@@ -700,7 +700,7 @@ OtaPalStatus_t otaPal_ResetDevice( OtaFileContext_t * const pFileContext )
         R_BSP_InterruptsDisable();
 
         /* For test code: If you want to run OTA without boot_loader, please remove the following comment out. */
-        // R_FLASH_Control( FLASH_CMD_BANK_TOGGLE, NULL );
+        /* R_FLASH_Control( FLASH_CMD_BANK_TOGGLE, NULL ); */
 
         R_BSP_RegisterProtectDisable( BSP_REG_PROTECT_LPC_CGC_SWR );
         SYSTEM.SWRR = 0xa501;

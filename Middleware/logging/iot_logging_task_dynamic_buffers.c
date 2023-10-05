@@ -246,27 +246,27 @@ static void prvLoggingPrintfCommon( uint8_t usLoggingLevel,
         {
             /* Add metadata of task name and tick count if config is enabled. */
             #if ( configLOGGING_INCLUDE_TIME_AND_TASK_NAME == 1 )
+            {
+                const char * pcTaskName;
+                const char * pcNoTask = "None";
+                static BaseType_t xMessageNumber = 0;
+
+                /* Add a time stamp and the name of the calling task to the
+                 * start of the log. */
+                if( xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED )
                 {
-                    const char * pcTaskName;
-                    const char * pcNoTask = "None";
-                    static BaseType_t xMessageNumber = 0;
-
-                    /* Add a time stamp and the name of the calling task to the
-                     * start of the log. */
-                    if( xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED )
-                    {
-                        pcTaskName = pcTaskGetName( NULL );
-                    }
-                    else
-                    {
-                        pcTaskName = pcNoTask;
-                    }
-
-                    xLength += snprintf_safe( pcPrintString, configLOGGING_MAX_MESSAGE_LENGTH, "%lu %lu [%s] ",
-                                              ( unsigned long ) xMessageNumber++,
-                                              ( unsigned long ) xTaskGetTickCount(),
-                                              pcTaskName );
+                    pcTaskName = pcTaskGetName( NULL );
                 }
+                else
+                {
+                    pcTaskName = pcNoTask;
+                }
+
+                xLength += snprintf_safe( pcPrintString, configLOGGING_MAX_MESSAGE_LENGTH, "%lu %lu [%s] ",
+                                          ( unsigned long ) xMessageNumber++,
+                                          ( unsigned long ) xTaskGetTickCount(),
+                                          pcTaskName );
+            }
             #endif /* if ( configLOGGING_INCLUDE_TIME_AND_TASK_NAME == 1 ) */
         }
 

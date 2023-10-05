@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnsrecv.c
  * Description  : Function to execute the AT command (SQNSRECV).
@@ -46,24 +47,27 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnsrecv
  ************************************************************************************************/
-e_cellular_err_t atc_sqnsrecv(st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no, const int32_t length)
+e_cellular_err_t atc_sqnsrecv( st_cellular_ctrl_t * const p_ctrl,
+                               const uint8_t socket_no,
+                               const int32_t length )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[2][10] = {0};
+    uint8_t str[ 2 ][ 10 ] = { 0 };
 
-    sprintf((char *)str[0], "%d", socket_no);   // (uint8_t *)->(char *)
-    sprintf((char *)str[1], "%d", length);      // (uint8_t *)->(char *)
+    sprintf( ( char * ) str[ 0 ], "%d", socket_no ); /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 1 ], "%d", length );    /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str[0], str[1]};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str[ 0 ], str[ 1 ] };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-            (const uint8_t *)&gp_at_command[ATC_RECV_SOCKET][0],    // (const uint8_t *const *)->(const uint8_t **)
-                (const uint8_t **)&p_command_arg);                  // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_RECV_SOCKET ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                      /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_RECV_SOCKET);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_RECV_SOCKET );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnsrecv
  *********************************************************************************************************************/

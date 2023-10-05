@@ -1,27 +1,29 @@
 /***********************************************************************************************************************
 * DISCLAIMER
-* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
-* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all 
-* applicable laws, including copyright laws. 
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+* applicable laws, including copyright laws.
 * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
-* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, 
-* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM 
-* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES 
-* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS 
+* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
 * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
-* this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+* this software. By using this software, you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2017 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * File Name    : hwsetup.c
 * Device(s)    : RX
 * H/W Platform : GENERIC_RX65N
 * Description  : Defines the initialization routines used each time the MCU is restarted.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version   Description
 *         : 15.05.2017 1.00      First Release
@@ -36,67 +38,69 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Includes   <System Includes> , "Project Includes"
+*  Includes   <System Includes> , "Project Includes"
 ***********************************************************************************************************************/
 /* I/O Register and board definitions */
 #include "platform.h"
 #if BSP_CFG_CONFIGURATOR_SELECT == 1
-#include "r_cg_macrodriver.h"
+    #include "r_cg_macrodriver.h"
 #endif
 
 /***********************************************************************************************************************
-Typedef definitions
+*  Typedef definitions
 ***********************************************************************************************************************/
 R_BSP_PRAGMA_UNPACK
-typedef struct bsp_bsc {
-    union {
+typedef struct bsp_bsc
+{
+    union
+    {
         uint32_t u_long;
         R_BSP_ATTRIB_STRUCT_BIT_ORDER_LEFT_13(
-            uint32_t prerr:1,
-            uint32_t :1,
-            uint32_t rpstop:1,
-            uint32_t :10,
-            uint32_t pr5sel:3,
-            uint32_t :1,
-            uint32_t pr4sel:3,
-            uint32_t :1,
-            uint32_t pr3sel:3,
-            uint32_t :1,
-            uint32_t pr2sel:3,
-            uint32_t :1,
-            uint32_t pr1sel:3
-        ) bit;
+            uint32_t prerr: 1,
+            uint32_t: 1,
+            uint32_t rpstop: 1,
+            uint32_t: 10,
+            uint32_t pr5sel: 3,
+            uint32_t: 1,
+            uint32_t pr4sel: 3,
+            uint32_t: 1,
+            uint32_t pr3sel: 3,
+            uint32_t: 1,
+            uint32_t pr2sel: 3,
+            uint32_t: 1,
+            uint32_t pr1sel: 3
+            ) bit;
     } ebmapcr;
 } st_bsp_bsc_t;
 R_BSP_PRAGMA_PACKOPTION
 
 /***********************************************************************************************************************
-Private global variables and functions
+*  Private global variables and functions
 ***********************************************************************************************************************/
 /* When using the user startup program, disable the following code. */
 #if BSP_CFG_STARTUP_DISABLE == 0
 /* ROM cache configuration function declaration */
-#if BSP_CFG_ROM_CACHE_ENABLE == 1
-static void rom_cache_function_set(void);
-#endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
+    #if BSP_CFG_ROM_CACHE_ENABLE == 1
+        static void rom_cache_function_set( void );
+    #endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
 #endif /* BSP_CFG_STARTUP_DISABLE == 0 */
 
 /* MCU I/O port configuration function declaration */
-static void output_ports_configure(void);
+static void output_ports_configure( void );
 
 /* Interrupt configuration function declaration */
-static void interrupts_configure(void);
+static void interrupts_configure( void );
 
 /* MCU peripheral module configuration function declaration */
-static void peripheral_modules_enable(void);
+static void peripheral_modules_enable( void );
 
 /* ADC initial configuration function declaration */
-static void bsp_adc_initial_configure(void);
+static void bsp_adc_initial_configure( void );
 
-#if defined(BSP_MCU_RX65N_2MB)
+#if defined( BSP_MCU_RX65N_2MB )
 /* BUS initial configuration function declaration */
-static void bsp_bsc_initial_configure(void);
-#endif/* BSP_MCU_RX65N_2MB */
+    static void bsp_bsc_initial_configure( void );
+#endif /* BSP_MCU_RX65N_2MB */
 
 /***********************************************************************************************************************
 * Function name: hardware_setup
@@ -104,54 +108,57 @@ static void bsp_bsc_initial_configure(void);
 * Arguments    : none
 * Return value : none
 ***********************************************************************************************************************/
-void hardware_setup(void)
+void hardware_setup( void )
 {
 /* When using the user startup program, disable the following code. */
-#if BSP_CFG_STARTUP_DISABLE == 0
-#if BSP_CFG_ROM_CACHE_ENABLE == 1
-    /* Initialize ROM cache function */
-    rom_cache_function_set();
-#endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
-#endif /* BSP_CFG_STARTUP_DISABLE == 0 */
+    #if BSP_CFG_STARTUP_DISABLE == 0
+        #if BSP_CFG_ROM_CACHE_ENABLE == 1
+            /* Initialize ROM cache function */
+            rom_cache_function_set();
+        #endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
+    #endif /* BSP_CFG_STARTUP_DISABLE == 0 */
 
     output_ports_configure();
     interrupts_configure();
     peripheral_modules_enable();
     bsp_non_existent_port_init();
     bsp_adc_initial_configure();
-#if defined(BSP_MCU_RX65N_2MB)
-    bsp_bsc_initial_configure();
-#endif/* BSP_MCU_RX65N_2MB */
+    #if defined( BSP_MCU_RX65N_2MB )
+        bsp_bsc_initial_configure();
+    #endif /* BSP_MCU_RX65N_2MB */
 } /* End of function hardware_setup() */
 
 /* When using the user startup program, disable the following code. */
 #if BSP_CFG_STARTUP_DISABLE == 0
-#if BSP_CFG_ROM_CACHE_ENABLE == 1
+    #if BSP_CFG_ROM_CACHE_ENABLE == 1
+
 /***********************************************************************************************************************
 * Function name: rom_cache_function_set
 * Description  : Configures the rom cache function.
 * Arguments    : none
 * Return value : none
 ***********************************************************************************************************************/
-static void rom_cache_function_set (void)
-{
-    /* Invalidates the contents of the ROM cache. */
-    FLASH.ROMCIV.WORD = 0x0001;
-    /* WAIT_LOOP */
-    while (FLASH.ROMCIV.WORD != 0x0000)
-    {
-        /* wait for bit to set */
-    }
+        static void rom_cache_function_set( void )
+        {
+            /* Invalidates the contents of the ROM cache. */
+            FLASH.ROMCIV.WORD = 0x0001;
 
-    /* Enables the ROM cache. */
-    FLASH.ROMCE.WORD = 0x0001;
-    /* WAIT_LOOP */
-    while (FLASH.ROMCE.WORD != 0x0001)
-    {
-        /* wait for bit to set */
-    }
-} /* End of function rom_cache_function_set() */
-#endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
+            /* WAIT_LOOP */
+            while( FLASH.ROMCIV.WORD != 0x0000 )
+            {
+                /* wait for bit to set */
+            }
+
+            /* Enables the ROM cache. */
+            FLASH.ROMCE.WORD = 0x0001;
+
+            /* WAIT_LOOP */
+            while( FLASH.ROMCE.WORD != 0x0001 )
+            {
+                /* wait for bit to set */
+            }
+        } /* End of function rom_cache_function_set() */
+    #endif /* BSP_CFG_ROM_CACHE_ENABLE == 1 */
 #endif /* BSP_CFG_STARTUP_DISABLE == 0 */
 
 /***********************************************************************************************************************
@@ -160,7 +167,7 @@ static void rom_cache_function_set (void)
 * Arguments    : none
 * Return value : none
 ***********************************************************************************************************************/
-static void output_ports_configure(void)
+static void output_ports_configure( void )
 {
     /* Add code here to setup additional output ports */
     R_BSP_NOP();
@@ -172,7 +179,7 @@ static void output_ports_configure(void)
 * Arguments    : none
 * Return value : none
 ***********************************************************************************************************************/
-static void interrupts_configure(void)
+static void interrupts_configure( void )
 {
     /* Add code here to setup additional interrupts */
     R_BSP_NOP();
@@ -184,13 +191,13 @@ static void interrupts_configure(void)
 * Arguments    : none
 * Return value : none
 ***********************************************************************************************************************/
-static void peripheral_modules_enable(void)
+static void peripheral_modules_enable( void )
 {
     /* Add code here to enable peripherals used by the application */
-#if BSP_CFG_CONFIGURATOR_SELECT == 1
-    /* Smart Configurator initialization function */
-    R_Systeminit();
-#endif
+    #if BSP_CFG_CONFIGURATOR_SELECT == 1
+        /* Smart Configurator initialization function */
+        R_Systeminit();
+    #endif
 } /* End of function peripheral_modules_enable() */
 
 /***********************************************************************************************************************
@@ -201,7 +208,7 @@ static void peripheral_modules_enable(void)
 * Note         : This function should be called when the PSW.I bit is 0 (interrupt disabled).
 *                This function should be called when the ADCSR.ADST bit is 0.
 ***********************************************************************************************************************/
-static void bsp_adc_initial_configure(void)
+static void bsp_adc_initial_configure( void )
 {
     uint32_t tmp_mstp;
 
@@ -209,12 +216,12 @@ static void bsp_adc_initial_configure(void)
     SYSTEM.PRCR.WORD = 0xA502;
 
     /* Store the value of the MSTPCR. */
-    tmp_mstp = MSTP(S12AD1);
+    tmp_mstp = MSTP( S12AD1 );
 
     /* Release from the module-stop state */
-    MSTP(S12AD1) = 0;
+    MSTP( S12AD1 ) = 0;
 
-    if(0 != MSTP(S12AD1))
+    if( 0 != MSTP( S12AD1 ) )
     {
         R_BSP_NOP();
     }
@@ -229,13 +236,14 @@ static void bsp_adc_initial_configure(void)
     S12AD1.ADSAMPR.BYTE = 0x02;
 
     /* Restore the value of the MSTPCR. */
-    MSTP(S12AD1) = tmp_mstp;
+    MSTP( S12AD1 ) = tmp_mstp;
 
     /* Protect on. */
     SYSTEM.PRCR.WORD = 0xA500;
 } /* End of function bsp_adc_initial_configure() */
 
-#if defined(BSP_MCU_RX65N_2MB)
+#if defined( BSP_MCU_RX65N_2MB )
+
 /***********************************************************************************************************************
 * Function name: bsp_bsc_initial_configure
 * Description  : Configures the BUS initial settings
@@ -243,20 +251,19 @@ static void bsp_adc_initial_configure(void)
 * Return value : none
 * Note         : The EBMAPCR register is only available for products with at least 1.5 Mbytes of code flash memory.
 ***********************************************************************************************************************/
-static void bsp_bsc_initial_configure(void)
-{
-    st_bsp_bsc_t bsp_bsc;
+    static void bsp_bsc_initial_configure( void )
+    {
+        st_bsp_bsc_t bsp_bsc;
 
-    /* Setting priority when bus right request contention occurs. */
-    bsp_bsc.ebmapcr.u_long     = BSC.EBMAPCR.LONG;
-    bsp_bsc.ebmapcr.bit.pr1sel = BSP_CFG_EBMAPCR_1ST_PRIORITY;
-    bsp_bsc.ebmapcr.bit.pr2sel = BSP_CFG_EBMAPCR_2ND_PRIORITY;
-    bsp_bsc.ebmapcr.bit.pr3sel = BSP_CFG_EBMAPCR_3RD_PRIORITY;
-    bsp_bsc.ebmapcr.bit.pr4sel = BSP_CFG_EBMAPCR_4TH_PRIORITY;
-    bsp_bsc.ebmapcr.bit.pr5sel = BSP_CFG_EBMAPCR_5TH_PRIORITY;
+        /* Setting priority when bus right request contention occurs. */
+        bsp_bsc.ebmapcr.u_long = BSC.EBMAPCR.LONG;
+        bsp_bsc.ebmapcr.bit.pr1sel = BSP_CFG_EBMAPCR_1ST_PRIORITY;
+        bsp_bsc.ebmapcr.bit.pr2sel = BSP_CFG_EBMAPCR_2ND_PRIORITY;
+        bsp_bsc.ebmapcr.bit.pr3sel = BSP_CFG_EBMAPCR_3RD_PRIORITY;
+        bsp_bsc.ebmapcr.bit.pr4sel = BSP_CFG_EBMAPCR_4TH_PRIORITY;
+        bsp_bsc.ebmapcr.bit.pr5sel = BSP_CFG_EBMAPCR_5TH_PRIORITY;
 
-    /* Set to EBMAPCR register */
-    BSC.EBMAPCR.LONG = bsp_bsc.ebmapcr.u_long;
-} /* End of function bsp_bsc_initial_configure() */
-#endif/* BSP_MCU_RX65N_2MB */
-
+        /* Set to EBMAPCR register */
+        BSC.EBMAPCR.LONG = bsp_bsc.ebmapcr.u_long;
+    } /* End of function bsp_bsc_initial_configure() */
+#endif /* BSP_MCU_RX65N_2MB */

@@ -114,6 +114,6 @@ r_ether_rx
         |
         +---rx72n
         |    r_ether_setting_rx72n.c
-        |    
+        |
         \---rx66n
              r_ether_setting_rx66n.c

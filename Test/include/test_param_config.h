@@ -43,7 +43,7 @@
  *
  * #define MQTT_SERVER_ENDPOINT   "PLACE_HOLDER"
  */
-#define MQTT_SERVER_ENDPOINT   "PLACE_HOLDER"
+#define MQTT_SERVER_ENDPOINT    "PLACE_HOLDER"
 
 /**
  * @brief Port of the MQTT broker to connect to in mqtt test.
@@ -78,10 +78,10 @@
  *
  * #define ECHO_SERVER_ROOT_CA "PLACE_HOLDER"
  */
-#define ECHO_SERVER_ROOT_CA "PLACE_HOLDER"
+#define ECHO_SERVER_ROOT_CA     "PLACE_HOLDER"
 
 
-	/**
+/**
  * @brief Client certificate to connect to echo server.
  *
  * @note This certificate should be PEM-encoded.
@@ -93,7 +93,7 @@
  *
  * #define TRANSPORT_CLIENT_CERTIFICATE NULL
  */
-#define TRANSPORT_CLIENT_CERTIFICATE NULL
+#define TRANSPORT_CLIENT_CERTIFICATE                       NULL
 
 /**
  * @brief Client private key to connect to echo server.
@@ -103,14 +103,14 @@
  * For qualification, the key should be generated on-device.
  *
  * #define TRANSPORT_CLIENT_PRIVATE_KEY  NULL
-/**
+ * /**
  * @brief Port of the MQTT broker to connect to in mqtt test.
  *
  * #define MQTT_SERVER_PORT       (8883)
  */
-#define TRANSPORT_CLIENT_PRIVATE_KEY  NULL
+#define TRANSPORT_CLIENT_PRIVATE_KEY                       NULL
 
-	/**
+/**
  * @brief Client certificate to connect to MQTT server.
  *
  * @note This certificate should be PEM-encoded.
@@ -122,25 +122,25 @@
  *
  * #define MQTT_CLIENT_CERTIFICATE NULL
  */
-#define MQTT_CLIENT_CERTIFICATE "PLACE_HOLDER"
+#define MQTT_CLIENT_CERTIFICATE                            "PLACE_HOLDER"
 
-	/**
+/**
  * @brief Client private key to connect to MQTT server.
-	 *
-	 * @note This is should only be used for testing purpose.
-	 *
-	 * For qualification, the key should be generated on-device.
-	 *
-	 * #define MQTT_CLIENT_PRIVATE_KEY  NULL
-	 */
-#define MQTT_CLIENT_PRIVATE_KEY  "PLACE_HOLDER"
+ *
+ * @note This is should only be used for testing purpose.
+ *
+ * For qualification, the key should be generated on-device.
+ *
+ * #define MQTT_CLIENT_PRIVATE_KEY  NULL
+ */
+#define MQTT_CLIENT_PRIVATE_KEY                            "PLACE_HOLDER"
 
 /**
  * @brief The IoT Thing name for the device for OTA test and MQTT test.
  *
  * #define IOT_THING_NAME  "PLACE_HOLDER"
  */
-#define IOT_THING_NAME                                   "PLACE_HOLDER"
+#define IOT_THING_NAME                                     "PLACE_HOLDER"
 
 /**
  * @brief The MQTT client identifier used in MQTT test.  Each client identifier
@@ -149,7 +149,7 @@
  *
  * #define MQTT_TEST_CLIENT_IDENTIFIER				"insert here."
  */
-#define MQTT_TEST_CLIENT_IDENTIFIER	IOT_THING_NAME
+#define MQTT_TEST_CLIENT_IDENTIFIER                        IOT_THING_NAME
 
 /**
  * @brief Network buffer size specified in bytes. Must be large enough to hold the maximum
@@ -157,7 +157,7 @@
  *
  * #define MQTT_TEST_NETWORK_BUFFER_SIZE			( 5000 )
  */
-#define MQTT_TEST_NETWORK_BUFFER_SIZE    ( 5000 )
+#define MQTT_TEST_NETWORK_BUFFER_SIZE                      ( 5000 )
 
 /**
  * @brief Client private key to connect to echo server.
@@ -168,19 +168,19 @@
  *
  * #define TRANSPORT_CLIENT_PRIVATE_KEY  NULL
  */
-#define PKCS11_TEST_RSA_KEY_SUPPORT                      ( 0 )
-#define PKCS11_TEST_EC_KEY_SUPPORT                       ( 1 )
-#define PKCS11_TEST_IMPORT_PRIVATE_KEY_SUPPORT           ( 1 )
-#define PKCS11_TEST_GENERATE_KEYPAIR_SUPPORT             ( 0 )
-#define PKCS11_TEST_PREPROVISIONED_SUPPORT               ( 0 )
-#define PKCS11_TEST_LABEL_DEVICE_PRIVATE_KEY_FOR_TLS     pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS
-#define PKCS11_TEST_LABEL_DEVICE_PUBLIC_KEY_FOR_TLS      pkcs11configLABEL_DEVICE_PUBLIC_KEY_FOR_TLS
-#define PKCS11_TEST_LABEL_DEVICE_CERTIFICATE_FOR_TLS     pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS
-#define PKCS11_TEST_JITP_CODEVERIFY_ROOT_CERT_SUPPORTED   (0)
+#define PKCS11_TEST_RSA_KEY_SUPPORT                        ( 0 )
+#define PKCS11_TEST_EC_KEY_SUPPORT                         ( 1 )
+#define PKCS11_TEST_IMPORT_PRIVATE_KEY_SUPPORT             ( 1 )
+#define PKCS11_TEST_GENERATE_KEYPAIR_SUPPORT               ( 0 )
+#define PKCS11_TEST_PREPROVISIONED_SUPPORT                 ( 0 )
+#define PKCS11_TEST_LABEL_DEVICE_PRIVATE_KEY_FOR_TLS       pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS
+#define PKCS11_TEST_LABEL_DEVICE_PUBLIC_KEY_FOR_TLS        pkcs11configLABEL_DEVICE_PUBLIC_KEY_FOR_TLS
+#define PKCS11_TEST_LABEL_DEVICE_CERTIFICATE_FOR_TLS       pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS
+#define PKCS11_TEST_JITP_CODEVERIFY_ROOT_CERT_SUPPORTED    ( 0 )
 
-#define OTA_RSA_SHA1                                     1
-#define OTA_RSA_SHA256                                   2
-#define OTA_ECDSA_SHA256                                 3
+#define OTA_RSA_SHA1                                       1
+#define OTA_RSA_SHA256                                     2
+#define OTA_ECDSA_SHA256                                   3
 
 /**
  * @brief Certificate type for OTA PAL test.
@@ -188,26 +188,26 @@
  *
  * #define OTA_PAL_TEST_CERT_TYPE OTA_ECDSA_SHA256
  */
-#define OTA_PAL_TEST_CERT_TYPE                           OTA_ECDSA_SHA256
+#define OTA_PAL_TEST_CERT_TYPE                             OTA_ECDSA_SHA256
 
 /**
  * @brief Path to cert for OTA test PAL. Used to verify signature.
  * If applicable, the device must be pre-provisioned with this certificate. Please see
  * test/common/ota/test_files for the set of certificates.
  */
-#define OTA_PAL_CERTIFICATE_FILE                         "ecdsa-sha256-signer.crt.pem"
+#define OTA_PAL_CERTIFICATE_FILE                           "ecdsa-sha256-signer.crt.pem"
 
 /**
  * @brief Some devices have a hard-coded name for the firmware image to boot.
  */
-#define OTA_PAL_FIRMWARE_FILE                            "dummy.bin"
+#define OTA_PAL_FIRMWARE_FILE                              "dummy.bin"
 
 /**
  * @brief Some boards OTA PAL layers will use the file names passed into it for the
  * image and the certificates because their non-volatile memory is abstracted by a
  * file system. Set this to 1 if that is the case for your device.
  */
-#define OTA_PAL_USE_FILE_SYSTEM                          0
+#define OTA_PAL_USE_FILE_SYSTEM                            0
 
 
 

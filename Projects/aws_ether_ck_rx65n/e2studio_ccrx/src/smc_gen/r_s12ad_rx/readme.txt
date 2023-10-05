@@ -5,12 +5,12 @@ r_s12ad_rx
 
 Overview
 --------------------------------------------------------------------------------
-The r_s12ad_rx module is an A/D driver for the S12AD peripherals. The API 
+The r_s12ad_rx module is an A/D driver for the S12AD peripherals. The API
 includes functions to initialize the peripheral, trigger conversions, check for
 conversion completion, and read the results. The driver supports all channels
-and sensors available on the mcu. The driver can be reduced in size by removing 
-the code used for parameter checking. The configuration option for this can be 
-found in "r_config\r_s12ad_rx_config.h". An original copy of the configuration 
+and sensors available on the mcu. The driver can be reduced in size by removing
+the code used for parameter checking. The configuration option for this can be
+found in "r_config\r_s12ad_rx_config.h". An original copy of the configuration
 file is stored in "r_s12ad_rx\ref\r_s12ad_rx_config_reference.h".
 
 

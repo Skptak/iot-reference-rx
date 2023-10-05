@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : reset.c
  * Description  : Function to execute the AT command (AT^RESET)
@@ -47,24 +48,25 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_reset
  ************************************************************************************************/
-e_cellular_err_t atc_reset(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_reset( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_RESET][0], // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_RESET ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_RESET);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_RESET );
 
-    if (CELLULAR_SUCCESS == ret)
+    if( CELLULAR_SUCCESS == ret )
     {
         p_ctrl->system_state = CELLULAR_SYSTEM_OPEN;
-        cellular_delay_task(CELLULAR_RESET_WAIT);
+        cellular_delay_task( CELLULAR_RESET_WAIT );
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_reset
  *********************************************************************************************************************/

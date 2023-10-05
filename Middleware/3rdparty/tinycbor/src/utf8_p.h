@@ -29,74 +29,108 @@
 
 #include <stdint.h>
 
-static inline uint32_t get_utf8(const uint8_t **buffer, const uint8_t *end)
+static inline uint32_t get_utf8( const uint8_t ** buffer,
+                                 const uint8_t * end )
 {
     int charsNeeded;
     uint32_t uc, min_uc;
     uint8_t b;
     ptrdiff_t n = end - *buffer;
-    if (n == 0)
-        return ~0U;
 
-    uc = *(*buffer)++;
-    if (uc < 0x80) {
+    if( n == 0 )
+    {
+        return ~0U;
+    }
+
+    uc = *( *buffer )++;
+
+    if( uc < 0x80 )
+    {
         /* single-byte UTF-8 */
         return uc;
     }
 
     /* multi-byte UTF-8, decode it */
-    if (unlikely(uc <= 0xC1))
+    if( unlikely( uc <= 0xC1 ) )
+    {
         return ~0U;
-    if (uc < 0xE0) {
+    }
+
+    if( uc < 0xE0 )
+    {
         /* two-byte UTF-8 */
         charsNeeded = 2;
         min_uc = 0x80;
         uc &= 0x1f;
-    } else if (uc < 0xF0) {
+    }
+    else if( uc < 0xF0 )
+    {
         /* three-byte UTF-8 */
         charsNeeded = 3;
         min_uc = 0x800;
         uc &= 0x0f;
-    } else if (uc < 0xF5) {
+    }
+    else if( uc < 0xF5 )
+    {
         /* four-byte UTF-8 */
         charsNeeded = 4;
         min_uc = 0x10000;
         uc &= 0x07;
-    } else {
+    }
+    else
+    {
         return ~0U;
     }
 
-    if (n < charsNeeded - 1)
+    if( n < charsNeeded - 1 )
+    {
         return ~0U;
+    }
 
     /* first continuation character */
-    b = *(*buffer)++;
-    if ((b & 0xc0) != 0x80)
+    b = *( *buffer )++;
+
+    if( ( b & 0xc0 ) != 0x80 )
+    {
         return ~0U;
+    }
+
     uc <<= 6;
     uc |= b & 0x3f;
 
-    if (charsNeeded > 2) {
+    if( charsNeeded > 2 )
+    {
         /* second continuation character */
-        b = *(*buffer)++;
-        if ((b & 0xc0) != 0x80)
+        b = *( *buffer )++;
+
+        if( ( b & 0xc0 ) != 0x80 )
+        {
             return ~0U;
+        }
+
         uc <<= 6;
         uc |= b & 0x3f;
 
-        if (charsNeeded > 3) {
+        if( charsNeeded > 3 )
+        {
             /* third continuation character */
-            b = *(*buffer)++;
-            if ((b & 0xc0) != 0x80)
+            b = *( *buffer )++;
+
+            if( ( b & 0xc0 ) != 0x80 )
+            {
                 return ~0U;
+            }
+
             uc <<= 6;
             uc |= b & 0x3f;
         }
     }
 
     /* overlong sequence? surrogate pair? out or range? */
-    if (uc < min_uc || uc - 0xd800U < 2048U || uc > 0x10ffff)
+    if( ( uc < min_uc ) || ( uc - 0xd800U < 2048U ) || ( uc > 0x10ffff ) )
+    {
         return ~0U;
+    }
 
     return uc;
 }

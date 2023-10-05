@@ -33,7 +33,7 @@ r_cmt_rx
 |
 \---src
         r_cmt_rx.c
-        
+
 r_config
     r_cmt_rx_config.h
-            
+

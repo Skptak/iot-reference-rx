@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_gettime.c
  * Description  : Function to get the time in a module.
@@ -47,24 +48,26 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_GetTime
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_GetTime(st_cellular_ctrl_t * const p_ctrl, st_cellular_datetime_t * const p_time)
+e_cellular_err_t R_CELLULAR_GetTime( st_cellular_ctrl_t * const p_ctrl,
+                                     st_cellular_datetime_t * const p_time )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (NULL == p_time))
+
+    if( ( NULL == p_ctrl ) || ( NULL == p_time ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -73,18 +76,20 @@ e_cellular_err_t R_CELLULAR_GetTime(st_cellular_ctrl_t * const p_ctrl, st_cellul
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
         {
-            memset(p_time, 0, sizeof(st_cellular_datetime_t));
+            memset( p_time, 0, sizeof( st_cellular_datetime_t ) );
             p_ctrl->recv_data = p_time;
-            ret = atc_cclk_check(p_ctrl);
+            ret = atc_cclk_check( p_ctrl );
             p_ctrl->recv_data = NULL;
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
@@ -96,6 +101,7 @@ e_cellular_err_t R_CELLULAR_GetTime(st_cellular_ctrl_t * const p_ctrl, st_cellul
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_GetTime
  *********************************************************************************************************************/

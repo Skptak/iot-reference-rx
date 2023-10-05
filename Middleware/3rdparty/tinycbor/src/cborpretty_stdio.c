@@ -26,14 +26,17 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static CborError cbor_fprintf(void *out, const char *fmt, ...)
+static CborError cbor_fprintf( void * out,
+                               const char * fmt,
+                               ... )
 {
     int n;
 
     va_list list;
-    va_start(list, fmt);
-    n = vfprintf((FILE *)out, fmt, list);
-    va_end(list);
+
+    va_start( list, fmt );
+    n = vfprintf( ( FILE * ) out, fmt, list );
+    va_end( list );
 
     return n < 0 ? CborErrorIO : CborNoError;
 }
@@ -60,9 +63,10 @@ static CborError cbor_fprintf(void *out, const char *fmt, ...)
  *
  * \sa cbor_value_to_pretty(), cbor_value_to_pretty_stream(), cbor_value_to_json_advance()
  */
-CborError cbor_value_to_pretty_advance(FILE *out, CborValue *value)
+CborError cbor_value_to_pretty_advance( FILE * out,
+                                        CborValue * value )
 {
-    return cbor_value_to_pretty_stream(cbor_fprintf, out, value, CborPrettyDefaultFlags);
+    return cbor_value_to_pretty_stream( cbor_fprintf, out, value, CborPrettyDefaultFlags );
 }
 
 /**
@@ -80,8 +84,9 @@ CborError cbor_value_to_pretty_advance(FILE *out, CborValue *value)
  *
  * \sa cbor_value_to_pretty_stream(), cbor_value_to_pretty(), cbor_value_to_json_advance()
  */
-CborError cbor_value_to_pretty_advance_flags(FILE *out, CborValue *value, int flags)
+CborError cbor_value_to_pretty_advance_flags( FILE * out,
+                                              CborValue * value,
+                                              int flags )
 {
-    return cbor_value_to_pretty_stream(cbor_fprintf, out, value, flags);
+    return cbor_value_to_pretty_stream( cbor_fprintf, out, value, flags );
 }
-

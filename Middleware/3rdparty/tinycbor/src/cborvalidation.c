@@ -22,10 +22,10 @@
 **
 ****************************************************************************/
 
-#define _BSD_SOURCE 1
-#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE                1
+#define _DEFAULT_SOURCE            1
 #ifndef __STDC_LIMIT_MACROS
-#  define __STDC_LIMIT_MACROS 1
+    #define __STDC_LIMIT_MACROS    1
 #endif
 
 #include "cbor.h"
@@ -36,13 +36,13 @@
 #include <string.h>
 
 #ifndef CBOR_NO_FLOATING_POINT
-#  include <float.h>
-#  include <math.h>
+    #include <float.h>
+    #include <math.h>
 #endif
 
 
 #ifndef CBOR_PARSER_MAX_RECURSIONS
-#  define CBOR_PARSER_MAX_RECURSIONS 1024
+    #define CBOR_PARSER_MAX_RECURSIONS    1024
 #endif
 
 /**
@@ -120,382 +120,535 @@
  *
  * \par
  * These are the tags known to the current TinyCBOR release:
-<table>
-  <tr>
-    <th>Tag</th>
-    <th>Data Item</th>
-    <th>Semantics</th>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>UTF-8 text string</td>
-    <td>Standard date/time string</td>
-  </td>
-  <tr>
-    <td>1</td>
-    <td>integer</td>
-    <td>Epoch-based date/time</td>
-  </td>
-  <tr>
-    <td>2</td>
-    <td>byte string</td>
-    <td>Positive bignum</td>
-  </td>
-  <tr>
-    <td>3</td>
-    <td>byte string</td>
-    <td>Negative bignum</td>
-  </td>
-  <tr>
-    <td>4</td>
-    <td>array</td>
-    <td>Decimal fraction</td>
-  </td>
-  <tr>
-    <td>5</td>
-    <td>array</td>
-    <td>Bigfloat</td>
-  </td>
-  <tr>
-    <td>16</td>
-    <td>array</td>
-    <td>COSE Single Recipient Encrypted Data Object (RFC 8152)</td>
-  </td>
-  <tr>
-    <td>17</td>
-    <td>array</td>
-    <td>COSE Mac w/o Recipients Object (RFC 8152)</td>
-  </td>
-  <tr>
-    <td>18</td>
-    <td>array</td>
-    <td>COSE Single Signer Data Object (RFC 8162)</td>
-  </td>
-  <tr>
-    <td>21</td>
-    <td>byte string, array, map</td>
-    <td>Expected conversion to base64url encoding</td>
-  </td>
-  <tr>
-    <td>22</td>
-    <td>byte string, array, map</td>
-    <td>Expected conversion to base64 encoding</td>
-  </td>
-  <tr>
-    <td>23</td>
-    <td>byte string, array, map</td>
-    <td>Expected conversion to base16 encoding</td>
-  </td>
-  <tr>
-    <td>24</td>
-    <td>byte string</td>
-    <td>Encoded CBOR data item</td>
-  </td>
-  <tr>
-    <td>32</td>
-    <td>UTF-8 text string</td>
-    <td>URI</td>
-  </td>
-  <tr>
-    <td>33</td>
-    <td>UTF-8 text string</td>
-    <td>base64url</td>
-  </td>
-  <tr>
-    <td>34</td>
-    <td>UTF-8 text string</td>
-    <td>base64</td>
-  </td>
-  <tr>
-    <td>35</td>
-    <td>UTF-8 text string</td>
-    <td>Regular expression</td>
-  </td>
-  <tr>
-    <td>36</td>
-    <td>UTF-8 text string</td>
-    <td>MIME message</td>
-  </td>
-  <tr>
-    <td>96</td>
-    <td>array</td>
-    <td>COSE Encrypted Data Object (RFC 8152)</td>
-  </td>
-  <tr>
-    <td>97</td>
-    <td>array</td>
-    <td>COSE MACed Data Object (RFC 8152)</td>
-  </td>
-  <tr>
-    <td>98</td>
-    <td>array</td>
-    <td>COSE Signed Data Object (RFC 8152)</td>
-  </td>
-  <tr>
-    <td>55799</td>
-    <td>any</td>
-    <td>Self-describe CBOR</td>
-  </td>
-</table>
+ * <table>
+ * <tr>
+ *  <th>Tag</th>
+ *  <th>Data Item</th>
+ *  <th>Semantics</th>
+ * </tr>
+ * <tr>
+ *  <td>0</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>Standard date/time string</td>
+ * </td>
+ * <tr>
+ *  <td>1</td>
+ *  <td>integer</td>
+ *  <td>Epoch-based date/time</td>
+ * </td>
+ * <tr>
+ *  <td>2</td>
+ *  <td>byte string</td>
+ *  <td>Positive bignum</td>
+ * </td>
+ * <tr>
+ *  <td>3</td>
+ *  <td>byte string</td>
+ *  <td>Negative bignum</td>
+ * </td>
+ * <tr>
+ *  <td>4</td>
+ *  <td>array</td>
+ *  <td>Decimal fraction</td>
+ * </td>
+ * <tr>
+ *  <td>5</td>
+ *  <td>array</td>
+ *  <td>Bigfloat</td>
+ * </td>
+ * <tr>
+ *  <td>16</td>
+ *  <td>array</td>
+ *  <td>COSE Single Recipient Encrypted Data Object (RFC 8152)</td>
+ * </td>
+ * <tr>
+ *  <td>17</td>
+ *  <td>array</td>
+ *  <td>COSE Mac w/o Recipients Object (RFC 8152)</td>
+ * </td>
+ * <tr>
+ *  <td>18</td>
+ *  <td>array</td>
+ *  <td>COSE Single Signer Data Object (RFC 8162)</td>
+ * </td>
+ * <tr>
+ *  <td>21</td>
+ *  <td>byte string, array, map</td>
+ *  <td>Expected conversion to base64url encoding</td>
+ * </td>
+ * <tr>
+ *  <td>22</td>
+ *  <td>byte string, array, map</td>
+ *  <td>Expected conversion to base64 encoding</td>
+ * </td>
+ * <tr>
+ *  <td>23</td>
+ *  <td>byte string, array, map</td>
+ *  <td>Expected conversion to base16 encoding</td>
+ * </td>
+ * <tr>
+ *  <td>24</td>
+ *  <td>byte string</td>
+ *  <td>Encoded CBOR data item</td>
+ * </td>
+ * <tr>
+ *  <td>32</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>URI</td>
+ * </td>
+ * <tr>
+ *  <td>33</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>base64url</td>
+ * </td>
+ * <tr>
+ *  <td>34</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>base64</td>
+ * </td>
+ * <tr>
+ *  <td>35</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>Regular expression</td>
+ * </td>
+ * <tr>
+ *  <td>36</td>
+ *  <td>UTF-8 text string</td>
+ *  <td>MIME message</td>
+ * </td>
+ * <tr>
+ *  <td>96</td>
+ *  <td>array</td>
+ *  <td>COSE Encrypted Data Object (RFC 8152)</td>
+ * </td>
+ * <tr>
+ *  <td>97</td>
+ *  <td>array</td>
+ *  <td>COSE MACed Data Object (RFC 8152)</td>
+ * </td>
+ * <tr>
+ *  <td>98</td>
+ *  <td>array</td>
+ *  <td>COSE Signed Data Object (RFC 8152)</td>
+ * </td>
+ * <tr>
+ *  <td>55799</td>
+ *  <td>any</td>
+ *  <td>Self-describe CBOR</td>
+ * </td>
+ * </table>
  */
 
-struct KnownTagData { uint32_t tag; uint32_t types; };
-static const struct KnownTagData knownTagData[] = {
-    { 0, (uint32_t)CborTextStringType },
-    { 1, (uint32_t)(CborIntegerType+1) },
-    { 2, (uint32_t)CborByteStringType },
-    { 3, (uint32_t)CborByteStringType },
-    { 4, (uint32_t)CborArrayType },
-    { 5, (uint32_t)CborArrayType },
-    { 16, (uint32_t)CborArrayType },
-    { 17, (uint32_t)CborArrayType },
-    { 18, (uint32_t)CborArrayType },
-    { 21, (uint32_t)CborByteStringType | ((uint32_t)CborArrayType << 8) | ((uint32_t)CborMapType << 16) },
-    { 22, (uint32_t)CborByteStringType | ((uint32_t)CborArrayType << 8) | ((uint32_t)CborMapType << 16) },
-    { 23, (uint32_t)CborByteStringType | ((uint32_t)CborArrayType << 8) | ((uint32_t)CborMapType << 16) },
-    { 24, (uint32_t)CborByteStringType },
-    { 32, (uint32_t)CborTextStringType },
-    { 33, (uint32_t)CborTextStringType },
-    { 34, (uint32_t)CborTextStringType },
-    { 35, (uint32_t)CborTextStringType },
-    { 36, (uint32_t)CborTextStringType },
-    { 96, (uint32_t)CborArrayType },
-    { 97, (uint32_t)CborArrayType },
-    { 98, (uint32_t)CborArrayType },
-    { 55799, 0U }
+struct KnownTagData
+{
+    uint32_t tag;
+    uint32_t types;
+};
+static const struct KnownTagData knownTagData[] =
+{
+    { 0,     ( uint32_t ) CborTextStringType                                                                            },
+    { 1,     ( uint32_t ) ( CborIntegerType + 1 )                                                                       },
+    { 2,     ( uint32_t ) CborByteStringType                                                                            },
+    { 3,     ( uint32_t ) CborByteStringType                                                                            },
+    { 4,     ( uint32_t ) CborArrayType                                                                                 },
+    { 5,     ( uint32_t ) CborArrayType                                                                                 },
+    { 16,    ( uint32_t ) CborArrayType                                                                                 },
+    { 17,    ( uint32_t ) CborArrayType                                                                                 },
+    { 18,    ( uint32_t ) CborArrayType                                                                                 },
+    { 21,    ( uint32_t ) CborByteStringType | ( ( uint32_t ) CborArrayType << 8 ) | ( ( uint32_t ) CborMapType << 16 ) },
+    { 22,    ( uint32_t ) CborByteStringType | ( ( uint32_t ) CborArrayType << 8 ) | ( ( uint32_t ) CborMapType << 16 ) },
+    { 23,    ( uint32_t ) CborByteStringType | ( ( uint32_t ) CborArrayType << 8 ) | ( ( uint32_t ) CborMapType << 16 ) },
+    { 24,    ( uint32_t ) CborByteStringType                                                                            },
+    { 32,    ( uint32_t ) CborTextStringType                                                                            },
+    { 33,    ( uint32_t ) CborTextStringType                                                                            },
+    { 34,    ( uint32_t ) CborTextStringType                                                                            },
+    { 35,    ( uint32_t ) CborTextStringType                                                                            },
+    { 36,    ( uint32_t ) CborTextStringType                                                                            },
+    { 96,    ( uint32_t ) CborArrayType                                                                                 },
+    { 97,    ( uint32_t ) CborArrayType                                                                                 },
+    { 98,    ( uint32_t ) CborArrayType                                                                                 },
+    { 55799, 0U                                                                                                         }
 };
 
-static CborError validate_value(CborValue *it, uint32_t flags, int recursionLeft);
+static CborError validate_value( CborValue * it,
+                                 uint32_t flags,
+                                 int recursionLeft );
 
-static inline CborError validate_utf8_string(const void *ptr, size_t n)
+static inline CborError validate_utf8_string( const void * ptr,
+                                              size_t n )
 {
-    const uint8_t *buffer = (const uint8_t *)ptr;
+    const uint8_t * buffer = ( const uint8_t * ) ptr;
     const uint8_t * const end = buffer + n;
-    while (buffer < end) {
-        uint32_t uc = get_utf8(&buffer, end);
-        if (uc == ~0U)
+
+    while( buffer < end )
+    {
+        uint32_t uc = get_utf8( &buffer, end );
+
+        if( uc == ~0U )
+        {
             return CborErrorInvalidUtf8TextString;
+        }
     }
+
     return CborNoError;
 }
 
-static inline CborError validate_simple_type(uint8_t simple_type, uint32_t flags)
+static inline CborError validate_simple_type( uint8_t simple_type,
+                                              uint32_t flags )
 {
     /* At current time, all known simple types are those from RFC 7049,
      * which are parsed by the parser into different CBOR types.
      * That means that if we've got here, the type is unknown */
-    if (simple_type < 32)
-        return (flags & CborValidateNoUnknownSimpleTypesSA) ? CborErrorUnknownSimpleType : CborNoError;
-    return (flags & CborValidateNoUnknownSimpleTypes) == CborValidateNoUnknownSimpleTypes ?
-                CborErrorUnknownSimpleType : CborNoError;
+    if( simple_type < 32 )
+    {
+        return ( flags & CborValidateNoUnknownSimpleTypesSA ) ? CborErrorUnknownSimpleType : CborNoError;
+    }
+
+    return ( flags & CborValidateNoUnknownSimpleTypes ) == CborValidateNoUnknownSimpleTypes ?
+           CborErrorUnknownSimpleType : CborNoError;
 }
 
-static inline CborError validate_number(const CborValue *it, CborType type, uint32_t flags)
+static inline CborError validate_number( const CborValue * it,
+                                         CborType type,
+                                         uint32_t flags )
 {
     CborError err = CborNoError;
-    const uint8_t *ptr = it->ptr;
+    const uint8_t * ptr = it->ptr;
     size_t bytesUsed, bytesNeeded;
     uint64_t value;
 
-    if ((flags & CborValidateShortestIntegrals) == 0)
+    if( ( flags & CborValidateShortestIntegrals ) == 0 )
+    {
         return err;
-    if (type >= CborHalfFloatType && type <= CborDoubleType)
-        return err;     /* checked elsewhere */
+    }
 
-    err = _cbor_value_extract_number(&ptr, it->parser->end, &value);
-    if (err)
+    if( ( type >= CborHalfFloatType ) && ( type <= CborDoubleType ) )
+    {
+        return err; /* checked elsewhere */
+    }
+
+    err = _cbor_value_extract_number( &ptr, it->parser->end, &value );
+
+    if( err )
+    {
         return err;
+    }
 
-    bytesUsed = (size_t)(ptr - it->ptr - 1);
+    bytesUsed = ( size_t ) ( ptr - it->ptr - 1 );
     bytesNeeded = 0;
-    if (value >= Value8Bit)
+
+    if( value >= Value8Bit )
+    {
         ++bytesNeeded;
-    if (value > 0xffU)
+    }
+
+    if( value > 0xffU )
+    {
         ++bytesNeeded;
-    if (value > 0xffffU)
+    }
+
+    if( value > 0xffffU )
+    {
         bytesNeeded += 2;
-    if (value > 0xffffffffU)
+    }
+
+    if( value > 0xffffffffU )
+    {
         bytesNeeded += 4;
-    if (bytesNeeded < bytesUsed)
+    }
+
+    if( bytesNeeded < bytesUsed )
+    {
         return CborErrorOverlongEncoding;
+    }
+
     return CborNoError;
 }
 
-static inline CborError validate_tag(CborValue *it, CborTag tag, uint32_t flags, int recursionLeft)
+static inline CborError validate_tag( CborValue * it,
+                                      CborTag tag,
+                                      uint32_t flags,
+                                      int recursionLeft )
 {
-    CborType type = cbor_value_get_type(it);
-    const size_t knownTagCount = sizeof(knownTagData) / sizeof(knownTagData[0]);
-    const struct KnownTagData *tagData = knownTagData;
+    CborType type = cbor_value_get_type( it );
+    const size_t knownTagCount = sizeof( knownTagData ) / sizeof( knownTagData[ 0 ] );
+    const struct KnownTagData * tagData = knownTagData;
     const struct KnownTagData * const knownTagDataEnd = knownTagData + knownTagCount;
 
-    if (!recursionLeft)
+    if( !recursionLeft )
+    {
         return CborErrorNestingTooDeep;
-    if (flags & CborValidateNoTags)
+    }
+
+    if( flags & CborValidateNoTags )
+    {
         return CborErrorExcludedType;
+    }
 
     /* find the tag data, if any */
-    for ( ; tagData != knownTagDataEnd; ++tagData) {
-        if (tagData->tag < tag)
+    for( ; tagData != knownTagDataEnd; ++tagData )
+    {
+        if( tagData->tag < tag )
+        {
             continue;
-        if (tagData->tag > tag)
+        }
+
+        if( tagData->tag > tag )
+        {
             tagData = NULL;
+        }
+
         break;
     }
-    if (tagData == knownTagDataEnd)
-        tagData = NULL;
 
-    if (flags & CborValidateNoUnknownTags && !tagData) {
-        /* tag not found */
-        if (flags & CborValidateNoUnknownTagsSA && tag < 24)
-            return CborErrorUnknownTag;
-        if ((flags & CborValidateNoUnknownTagsSR) == CborValidateNoUnknownTagsSR && tag < 256)
-            return CborErrorUnknownTag;
-        if ((flags & CborValidateNoUnknownTags) == CborValidateNoUnknownTags)
-            return CborErrorUnknownTag;
+    if( tagData == knownTagDataEnd )
+    {
+        tagData = NULL;
     }
 
-    if (flags & CborValidateTagUse && tagData && tagData->types) {
+    if( flags & CborValidateNoUnknownTags && !tagData )
+    {
+        /* tag not found */
+        if( flags & CborValidateNoUnknownTagsSA && ( tag < 24 ) )
+        {
+            return CborErrorUnknownTag;
+        }
+
+        if( ( ( flags & CborValidateNoUnknownTagsSR ) == CborValidateNoUnknownTagsSR ) && ( tag < 256 ) )
+        {
+            return CborErrorUnknownTag;
+        }
+
+        if( ( flags & CborValidateNoUnknownTags ) == CborValidateNoUnknownTags )
+        {
+            return CborErrorUnknownTag;
+        }
+    }
+
+    if( flags & CborValidateTagUse && tagData && tagData->types )
+    {
         uint32_t allowedTypes = tagData->types;
 
         /* correct Integer so it's not zero */
-        if (type == CborIntegerType)
-            type = (CborType)(type + 1);
+        if( type == CborIntegerType )
+        {
+            type = ( CborType ) ( type + 1 );
+        }
 
-        while (allowedTypes) {
-            if ((uint8_t)(allowedTypes & 0xff) == type)
+        while( allowedTypes )
+        {
+            if( ( uint8_t ) ( allowedTypes & 0xff ) == type )
+            {
                 break;
+            }
+
             allowedTypes >>= 8;
         }
-        if (!allowedTypes)
+
+        if( !allowedTypes )
+        {
             return CborErrorInappropriateTagForType;
+        }
     }
 
-    return validate_value(it, flags, recursionLeft);
+    return validate_value( it, flags, recursionLeft );
 }
 
 #ifndef CBOR_NO_FLOATING_POINT
-static inline CborError validate_floating_point(CborValue *it, CborType type, uint32_t flags)
-{
-    CborError err;
-    int r;
-    double val;
-    float valf = 0.0;
-    uint16_t valf16;
+    static inline CborError validate_floating_point( CborValue * it,
+                                                     CborType type,
+                                                     uint32_t flags )
+    {
+        CborError err;
+        int r;
+        double val;
+        float valf = 0.0;
+        uint16_t valf16;
 
-    if (type != CborDoubleType) {
-        if (type == CborFloatType) {
-            err = cbor_value_get_float(it, &valf);
-            val = valf;
-        } else {
-#  ifdef CBOR_NO_HALF_FLOAT_TYPE
-            (void)valf16;
-            return CborErrorUnsupportedType;
-#  else
-            err = cbor_value_get_half_float(it, &valf16);
-            val = decode_half(valf16);
-#  endif
+        if( type != CborDoubleType )
+        {
+            if( type == CborFloatType )
+            {
+                err = cbor_value_get_float( it, &valf );
+                val = valf;
+            }
+            else
+            {
+                #ifdef CBOR_NO_HALF_FLOAT_TYPE
+                    ( void ) valf16;
+                    return CborErrorUnsupportedType;
+                #else
+                    err = cbor_value_get_half_float( it, &valf16 );
+                    val = decode_half( valf16 );
+                #endif
+            }
         }
-    } else {
-        err = cbor_value_get_double(it, &val);
-    }
-    cbor_assert(err == CborNoError);     /* can't fail */
-
-    r = fpclassify(val);
-    if (r == FP_NAN || r == FP_INFINITE) {
-        if (flags & CborValidateFiniteFloatingPoint)
-            return CborErrorExcludedValue;
-        if (flags & CborValidateShortestFloatingPoint) {
-            if (type == CborDoubleType)
-                return CborErrorOverlongEncoding;
-#  ifndef CBOR_NO_HALF_FLOAT_TYPE
-            if (type == CborFloatType)
-                return CborErrorOverlongEncoding;
-            if (r == FP_NAN && valf16 != 0x7e00)
-                return CborErrorImproperValue;
-            if (r == FP_INFINITE && valf16 != 0x7c00 && valf16 != 0xfc00)
-                return CborErrorImproperValue;
-#  endif
+        else
+        {
+            err = cbor_value_get_double( it, &val );
         }
-    }
 
-    if (flags & CborValidateShortestFloatingPoint && type > CborHalfFloatType) {
-        if (type == CborDoubleType) {
-            valf = (float)val;
-            if ((double)valf == val)
-                return CborErrorOverlongEncoding;
-        }
-#  ifndef CBOR_NO_HALF_FLOAT_TYPE
-        if (type == CborFloatType) {
-            valf16 = encode_half(valf);
-            if (valf == decode_half(valf16))
-                return CborErrorOverlongEncoding;
-        }
-#  endif
-    }
+        cbor_assert( err == CborNoError ); /* can't fail */
 
-    return CborNoError;
-}
-#endif
+        r = fpclassify( val );
 
-static CborError validate_container(CborValue *it, int containerType, uint32_t flags, int recursionLeft)
-{
-    CborError err;
-    const uint8_t *previous = NULL;
-    const uint8_t *previous_end = NULL;
+        if( ( r == FP_NAN ) || ( r == FP_INFINITE ) )
+        {
+            if( flags & CborValidateFiniteFloatingPoint )
+            {
+                return CborErrorExcludedValue;
+            }
 
-    if (!recursionLeft)
-        return CborErrorNestingTooDeep;
-
-    while (!cbor_value_at_end(it)) {
-        const uint8_t *current = cbor_value_get_next_byte(it);
-
-        if (containerType == CborMapType) {
-            if (flags & CborValidateMapKeysAreString) {
-                CborType type = cbor_value_get_type(it);
-                if (type == CborTagType) {
-                    /* skip the tags */
-                    CborValue copy = *it;
-                    err = cbor_value_skip_tag(&copy);
-                    if (err)
-                        return err;
-                    type = cbor_value_get_type(&copy);
+            if( flags & CborValidateShortestFloatingPoint )
+            {
+                if( type == CborDoubleType )
+                {
+                    return CborErrorOverlongEncoding;
                 }
-                if (type != CborTextStringType)
-                    return CborErrorMapKeyNotString;
+
+                #ifndef CBOR_NO_HALF_FLOAT_TYPE
+                    if( type == CborFloatType )
+                    {
+                        return CborErrorOverlongEncoding;
+                    }
+
+                    if( ( r == FP_NAN ) && ( valf16 != 0x7e00 ) )
+                    {
+                        return CborErrorImproperValue;
+                    }
+
+                    if( ( r == FP_INFINITE ) && ( valf16 != 0x7c00 ) && ( valf16 != 0xfc00 ) )
+                    {
+                        return CborErrorImproperValue;
+                    }
+                #endif /* ifndef CBOR_NO_HALF_FLOAT_TYPE */
             }
         }
 
-        err = validate_value(it, flags, recursionLeft);
-        if (err)
+        if( flags & CborValidateShortestFloatingPoint && ( type > CborHalfFloatType ) )
+        {
+            if( type == CborDoubleType )
+            {
+                valf = ( float ) val;
+
+                if( ( double ) valf == val )
+                {
+                    return CborErrorOverlongEncoding;
+                }
+            }
+
+            #ifndef CBOR_NO_HALF_FLOAT_TYPE
+                if( type == CborFloatType )
+                {
+                    valf16 = encode_half( valf );
+
+                    if( valf == decode_half( valf16 ) )
+                    {
+                        return CborErrorOverlongEncoding;
+                    }
+                }
+            #endif
+        }
+
+        return CborNoError;
+    }
+#endif /* ifndef CBOR_NO_FLOATING_POINT */
+
+static CborError validate_container( CborValue * it,
+                                     int containerType,
+                                     uint32_t flags,
+                                     int recursionLeft )
+{
+    CborError err;
+    const uint8_t * previous = NULL;
+    const uint8_t * previous_end = NULL;
+
+    if( !recursionLeft )
+    {
+        return CborErrorNestingTooDeep;
+    }
+
+    while( !cbor_value_at_end( it ) )
+    {
+        const uint8_t * current = cbor_value_get_next_byte( it );
+
+        if( containerType == CborMapType )
+        {
+            if( flags & CborValidateMapKeysAreString )
+            {
+                CborType type = cbor_value_get_type( it );
+
+                if( type == CborTagType )
+                {
+                    /* skip the tags */
+                    CborValue copy = *it;
+                    err = cbor_value_skip_tag( &copy );
+
+                    if( err )
+                    {
+                        return err;
+                    }
+
+                    type = cbor_value_get_type( &copy );
+                }
+
+                if( type != CborTextStringType )
+                {
+                    return CborErrorMapKeyNotString;
+                }
+            }
+        }
+
+        err = validate_value( it, flags, recursionLeft );
+
+        if( err )
+        {
             return err;
+        }
 
-        if (containerType != CborMapType)
+        if( containerType != CborMapType )
+        {
             continue;
+        }
 
-        if (flags & CborValidateMapIsSorted) {
-            if (previous) {
+        if( flags & CborValidateMapIsSorted )
+        {
+            if( previous )
+            {
                 uint64_t len1, len2;
-                const uint8_t *ptr;
+                const uint8_t * ptr;
 
                 /* extract the two lengths */
                 ptr = previous;
-                _cbor_value_extract_number(&ptr, it->parser->end, &len1);
+                _cbor_value_extract_number( &ptr, it->parser->end, &len1 );
                 ptr = current;
-                _cbor_value_extract_number(&ptr, it->parser->end, &len2);
+                _cbor_value_extract_number( &ptr, it->parser->end, &len2 );
 
-                if (len1 > len2)
+                if( len1 > len2 )
+                {
                     return CborErrorMapNotSorted;
-                if (len1 == len2) {
-                    size_t bytelen1 = (size_t)(previous_end - previous);
-                    size_t bytelen2 = (size_t)(it->ptr - current);
-                    int r = memcmp(previous, current, bytelen1 <= bytelen2 ? bytelen1 : bytelen2);
+                }
 
-                    if (r == 0 && bytelen1 != bytelen2)
+                if( len1 == len2 )
+                {
+                    size_t bytelen1 = ( size_t ) ( previous_end - previous );
+                    size_t bytelen2 = ( size_t ) ( it->ptr - current );
+                    int r = memcmp( previous, current, bytelen1 <= bytelen2 ? bytelen1 : bytelen2 );
+
+                    if( ( r == 0 ) && ( bytelen1 != bytelen2 ) )
+                    {
                         r = bytelen1 < bytelen2 ? -1 : +1;
-                    if (r > 0)
+                    }
+
+                    if( r > 0 )
+                    {
                         return CborErrorMapNotSorted;
-                    if (r == 0 && (flags & CborValidateMapKeysAreUnique) == CborValidateMapKeysAreUnique)
+                    }
+
+                    if( ( r == 0 ) && ( ( flags & CborValidateMapKeysAreUnique ) == CborValidateMapKeysAreUnique ) )
+                    {
                         return CborErrorMapKeysNotUnique;
+                    }
                 }
             }
 
@@ -504,135 +657,199 @@ static CborError validate_container(CborValue *it, int containerType, uint32_t f
         }
 
         /* map: that was the key, so get the value */
-        err = validate_value(it, flags, recursionLeft);
-        if (err)
+        err = validate_value( it, flags, recursionLeft );
+
+        if( err )
+        {
             return err;
+        }
     }
+
     return CborNoError;
 }
 
-static CborError validate_value(CborValue *it, uint32_t flags, int recursionLeft)
+static CborError validate_value( CborValue * it,
+                                 uint32_t flags,
+                                 int recursionLeft )
 {
     CborError err;
-    CborType type = cbor_value_get_type(it);
+    CborType type = cbor_value_get_type( it );
 
-    if (cbor_value_is_length_known(it)) {
-        err = validate_number(it, type, flags);
-        if (err)
+    if( cbor_value_is_length_known( it ) )
+    {
+        err = validate_number( it, type, flags );
+
+        if( err )
+        {
             return err;
-    } else {
-        if (flags & CborValidateNoIndeterminateLength)
+        }
+    }
+    else
+    {
+        if( flags & CborValidateNoIndeterminateLength )
+        {
             return CborErrorUnknownLength;
-    }
-
-    switch (type) {
-    case CborArrayType:
-    case CborMapType: {
-        /* recursive type */
-        CborValue recursed;
-        err = cbor_value_enter_container(it, &recursed);
-        if (!err)
-            err = validate_container(&recursed, type, flags, recursionLeft - 1);
-        if (err) {
-            it->ptr = recursed.ptr;
-            return err;
         }
-        err = cbor_value_leave_container(it, &recursed);
-        if (err)
-            return err;
-        return CborNoError;
     }
 
-    case CborIntegerType: {
-        uint64_t val;
-        err = cbor_value_get_raw_integer(it, &val);
-        cbor_assert(err == CborNoError);         /* can't fail */
+    switch( type )
+    {
+        case CborArrayType:
+        case CborMapType:
+           {
+               /* recursive type */
+               CborValue recursed;
+               err = cbor_value_enter_container( it, &recursed );
 
-        break;
-    }
+               if( !err )
+               {
+                   err = validate_container( &recursed, type, flags, recursionLeft - 1 );
+               }
 
-    case CborByteStringType:
-    case CborTextStringType: {
-        size_t n = 0;
-        const void *ptr;
+               if( err )
+               {
+                   it->ptr = recursed.ptr;
+                   return err;
+               }
 
-        err = _cbor_value_prepare_string_iteration(it);
-        if (err)
-            return err;
+               err = cbor_value_leave_container( it, &recursed );
 
-        while (1) {
-            err = validate_number(it, type, flags);
-            if (err)
-                return err;
+               if( err )
+               {
+                   return err;
+               }
 
-            err = _cbor_value_get_string_chunk(it, &ptr, &n, it);
-            if (err)
-                return err;
-            if (!ptr)
-                break;
+               return CborNoError;
+           }
 
-            if (type == CborTextStringType && flags & CborValidateUtf8) {
-                err = validate_utf8_string(ptr, n);
-                if (err)
-                    return err;
+        case CborIntegerType:
+           {
+               uint64_t val;
+               err = cbor_value_get_raw_integer( it, &val );
+               cbor_assert( err == CborNoError ); /* can't fail */
+
+               break;
+           }
+
+        case CborByteStringType:
+        case CborTextStringType:
+           {
+               size_t n = 0;
+               const void * ptr;
+
+               err = _cbor_value_prepare_string_iteration( it );
+
+               if( err )
+               {
+                   return err;
+               }
+
+               while( 1 )
+               {
+                   err = validate_number( it, type, flags );
+
+                   if( err )
+                   {
+                       return err;
+                   }
+
+                   err = _cbor_value_get_string_chunk( it, &ptr, &n, it );
+
+                   if( err )
+                   {
+                       return err;
+                   }
+
+                   if( !ptr )
+                   {
+                       break;
+                   }
+
+                   if( ( type == CborTextStringType ) && flags & CborValidateUtf8 )
+                   {
+                       err = validate_utf8_string( ptr, n );
+
+                       if( err )
+                       {
+                           return err;
+                       }
+                   }
+               }
+
+               return CborNoError;
+           }
+
+        case CborTagType:
+           {
+               CborTag tag;
+               err = cbor_value_get_tag( it, &tag );
+               cbor_assert( err == CborNoError ); /* can't fail */
+
+               err = cbor_value_advance_fixed( it );
+
+               if( err )
+               {
+                   return err;
+               }
+
+               err = validate_tag( it, tag, flags, recursionLeft - 1 );
+
+               if( err )
+               {
+                   return err;
+               }
+
+               return CborNoError;
+           }
+
+        case CborSimpleType:
+           {
+               uint8_t simple_type;
+               err = cbor_value_get_simple_type( it, &simple_type );
+               cbor_assert( err == CborNoError ); /* can't fail */
+               err = validate_simple_type( simple_type, flags );
+
+               if( err )
+               {
+                   return err;
+               }
+
+               break;
+           }
+
+        case CborNullType:
+        case CborBooleanType:
+            break;
+
+        case CborUndefinedType:
+
+            if( flags & CborValidateNoUndefined )
+            {
+                return CborErrorExcludedType;
             }
-        }
 
-        return CborNoError;
+            break;
+
+        case CborHalfFloatType:
+        case CborFloatType:
+        case CborDoubleType:
+            #ifdef CBOR_NO_FLOATING_POINT
+            return CborErrorUnsupportedType;
+            #else
+            err = validate_floating_point( it, type, flags );
+
+            if( err )
+            {
+                return err;
+            }
+            break;
+            #endif /* !CBOR_NO_FLOATING_POINT */
+
+        case CborInvalidType:
+            return CborErrorUnknownType;
     }
 
-    case CborTagType: {
-        CborTag tag;
-        err = cbor_value_get_tag(it, &tag);
-        cbor_assert(err == CborNoError);     /* can't fail */
-
-        err = cbor_value_advance_fixed(it);
-        if (err)
-            return err;
-        err = validate_tag(it, tag, flags, recursionLeft - 1);
-        if (err)
-            return err;
-
-        return CborNoError;
-    }
-
-    case CborSimpleType: {
-        uint8_t simple_type;
-        err = cbor_value_get_simple_type(it, &simple_type);
-        cbor_assert(err == CborNoError);     /* can't fail */
-        err = validate_simple_type(simple_type, flags);
-        if (err)
-            return err;
-        break;
-    }
-
-    case CborNullType:
-    case CborBooleanType:
-        break;
-
-    case CborUndefinedType:
-        if (flags & CborValidateNoUndefined)
-            return CborErrorExcludedType;
-        break;
-
-    case CborHalfFloatType:
-    case CborFloatType:
-    case CborDoubleType: {
-#ifdef CBOR_NO_FLOATING_POINT
-        return CborErrorUnsupportedType;
-#else
-        err = validate_floating_point(it, type, flags);
-        if (err)
-            return err;
-        break;
-#endif /* !CBOR_NO_FLOATING_POINT */
-    }
-
-    case CborInvalidType:
-        return CborErrorUnknownType;
-    }
-
-    err = cbor_value_advance_fixed(it);
+    err = cbor_value_advance_fixed( it );
     return err;
 }
 
@@ -650,14 +867,22 @@ static CborError validate_value(CborValue *it, uint32_t flags, int recursionLeft
  *
  * \sa CborValidationFlags, cbor_value_validate_basic(), cbor_value_advance()
  */
-CborError cbor_value_validate(const CborValue *it, uint32_t flags)
+CborError cbor_value_validate( const CborValue * it,
+                               uint32_t flags )
 {
     CborValue value = *it;
-    CborError err = validate_value(&value, flags, CBOR_PARSER_MAX_RECURSIONS);
-    if (err)
+    CborError err = validate_value( &value, flags, CBOR_PARSER_MAX_RECURSIONS );
+
+    if( err )
+    {
         return err;
-    if (flags & CborValidateCompleteData && it->ptr != it->parser->end)
+    }
+
+    if( flags & CborValidateCompleteData && ( it->ptr != it->parser->end ) )
+    {
         return CborErrorGarbageAtEnd;
+    }
+
     return CborNoError;
 }
 

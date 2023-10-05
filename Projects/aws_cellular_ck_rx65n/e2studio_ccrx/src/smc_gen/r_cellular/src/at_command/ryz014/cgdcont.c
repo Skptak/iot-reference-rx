@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cgdcont.c
  * Description  : Function to execute the AT command (CGDCONT).
@@ -46,43 +47,45 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cgdcont
  ************************************************************************************************/
-e_cellular_err_t atc_cgdcont(st_cellular_ctrl_t * const p_ctrl, const st_cellular_ap_cfg_t * const p_ap_cfg)
+e_cellular_err_t atc_cgdcont( st_cellular_ctrl_t * const p_ctrl,
+                              const st_cellular_ap_cfg_t * const p_ap_cfg )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[64 + 1] = {0};
+    uint8_t str[ 64 + 1 ] = { 0 };
 
-    if (NULL == p_ap_cfg)
+    if( NULL == p_ap_cfg )
     {
-        strncpy((char *)str, CELLULAR_STRING_CONVERT(CELLULAR_CFG_AP_NAME), sizeof(str));  // (uint8_t *)->(char *)
+        strncpy( ( char * ) str, CELLULAR_STRING_CONVERT( CELLULAR_CFG_AP_NAME ), sizeof( str ) ); /* (uint8_t *)->(char *) */
     }
     else
     {
-        if (CELLULAR_MAX_AP_NAME_LENGTH < strlen((const char *)p_ap_cfg->ap_name))         // (uint8_t *)->(char *)
+        if( CELLULAR_MAX_AP_NAME_LENGTH < strlen( ( const char * ) p_ap_cfg->ap_name ) ) /* (uint8_t *)->(char *) */
         {
             ret = CELLULAR_ERR_PARAMETER;
         }
         else
         {
-            strncpy((char *)str, (char *)p_ap_cfg->ap_name, sizeof(str));  // (uint8_t *)->(char *)
+            strncpy( ( char * ) str, ( char * ) p_ap_cfg->ap_name, sizeof( str ) ); /* (uint8_t *)->(char *) */
         }
     }
 
-    if (CELLULAR_SUCCESS == ret)
+    if( CELLULAR_SUCCESS == ret )
     {
-        const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str};
+        const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str };
 
-        atc_generate(p_ctrl->sci_ctrl.atc_buff,
-                (const uint8_t *)&gp_at_command[ATC_AP_CONFIG][0], // (const uint8_t *const *)->(const uint8_t **)
-                    (const uint8_t **)&p_command_arg);             // (const uint8_t *const *)->(const uint8_t **)
+        atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                      ( const uint8_t * ) &gp_at_command[ ATC_AP_CONFIG ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                      ( const uint8_t ** ) &p_command_arg );                    /* (const uint8_t *const *)->(const uint8_t **) */
 
-        ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_AP_CONFIG);
+        ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_AP_CONFIG );
 
-        memset(p_ctrl->sci_ctrl.atc_buff, 0x00, CELLULAR_ATC_BUFF_SIZE);
-        memset(str, 0x00, sizeof(str));
+        memset( p_ctrl->sci_ctrl.atc_buff, 0x00, CELLULAR_ATC_BUFF_SIZE );
+        memset( str, 0x00, sizeof( str ) );
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgdcont
  *********************************************************************************************************************/

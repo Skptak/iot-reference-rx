@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_shutdownsocket.c
  * Description  : Function to disconnect a socket connection.
@@ -47,27 +48,29 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_ShutdownSocket
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_ShutdownSocket(st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no)
+e_cellular_err_t R_CELLULAR_ShutdownSocket( st_cellular_ctrl_t * const p_ctrl,
+                                            const uint8_t socket_no )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if (NULL == p_ctrl)
+
+    if( NULL == p_ctrl )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
-        else if (CELLULAR_SYSTEM_OPEN == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_OPEN == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_CONNECT;
         }
@@ -76,14 +79,14 @@ e_cellular_err_t R_CELLULAR_ShutdownSocket(st_cellular_ctrl_t * const p_ctrl, co
             R_BSP_NOP();
         }
 
-        if (CELLULAR_SUCCESS == ret)
+        if( CELLULAR_SUCCESS == ret )
         {
-            if ((CELLULAR_START_SOCKET_NUMBER > socket_no) || (p_ctrl->creatable_socket < socket_no))
+            if( ( CELLULAR_START_SOCKET_NUMBER > socket_no ) || ( p_ctrl->creatable_socket < socket_no ) )
             {
                 ret = CELLULAR_ERR_PARAMETER;
             }
-            else if (CELLULAR_SOCKET_STATUS_CONNECTED !=
-                        p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].socket_status)
+            else if( CELLULAR_SOCKET_STATUS_CONNECTED !=
+                     p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].socket_status )
             {
                 ret = CELLULAR_ERR_SOCKET_NOT_READY;
             }
@@ -93,16 +96,18 @@ e_cellular_err_t R_CELLULAR_ShutdownSocket(st_cellular_ctrl_t * const p_ctrl, co
             }
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        ret = cellular_shutdownsocket(p_ctrl, socket_no);
+        ret = cellular_shutdownsocket( p_ctrl, socket_no );
         p_ctrl->running_api_count -= 2;
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function R_CELLULAR_ShutdownSocket
+ * End of function R_CELLULAR_ShutdownSocket
  *********************************************************************************************************************/

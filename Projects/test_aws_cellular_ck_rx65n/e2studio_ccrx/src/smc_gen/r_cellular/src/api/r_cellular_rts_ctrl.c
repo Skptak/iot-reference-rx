@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_rts_ctrl.c
  * Description  : Function to control the RTS pin.
@@ -47,23 +48,25 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_RTS_Ctrl
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_RTS_Ctrl(st_cellular_ctrl_t * const p_ctrl, const uint8_t lowhigh)
+e_cellular_err_t R_CELLULAR_RTS_Ctrl( st_cellular_ctrl_t * const p_ctrl,
+                                      const uint8_t lowhigh )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (lowhigh > 1))
+
+    if( ( NULL == p_ctrl ) || ( lowhigh > 1 ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -72,16 +75,18 @@ e_cellular_err_t R_CELLULAR_RTS_Ctrl(st_cellular_ctrl_t * const p_ctrl, const ui
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        cellular_rts_ctrl(lowhigh);
+        cellular_rts_ctrl( lowhigh );
         p_ctrl->running_api_count -= 2;
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_RTS_Ctrl
  *********************************************************************************************************************/

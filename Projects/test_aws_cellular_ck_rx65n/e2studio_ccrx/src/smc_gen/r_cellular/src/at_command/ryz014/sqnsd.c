@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnsd.c
  * Description  : Function to execute the AT command (SQNSD).
@@ -46,45 +47,50 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnsd
  ************************************************************************************************/
-e_cellular_err_t atc_sqnsd(st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no,
-                            const uint8_t * const p_ip_addr, const uint16_t port)
+e_cellular_err_t atc_sqnsd( st_cellular_ctrl_t * const p_ctrl,
+                            const uint8_t socket_no,
+                            const uint8_t * const p_ip_addr,
+                            const uint16_t port )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[3][10] = {0};
+    uint8_t str[ 3 ][ 10 ] = { 0 };
 
-    sprintf((char *)str[0], "%d", socket_no);   // (uint8_t *)->(char *)
-    if (CELLULAR_PROTOCOL_TCP == p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].protocol)
+    sprintf( ( char * ) str[ 0 ], "%d", socket_no ); /* (uint8_t *)->(char *) */
+
+    if( CELLULAR_PROTOCOL_TCP == p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].protocol )
     {
-        sprintf((char *)str[1], "%d", 0);   // (uint8_t *)->(char *)
+        sprintf( ( char * ) str[ 1 ], "%d", 0 ); /* (uint8_t *)->(char *) */
     }
     else
     {
-        sprintf((char *)str[1], "%d", 1);   // (uint8_t *)->(char *)
+        sprintf( ( char * ) str[ 1 ], "%d", 1 ); /* (uint8_t *)->(char *) */
     }
-    sprintf((char *)str[2], "%u", port);    // (uint8_t *)->(char *)
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] =
-                            {str[0], str[1], str[2], p_ip_addr, str[2]};
+    sprintf( ( char * ) str[ 2 ], "%u", port ); /* (uint8_t *)->(char *) */
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_CONNECT_SOCKET][0], // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                  // (const uint8_t *const *)->(const uint8_t **)
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] =
+    { str[ 0 ], str[ 1 ], str[ 2 ], p_ip_addr, str[ 2 ] };
 
-    if (p_ctrl->sci_ctrl.atc_timeout >
-        ((p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].connect_timeout * 100)
-                + CELLULAR_SOCKETCONNECT_DELAY))
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_CONNECT_SOCKET ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                         /* (const uint8_t *const *)->(const uint8_t **) */
+
+    if( p_ctrl->sci_ctrl.atc_timeout >
+        ( ( p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].connect_timeout * 100 )
+          + CELLULAR_SOCKETCONNECT_DELAY ) )
     {
-        ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_CONNECT_SOCKET);
+        ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_CONNECT_SOCKET );
     }
     else
     {
-        ret = cellular_execute_at_command(p_ctrl,
-                    ((uint32_t)p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].connect_timeout * 100)//
-                        + CELLULAR_SOCKETCONNECT_DELAY, ATC_RETURN_OK, ATC_CONNECT_SOCKET);
+        ret = cellular_execute_at_command( p_ctrl,
+                                           ( ( uint32_t ) p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].connect_timeout * 100 ) /* */
+                                           + CELLULAR_SOCKETCONNECT_DELAY, ATC_RETURN_OK, ATC_CONNECT_SOCKET );
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnsd
  *********************************************************************************************************************/

@@ -16,11 +16,12 @@
 *
 * Copyright (C) 2013-2021 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /******************************************************************************
 * File Name    : r_irq_rx_if.h
 * Device(s)    : Renesas RX Family
-* Tool-Chain   : Renesas RX Standard Toolchain  
-* H/W Platform : 
+* Tool-Chain   : Renesas RX Standard Toolchain
+* H/W Platform :
 * Description  : Definitions and declarations for the IRQ support module API.
 *******************************************************************************
 * History : DD.MM.YYYY Version Description
@@ -37,14 +38,14 @@
 
 
 /******************************************************************************
-Includes   <System Includes> , "Project Includes"
+*  Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 /* BSP includes */
 #include "platform.h"
 
 
 /******************************************************************************
-Macro definitions
+*  Macro definitions
 ******************************************************************************/
 
 #if R_BSP_VERSION_MAJOR < 5
@@ -53,14 +54,14 @@ Macro definitions
 
 /* IRQ input pin digital filtering sample clock divisor settings.
  * !!Do not change!! */
-#define IRQ_CFG_PCLK_DIV1   (0)
-#define IRQ_CFG_PCLK_DIV8   (1)
-#define IRQ_CFG_PCLK_DIV32  (2)
-#define IRQ_CFG_PCLK_DIV64  (3)
+#define IRQ_CFG_PCLK_DIV1     ( 0 )
+#define IRQ_CFG_PCLK_DIV8     ( 1 )
+#define IRQ_CFG_PCLK_DIV32    ( 2 )
+#define IRQ_CFG_PCLK_DIV64    ( 3 )
 
 
 /******************************************************************************
-Typedef definitions
+*  Typedef definitions
 ******************************************************************************/
 
 /* Enumeration of IRQ numbers. Used for strong type control. */
@@ -72,33 +73,33 @@ typedef enum
     IRQ_NUM_3,
     IRQ_NUM_4,
     IRQ_NUM_5,
-#if defined(VECT_ICU_IRQ7)
-    IRQ_NUM_6,
-    IRQ_NUM_7,
-#endif
-#if defined(VECT_ICU_IRQ15)
-    IRQ_NUM_8,
-    IRQ_NUM_9,
-    IRQ_NUM_10,
-    IRQ_NUM_11,
-    IRQ_NUM_12,
-    IRQ_NUM_13,
-    IRQ_NUM_14,
-    IRQ_NUM_15,
-#endif
-    IRQ_NUM_MAX     /* Add more IRQs before here if needed. This must always be the last element. */
+    #if defined( VECT_ICU_IRQ7 )
+        IRQ_NUM_6,
+        IRQ_NUM_7,
+    #endif
+    #if defined( VECT_ICU_IRQ15 )
+        IRQ_NUM_8,
+        IRQ_NUM_9,
+        IRQ_NUM_10,
+        IRQ_NUM_11,
+        IRQ_NUM_12,
+        IRQ_NUM_13,
+        IRQ_NUM_14,
+        IRQ_NUM_15,
+    #endif
+    IRQ_NUM_MAX /* Add more IRQs before here if needed. This must always be the last element. */
 } irq_number_t;
 
 
 /* Enumeration of various IRQ control command codes. */
-typedef enum        
+typedef enum
 {
     IRQ_CMD_SET_PRIO = 0,
     IRQ_CMD_SET_TRIG,
 
     /* Reserved for future commands. */
-    IRQ_CMD_LIST_END   /* This is not a command. Do not use it as a command or change it. */
-}irq_cmd_t;
+    IRQ_CMD_LIST_END /* This is not a command. Do not use it as a command or change it. */
+} irq_cmd_t;
 
 /* Enumeration of IRQ interrupt priority settings. */
 typedef enum
@@ -124,62 +125,60 @@ typedef enum
 /* Enumerated type for trigger type: low level, rising edge, falling edge, both edges. */
 typedef enum
 {
-    IRQ_TRIG_LOWLEV     = 0x00,
-    IRQ_TRIG_FALLING    = 0x04,
-    IRQ_TRIG_RISING     = 0x08,
-    IRQ_TRIG_BOTH_EDGE  = 0x0C
+    IRQ_TRIG_LOWLEV = 0x00,
+    IRQ_TRIG_FALLING = 0x04,
+    IRQ_TRIG_RISING = 0x08,
+    IRQ_TRIG_BOTH_EDGE = 0x0C
 } irq_trigger_t;
 
-typedef struct irq_init_block_s *irq_handle_t;
+typedef struct irq_init_block_s * irq_handle_t;
 
 /* IRQ API error codes */
 typedef enum _irq_err
 {
-    IRQ_SUCCESS=0,
-    IRQ_ERR_BAD_NUM,        /* Invalid IRQ number. */
-    IRQ_ERR_NOT_OPENED,     /* IRQ not yet opened. */
-    IRQ_ERR_NOT_CLOSED,     /* IRQ still open from previous open. */
-    IRQ_ERR_UNKNOWN_CMD,    /* Control command is not recognized. */
-    IRQ_ERR_INVALID_ARG,    /* Argument is not valid for parameter. */
-    IRQ_ERR_INVALID_PTR,    /* Received null pointer or pointer out of range; missing required argument. */
-    IRQ_ERR_LOCK,           /* The lock procedure failed. */
-    IRQ_ERR_UNDEFINED,      /* Undefined error. */
+    IRQ_SUCCESS = 0,
+    IRQ_ERR_BAD_NUM,     /* Invalid IRQ number. */
+    IRQ_ERR_NOT_OPENED,  /* IRQ not yet opened. */
+    IRQ_ERR_NOT_CLOSED,  /* IRQ still open from previous open. */
+    IRQ_ERR_UNKNOWN_CMD, /* Control command is not recognized. */
+    IRQ_ERR_INVALID_ARG, /* Argument is not valid for parameter. */
+    IRQ_ERR_INVALID_PTR, /* Received null pointer or pointer out of range; missing required argument. */
+    IRQ_ERR_LOCK,        /* The lock procedure failed. */
+    IRQ_ERR_UNDEFINED,   /* Undefined error. */
 } irq_err_t;
 
 
 /******************************************************************************
-Functions Prototypes
+*  Functions Prototypes
 ******************************************************************************/
 /*  Initializes the IRQ registers, enables interrupts, provides handle for other API functions. */
-irq_err_t   R_IRQ_Open (irq_number_t     irq_number,
-                        irq_trigger_t    trigger,
-                        irq_prio_t       priority,
-                        irq_handle_t    *phandle,
-                        void     (*const pcallback)(void *pargs));
+irq_err_t R_IRQ_Open( irq_number_t irq_number,
+                      irq_trigger_t trigger,
+                      irq_prio_t priority,
+                      irq_handle_t * phandle,
+                      void( *const pcallback )( void * pargs ) );
 
 /* Handles special hardware or software operations for the IRQ. */
-irq_err_t   R_IRQ_Control(irq_handle_t  const handle,
-                          irq_cmd_t     const cmd,
-                          void               *pcmd_data);
+irq_err_t R_IRQ_Control( irq_handle_t const handle,
+                         irq_cmd_t const cmd,
+                         void * pcmd_data );
 
 /* Fully disables the IRQ designated by the handle. */
-irq_err_t   R_IRQ_Close(irq_handle_t handle);
+irq_err_t R_IRQ_Close( irq_handle_t handle );
 
 /* Reads the current level of the pin assigned to the specified IRQ. */
-irq_err_t   R_IRQ_ReadInput(irq_handle_t  const handle,
-                            uint8_t            *plevel);
+irq_err_t R_IRQ_ReadInput( irq_handle_t const handle,
+                           uint8_t * plevel );
 
 
 /* Enables or disables the ICU interrupt for the specified IRQ. */
-irq_err_t   R_IRQ_InterruptEnable (irq_handle_t  const handle,
-                                   bool                enable);
+irq_err_t R_IRQ_InterruptEnable( irq_handle_t const handle,
+                                 bool enable );
 
 /* Returns the version number of the module. */
-uint32_t  R_IRQ_GetVersion(void);
+uint32_t R_IRQ_GetVersion( void );
 
 /* Clears IR Flag */
-irq_err_t   R_IRQ_IRClear (irq_handle_t  const handle);
+irq_err_t R_IRQ_IRClear( irq_handle_t const handle );
 
 #endif /* IRQ_RX_IF_H    */
-
-

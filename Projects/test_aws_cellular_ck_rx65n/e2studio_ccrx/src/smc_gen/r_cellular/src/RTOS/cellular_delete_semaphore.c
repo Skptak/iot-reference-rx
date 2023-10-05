@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_delete_semaphore.c
  * Description  : Function to delete a semaphore using RTOS functions.
@@ -48,20 +49,19 @@
  * Arguments      @param[in]     xEventGroup -
  *                                  Pointer to the semaphore to be deleted.
  ***************************************************************************/
-void cellular_delete_semaphore(void * xSemaphore)
+void cellular_delete_semaphore( void * xSemaphore )
 {
-    if (NULL != xSemaphore)
+    if( NULL != xSemaphore )
     {
-#if BSP_CFG_RTOS_USED == (1)
-        vSemaphoreDelete((SemaphoreHandle_t)xSemaphore);
-#elif BSP_CFG_RTOS_USED == (5)
-        tx_semaphore_delete((TX_SEMAPHORE *)xSemaphore);
-        cellular_free(xSemaphore);
-#endif
+        #if BSP_CFG_RTOS_USED == ( 1 )
+            vSemaphoreDelete( ( SemaphoreHandle_t ) xSemaphore );
+        #elif BSP_CFG_RTOS_USED == ( 5 )
+            tx_semaphore_delete( ( TX_SEMAPHORE * ) xSemaphore );
+            cellular_free( xSemaphore );
+        #endif
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_delete_semaphore
  *********************************************************************************************************************/

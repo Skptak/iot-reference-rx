@@ -29,10 +29,10 @@
 #include "serial_term_uart.h"
 
 /* Unity includes. */
-#if defined(FREERTOS_ENABLE_UNIT_TESTS)
-#include "unity_internals.h"
-#elif defined(ENABLE_UNIT_TESTS)
-#include "unity.h"
+#if defined( FREERTOS_ENABLE_UNIT_TESTS )
+    #include "unity_internals.h"
+#elif defined( ENABLE_UNIT_TESTS )
+    #include "unity.h"
 #endif
 
 /*-----------------------------------------------------------
@@ -52,12 +52,12 @@
 #define configENABLE_BACKWARD_COMPATIBILITY        1
 #define configUSE_PREEMPTION                       1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configMAX_PRIORITIES                       (7)
-#define configTICK_RATE_HZ                         (( TickType_t ) 1000)
-#define configMINIMAL_STACK_SIZE                   (768)
-#define configTOTAL_HEAP_SIZE_N						(256)
-#define configTOTAL_HEAP_SIZE                      (( size_t ) ( configTOTAL_HEAP_SIZE_N * 1024 ))
-#define configMAX_TASK_NAME_LEN                    (12)
+#define configMAX_PRIORITIES                       ( 7 )
+#define configTICK_RATE_HZ                         ( ( TickType_t ) 1000 )
+#define configMINIMAL_STACK_SIZE                   ( 768 )
+#define configTOTAL_HEAP_SIZE_N                    ( 256 )
+#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( configTOTAL_HEAP_SIZE_N * 1024 ) )
+#define configMAX_TASK_NAME_LEN                    ( 12 )
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
@@ -71,11 +71,11 @@
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS    3      /* FreeRTOS+FAT requires 2 pointers if a CWD is supported. */
 #define configRECORD_STACK_HIGH_ADDRESS            1
 
-#define configUSE_DAEMON_TASK_STARTUP_HOOK 1
+#define configUSE_DAEMON_TASK_STARTUP_HOOK         1
 
-#define configCPU_CLOCK_HZ				(BSP_ICLK_HZ)
-#define configPERIPHERAL_CLOCK_HZ		(BSP_PCLKB_HZ)
-#define configUSE_QUEUE_SETS			1
+#define configCPU_CLOCK_HZ                         ( BSP_ICLK_HZ )
+#define configPERIPHERAL_CLOCK_HZ                  ( BSP_PCLKB_HZ )
+#define configUSE_QUEUE_SETS                       1
 
 /* Hook function related definitions. */
 #define configUSE_TICK_HOOK                        0
@@ -85,40 +85,40 @@
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-#define configTIMER_TASK_PRIORITY                  (6)
+#define configTIMER_TASK_PRIORITY                  ( 6 )
 #define configTIMER_QUEUE_LENGTH                   5
-#define configTIMER_TASK_STACK_DEPTH               (configMINIMAL_STACK_SIZE)
+#define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE )
 
 /* The interrupt priority used by the kernel itself for the tick interrupt and
-the pended interrupt.  This would normally be the lowest priority. */
-#define configKERNEL_INTERRUPT_PRIORITY         1
+ * the pended interrupt.  This would normally be the lowest priority. */
+#define configKERNEL_INTERRUPT_PRIORITY            1
 
 /* The maximum interrupt priority from which FreeRTOS API calls can be made.
-Interrupts that use a priority above this will not be effected by anything the
-kernel is doing. */
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY    4
+ * Interrupts that use a priority above this will not be effected by anything the
+ * kernel is doing. */
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY       4
 
 /* The peripheral used to generate the tick interrupt is configured as part of
-the application code.  This constant should be set to the vector number of the
-peripheral chosen.  As supplied this is CMT0. */
-#define configTICK_VECTOR						_CMT0_CMI0		//CMT0
-//#define configTICK_VECTOR						_CMT1_CMI1		//CMT1
-//#define configTICK_VECTOR						_CMT2_CMI2		//CMT2
-//#define configTICK_VECTOR						_CMT3_CMI3		//CMT3
+ * the application code.  This constant should be set to the vector number of the
+ * peripheral chosen.  As supplied this is CMT0. */
+#define configTICK_VECTOR                          _CMT0_CMI0   /*CMT0 */
+/*#define configTICK_VECTOR						_CMT1_CMI1		//CMT1 */
+/*#define configTICK_VECTOR						_CMT2_CMI2		//CMT2 */
+/*#define configTICK_VECTOR						_CMT3_CMI3		//CMT3 */
 
 /* Event group related definitions. */
-#define configUSE_EVENT_GROUPS                     1
+#define configUSE_EVENT_GROUPS    1
 
 /* Run time stats gathering definitions. */
 unsigned long ulGetRunTimeCounterValue( void );
 void vConfigureTimerForRunTimeStats( void );
 #define configGENERATE_RUN_TIME_STATS    0
-//#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    vConfigureTimerForRunTimeStats()
-//#define portGET_RUN_TIME_COUNTER_VALUE()            ulGetRunTimeCounterValue()
+/*#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    vConfigureTimerForRunTimeStats() */
+/*#define portGET_RUN_TIME_COUNTER_VALUE()            ulGetRunTimeCounterValue() */
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                   0
-#define configMAX_CO_ROUTINE_PRIORITIES         (2)
+#define configMAX_CO_ROUTINE_PRIORITIES         ( 2 )
 
 /* Currently the TCP/IP stack is using dynamic allocation, and the MQTT task is
  * using static allocation. */
@@ -154,26 +154,27 @@ void vConfigureTimerForRunTimeStats( void );
  * functions. */
 #define configUSE_STATS_FORMATTING_FUNCTIONS    1
 
-#if defined(ENABLE_UNIT_TESTS) || defined(FREERTOS_ENABLE_UNIT_TESTS)
+#if defined( ENABLE_UNIT_TESTS ) || defined( FREERTOS_ENABLE_UNIT_TESTS )
 /* unity testing */
-#define configASSERT( x ) do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 )
-#elif defined(CONFIG_FREERTOS_ASSERT_DISABLE) || defined(NDEBUG)
+    #define configASSERT( x )    do { if( ( x ) == 0 ) TEST_ABORT( ); } while( 0 )
+#elif defined( CONFIG_FREERTOS_ASSERT_DISABLE ) || defined( NDEBUG )
 /* Disable Assert call for release builds. */
-#define configASSERT( x ) ( ( void ) 0 )
+    #define configASSERT( x )    ( ( void ) 0 )
 #else /* CONFIG_FREERTOS_ASSERT_FAIL_ABORT or nothing */
 /* Assert call defined for debug builds. */
-extern void vAssertCalled( void );
-#define configASSERT( x ) do { if( ( x ) == 0 ) vAssertCalled(); } while( 0 )
+    extern void vAssertCalled( void );
+    #define configASSERT( x )    do { if( ( x ) == 0 ) vAssertCalled( ); } while( 0 )
 #endif
 
 /* The function that implements FreeRTOS printf style output, and the macro
  * that maps the configPRINTF() macros to that function. */
-extern void vLoggingPrintf( const char * pcFormat, ... );
+extern void vLoggingPrintf( const char * pcFormat,
+                            ... );
 #define configPRINTF( X )    vLoggingPrintf X
 
 /* Non-format version thread-safe print */
 extern void vLoggingPrint( const char * pcMessage );
-#define configPRINT( X )     vLoggingPrint( X )
+#define configPRINT( X )           vLoggingPrint( X )
 
 /* Map the logging task's printf to the board specific output function. */
 #define configPRINT_STRING( x )    uart_string_printf( x )
@@ -274,16 +275,16 @@ extern void vLoggingPrint( const char * pcMessage );
 #define configPROFILING                      ( 0 )
 
 /* Pseudo random number generater used by some demo tasks. */
-uint32_t ulRand(void);
+uint32_t ulRand( void );
 #define configRAND32()    ulRand()
 
 /* The platform FreeRTOS is running on. */
 #define configPLATFORM_NAME    "RenesasRX65N"
 
 /* Header required for the tracealyzer recorder library. */
-//#include "trcRecorder.h"
+/*#include "trcRecorder.h" */
 
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be used. */
-#define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  1
+#define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H    1
 
 #endif /* FREERTOS_CONFIG_H */

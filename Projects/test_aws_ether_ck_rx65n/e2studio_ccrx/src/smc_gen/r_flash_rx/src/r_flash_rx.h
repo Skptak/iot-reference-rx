@@ -1,26 +1,28 @@
 /***********************************************************************************************************************
 * DISCLAIMER
-* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
-* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all 
-* applicable laws, including copyright laws. 
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+* applicable laws, including copyright laws.
 * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
-* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, 
-* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM 
-* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES 
-* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS 
+* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
 * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
-* this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+* this software. By using this software, you agree to the additional terms and conditions found by accessing the
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2014-2021 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * File Name    : r_flash_rx.h
 * Description  : This is a private header file used internally by the FLASH module. It should not be modified or
 *                included by the user in their application.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version Description
 *           12.07.2014 1.00    First Release
@@ -58,71 +60,72 @@
 #include "r_flash_rx_if.h"
 
 /* Memory specifics for the each MCU group */
-#if   defined(MCU_RX111)
+#if   defined( MCU_RX111 )
     #include "./src/targets/rx111/r_flash_rx111.h"
-#elif defined(MCU_RX110)
+#elif defined( MCU_RX110 )
     #include "./src/targets/rx110/r_flash_rx110.h"
-#elif defined(MCU_RX113)
+#elif defined( MCU_RX113 )
     #include "./src/targets/rx113/r_flash_rx113.h"
-#elif defined(MCU_RX130)
+#elif defined( MCU_RX130 )
     #include "./src/targets/rx130/r_flash_rx130.h"
-#elif defined(MCU_RX13T)
+#elif defined( MCU_RX13T )
     #include "./src/targets/rx13t/r_flash_rx13t.h"
-#elif defined(MCU_RX140)
+#elif defined( MCU_RX140 )
     #include "./src/targets/rx140/r_flash_rx140.h"
-#elif defined(MCU_RX230)
+#elif defined( MCU_RX230 )
     #include "./src/targets/rx230/r_flash_rx230.h"
-#elif defined(MCU_RX231)
+#elif defined( MCU_RX231 )
     #include "./src/targets/rx231/r_flash_rx231.h"
-#elif defined(MCU_RX23E_A)
+#elif defined( MCU_RX23E_A )
     #include "./src/targets/rx23e-a/r_flash_rx23e-a.h"
-#elif defined(MCU_RX23T)
+#elif defined( MCU_RX23T )
     #include "./src/targets/rx23t/r_flash_rx23t.h"
-#elif defined(MCU_RX23W)
+#elif defined( MCU_RX23W )
     #include "./src/targets/rx23w/r_flash_rx23w.h"
-#elif defined(MCU_RX24T)
+#elif defined( MCU_RX24T )
     #include "./src/targets/rx24t/r_flash_rx24t.h"
-#elif defined(MCU_RX24U)
+#elif defined( MCU_RX24U )
     #include "./src/targets/rx24u/r_flash_rx24u.h"
-#elif defined(MCU_RX64M)
+#elif defined( MCU_RX64M )
     #include "./src/targets/rx64m/r_flash_rx64m.h"
-#elif defined(MCU_RX651) || defined(MCU_RX65N)
+#elif defined( MCU_RX651 ) || defined( MCU_RX65N )
     #include "./src/targets/rx65n/r_flash_rx65n.h"
-#elif defined(MCU_RX660)
+#elif defined( MCU_RX660 )
     #include "./src/targets/rx660/r_flash_rx660.h"
-#elif defined(MCU_RX66T)
+#elif defined( MCU_RX66T )
     #include "./src/targets/rx66t/r_flash_rx66t.h"
-#elif defined(MCU_RX66N)
+#elif defined( MCU_RX66N )
     #include "./src/targets/rx66n/r_flash_rx66n.h"
-#elif defined(MCU_RX671)
+#elif defined( MCU_RX671 )
     #include "./src/targets/rx671/r_flash_rx671.h"
-#elif defined(MCU_RX71M)
+#elif defined( MCU_RX71M )
     #include "./src/targets/rx71m/r_flash_rx71m.h"
-#elif defined(MCU_RX72T)
+#elif defined( MCU_RX72T )
     #include "./src/targets/rx72t/r_flash_rx72t.h"
-#elif defined(MCU_RX72M)
+#elif defined( MCU_RX72M )
     #include "./src/targets/rx72m/r_flash_rx72m.h"
-#elif defined(MCU_RX72N)
+#elif defined( MCU_RX72N )
     #include "./src/targets/rx72n/r_flash_rx72n.h"
-#else
+#else  /* if   defined( MCU_RX111 ) */
     #error "!!! No 'targets' folder for this MCU Group !!!"
-#endif
+#endif /* if   defined( MCU_RX111 ) */
 
 
 /***********************************************************************************************************************
-Macro definitions
+*  Macro definitions
 ***********************************************************************************************************************/
-#define FCU_COMMAND_AREA                (0x007E0000)
+#define FCU_COMMAND_AREA    ( 0x007E0000 )
 
 
 /***********************************************************************************************************************
-Typedef definitions
+*  Typedef definitions
 ***********************************************************************************************************************/
+
 /* These typedefs are used for guaranteeing correct accesses to memory. When
-   working with the FCU sometimes byte or word accesses are required. */
-typedef R_BSP_VOLATILE_EVENACCESS uint8_t  * FCU_BYTE_PTR;
-typedef R_BSP_VOLATILE_EVENACCESS uint16_t * FCU_WORD_PTR;
-typedef R_BSP_VOLATILE_EVENACCESS uint32_t * FCU_LONG_PTR;
+ * working with the FCU sometimes byte or word accesses are required. */
+typedef R_BSP_VOLATILE_EVENACCESS uint8_t    * FCU_BYTE_PTR;
+typedef R_BSP_VOLATILE_EVENACCESS uint16_t   * FCU_WORD_PTR;
+typedef R_BSP_VOLATILE_EVENACCESS uint32_t   * FCU_LONG_PTR;
 
 
 typedef enum
@@ -167,15 +170,15 @@ typedef enum _current
 
 typedef struct _current_parameters
 {
-    uint32_t    src_addr;               /* Source address for operation in progress */
-    uint32_t    dest_addr;              /* Destination address for operation in progress */
-    uint32_t    total_count;            /* Total number of bytes to write/erase */
-    uint32_t    current_count;          /* Bytes of total completed */
-    flash_cur_t current_operation;      /* Operation in progress, ie. FLASH_CUR_CF_ERASE */
-    uint16_t    fcu_min_write_cnt;      /* Num 2-byte writes needed for min write size; differs for CF and DF */
-    uint32_t    wait_cnt;               /* Worst case wait time for operation completion */
-    bool        bgo_enabled_df;
-    bool        bgo_enabled_cf;
+    uint32_t src_addr;             /* Source address for operation in progress */
+    uint32_t dest_addr;            /* Destination address for operation in progress */
+    uint32_t total_count;          /* Total number of bytes to write/erase */
+    uint32_t current_count;        /* Bytes of total completed */
+    flash_cur_t current_operation; /* Operation in progress, ie. FLASH_CUR_CF_ERASE */
+    uint16_t fcu_min_write_cnt;    /* Num 2-byte writes needed for min write size; differs for CF and DF */
+    uint32_t wait_cnt;             /* Worst case wait time for operation completion */
+    bool bgo_enabled_df;
+    bool bgo_enabled_cf;
 } current_param_t;
 
 
@@ -188,7 +191,7 @@ typedef enum
 
 
 /***********************************************************************************************************************
-Exported global variables
+*  Exported global variables
 ***********************************************************************************************************************/
 extern int32_t g_flash_lock;
 extern flash_states_t g_flash_state;
@@ -196,14 +199,14 @@ extern FCU_BYTE_PTR g_pfcu_cmd_area;
 
 
 /***********************************************************************************************************************
-Exported global functions (to be accessed by other files)
+*  Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
-extern flash_err_t flash_lock_state(flash_states_t new_state);
-extern void flash_release_state(void);
-extern bool flash_softwareLock (int32_t * const plock);
-extern bool flash_softwareUnlock (int32_t * const plock);
-extern void flash_InterruptRequestEnable (uint32_t vector);
-extern void flash_InterruptRequestDisable (uint32_t vector);
+extern flash_err_t flash_lock_state( flash_states_t new_state );
+extern void flash_release_state( void );
+extern bool flash_softwareLock( int32_t * const plock );
+extern bool flash_softwareUnlock( int32_t * const plock );
+extern void flash_InterruptRequestEnable( uint32_t vector );
+extern void flash_InterruptRequestDisable( uint32_t vector );
 
 
 #endif /* FLASH_RX_HEADER_FILE */

@@ -332,6 +332,7 @@ CK_RV xProvisionPrivateKey( CK_SESSION_HANDLE xSession,
     mbedtls_pk_type_t xMbedKeyType = MBEDTLS_PK_NONE;
     int lMbedResult = 0;
     mbedtls_pk_context xMbedPkContext = { 0 };
+
     #if MBEDTLS_VERSION_NUMBER >= 0x03000000
         mbedtls_entropy_context xEntropyContext;
         mbedtls_ctr_drbg_context xDrbgContext;
@@ -344,11 +345,13 @@ CK_RV xProvisionPrivateKey( CK_SESSION_HANDLE xSession,
         mbedtls_entropy_init( &xEntropyContext );
         mbedtls_ctr_drbg_init( &xDrbgContext );
         lMbedResult = mbedtls_ctr_drbg_seed( &xDrbgContext, mbedtls_entropy_func, &xEntropyContext, NULL, 0 );
+
         if( lMbedResult == 0 )
         {
             lMbedResult = mbedtls_pk_parse_key( &xMbedPkContext, pucPrivateKey, xPrivateKeyLength, NULL, 0,
-                mbedtls_ctr_drbg_random, &xDrbgContext );
+                                                mbedtls_ctr_drbg_random, &xDrbgContext );
         }
+
         mbedtls_ctr_drbg_free( &xDrbgContext );
         mbedtls_entropy_free( &xEntropyContext );
     #endif /* MBEDTLS_VERSION_NUMBER < 0x03000000 */
@@ -406,6 +409,7 @@ CK_RV xProvisionPublicKey( CK_SESSION_HANDLE xSession,
     CK_OBJECT_CLASS xClass = CKO_PUBLIC_KEY;
     int lMbedResult = 0;
     mbedtls_pk_context xMbedPkContext = { 0 };
+
     #if MBEDTLS_VERSION_NUMBER >= 0x03000000
         mbedtls_entropy_context xEntropyContext;
         mbedtls_ctr_drbg_context xDrbgContext;
@@ -422,11 +426,13 @@ CK_RV xProvisionPublicKey( CK_SESSION_HANDLE xSession,
         mbedtls_entropy_init( &xEntropyContext );
         mbedtls_ctr_drbg_init( &xDrbgContext );
         lMbedResult = mbedtls_ctr_drbg_seed( &xDrbgContext, mbedtls_entropy_func, &xEntropyContext, NULL, 0 );
+
         if( lMbedResult == 0 )
         {
             lMbedResult = mbedtls_pk_parse_key( &xMbedPkContext, pucKey, xKeyLength, NULL, 0,
-                mbedtls_ctr_drbg_random, &xDrbgContext );
+                                                mbedtls_ctr_drbg_random, &xDrbgContext );
         }
+
         mbedtls_ctr_drbg_free( &xDrbgContext );
         mbedtls_entropy_free( &xEntropyContext );
     #endif /* MBEDTLS_VERSION_NUMBER < 0x03000000 */

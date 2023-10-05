@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnipscfg.c
  * Description  : Function to execute the AT command (SQNPSCFG).
@@ -46,23 +47,24 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnpscfg
  ************************************************************************************************/
-e_cellular_err_t atc_sqnpscfg(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_sqnpscfg( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[6] = {0};
+    uint8_t str[ 6 ] = { 0 };
 
-    sprintf((char *)str, "%d", CELLULAR_CFG_PSM_WAKEUP_LATENCY); // (uint8_t *)->(char *)
+    sprintf( ( char * ) str, "%d", CELLULAR_CFG_PSM_WAKEUP_LATENCY ); /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SET_PSM_CONFIG][0], // (const uint8_t * const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                  // (const uint8_t * const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SET_PSM_CONFIG ][ 0 ], /* (const uint8_t * const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                         /* (const uint8_t * const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_PSM_CONFIG);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_PSM_CONFIG );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnpscfg
  *********************************************************************************************************************/

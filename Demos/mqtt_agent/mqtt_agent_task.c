@@ -140,14 +140,14 @@
  * anticipated MQTT payload.
  */
 #ifndef MQTT_AGENT_NETWORK_BUFFER_SIZE
-#define MQTT_AGENT_NETWORK_BUFFER_SIZE    ( 5000 )
+    #define MQTT_AGENT_NETWORK_BUFFER_SIZE    ( 5000 )
 #endif
 
 /**
  * @brief Maximum number of subscriptions maintained by the MQTT agent in the subscription store.
  */
 #ifndef MQTT_AGENT_MAX_SUBSCRIPTIONS
-#define MQTT_AGENT_MAX_SUBSCRIPTIONS    10U
+    #define MQTT_AGENT_MAX_SUBSCRIPTIONS    10U
 #endif
 
 /**
@@ -345,7 +345,7 @@ static MQTTConnectionStatus_t prvConnectToMQTTBroker( bool xIsReconnect );
  * @return NULL if value not found, pointer to the NULL terminated string value
  *         if found.
  */
-//static char * prvKVStoreGetString( KVStoreKey_t xKey );
+/*static char * prvKVStoreGetString( KVStoreKey_t xKey ); */
 
 
 static void prvMQTTAgentTask( void * pvParameters );
@@ -393,12 +393,11 @@ static EventGroupHandle_t xStateEventGrp;
 
 
 
-
 /*-----------------------------------------------------------*/
 
 static MQTTStatus_t prvMQTTInit( void )
 {
-	TransportInterface_t xTransport;
+    TransportInterface_t xTransport;
     MQTTStatus_t xReturn;
     MQTTFixedBuffer_t xFixedBuffer = { .pBuffer = xNetworkBuffer, .size = MQTT_AGENT_NETWORK_BUFFER_SIZE };
     static uint8_t staticQueueStorageArea[ MQTT_AGENT_COMMAND_QUEUE_LENGTH * sizeof( MQTTAgentCommand_t * ) ];
@@ -457,15 +456,15 @@ static MQTTStatus_t prvCreateMQTTConnection( bool xIsReconnect )
      * previous session data. Also, establishing a connection with clean session
      * will ensure that the broker does not store any data when this client
      * gets disconnected. */
-#if ( mqttexamplePERSISTENT_SESSION_REQUIRED == 1 )
+    #if ( mqttexamplePERSISTENT_SESSION_REQUIRED == 1 )
     {
         xConnectInfo.cleanSession = false;
     }
-#else
+    #else
     {
         xConnectInfo.cleanSession = true;
     }
-#endif
+    #endif
 
     /* The client identifier is used to uniquely identify this MQTT client to
      * the MQTT broker. In a production device the identifier can be something
@@ -481,27 +480,27 @@ static MQTTStatus_t prvCreateMQTTConnection( bool xIsReconnect )
     xConnectInfo.keepAliveSeconds = mqttexampleKEEP_ALIVE_INTERVAL_SECONDS;
 
     /* Append metrics when connecting to the AWS IoT Core broker. */
-#ifdef democonfigUSE_AWS_IOT_CORE_BROKER
-#ifdef democonfigCLIENT_USERNAME
-    xConnectInfo.pUserName = CLIENT_USERNAME_WITH_METRICS;
-    xConnectInfo.userNameLength = ( uint16_t ) strlen( CLIENT_USERNAME_WITH_METRICS );
-    xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
-    xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
-#else
-    xConnectInfo.pUserName = AWS_IOT_METRICS_STRING;
-    xConnectInfo.userNameLength = AWS_IOT_METRICS_STRING_LENGTH;
-    /* Password for authentication is not used. */
-    xConnectInfo.pPassword = NULL;
-    xConnectInfo.passwordLength = 0U;
-#endif
-#else /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
-#ifdef democonfigCLIENT_USERNAME
-    xConnectInfo.pUserName = democonfigCLIENT_USERNAME;
-    xConnectInfo.userNameLength = ( uint16_t ) strlen( democonfigCLIENT_USERNAME );
-    xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
-    xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
-#endif /* ifdef democonfigCLIENT_USERNAME */
-#endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
+    #ifdef democonfigUSE_AWS_IOT_CORE_BROKER
+        #ifdef democonfigCLIENT_USERNAME
+            xConnectInfo.pUserName = CLIENT_USERNAME_WITH_METRICS;
+            xConnectInfo.userNameLength = ( uint16_t ) strlen( CLIENT_USERNAME_WITH_METRICS );
+            xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
+            xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
+        #else
+            xConnectInfo.pUserName = AWS_IOT_METRICS_STRING;
+            xConnectInfo.userNameLength = AWS_IOT_METRICS_STRING_LENGTH;
+            /* Password for authentication is not used. */
+            xConnectInfo.pPassword = NULL;
+            xConnectInfo.passwordLength = 0U;
+        #endif
+    #else /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
+        #ifdef democonfigCLIENT_USERNAME
+            xConnectInfo.pUserName = democonfigCLIENT_USERNAME;
+            xConnectInfo.userNameLength = ( uint16_t ) strlen( democonfigCLIENT_USERNAME );
+            xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
+            xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
+        #endif /* ifdef democonfigCLIENT_USERNAME */
+    #endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
 
     LogInfo( ( "Creating an MQTT connection to the broker." ) );
 
@@ -539,7 +538,7 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
     BackoffAlgorithmContext_t xReconnectParams = { 0 };
     uint16_t usNextRetryBackOff = 0U;
 
-#ifdef democonfigUSE_AWS_IOT_CORE_BROKER
+    #ifdef democonfigUSE_AWS_IOT_CORE_BROKER
 
     /* ALPN protocols must be a NULL-terminated list of strings. Therefore,
      * the first entry will contain the actual ALPN protocol string while the
@@ -547,13 +546,13 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
     const char * pcAlpnProtocols[] = { NULL, NULL };
 
     /* The ALPN string changes depending on whether username/password authentication is used. */
-#ifdef democonfigCLIENT_USERNAME
-    pcAlpnProtocols[ 0 ] = AWS_IOT_CUSTOM_AUTH_ALPN;
-#else
-    pcAlpnProtocols[ 0 ] = AWS_IOT_MQTT_ALPN;
-#endif
+    #ifdef democonfigCLIENT_USERNAME
+        pcAlpnProtocols[ 0 ] = AWS_IOT_CUSTOM_AUTH_ALPN;
+    #else
+        pcAlpnProtocols[ 0 ] = AWS_IOT_MQTT_ALPN;
+    #endif
     xNetworkCredentials.pAlpnProtos = pcAlpnProtocols;
-#endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
+    #endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
 
     /* Set the credentials for establishing a TLS connection. */
     xNetworkCredentials.pRootCa = ( unsigned char * ) democonfigROOT_CA_PEM;
@@ -564,52 +563,53 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
 
     xNetworkCredentials.disableSni = democonfigDISABLE_SNI;
     BackoffAlgorithm_InitializeParams( &xReconnectParams,
-                                        RETRY_BACKOFF_BASE_MS,
-                                        RETRY_MAX_BACKOFF_DELAY_MS,
-                                        RETRY_MAX_ATTEMPTS );
+                                       RETRY_BACKOFF_BASE_MS,
+                                       RETRY_MAX_BACKOFF_DELAY_MS,
+                                       RETRY_MAX_ATTEMPTS );
 
     /* Establish a TCP connection with the MQTT broker. This example connects to
      * the MQTT broker as specified in democonfigMQTT_BROKER_ENDPOINT and
      * democonfigMQTT_BROKER_PORT at the top of this file. */
 
     uint32_t ulRandomNum = 0;
-	do
-	{
-	LogInfo( ( "Creating a TLS connection to %s:%u.",
-			democonfigMQTT_BROKER_ENDPOINT,
-			democonfigMQTT_BROKER_PORT ) );
-	xNetworkStatus = TLS_FreeRTOS_Connect( pxNetworkContext,
+
+    do
+    {
+        LogInfo( ( "Creating a TLS connection to %s:%u.",
+                   democonfigMQTT_BROKER_ENDPOINT,
+                   democonfigMQTT_BROKER_PORT ) );
+        xNetworkStatus = TLS_FreeRTOS_Connect( pxNetworkContext,
                                                democonfigMQTT_BROKER_ENDPOINT,
                                                democonfigMQTT_BROKER_PORT,
                                                &xNetworkCredentials,
-                                           mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS,
-                                           mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS );
+                                               mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS,
+                                               mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS );
 
-    xConnected = ( xNetworkStatus == TLS_TRANSPORT_SUCCESS ) ? pdPASS : pdFAIL;
+        xConnected = ( xNetworkStatus == TLS_TRANSPORT_SUCCESS ) ? pdPASS : pdFAIL;
 
-		if( !xConnected )
-		{
-			/* Get back-off value (in milliseconds) for the next connection retry. */
-			if( xPkcs11GenerateRandomNumber( ( uint8_t * ) &ulRandomNum,
-												 sizeof( ulRandomNum ) ) == pdPASS )
-			{
-			xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( &xReconnectParams, ulRandomNum, &usNextRetryBackOff );
-			}
+        if( !xConnected )
+        {
+            /* Get back-off value (in milliseconds) for the next connection retry. */
+            if( xPkcs11GenerateRandomNumber( ( uint8_t * ) &ulRandomNum,
+                                             sizeof( ulRandomNum ) ) == pdPASS )
+            {
+                xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( &xReconnectParams, ulRandomNum, &usNextRetryBackOff );
+            }
 
-			if( xBackoffAlgStatus == BackoffAlgorithmSuccess )
-			{
-				LogWarn( ( "Connection to the broker failed. "
-						   "Retrying connection in %hu ms.",
-						   usNextRetryBackOff ) );
-				vTaskDelay( pdMS_TO_TICKS( usNextRetryBackOff ) );
-			}
-		}
+            if( xBackoffAlgStatus == BackoffAlgorithmSuccess )
+            {
+                LogWarn( ( "Connection to the broker failed. "
+                           "Retrying connection in %hu ms.",
+                           usNextRetryBackOff ) );
+                vTaskDelay( pdMS_TO_TICKS( usNextRetryBackOff ) );
+            }
+        }
 
-		if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
-		{
-			LogError( ( "Connection to the broker failed, all attempts exhausted." ) );
-		}
-	} while( ( xConnected != pdPASS ) && ( xBackoffAlgStatus == BackoffAlgorithmSuccess ) );
+        if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
+        {
+            LogError( ( "Connection to the broker failed, all attempts exhausted." ) );
+        }
+    } while( ( xConnected != pdPASS ) && ( xBackoffAlgStatus == BackoffAlgorithmSuccess ) );
 
     return xConnected;
 }
@@ -766,7 +766,7 @@ void prvMQTTAgentTask( void * pvParameters )
     ulGlobalEntryTimeMs = prvGetTimeMs();
 
     /* Load broker endpoint and thing name for client connection, from the key store. */
-//    pcThingName = clientcredentialIOT_THING_NAME;
+/*    pcThingName = clientcredentialIOT_THING_NAME; */
 
     /* Initialize the MQTT context with the buffer and transport interface. */
     if( xStatus == pdPASS )
@@ -834,6 +834,7 @@ static MQTTConnectionStatus_t prvConnectToMQTTBroker( bool xIsReconnect )
     BackoffAlgorithmStatus_t xBackoffAlgStatus = BackoffAlgorithmSuccess;
     BackoffAlgorithmContext_t xReconnectParams = { 0 };
     uint16_t usNextRetryBackOff = 0U;
+
 /* Initialize network context. */
     xNetworkContext.pParams = &xTlsTransportParams;
 

@@ -76,13 +76,13 @@
  */
 
 #ifndef __TC_ECC_DSA_H__
-#define __TC_ECC_DSA_H__
+    #define __TC_ECC_DSA_H__
 
-#include <tinycrypt/ecc.h>
+    #include <tinycrypt/ecc.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
 /**
  * @brief Generate an ECDSA signature for a given hash value.
@@ -102,23 +102,30 @@ extern "C" {
  * @note side-channel countermeasure: algorithm strengthened against timing
  * attack.
  */
-int uECC_sign(const uint8_t *p_private_key, const uint8_t *p_message_hash,
-	      unsigned p_hash_size, uint8_t *p_signature, uECC_Curve curve);
+    int uECC_sign( const uint8_t * p_private_key,
+                   const uint8_t * p_message_hash,
+                   unsigned p_hash_size,
+                   uint8_t * p_signature,
+                   uECC_Curve curve );
 
-#ifdef ENABLE_TESTS
+    #ifdef ENABLE_TESTS
+
 /*
  * THIS FUNCTION SHOULD BE CALLED FOR TEST PURPOSES ONLY.
  * Refer to uECC_sign() function for real applications.
  */
-int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
-		     unsigned int hash_size, uECC_word_t *k, uint8_t *signature,
-		     uECC_Curve curve);
-#endif
+        int uECC_sign_with_k( const uint8_t * private_key,
+                              const uint8_t * message_hash,
+                              unsigned int hash_size,
+                              uECC_word_t * k,
+                              uint8_t * signature,
+                              uECC_Curve curve );
+    #endif
 
 /**
  * @brief Verify an ECDSA signature.
  * @return returns TC_SUCCESS (1) if the signature is valid
- * 	   returns TC_FAIL (0) if the signature is invalid.
+ *     returns TC_FAIL (0) if the signature is invalid.
  *
  * @param p_public_key IN -- The signer's public key.
  * @param p_message_hash IN -- The hash of the signed data.
@@ -129,11 +136,14 @@ int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
  * signer and pass it to this function along with the signer's public key and
  * the signature values (hash_size and signature).
  */
-int uECC_verify(const uint8_t *p_public_key, const uint8_t *p_message_hash,
-		unsigned int p_hash_size, const uint8_t *p_signature, uECC_Curve curve);
+    int uECC_verify( const uint8_t * p_public_key,
+                     const uint8_t * p_message_hash,
+                     unsigned int p_hash_size,
+                     const uint8_t * p_signature,
+                     uECC_Curve curve );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_ECC_DSA_H__ */

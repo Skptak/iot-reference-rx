@@ -101,7 +101,7 @@
  * number generation is performed via this macro to allow applications to use their
  * own random number generation method.  For example, it might be possible to
  * generate a random number by sampling noise on an analogue input. */
-uint32_t ulRand(void);
+uint32_t ulRand( void );
 #define ipconfigRAND32()    ulRand()
 
 /* If ipconfigUSE_NETWORK_EVENT_HOOK is set to 1 then FreeRTOS+TCP will call the
@@ -109,7 +109,7 @@ uint32_t ulRand(void);
  * is not set to 1 then the network event hook will never be called. See:
  * http://www.FreeRTOS.org/FreeRTOS-Plus/FreeRTOS_Plus_UDP/API/vApplicationIPNetworkEventHook.shtml.
  */
-#define ipconfigUSE_NETWORK_EVENT_HOOK           1
+#define ipconfigUSE_NETWORK_EVENT_HOOK                 1
 
 /* Sockets have a send block time attribute.  If FreeRTOS_sendto() is called but
  * a network buffer cannot be obtained then the calling task is held in the Blocked
@@ -123,7 +123,7 @@ uint32_t ulRand(void);
  * ipconfigMAX_SEND_BLOCK_TIME_TICKS is specified in RTOS ticks.  A time in
  * milliseconds can be converted to a time in ticks by dividing the time in
  * milliseconds by portTICK_PERIOD_MS. */
-#define ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS    ( 5000 / portTICK_PERIOD_MS )
+#define ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS          ( 5000 / portTICK_PERIOD_MS )
 
 /* If ipconfigUSE_DHCP is 1 then FreeRTOS+TCP will attempt to retrieve an IP
  * address, netmask, DNS server address and gateway address from a DHCP server.  If
@@ -132,15 +132,15 @@ uint32_t ulRand(void);
  * set to 1 if a valid configuration cannot be obtained from a DHCP server for any
  * reason.  The static configuration used is that passed into the stack by the
  * FreeRTOS_IPInit() function call. */
-#define ipconfigUSE_DHCP                         1
-#define ipconfigDHCP_REGISTER_HOSTNAME           1
-#define ipconfigDHCP_USES_UNICAST                1
-#define ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP 0
+#define ipconfigUSE_DHCP                               1
+#define ipconfigDHCP_REGISTER_HOSTNAME                 1
+#define ipconfigDHCP_USES_UNICAST                      1
+#define ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP       0
 
 /* If ipconfigDHCP_USES_USER_HOOK is set to 1 then the application writer must
  * provide an implementation of the DHCP callback function,
  * xApplicationDHCPUserHook(). */
-#define ipconfigUSE_DHCP_HOOK                    0
+#define ipconfigUSE_DHCP_HOOK                          0
 
 /* When ipconfigUSE_DHCP is set to 1, DHCP requests will be sent out at
  * increasing time intervals until either a reply is received from a DHCP server
@@ -149,7 +149,7 @@ uint32_t ulRand(void);
  * static IP address passed as a parameter to FreeRTOS_IPInit() if the
  * re-transmission time interval reaches ipconfigMAXIMUM_DISCOVER_TX_PERIOD without
  * a DHCP reply being received. */
-#define ipconfigMAXIMUM_DISCOVER_TX_PERIOD     ( 120000 / portTICK_PERIOD_MS )
+#define ipconfigMAXIMUM_DISCOVER_TX_PERIOD             ( 120000 / portTICK_PERIOD_MS )
 
 /* The ARP cache is a table that maps IP addresses to MAC addresses.  The IP
  * stack can only send a UDP message to a remove IP address if it knowns the MAC
@@ -160,19 +160,19 @@ uint32_t ulRand(void);
  * cache then the UDP message is replaced by a ARP message that solicits the
  * required MAC address information.  ipconfigARP_CACHE_ENTRIES defines the maximum
  * number of entries that can exist in the ARP table at any one time. */
-#define ipconfigARP_CACHE_ENTRIES                 6
+#define ipconfigARP_CACHE_ENTRIES                      6
 
 /* ARP requests that do not result in an ARP response will be re-transmitted a
  * maximum of ipconfigMAX_ARP_RETRANSMISSIONS times before the ARP request is
  * aborted. */
-#define ipconfigMAX_ARP_RETRANSMISSIONS           ( 5 )
+#define ipconfigMAX_ARP_RETRANSMISSIONS                ( 5 )
 
 /* ipconfigMAX_ARP_AGE defines the maximum time between an entry in the ARP
  * table being created or refreshed and the entry being removed because it is stale.
  * New ARP requests are sent for ARP cache entries that are nearing their maximum
  * age.  ipconfigMAX_ARP_AGE is specified in tens of seconds, so a value of 150 is
  * equal to 1500 seconds (or 25 minutes). */
-#define ipconfigMAX_ARP_AGE                       150
+#define ipconfigMAX_ARP_AGE                            150
 
 /* Implementing FreeRTOS_inet_addr() necessitates the use of string handling
  * routines, which are relatively large.  To save code space the full
@@ -184,19 +184,19 @@ uint32_t ulRand(void);
  * ipconfigINCLUDE_FULL_INET_ADDR is set to 1 then both FreeRTOS_inet_addr() and
  * FreeRTOS_indet_addr_quick() are available.  If ipconfigINCLUDE_FULL_INET_ADDR is
  * not set to 1 then only FreeRTOS_indet_addr_quick() is available. */
-#define ipconfigINCLUDE_FULL_INET_ADDR            1
+#define ipconfigINCLUDE_FULL_INET_ADDR                 1
 
 /* ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS defines the total number of network buffer that
  * are available to the IP stack.  The total number of network buffers is limited
  * to ensure the total amount of RAM that can be consumed by the IP stack is capped
  * to a pre-determinable value. */
-#define ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS    6
+#define ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS         6
 
 /* A FreeRTOS queue is used to send events from application tasks to the IP
  * stack.  ipconfigEVENT_QUEUE_LENGTH sets the maximum number of events that can
  * be queued for processing at any one time.  The event queue must be a minimum of
  * 5 greater than the total number of network buffers. */
-#define ipconfigEVENT_QUEUE_LENGTH     ( ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5 )
+#define ipconfigEVENT_QUEUE_LENGTH                     ( ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5 )
 
 /* The address of a socket is the combination of its IP address and its port
  * number.  FreeRTOS_bind() is used to manually allocate a port number to a socket
@@ -259,30 +259,30 @@ uint32_t ulRand(void);
  * because the packet will already have been passed into the stack).  If the
  * Ethernet driver does all the necessary filtering in hardware then software
  * filtering can be removed by using a value other than 1 or 0. */
-#define ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES    0 //XXX
+#define ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES    0 /*XXX */
 
 /* The windows simulator cannot really simulate MAC interrupts, and needs to
  * block occasionally to allow other tasks to run. */
-//#define configWINDOWS_MAC_INTERRUPT_SIMULATOR_DELAY    ( 20 / portTICK_PERIOD_MS )
+/*#define configWINDOWS_MAC_INTERRUPT_SIMULATOR_DELAY    ( 20 / portTICK_PERIOD_MS ) */
 
 /* Advanced only: in order to access 32-bit fields in the IP packets with
  * 32-bit memory instructions, all packets will be stored 32-bit-aligned,
  * plus 16-bits. This has to do with the contents of the IP-packets: all
  * 32-bit fields are 32-bit-aligned, plus 16-bit. */
-#define ipconfigPACKET_FILLER_SIZE                     2U
+#define ipconfigPACKET_FILLER_SIZE      2U
 
 /* Define the size of the pool of TCP window descriptors.  On the average, each
  * TCP socket will use up to 2 x 6 descriptors, meaning that it can have 2 x 6
  * outstanding packets (for Rx and Tx).  When using up to 10 TP sockets
  * simultaneously, one could define TCP_WIN_SEG_COUNT as 120. */
-#define ipconfigTCP_WIN_SEG_COUNT                      240
+#define ipconfigTCP_WIN_SEG_COUNT       240
 
 /* Each TCP socket has a circular buffers for Rx and Tx, which have a fixed
  * maximum size.  Define the size of Rx buffer for TCP sockets. */
-#define ipconfigTCP_RX_BUFFER_LENGTH                   ( 1460 )
+#define ipconfigTCP_RX_BUFFER_LENGTH    ( 1460 )
 
 /* Define the size of Tx buffer for TCP sockets. */
-#define ipconfigTCP_TX_BUFFER_LENGTH                   ( 1460 )
+#define ipconfigTCP_TX_BUFFER_LENGTH    ( 1460 )
 
 /* When using call-back handlers, the driver may check if the handler points to
  * real program memory (RAM or flash) or just has a random non-zero value. */
@@ -319,6 +319,6 @@ void vApplicationMQTTGetKeys( const char ** ppcRootCA,
                               const char ** ppcClientPrivateKey );
 
 /* Let NetworkInterface check the free space in the working queue for the IP-task. */
-#define ipconfigCHECK_IP_QUEUE_SPACE			1
+#define ipconfigCHECK_IP_QUEUE_SPACE    1
 
 #endif /* FREERTOS_IP_CONFIG_H */

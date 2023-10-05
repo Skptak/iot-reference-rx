@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cgmi.c
  * Description  : Function to execute the AT command (CGMI).
@@ -46,18 +47,19 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cgmi
  ************************************************************************************************/
-e_cellular_err_t atc_cgmi(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cgmi( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_GET_MAKER_NAME][0],   // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_MAKER_NAME ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_MAKER_NAME);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_MAKER_NAME );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgmi
  *********************************************************************************************************************/

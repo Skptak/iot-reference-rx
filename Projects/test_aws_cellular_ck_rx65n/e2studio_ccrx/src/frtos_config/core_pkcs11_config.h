@@ -58,16 +58,17 @@
 
 #include "logging_stack.h"
 
-#define pkcs11configPAL_DESTROY_SUPPORTED 1
+#define pkcs11configPAL_DESTROY_SUPPORTED    1
+
 /**
  * @brief Malloc API used by core_pkcs11.h
  */
-#define PKCS11_MALLOC pvPortMalloc
+#define PKCS11_MALLOC                        pvPortMalloc
 
 /**
  * @brief Free API used by core_pkcs11.h
  */
-#define PKCS11_FREE vPortFree
+#define PKCS11_FREE                          vPortFree
 
 /**
  * @brief PKCS #11 default user PIN.
@@ -81,25 +82,25 @@
  * Note: Do not cast this to a pointer! The library calls sizeof to get the length
  * of this string.
  */
-#define configPKCS11_DEFAULT_USER_PIN    "0000"
+#define configPKCS11_DEFAULT_USER_PIN        "0000"
 
 /**
  * @brief Maximum length (in characters) for a PKCS #11 CKA_LABEL
  * attribute.
  */
-#define pkcs11configMAX_LABEL_LENGTH     32
+#define pkcs11configMAX_LABEL_LENGTH         32
 
 /**
  * @brief Maximum number of token objects that can be stored
  * by the PKCS #11 module.
  */
-#define pkcs11configMAX_NUM_OBJECTS      6
+#define pkcs11configMAX_NUM_OBJECTS          6
 
 /**
  * @brief Maximum number of sessions that can be stored
  * by the PKCS #11 module.
  */
-#define pkcs11configMAX_SESSIONS                           10
+#define pkcs11configMAX_SESSIONS             10
 
 
 /**

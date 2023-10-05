@@ -189,12 +189,12 @@
  */
 #define _MILLISECONDS_PER_TICK                            ( _MILLISECONDS_PER_SECOND / configTICK_RATE_HZ )
 
-#define ulMaxPublishCount								  (5UL)
+#define ulMaxPublishCount                                 ( 5UL )
 
 /*-----------------------------------------------------------*/
 
-/** 
- * @brief Each compilation unit that consumes the NetworkContext must define it. 
+/**
+ * @brief Each compilation unit that consumes the NetworkContext must define it.
  * It should contain a single pointer to the type of your desired transport.
  * When using multiple transports in the same compilation unit, define this pointer as void *.
  *
@@ -531,7 +531,7 @@ static void prvCreateMQTTConnectionWithBroker( MQTTContext_t * pxMQTTContext,
     xResult = MQTT_Init( pxMQTTContext, &xTransport, prvGetTimeMs, prvEventCallback, &xBuffer );
     configASSERT( xResult == MQTTSuccess );
 
-    xResult = MQTT_InitStatefulQoS(pxMQTTContext, pOutgoingPublishRecords, ulMaxPublishCount, pIncomingPublishRecords, ulMaxPublishCount);
+    xResult = MQTT_InitStatefulQoS( pxMQTTContext, pOutgoingPublishRecords, ulMaxPublishCount, pIncomingPublishRecords, ulMaxPublishCount );
     configASSERT( xResult == MQTTSuccess );
 
     /* Some fields are not used in this demo so start with everything at 0. */

@@ -55,27 +55,28 @@
  */
 
 #ifndef __TC_SHA256_H__
-#define __TC_SHA256_H__
+    #define __TC_SHA256_H__
 
-#include <stddef.h>
-#include <stdint.h>
+    #include <stddef.h>
+    #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
-#define TC_SHA256_BLOCK_SIZE (64)
-#define TC_SHA256_DIGEST_SIZE (32)
-#define TC_SHA256_STATE_BLOCKS (TC_SHA256_DIGEST_SIZE/4)
+    #define TC_SHA256_BLOCK_SIZE      ( 64 )
+    #define TC_SHA256_DIGEST_SIZE     ( 32 )
+    #define TC_SHA256_STATE_BLOCKS    ( TC_SHA256_DIGEST_SIZE / 4 )
 
-struct tc_sha256_state_struct {
-	unsigned int iv[TC_SHA256_STATE_BLOCKS];
-	uint64_t bits_hashed;
-	uint8_t leftover[TC_SHA256_BLOCK_SIZE];
-	size_t leftover_offset;
-};
+    struct tc_sha256_state_struct
+    {
+        unsigned int iv[ TC_SHA256_STATE_BLOCKS ];
+        uint64_t bits_hashed;
+        uint8_t leftover[ TC_SHA256_BLOCK_SIZE ];
+        size_t leftover_offset;
+    };
 
-typedef struct tc_sha256_state_struct *TCSha256State_t;
+    typedef struct tc_sha256_state_struct * TCSha256State_t;
 
 /**
  *  @brief SHA256 initialization procedure
@@ -84,7 +85,7 @@ typedef struct tc_sha256_state_struct *TCSha256State_t;
  *          returns TC_CRYPTO_FAIL (0) if s == NULL
  *  @param s Sha256 state struct
  */
-int tc_sha256_init(TCSha256State_t s);
+    int tc_sha256_init( TCSha256State_t s );
 
 /**
  *  @brief SHA256 update procedure
@@ -102,7 +103,9 @@ int tc_sha256_init(TCSha256State_t s);
  *  @param data message to hash
  *  @param datalen length of message to hash
  */
-int tc_sha256_update (TCSha256State_t s, const uint8_t *data, size_t datalen);
+    int tc_sha256_update( TCSha256State_t s,
+                          const uint8_t * data,
+                          size_t datalen );
 
 /**
  *  @brief SHA256 final procedure
@@ -120,10 +123,11 @@ int tc_sha256_update (TCSha256State_t s, const uint8_t *data, size_t datalen);
  *  @param digest unsigned eight bit integer
  *  @param Sha256 state struct
  */
-int tc_sha256_final(uint8_t *digest, TCSha256State_t s);
+    int tc_sha256_final( uint8_t * digest,
+                         TCSha256State_t s );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_SHA256_H__ */

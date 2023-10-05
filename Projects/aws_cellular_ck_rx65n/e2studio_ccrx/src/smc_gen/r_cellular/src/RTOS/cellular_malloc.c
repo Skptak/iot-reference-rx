@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_malloc.c
  * Description  : Function to get memory.
@@ -45,31 +46,36 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_malloc
  ****************************************************************************************/
-void * cellular_malloc(const size_t size)
+void * cellular_malloc( const size_t size )
 {
     void * p_ret = NULL;
-#if BSP_CFG_RTOS_USED == (1)
-    p_ret = pvPortMalloc(size);
-#elif BSP_CFG_RTOS_USED == (5)
-    switch (size)
-    {
-        case EVENT_BLOCK_SIZE:
-            tx_block_allocate(&g_cellular_event_pool, &p_ret, TX_NO_WAIT);
-            break;
-        case THREAD_BLOCK_SIZE:
-            tx_block_allocate(&g_cellular_thread_pool, &p_ret, TX_NO_WAIT);
-            break;
-        case SEMAPHORE_BLOCK_SIZE:
-            tx_block_allocate(&g_cellular_semaphore_pool, &p_ret, TX_NO_WAIT);
-            break;
-        default:
-            tx_block_allocate(&g_cellular_socket_pool, &p_ret, TX_NO_WAIT);
-            break;
-    }
-#endif
+
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        p_ret = pvPortMalloc( size );
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        switch( size )
+        {
+            case EVENT_BLOCK_SIZE:
+                tx_block_allocate( &g_cellular_event_pool, &p_ret, TX_NO_WAIT );
+                break;
+
+            case THREAD_BLOCK_SIZE:
+                tx_block_allocate( &g_cellular_thread_pool, &p_ret, TX_NO_WAIT );
+                break;
+
+            case SEMAPHORE_BLOCK_SIZE:
+                tx_block_allocate( &g_cellular_semaphore_pool, &p_ret, TX_NO_WAIT );
+                break;
+
+            default:
+                tx_block_allocate( &g_cellular_socket_pool, &p_ret, TX_NO_WAIT );
+                break;
+        }
+    #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
 
     return p_ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_malloc
  *********************************************************************************************************************/

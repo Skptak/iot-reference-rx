@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_take_semaphore.c
  * Description  : Function to get semaphore.
@@ -45,23 +46,25 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_take_semaphore
  ****************************************************************************************/
-e_cellular_err_semaphore_t cellular_take_semaphore(void * const xSemaphore)
+e_cellular_err_semaphore_t cellular_take_semaphore( void * const xSemaphore )
 {
     e_cellular_err_semaphore_t ret = CELLULAR_SEMAPHORE_SUCCESS;
-#if BSP_CFG_RTOS_USED == (1)
-    if (pdTRUE != xSemaphoreTake((SemaphoreHandle_t)xSemaphore, pdMS_TO_TICKS(CELLULAR_CFG_SEMAPHORE_BLOCK_TIME)))
-    {
-        ret = CELLULAR_SEMAPHORE_ERR_TAKE;
-    }
-#elif BSP_CFG_RTOS_USED == (5)
-    if (TX_SUCCESS != tx_semaphore_get((TX_SEMAPHORE *)xSemaphore, MS_TO_TICKS(CELLULAR_CFG_SEMAPHORE_BLOCK_TIME)))
-    {
-        ret = CELLULAR_SEMAPHORE_ERR_TAKE;
-    }
-#endif
+
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        if( pdTRUE != xSemaphoreTake( ( SemaphoreHandle_t ) xSemaphore, pdMS_TO_TICKS( CELLULAR_CFG_SEMAPHORE_BLOCK_TIME ) ) )
+        {
+            ret = CELLULAR_SEMAPHORE_ERR_TAKE;
+        }
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        if( TX_SUCCESS != tx_semaphore_get( ( TX_SEMAPHORE * ) xSemaphore, MS_TO_TICKS( CELLULAR_CFG_SEMAPHORE_BLOCK_TIME ) ) )
+        {
+            ret = CELLULAR_SEMAPHORE_ERR_TAKE;
+        }
+    #endif
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_take_semaphore
  *********************************************************************************************************************/

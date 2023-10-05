@@ -310,7 +310,7 @@ static bool prvUnsubscribeFromRegisterThingResponseTopics( void );
  */
 static int prvFleetProvisioningTask( void * pvParameters );
 
-void vStartFleetProvisioningDemo(void);
+void vStartFleetProvisioningDemo( void );
 
 /*-----------------------------------------------------------*/
 
@@ -338,11 +338,11 @@ static void prvProvisioningPublishCallback( MQTTContext_t * pxMqttContext,
         configASSERT( pxDeserializedInfo->pPublishInfo != NULL );
         pxPublishInfo = pxDeserializedInfo->pPublishInfo;
 
-        xStatus = FleetProvisioning_MatchTopic(pxPublishInfo->pTopicName,
-                                               pxPublishInfo->topicNameLength,
-                                               &xApi);
+        xStatus = FleetProvisioning_MatchTopic( pxPublishInfo->pTopicName,
+                                                pxPublishInfo->topicNameLength,
+                                                &xApi );
 
-        if (xStatus != FleetProvisioningSuccess)
+        if( xStatus != FleetProvisioningSuccess )
         {
             LogWarn( ( "Unexpected publish message received. Topic: %.*s.",
                        ( int ) pxPublishInfo->topicNameLength,
@@ -350,7 +350,7 @@ static void prvProvisioningPublishCallback( MQTTContext_t * pxMqttContext,
         }
         else
         {
-            if (xApi == FleetProvCborCreateCertFromCsrAccepted)
+            if( xApi == FleetProvCborCreateCertFromCsrAccepted )
             {
                 LogInfo( ( "Received accepted response from Fleet Provisioning CreateCertificateFromCsr API." ) );
 
@@ -363,13 +363,13 @@ static void prvProvisioningPublishCallback( MQTTContext_t * pxMqttContext,
 
                 xPayloadLength = pxPublishInfo->payloadLength;
             }
-            else if (xApi == FleetProvCborCreateCertFromCsrRejected)
+            else if( xApi == FleetProvCborCreateCertFromCsrRejected )
             {
                 LogError( ( "Received rejected response from Fleet Provisioning CreateCertificateFromCsr API." ) );
 
                 xResponseStatus = ResponseRejected;
             }
-            else if (xApi == FleetProvCborRegisterThingAccepted)
+            else if( xApi == FleetProvCborRegisterThingAccepted )
             {
                 LogInfo( ( "Received accepted response from Fleet Provisioning RegisterThing API." ) );
 
@@ -382,7 +382,7 @@ static void prvProvisioningPublishCallback( MQTTContext_t * pxMqttContext,
 
                 xPayloadLength = pxPublishInfo->payloadLength;
             }
-            else if (xApi == FleetProvCborRegisterThingRejected)
+            else if( xApi == FleetProvCborRegisterThingRejected )
             {
                 LogError( ( "Received rejected response from Fleet Provisioning RegisterThing API." ) );
 
@@ -583,9 +583,9 @@ int prvFleetProvisioningTask( void * pvParameters )
     ( void ) pvParameters;
 
     /* Generate unique fleet provisioning demo ID. */
-    get_unique_id(&uuid);
-    snprintf( pcDemoID, fpdemoMAX_THING_NAME_LENGTH, "%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3);
-    snprintf( pcCSRSubjectName, fpdemoMAX_CSR_SUBJECT_NAME_LENGTH, "CN=%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3);
+    get_unique_id( &uuid );
+    snprintf( pcDemoID, fpdemoMAX_THING_NAME_LENGTH, "%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3 );
+    snprintf( pcCSRSubjectName, fpdemoMAX_CSR_SUBJECT_NAME_LENGTH, "CN=%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3 );
 
     /* Set the pParams member of the network context with desired transport. */
     xNetworkContext.pxParams = &xTlsTransportParams;
@@ -610,6 +610,7 @@ int prvFleetProvisioningTask( void * pvParameters )
             xPkcs11Ret = xGetCertificateAndKeyState( xP11Session,
                                                      &xClientCertificate,
                                                      &xPrivateKey );
+
             if( xPkcs11Ret != CKR_OK )
             {
                 LogError( ( "Failed to get state of device certificate and private key." ) );
@@ -617,19 +618,20 @@ int prvFleetProvisioningTask( void * pvParameters )
             }
         }
 
-        if ( (xPkcs11Ret == CKR_OK) && (xClientCertificate == CK_INVALID_HANDLE) && (xPrivateKey == CK_INVALID_HANDLE) )
+        if( ( xPkcs11Ret == CKR_OK ) && ( xClientCertificate == CK_INVALID_HANDLE ) && ( xPrivateKey == CK_INVALID_HANDLE ) )
         {
-        	xStatus = xLoadClaimCredentials(xP11Session,
-        	                      democonfigCLAIM_CERT_PEM,
-        	                      sizeof( democonfigCLAIM_CERT_PEM ),
-        	                      democonfigCLAIM_PRIVATE_KEY_PEM,
-        	                      sizeof ( democonfigCLAIM_PRIVATE_KEY_PEM ) );
-        	if( xStatus != true)
-        	{
-        	    LogError( ( "Failed to load claim certificate and claim private key." ) );
-        	}
-        	else
-        	{
+            xStatus = xLoadClaimCredentials( xP11Session,
+                                             democonfigCLAIM_CERT_PEM,
+                                             sizeof( democonfigCLAIM_CERT_PEM ),
+                                             democonfigCLAIM_PRIVATE_KEY_PEM,
+                                             sizeof( democonfigCLAIM_PRIVATE_KEY_PEM ) );
+
+            if( xStatus != true )
+            {
+                LogError( ( "Failed to load claim certificate and claim private key." ) );
+            }
+            else
+            {
                 xStatus = xGenerateKeyAndCsr( xP11Session,
                                               pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS,
                                               pkcs11configLABEL_DEVICE_PUBLIC_KEY_FOR_TLS,
@@ -642,12 +644,12 @@ int prvFleetProvisioningTask( void * pvParameters )
                 {
                     LogError( ( "Failed to generate Key and Certificate Signing Request." ) );
                 }
-        	}
+            }
         }
-        else if ( (xPkcs11Ret == CKR_OK) && (xClientCertificate != CK_INVALID_HANDLE) && (xPrivateKey != CK_INVALID_HANDLE) )
+        else if( ( xPkcs11Ret == CKR_OK ) && ( xClientCertificate != CK_INVALID_HANDLE ) && ( xPrivateKey != CK_INVALID_HANDLE ) )
         {
             LogInfo( ( "It uses the device certificate and private key already stored." ) );
-            snprintf( pcThingName, fpdemoMAX_THING_NAME_LENGTH, "fp_demo_%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3);
+            snprintf( pcThingName, fpdemoMAX_THING_NAME_LENGTH, "fp_demo_%s_%d_%d_%d_%d", democonfigFP_DEMO_ID, uuid.uuid0, uuid.uuid1, uuid.uuid2, uuid.uuid3 );
             xStatus = true;
         }
         else
@@ -657,7 +659,7 @@ int prvFleetProvisioningTask( void * pvParameters )
         }
 
         /* Skip fleet provisioning if you already have a device certificate and private key. */
-        if ( (xClientCertificate == CK_INVALID_HANDLE) && (xPrivateKey == CK_INVALID_HANDLE) )
+        if( ( xClientCertificate == CK_INVALID_HANDLE ) && ( xPrivateKey == CK_INVALID_HANDLE ) )
         {
             /**** Connect to AWS IoT Core with provisioning claim credentials *****/
 
@@ -677,7 +679,7 @@ int prvFleetProvisioningTask( void * pvParameters )
                                                  prvProvisioningPublishCallback,
                                                  pkcs11configLABEL_CLAIM_CERTIFICATE,
                                                  pkcs11configLABEL_CLAIM_PRIVATE_KEY,
-                                                 pcDemoID);
+                                                 pcDemoID );
 
                 if( xStatus == false )
                 {
@@ -778,7 +780,7 @@ int prvFleetProvisioningTask( void * pvParameters )
                                                          pcOwnershipToken,
                                                          xOwnershipTokenLength,
                                                          pcDemoID,
-                                                         strlen ( pcDemoID ),
+                                                         strlen( pcDemoID ),
                                                          &xPayloadLength );
             }
 
@@ -901,7 +903,7 @@ int prvFleetProvisioningTask( void * pvParameters )
     /* Log demo success. */
     if( xStatus == true )
     {
-    	xPkcs11CloseSession( xP11Session );
+        xPkcs11CloseSession( xP11Session );
         LogInfo( ( "Demo completed successfully." ) );
         LogInfo( ( "-------DEMO FINISHED-------\r\n" ) );
     }

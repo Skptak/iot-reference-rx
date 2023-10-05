@@ -1,27 +1,29 @@
 /***********************************************************************************************************************
 * DISCLAIMER
-* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
-* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all 
-* applicable laws, including copyright laws. 
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+* applicable laws, including copyright laws.
 * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
-* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, 
-* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM 
-* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES 
-* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS 
+* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
 * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
-* this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+* this software. By using this software, you agree to the additional terms and conditions found by accessing the
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2014-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * File Name    : r_flash_rx_if.h
 * Description  : This module provides the interface file to be included by the user when using the FLASH API
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
-* History : DD.MM.YYYY Version Description           
+* History : DD.MM.YYYY Version Description
 *           12.04.2014 1.00    First Release
 *           24.11.2014 1.10    Enhanced non_fcu driver. Added timeout check, clearing of FLASH.FASR.BIT.EXS, and
 *                              additional checking of .PRGERR
@@ -153,7 +155,7 @@
 *           23.04.2021 4.80    Added support for RX140.
 *           10.12.2021 4.81    Added support for Tool News R20TS0765, R20TS0772, and some minor updates.
 *           13.05.2022 4.90    Added support for RX660.
-*                              Added support for Tool News R20TS0818. 
+*                              Added support for Tool News R20TS0818.
 ***********************************************************************************************************************/
 
 #ifndef FLASH_INTERFACE_HEADER_FILE
@@ -167,121 +169,121 @@
 #endif
 
 /***********************************************************************************************************************
-Macro definitions
+*  Macro definitions
 ***********************************************************************************************************************/
 /* Driver Version Number. */
-#define FLASH_RX_VERSION_MAJOR           (4)
-#define FLASH_RX_VERSION_MINOR           (90)
+#define FLASH_RX_VERSION_MAJOR    ( 4 )
+#define FLASH_RX_VERSION_MINOR    ( 90 )
 
 
 /***********************************************************************************************************************
-Typedef definitions
+*  Typedef definitions
 ***********************************************************************************************************************/
 
 /* DRIVER INTERNAL PROGRAMMING GROUPINGS */
 
-#define FLASH_TYPE_1    1
-#define FLASH_TYPE_3    3
-#define FLASH_TYPE_4    4
+#define FLASH_TYPE_1              1
+#define FLASH_TYPE_3              3
+#define FLASH_TYPE_4              4
 
-#if (defined(MCU_RX110) || defined(MCU_RX111) || defined(MCU_RX113) || \
-     defined(MCU_RX130) || defined(MCU_RX231) || defined(MCU_RX23T) || \
-     defined(MCU_RX24T) || defined(MCU_RX24U) || defined(MCU_RX230) || \
-     defined(MCU_RX23W) || defined(MCU_RX13T) || defined(MCU_RX23E_A) || \
-     defined(MCU_RX140))
-#define FLASH_TYPE              FLASH_TYPE_1
+#if ( defined( MCU_RX110 ) || defined( MCU_RX111 ) || defined( MCU_RX113 ) || \
+    defined( MCU_RX130 ) || defined( MCU_RX231 ) || defined( MCU_RX23T ) ||   \
+    defined( MCU_RX24T ) || defined( MCU_RX24U ) || defined( MCU_RX230 ) ||   \
+    defined( MCU_RX23W ) || defined( MCU_RX13T ) || defined( MCU_RX23E_A ) || \
+    defined( MCU_RX140 ) )
+    #define FLASH_TYPE            FLASH_TYPE_1
 
-#elif (defined(MCU_RX64M) || defined(MCU_RX66T) || defined(MCU_RX71M) || \
-       defined(MCU_RX72T) || defined(MCU_RX660))
-#define FLASH_TYPE              FLASH_TYPE_3
+#elif ( defined( MCU_RX64M ) || defined( MCU_RX66T ) || defined( MCU_RX71M ) || \
+    defined( MCU_RX72T ) || defined( MCU_RX660 ) )
+    #define FLASH_TYPE            FLASH_TYPE_3
 
-#elif (defined(MCU_RX651) || defined(MCU_RX65N) || defined(MCU_RX72M) || \
-       defined(MCU_RX66N) || defined(MCU_RX72N) || defined(MCU_RX671))
-#define FLASH_TYPE              FLASH_TYPE_4
-#endif
+#elif ( defined( MCU_RX651 ) || defined( MCU_RX65N ) || defined( MCU_RX72M ) || \
+    defined( MCU_RX66N ) || defined( MCU_RX72N ) || defined( MCU_RX671 ) )
+    #define FLASH_TYPE            FLASH_TYPE_4
+#endif /* if ( defined( MCU_RX110 ) || defined( MCU_RX111 ) || defined( MCU_RX113 ) || defined( MCU_RX130 ) || defined( MCU_RX231 ) || defined( MCU_RX23T ) || defined( MCU_RX24T ) || defined( MCU_RX24U ) || defined( MCU_RX230 ) || defined( MCU_RX23W ) || defined( MCU_RX13T ) || defined( MCU_RX23E_A ) || defined( MCU_RX140 ) ) */
 
-#define FLASH_TYPE_VARIETY_A    (1)
+#define FLASH_TYPE_VARIETY_A      ( 1 )
 
-#if (defined(MCU_RX140))
-#define FLASH_TYPE_VARIETY      (FLASH_TYPE_VARIETY_A)
+#if ( defined( MCU_RX140 ) )
+    #define FLASH_TYPE_VARIETY    ( FLASH_TYPE_VARIETY_A )
 #endif
 
 /* FEATURE GROUPINGS */
 
-#define FLASH_HAS_ISR_CALLBACK_CMD  1
+#define FLASH_HAS_ISR_CALLBACK_CMD    1
 
-#if ((FLASH_TYPE == 4) && (MCU_DATA_FLASH_SIZE_BYTES == 0))
-#define FLASH_NO_BLANK_CHECK        1
+#if ( ( FLASH_TYPE == 4 ) && ( MCU_DATA_FLASH_SIZE_BYTES == 0 ) )
+    #define FLASH_NO_BLANK_CHECK      1
 #endif
 
-#if (FLASH_TYPE == 1)
-#define FLASH_HAS_CF_BLANK_CHECK    1
+#if ( FLASH_TYPE == 1 )
+    #define FLASH_HAS_CF_BLANK_CHECK    1
 #endif
 
-#if (defined(MCU_RX110) || defined(MCU_RX23T) || ((FLASH_TYPE == 4) && (MCU_DATA_FLASH_SIZE_BYTES == 0)))
-#define FLASH_NO_DATA_FLASH         1
-#if (FLASH_CFG_CODE_FLASH_ENABLE == 0)
-#error "No data flash on this MCU. Set FLASH_CFG_CODE_FLASH_ENABLE to 1 in r_flash_rx_config.h."
-#endif
+#if ( defined( MCU_RX110 ) || defined( MCU_RX23T ) || ( ( FLASH_TYPE == 4 ) && ( MCU_DATA_FLASH_SIZE_BYTES == 0 ) ) )
+    #define FLASH_NO_DATA_FLASH    1
+    #if ( FLASH_CFG_CODE_FLASH_ENABLE == 0 )
+        #error "No data flash on this MCU. Set FLASH_CFG_CODE_FLASH_ENABLE to 1 in r_flash_rx_config.h."
+    #endif
 #endif
 
-#if (FLASH_TYPE == 1)
-#define FLASH_ERASE_CF_ASCENDING_ADDRESSES     1
+#if ( FLASH_TYPE == 1 )
+    #define FLASH_ERASE_CF_ASCENDING_ADDRESSES     1
 #else
-#define FLASH_ERASE_CF_ASCENDING_BLOCK_NUMS    1
+    #define FLASH_ERASE_CF_ASCENDING_BLOCK_NUMS    1
 #endif
 
-#if (defined(MCU_RX24T) || defined(MCU_RX24U) || defined(MCU_RX66T) || \
-     defined(MCU_RX72T) || (FLASH_TYPE == 4))
-#define FLASH_HAS_ROM_CACHE     1
+#if ( defined( MCU_RX24T ) || defined( MCU_RX24U ) || defined( MCU_RX66T ) || \
+    defined( MCU_RX72T ) || ( FLASH_TYPE == 4 ) )
+    #define FLASH_HAS_ROM_CACHE    1
 #endif
 
-#if (defined(MCU_RX66T) || defined(MCU_RX72T) || defined(MCU_RX72M) || \
-     defined(MCU_RX66N) || defined(MCU_RX72N) || defined(MCU_RX671))
-#define FLASH_HAS_NON_CACHED_RANGES     1
+#if ( defined( MCU_RX66T ) || defined( MCU_RX72T ) || defined( MCU_RX72M ) || \
+    defined( MCU_RX66N ) || defined( MCU_RX72N ) || defined( MCU_RX671 ) )
+    #define FLASH_HAS_NON_CACHED_RANGES    1
 #endif
 
-#if (defined(MCU_RX64_ALL) || defined(MCU_RX65_ALL) || defined(MCU_RX66_ALL) || \
-     defined(MCU_RX71_ALL) || defined(MCU_RX72_ALL) || defined(MCU_RX67_ALL))
-#define FLASH_HAS_DIFF_CF_BLOCK_SIZES   1
+#if ( defined( MCU_RX64_ALL ) || defined( MCU_RX65_ALL ) || defined( MCU_RX66_ALL ) || \
+    defined( MCU_RX71_ALL ) || defined( MCU_RX72_ALL ) || defined( MCU_RX67_ALL ) )
+    #define FLASH_HAS_DIFF_CF_BLOCK_SIZES    1
 #endif
 
-#if ((FLASH_TYPE == 1) || (FLASH_TYPE == 4))
-#define FLASH_HAS_BOOT_SWAP     1
+#if ( ( FLASH_TYPE == 1 ) || ( FLASH_TYPE == 4 ) )
+    #define FLASH_HAS_BOOT_SWAP    1
 #endif
 
-#if (((FLASH_TYPE == 4) && (MCU_ROM_SIZE_BYTES >= 1572864)) || defined(MCU_RX67_ALL))
-#define FLASH_HAS_APP_SWAP      1
+#if ( ( ( FLASH_TYPE == 4 ) && ( MCU_ROM_SIZE_BYTES >= 1572864 ) ) || defined( MCU_RX67_ALL ) )
+    #define FLASH_HAS_APP_SWAP    1
 #endif
 
-#if ((FLASH_TYPE == 1) || (FLASH_TYPE == 4))
-#define FLASH_HAS_CF_ACCESS_WINDOW  1
+#if ( ( FLASH_TYPE == 1 ) || ( FLASH_TYPE == 4 ) )
+    #define FLASH_HAS_CF_ACCESS_WINDOW    1
 #endif
 
-#if (FLASH_TYPE == 3)
-#define FLASH_HAS_SEQUENTIAL_CF_BLOCKS_LOCK     1
+#if ( FLASH_TYPE == 3 )
+    #define FLASH_HAS_SEQUENTIAL_CF_BLOCKS_LOCK    1
 #endif
 
-#if (FLASH_TYPE != 1)
-#define FLASH_HAS_ERR_ISR           (1)
+#if ( FLASH_TYPE != 1 )
+    #define FLASH_HAS_ERR_ISR    ( 1 )
 #endif
 
-#if ((FLASH_TYPE == 3) || (FLASH_TYPE == 4))
-#define FLASH_HAS_FCU               (1)
+#if ( ( FLASH_TYPE == 3 ) || ( FLASH_TYPE == 4 ) )
+    #define FLASH_HAS_FCU    ( 1 )
 #endif
 
-#if (defined(MCU_RX64M) || defined(MCU_RX71M))
-#define FLASH_HAS_FCU_RAM_ENABLE    (1)
+#if ( defined( MCU_RX64M ) || defined( MCU_RX71M ) )
+    #define FLASH_HAS_FCU_RAM_ENABLE    ( 1 )
 #endif
 
-#if ((FLASH_TYPE == 4) && (FLASH_HAS_APP_SWAP == 1) && (BSP_CFG_CODE_FLASH_BANK_MODE == 0) && (FLASH_CFG_CODE_FLASH_ENABLE == 1))
-#define FLASH_IN_DUAL_BANK_MODE     (1)
+#if ( ( FLASH_TYPE == 4 ) && ( FLASH_HAS_APP_SWAP == 1 ) && ( BSP_CFG_CODE_FLASH_BANK_MODE == 0 ) && ( FLASH_CFG_CODE_FLASH_ENABLE == 1 ) )
+    #define FLASH_IN_DUAL_BANK_MODE    ( 1 )
 #endif
 
 #if FLASH_IN_DUAL_BANK_MODE
-#define MCU_ROM_REGION_SIZE_BYTES    (MCU_ROM_SIZE_BYTES / 2)
+    #define MCU_ROM_REGION_SIZE_BYTES    ( MCU_ROM_SIZE_BYTES / 2 )
 #else
-#define MCU_ROM_REGION_SIZE_BYTES    MCU_ROM_SIZE_BYTES
+    #define MCU_ROM_REGION_SIZE_BYTES    MCU_ROM_SIZE_BYTES
 #endif
 
 
@@ -290,62 +292,62 @@ Typedef definitions
 typedef enum _flash_err
 {
     FLASH_SUCCESS = 0,
-    FLASH_ERR_BUSY,         // Peripheral Busy
-    FLASH_ERR_ACCESSW,      // Access window error
-    FLASH_ERR_FAILURE,      // Operation failure, programming or erasing error due to something other than lock bit
-    FLASH_ERR_CMD_LOCKED,   // Peripheral in command locked state
-    FLASH_ERR_LOCKBIT_SET,  // Pgm/Erase error due to lock bit.
-    FLASH_ERR_FREQUENCY,    // Illegal frequency value attempted
-    FLASH_ERR_BYTES,        // Invalid number of bytes passed
-    FLASH_ERR_ADDRESS,      // Invalid address or address not on a programming boundary
-    FLASH_ERR_BLOCKS,       // The 'number of blocks' argument is invalid
-    FLASH_ERR_PARAM,        // Illegal parameter
-    FLASH_ERR_NULL_PTR,     // Received null ptr; missing required argument
-    FLASH_ERR_UNSUPPORTED,  // Command not supported for this flash type
-    FLASH_ERR_SECURITY,     // Pgm/Erase error due to part locked (FAW.FSPR)
-    FLASH_ERR_TIMEOUT,      // Timeout Condition
-    FLASH_ERR_ALREADY_OPEN, // Open() called twice without intermediate Close()
-    FLASH_ERR_HOCO          // The HOCO is not running.
+    FLASH_ERR_BUSY,         /* Peripheral Busy */
+    FLASH_ERR_ACCESSW,      /* Access window error */
+    FLASH_ERR_FAILURE,      /* Operation failure, programming or erasing error due to something other than lock bit */
+    FLASH_ERR_CMD_LOCKED,   /* Peripheral in command locked state */
+    FLASH_ERR_LOCKBIT_SET,  /* Pgm/Erase error due to lock bit. */
+    FLASH_ERR_FREQUENCY,    /* Illegal frequency value attempted */
+    FLASH_ERR_BYTES,        /* Invalid number of bytes passed */
+    FLASH_ERR_ADDRESS,      /* Invalid address or address not on a programming boundary */
+    FLASH_ERR_BLOCKS,       /* The 'number of blocks' argument is invalid */
+    FLASH_ERR_PARAM,        /* Illegal parameter */
+    FLASH_ERR_NULL_PTR,     /* Received null ptr; missing required argument */
+    FLASH_ERR_UNSUPPORTED,  /* Command not supported for this flash type */
+    FLASH_ERR_SECURITY,     /* Pgm/Erase error due to part locked (FAW.FSPR) */
+    FLASH_ERR_TIMEOUT,      /* Timeout Condition */
+    FLASH_ERR_ALREADY_OPEN, /* Open() called twice without intermediate Close() */
+    FLASH_ERR_HOCO          /* The HOCO is not running. */
 } flash_err_t;
 
 
 /* R_FLASH_Control() commands */
 typedef enum _flash_cmd
 {
-    FLASH_CMD_RESET,                // Kill any ongoing operation and reset the flash controller
-    FLASH_CMD_STATUS_GET,           // Get flash status; returns FLASH_ERR_BUSY or FLASH_SUCCESS (idle)
-    FLASH_CMD_SET_BGO_CALLBACK,     // Specify callback function for Flash ISR
-                                    // Arg: flash_interrupt_config_t*
-    FLASH_CMD_SWAPFLAG_GET,         // Get current selection for the start-up area used at reset
-                                    // Arg: uint8_t* (FLASH_STARTUP_SETTING_xxx)
-    FLASH_CMD_SWAPFLAG_TOGGLE,      // Swap the start-up area used at reset
+    FLASH_CMD_RESET,                 /* Kill any ongoing operation and reset the flash controller */
+    FLASH_CMD_STATUS_GET,            /* Get flash status; returns FLASH_ERR_BUSY or FLASH_SUCCESS (idle) */
+    FLASH_CMD_SET_BGO_CALLBACK,      /* Specify callback function for Flash ISR */
+                                     /* Arg: flash_interrupt_config_t* */
+    FLASH_CMD_SWAPFLAG_GET,          /* Get current selection for the start-up area used at reset */
+                                     /* Arg: uint8_t* (FLASH_STARTUP_SETTING_xxx) */
+    FLASH_CMD_SWAPFLAG_TOGGLE,       /* Swap the start-up area used at reset */
 
-    FLASH_CMD_SWAPSTATE_GET,        // Get the temporarily active start-up area (FLASH_SAS_xxx)
-                                    // Arg: uint8_t*
-    FLASH_CMD_SWAPSTATE_SET,        // Set the start-up area for temporary use (FLASH_SAS_xxx)
-                                    // Arg: uint8_t*
-    FLASH_CMD_ACCESSWINDOW_SET,     // Set the Access Window boundaries for DF or CF
-                                    // Arg: flash_access_window_config_t*
-    FLASH_CMD_ACCESSWINDOW_GET,     // Get the Access Window boundaries for CF
-                                    // Arg: flash_access_window_config_t*
-    FLASH_CMD_LOCKBIT_READ,         // (Flash Type 3) Arg: flash_lockbit_config_t*
-    FLASH_CMD_LOCKBIT_WRITE,        // (Flash Type 3) Arg: flash_lockbit_config_t*
-    FLASH_CMD_LOCKBIT_ENABLE,       // (Flash Type 3) Enabled by default
-    FLASH_CMD_LOCKBIT_DISABLE,      // (Flash Type 3) Override lockbits; erase block to clear lockbit
+    FLASH_CMD_SWAPSTATE_GET,         /* Get the temporarily active start-up area (FLASH_SAS_xxx) */
+                                     /* Arg: uint8_t* */
+    FLASH_CMD_SWAPSTATE_SET,         /* Set the start-up area for temporary use (FLASH_SAS_xxx) */
+                                     /* Arg: uint8_t* */
+    FLASH_CMD_ACCESSWINDOW_SET,      /* Set the Access Window boundaries for DF or CF */
+                                     /* Arg: flash_access_window_config_t* */
+    FLASH_CMD_ACCESSWINDOW_GET,      /* Get the Access Window boundaries for CF */
+                                     /* Arg: flash_access_window_config_t* */
+    FLASH_CMD_LOCKBIT_READ,          /* (Flash Type 3) Arg: flash_lockbit_config_t* */
+    FLASH_CMD_LOCKBIT_WRITE,         /* (Flash Type 3) Arg: flash_lockbit_config_t* */
+    FLASH_CMD_LOCKBIT_ENABLE,        /* (Flash Type 3) Enabled by default */
+    FLASH_CMD_LOCKBIT_DISABLE,       /* (Flash Type 3) Override lockbits; erase block to clear lockbit */
 
-    FLASH_CMD_CONFIG_CLOCK,         // (Flash Types 3,4) Arg: uint32_t* (FCLK speed)
+    FLASH_CMD_CONFIG_CLOCK,          /* (Flash Types 3,4) Arg: uint32_t* (FCLK speed) */
 
-    FLASH_CMD_ROM_CACHE_ENABLE,     // Enable caching of ROM
-    FLASH_CMD_ROM_CACHE_DISABLE,    // Disable caching (before rewriting ROM)
-    FLASH_CMD_ROM_CACHE_STATUS,     // Arg: uint8_t*  (1 if cache is enabled; 0 otherwise)
+    FLASH_CMD_ROM_CACHE_ENABLE,      /* Enable caching of ROM */
+    FLASH_CMD_ROM_CACHE_DISABLE,     /* Disable caching (before rewriting ROM) */
+    FLASH_CMD_ROM_CACHE_STATUS,      /* Arg: uint8_t*  (1 if cache is enabled; 0 otherwise) */
 
-    FLASH_CMD_SET_NON_CACHED_RANGE0, // do not cache this address range when caching enabled
-    FLASH_CMD_SET_NON_CACHED_RANGE1, // do not cache this address range when caching enabled
-    FLASH_CMD_GET_NON_CACHED_RANGE0, // get non-cached address range 0
-    FLASH_CMD_GET_NON_CACHED_RANGE1, // get non-cached address range 1
+    FLASH_CMD_SET_NON_CACHED_RANGE0, /* do not cache this address range when caching enabled */
+    FLASH_CMD_SET_NON_CACHED_RANGE1, /* do not cache this address range when caching enabled */
+    FLASH_CMD_GET_NON_CACHED_RANGE0, /* get non-cached address range 0 */
+    FLASH_CMD_GET_NON_CACHED_RANGE1, /* get non-cached address range 1 */
 
-    FLASH_CMD_BANK_TOGGLE,          // Swap the application bank (dual mode) used at startup
-    FLASH_CMD_BANK_GET,             // Get bank address at next reset. Arg: flash_bank_t*
+    FLASH_CMD_BANK_TOGGLE,           /* Swap the application bank (dual mode) used at startup */
+    FLASH_CMD_BANK_GET,              /* Get bank address at next reset. Arg: flash_bank_t* */
     FLASH_CMD_END_ENUM
 } flash_cmd_t;
 
@@ -353,10 +355,10 @@ typedef enum _flash_cmd
 /*Result type for certain operations*/
 typedef enum _flash_res
 {
-    FLASH_RES_LOCKBIT_STATE_PROTECTED,      // (Flash Type 3) Result for FLASH_CMD_LOCKBIT_READ
-    FLASH_RES_LOCKBIT_STATE_NON_PROTECTED,  // (Flash Type 3) Result for FLASH_CMD_LOCKBIT_READ
-    FLASH_RES_BLANK,                        // Result for Blank Check Function
-    FLASH_RES_NOT_BLANK                     // Result for Blank Check Function
+    FLASH_RES_LOCKBIT_STATE_PROTECTED,     /* (Flash Type 3) Result for FLASH_CMD_LOCKBIT_READ */
+    FLASH_RES_LOCKBIT_STATE_NON_PROTECTED, /* (Flash Type 3) Result for FLASH_CMD_LOCKBIT_READ */
+    FLASH_RES_BLANK,                       /* Result for Blank Check Function */
+    FLASH_RES_NOT_BLANK                    /* Result for Blank Check Function */
 } flash_res_t;
 
 
@@ -394,150 +396,157 @@ typedef enum _flash_interrupt_event
 
 #ifdef FLASH_HAS_ISR_CALLBACK_CMD
 /* Control() FLASH_CMD_SET_BGO_CALLBACK */
-typedef struct _flash_interrupt_config
-{
-    void    (*pcallback)(void *);
-    uint8_t int_priority;
-} flash_interrupt_config_t;
+    typedef struct _flash_interrupt_config
+    {
+        void ( * pcallback )( void * );
+        uint8_t int_priority;
+    } flash_interrupt_config_t;
 
 /*Event type for ISR callback*/
-typedef struct
-{
-    flash_interrupt_event_t event;      /* Which Flash event caused this interrupt */
-} flash_int_cb_args_t;
+    typedef struct
+    {
+        flash_interrupt_event_t event;  /* Which Flash event caused this interrupt */
+    } flash_int_cb_args_t;
 
-#endif
+#endif /* ifdef FLASH_HAS_ISR_CALLBACK_CMD */
 
 
 #ifdef FLASH_HAS_BOOT_SWAP
+
 /* Control() FLASH_CMD_SWAPFLAG_GET
  * Startup area select for reset
  * FSCMR.SASMF, FAW/FAWMON.BTFLG
-  */
-#define FLASH_STARTUP_SETTING_ALTERNATE     (0)
-#define FLASH_STARTUP_SETTING_DEFAULT       (1)
+ */
+    #define FLASH_STARTUP_SETTING_ALTERNATE    ( 0 )
+    #define FLASH_STARTUP_SETTING_DEFAULT      ( 1 )
 
 /* Control() FLASH_CMD_SWAPSTATE_GET/SET
  * Startup area select for temporary read/write
  * FISR.SAS, FSUACR.SAS
  */
-#define FLASH_SAS_SWAPFLG       (0)     // The start-up area temporarily set according to the swap flag
-#define FLASH_SAS_EXTRA         (0)     // (same as above; here for backwards compatibility)
-#define FLASH_SAS_DEFAULT       (2)     // The start-up area temporarily set to the default area
-#define FLASH_SAS_ALTERNATE     (3)     // The start-up area temporarily set to the alternate area
-#define FLASH_SAS_SWITCH_AREA   (4)     // Command to temporarily switch to the other startup area
+    #define FLASH_SAS_SWAPFLG                  ( 0 ) /* The start-up area temporarily set according to the swap flag */
+    #define FLASH_SAS_EXTRA                    ( 0 ) /* (same as above; here for backwards compatibility) */
+    #define FLASH_SAS_DEFAULT                  ( 2 ) /* The start-up area temporarily set to the default area */
+    #define FLASH_SAS_ALTERNATE                ( 3 ) /* The start-up area temporarily set to the alternate area */
+    #define FLASH_SAS_SWITCH_AREA              ( 4 ) /* Command to temporarily switch to the other startup area */
 
-#endif
+#endif /* ifdef FLASH_HAS_BOOT_SWAP */
 
 
 #ifdef FLASH_HAS_APP_SWAP
 /* Control() FLASH_CMD_BANK_GET: Gets bank address at next reset. Running app is at FFF00000. */
-typedef enum _flash_bank
-{
-    FLASH_BANK1          = 0,           // BANKSEL.BANKSWP is 000
-    FLASH_BANK0          = 1,           // BANKSEL.BANKSWP is 111
-    FLASH_BANK0_FFE00000 = 0,           // BANKSEL.BANKSWP is 000
-    FLASH_BANK1_FFF00000 = 0,           // BANKSEL.BANKSWP is 000
-    FLASH_BANK0_FFF00000 = 1,           // BANKSEL.BANKSWP is 111
-    FLASH_BANK1_FFE00000 = 1            // BANKSEL.BANKSWP is 111
-} flash_bank_t;
+    typedef enum _flash_bank
+    {
+        FLASH_BANK1 = 0,                /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK0 = 1,                /* BANKSEL.BANKSWP is 111 */
+        FLASH_BANK0_FFE00000 = 0,       /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK1_FFF00000 = 0,       /* BANKSEL.BANKSWP is 000 */
+        FLASH_BANK0_FFF00000 = 1,       /* BANKSEL.BANKSWP is 111 */
+        FLASH_BANK1_FFE00000 = 1        /* BANKSEL.BANKSWP is 111 */
+    } flash_bank_t;
 
-#endif
+#endif /* ifdef FLASH_HAS_APP_SWAP */
 
 
 #ifdef FLASH_HAS_CF_ACCESS_WINDOW
 
 /* Control() FLASH_CMD_ACCESSWINDOW_SET/GET */
-typedef struct _flash_access_window_config
-{
-    uint32_t start_addr;                /* start address of code flash Access Window */
-    uint32_t end_addr;                  /* end address of code flash Access Window */
-} flash_access_window_config_t;
+    typedef struct _flash_access_window_config
+    {
+        uint32_t start_addr;            /* start address of code flash Access Window */
+        uint32_t end_addr;              /* end address of code flash Access Window */
+    } flash_access_window_config_t;
 
 #endif
 
 
 #ifdef FLASH_HAS_SEQUENTIAL_CF_BLOCKS_LOCK
-#include "r_flash_type3_if.h"
+    #include "r_flash_type3_if.h"
 /* Control() FLASH_CMD_LOCKBIT_READ, FLASH_CMD_LOCKBIT_WRITE */
-typedef struct _flash_lockbit_config
-{
-    flash_block_address_t block_start_address;
-    flash_res_t           result;       /* Returned by API when using FLASH_CMD_LOCKBIT_READ */
-    uint32_t              num_blocks;   /* Set by user for FLASH_CMD_LOCKBIT_WRITE */
-} flash_lockbit_config_t;
+    typedef struct _flash_lockbit_config
+    {
+        flash_block_address_t block_start_address;
+        flash_res_t result;             /* Returned by API when using FLASH_CMD_LOCKBIT_READ */
+        uint32_t num_blocks;            /* Set by user for FLASH_CMD_LOCKBIT_WRITE */
+    } flash_lockbit_config_t;
 
 #endif
 
 
 #if FLASH_HAS_NON_CACHED_RANGES
 
-#define FLASH_NON_CACHED_MASK_IF    (0x02)      // do not cache fast instruction fetching by the CPU
-#define FLASH_NON_CACHED_MASK_OA    (0x04)      // do not cache fast operand access by the CPU
-#define FLASH_NON_CACHED_MASK_DM    (0x08)      // do not cache fast access to data by bus masters other than CPU
+    #define FLASH_NON_CACHED_MASK_IF    ( 0x02 ) /* do not cache fast instruction fetching by the CPU */
+    #define FLASH_NON_CACHED_MASK_OA    ( 0x04 ) /* do not cache fast operand access by the CPU */
+    #define FLASH_NON_CACHED_MASK_DM    ( 0x08 ) /* do not cache fast access to data by bus masters other than CPU */
 
-typedef enum _flash_no_cache_size
-{
-    FLASH_NON_CACHED_16_BYTES   = 0x10,
-    FLASH_NON_CACHED_32_BYTES   = 0x20,
-    FLASH_NON_CACHED_64_BYTES   = 0x40,
-    FLASH_NON_CACHED_128_BYTES  = 0x80,
-    FLASH_NON_CACHED_256_BYTES  = 0x100,
-    FLASH_NON_CACHED_512_BYTES  = 0x200,
-    FLASH_NON_CACHED_1_KBYTE    = 0x400,
-    FLASH_NON_CACHED_2_KBYTES   = 0x800,
-    FLASH_NON_CACHED_4_KBYTES   = 0x1000,
-    FLASH_NON_CACHED_8_KBYTES   = 0x2000,
-    FLASH_NON_CACHED_16_KBYTES  = 0x4000,
-    FLASH_NON_CACHED_32_KBYTES  = 0x8000,
-    FLASH_NON_CACHED_64_KBYTES  = 0x10000,
-    FLASH_NON_CACHED_128_KBYTES = 0x20000,
-    FLASH_NON_CACHED_256_KBYTES = 0x40000,
-    FLASH_NON_CACHED_512_KBYTES = 0x80000,
-    FLASH_NON_CACHED_1_MBYTE    = 0x100000,
-    FLASH_NON_CACHED_2_MBYTE    = 0x200000
-} flash_non_cached_size_t;
+    typedef enum _flash_no_cache_size
+    {
+        FLASH_NON_CACHED_16_BYTES = 0x10,
+        FLASH_NON_CACHED_32_BYTES = 0x20,
+        FLASH_NON_CACHED_64_BYTES = 0x40,
+        FLASH_NON_CACHED_128_BYTES = 0x80,
+        FLASH_NON_CACHED_256_BYTES = 0x100,
+        FLASH_NON_CACHED_512_BYTES = 0x200,
+        FLASH_NON_CACHED_1_KBYTE = 0x400,
+        FLASH_NON_CACHED_2_KBYTES = 0x800,
+        FLASH_NON_CACHED_4_KBYTES = 0x1000,
+        FLASH_NON_CACHED_8_KBYTES = 0x2000,
+        FLASH_NON_CACHED_16_KBYTES = 0x4000,
+        FLASH_NON_CACHED_32_KBYTES = 0x8000,
+        FLASH_NON_CACHED_64_KBYTES = 0x10000,
+        FLASH_NON_CACHED_128_KBYTES = 0x20000,
+        FLASH_NON_CACHED_256_KBYTES = 0x40000,
+        FLASH_NON_CACHED_512_KBYTES = 0x80000,
+        FLASH_NON_CACHED_1_MBYTE = 0x100000,
+        FLASH_NON_CACHED_2_MBYTE = 0x200000
+    } flash_non_cached_size_t;
 
-typedef struct _flash_non_cached
-{
-    uint32_t                type_mask;
-    uint32_t                start_addr;     // must be on 16-byte boundary
-    flash_non_cached_size_t size;           // number bytes to not cache
-} flash_non_cached_t;
+    typedef struct _flash_non_cached
+    {
+        uint32_t type_mask;
+        uint32_t start_addr;                /* must be on 16-byte boundary */
+        flash_non_cached_size_t size;       /* number bytes to not cache */
+    } flash_non_cached_t;
 
-#endif
+#endif /* if FLASH_HAS_NON_CACHED_RANGES */
 
 
-#if (FLASH_TYPE == FLASH_TYPE_1)
-#include "r_flash_type1_if.h"
+#if ( FLASH_TYPE == FLASH_TYPE_1 )
+    #include "r_flash_type1_if.h"
 
-#elif (FLASH_TYPE == FLASH_TYPE_3)
-#include "r_flash_type3_if.h"
+#elif ( FLASH_TYPE == FLASH_TYPE_3 )
+    #include "r_flash_type3_if.h"
 
-typedef union _flash_control_arg
-{
-    flash_lockbit_config_t      lockbit_cmd;
-    flash_interrupt_config_t    bgo_cmd;
-} flash_control_arg_t;
+    typedef union _flash_control_arg
+    {
+        flash_lockbit_config_t lockbit_cmd;
+        flash_interrupt_config_t bgo_cmd;
+    } flash_control_arg_t;
 
-#elif (FLASH_TYPE == FLASH_TYPE_4)
-#include "r_flash_type4_if.h"
-#endif
+#elif ( FLASH_TYPE == FLASH_TYPE_4 )
+    #include "r_flash_type4_if.h"
+#endif /* if ( FLASH_TYPE == FLASH_TYPE_1 ) */
 
 
 /***********************************************************************************************************************
-Exported global variables
+*  Exported global variables
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Exported global functions (to be accessed by other files)
+*  Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
-flash_err_t R_FLASH_Open(void);
-flash_err_t R_FLASH_Close(void);
-flash_err_t R_FLASH_Write(uint32_t src_address, uint32_t dest_address, uint32_t num_bytes);
-flash_err_t R_FLASH_Erase(flash_block_address_t block_start_address, uint32_t num_blocks);
-flash_err_t R_FLASH_BlankCheck(uint32_t address, uint32_t num_bytes, flash_res_t *blank_check_result);
-flash_err_t R_FLASH_Control(flash_cmd_t cmd, void *pcfg);
-uint32_t R_FLASH_GetVersion (void);
+flash_err_t R_FLASH_Open( void );
+flash_err_t R_FLASH_Close( void );
+flash_err_t R_FLASH_Write( uint32_t src_address,
+                           uint32_t dest_address,
+                           uint32_t num_bytes );
+flash_err_t R_FLASH_Erase( flash_block_address_t block_start_address,
+                           uint32_t num_blocks );
+flash_err_t R_FLASH_BlankCheck( uint32_t address,
+                                uint32_t num_bytes,
+                                flash_res_t * blank_check_result );
+flash_err_t R_FLASH_Control( flash_cmd_t cmd,
+                             void * pcfg );
+uint32_t R_FLASH_GetVersion( void );
 
 #endif /* FLASH_INTERFACE_HEADER_FILE */

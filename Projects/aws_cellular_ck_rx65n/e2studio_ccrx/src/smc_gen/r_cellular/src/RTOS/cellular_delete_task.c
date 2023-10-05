@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_delete_task.c
  * Description  : Function to delete a task using RTOS functions.
@@ -45,21 +46,20 @@
 /****************************************************************************
  * Function Name  @fn            cellular_delete_task
  ***************************************************************************/
-void cellular_delete_task(void * taskhandle)
+void cellular_delete_task( void * taskhandle )
 {
-    if (NULL != taskhandle)
+    if( NULL != taskhandle )
     {
-#if BSP_CFG_RTOS_USED == (1)
-        vTaskDelete((TaskHandle_t)taskhandle);
-#elif BSP_CFG_RTOS_USED == (5)
-        tx_thread_terminate((TX_THREAD *)taskhandle);
-        tx_thread_delete((TX_THREAD *)taskhandle);
-        cellular_free(taskhandle);
-#endif
+        #if BSP_CFG_RTOS_USED == ( 1 )
+            vTaskDelete( ( TaskHandle_t ) taskhandle );
+        #elif BSP_CFG_RTOS_USED == ( 5 )
+            tx_thread_terminate( ( TX_THREAD * ) taskhandle );
+            tx_thread_delete( ( TX_THREAD * ) taskhandle );
+            cellular_free( taskhandle );
+        #endif
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_delete_task
  *********************************************************************************************************************/

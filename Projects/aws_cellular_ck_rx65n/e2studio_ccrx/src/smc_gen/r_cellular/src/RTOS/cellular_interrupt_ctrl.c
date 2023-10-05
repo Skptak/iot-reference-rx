@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_free.c
  * Description  : Function to free memory.
@@ -45,25 +46,26 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_interrupt_disable
  ****************************************************************************************/
-uint32_t cellular_interrupt_disable(void)
+uint32_t cellular_interrupt_disable( void )
 {
-#if BSP_CFG_RTOS_USED == (1)
-    uint32_t ret = 0;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        uint32_t ret = 0;
 
-    taskENTER_CRITICAL();
-#elif BSP_CFG_RTOS_USED == (5)
-    UINT        ret = 0;
-    UINT        rtos_ret = 0;
-    UINT        old_threshold = 0;
-    TX_THREAD * p_thread = NULL;
+        taskENTER_CRITICAL();
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        UINT ret = 0;
+        UINT rtos_ret = 0;
+        UINT old_threshold = 0;
+        TX_THREAD * p_thread = NULL;
 
-    p_thread = tx_thread_identify();
-    ret = p_thread->tx_thread_preempt_threshold;
+        p_thread = tx_thread_identify();
+        ret = p_thread->tx_thread_preempt_threshold;
 
-    rtos_ret = tx_thread_preemption_change(p_thread, 0, &old_threshold);
-#endif
+        rtos_ret = tx_thread_preemption_change( p_thread, 0, &old_threshold );
+    #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_interrupt_disable
  *********************************************************************************************************************/
@@ -71,19 +73,19 @@ uint32_t cellular_interrupt_disable(void)
 /*****************************************************************************************
  * Function Name  @fn            cellular_interrupt_enable
  ****************************************************************************************/
-void cellular_interrupt_enable(uint32_t preemption)
+void cellular_interrupt_enable( uint32_t preemption )
 {
-#if BSP_CFG_RTOS_USED == (1)
-    taskEXIT_CRITICAL();
-#elif BSP_CFG_RTOS_USED == (5)
-    UINT        old_threshold = 0;
-    TX_THREAD * p_thread = NULL;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        taskEXIT_CRITICAL();
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        UINT old_threshold = 0;
+        TX_THREAD * p_thread = NULL;
 
-    p_thread = tx_thread_identify();
-    tx_thread_preemption_change(p_thread, (UINT)preemption, &old_threshold);
-#endif
-    return;
+        p_thread = tx_thread_identify();
+        tx_thread_preemption_change( p_thread, ( UINT ) preemption, &old_threshold );
+    #endif
 }
+
 /**********************************************************************************************************************
  * End of function cellular_interrupt_enable
  *********************************************************************************************************************/

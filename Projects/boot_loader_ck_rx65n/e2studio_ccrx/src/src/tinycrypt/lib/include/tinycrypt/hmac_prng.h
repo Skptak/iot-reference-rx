@@ -66,29 +66,30 @@
  */
 
 #ifndef __TC_HMAC_PRNG_H__
-#define __TC_HMAC_PRNG_H__
+    #define __TC_HMAC_PRNG_H__
 
-#include <tinycrypt/sha256.h>
-#include <tinycrypt/hmac.h>
+    #include <tinycrypt/sha256.h>
+    #include <tinycrypt/hmac.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
-#define TC_HMAC_PRNG_RESEED_REQ -1
+    #define TC_HMAC_PRNG_RESEED_REQ    -1
 
-struct tc_hmac_prng_struct {
-	/* the HMAC instance for this PRNG */
-	struct tc_hmac_state_struct h;
-	/* the PRNG key */
-	uint8_t key[TC_SHA256_DIGEST_SIZE];
-	/* PRNG state */
-	uint8_t v[TC_SHA256_DIGEST_SIZE];
-	/* calls to tc_hmac_prng_generate left before re-seed */
-	unsigned int countdown;
-};
+    struct tc_hmac_prng_struct
+    {
+        /* the HMAC instance for this PRNG */
+        struct tc_hmac_state_struct h;
+        /* the PRNG key */
+        uint8_t key[ TC_SHA256_DIGEST_SIZE ];
+        /* PRNG state */
+        uint8_t v[ TC_SHA256_DIGEST_SIZE ];
+        /* calls to tc_hmac_prng_generate left before re-seed */
+        unsigned int countdown;
+    };
 
-typedef struct tc_hmac_prng_struct *TCHmacPrng_t;
+    typedef struct tc_hmac_prng_struct * TCHmacPrng_t;
 
 /**
  *  @brief HMAC-PRNG initialization procedure
@@ -112,15 +113,15 @@ typedef struct tc_hmac_prng_struct *TCHmacPrng_t;
  *  @param personalization IN -- personalization string
  *  @param plen IN -- personalization length in bytes
  */
-int tc_hmac_prng_init(TCHmacPrng_t prng,
-		      const uint8_t *personalization,
-		      unsigned int plen);
+    int tc_hmac_prng_init( TCHmacPrng_t prng,
+                           const uint8_t * personalization,
+                           unsigned int plen );
 
 /**
  *  @brief HMAC-PRNG reseed procedure
  *  Mixes seed into prng, enables tc_hmac_prng_generate
  *  @return returns  TC_CRYPTO_SUCCESS (1)
- *  	    returns TC_CRYPTO_FAIL (0) if:
+ *          returns TC_CRYPTO_FAIL (0) if:
  *          prng == NULL,
  *          seed == NULL,
  *          seedlen < MIN_SLEN,
@@ -136,9 +137,11 @@ int tc_hmac_prng_init(TCHmacPrng_t prng,
  *  @param additional_input IN -- additional input to the prng
  *  @param additionallen IN -- additional input length in bytes
  */
-int tc_hmac_prng_reseed(TCHmacPrng_t prng, const uint8_t *seed,
-			unsigned int seedlen, const uint8_t *additional_input,
-			unsigned int additionallen);
+    int tc_hmac_prng_reseed( TCHmacPrng_t prng,
+                             const uint8_t * seed,
+                             unsigned int seedlen,
+                             const uint8_t * additional_input,
+                             unsigned int additionallen );
 
 /**
  *  @brief HMAC-PRNG generate procedure
@@ -155,10 +158,12 @@ int tc_hmac_prng_reseed(TCHmacPrng_t prng, const uint8_t *seed,
  *  @param outlen IN -- size of out buffer in bytes
  *  @param prng IN/OUT -- the PRNG state
  */
-int tc_hmac_prng_generate(uint8_t *out, unsigned int outlen, TCHmacPrng_t prng);
+    int tc_hmac_prng_generate( uint8_t * out,
+                               unsigned int outlen,
+                               TCHmacPrng_t prng );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_HMAC_PRNG_H__ */

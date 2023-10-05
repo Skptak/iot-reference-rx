@@ -3,7 +3,7 @@ PLEASE REFER TO THE APPLICATION NOTE FOR THIS MODULE FOR MORE INFORMATION
 r_flash_rx
 =================
 
-Document Number 
+Document Number
 ---------------
 r01an2184ej0490
 r01an2184jj0490
@@ -15,11 +15,11 @@ v4.90
 Overview
 --------
 A simple Application Program Interface (API) has been created to allow users of
-flash based RX700, RX600, RX200 and RX100 Series devices to easily integrate 
-reprogramming abilities into their applications using User Mode programming. 
-User Mode programming is the term used to describe a Renesas MCU's ability to 
-reprogram its own internal flash memory while running in its normal operational 
-mode. 
+flash based RX700, RX600, RX200 and RX100 Series devices to easily integrate
+reprogramming abilities into their applications using User Mode programming.
+User Mode programming is the term used to describe a Renesas MCU's ability to
+reprogram its own internal flash memory while running in its normal operational
+mode.
 
 Features
 --------
@@ -88,9 +88,9 @@ Limitations
 -----------
 * This code is not re-entrant and protects against multiple concurrent
     function calls.
-* During ROM operations neither ROM nor dataflash (DF) can be accessed. 
+* During ROM operations neither ROM nor dataflash (DF) can be accessed.
     If using ROM with BGO, then make sure the code runs from RAM.
-* During DF operations, the DF cannot be accessed but ROM can be accessed 
+* During DF operations, the DF cannot be accessed but ROM can be accessed
     normally.
 
 Peripherals Used Directly
@@ -106,26 +106,26 @@ How to add to your project
 --------------------------
 * Add the r_flash_rx and r_config folders to your project.
 
-* Add a project include path for the 'r_flash_rx' directory. 
+* Add a project include path for the 'r_flash_rx' directory.
 * Add a project include path for the 'r_flash_rx\src' directory.
 * Add a project include path for the 'r_flash_rx\src\targets' directory.
 * Add a project include path for the 'r_flash_rx\src\flash_type_x' directory,
     where "x" is 1, 3, or 4 (see app note for MCU flash type assignments).
     Adding all 3 flash type paths will not cause a build issue.
 * Add a project include path for the 'r_config' directory.
-* Copy the reference configuration file from the '\r_flash_rx\ref' directory 
+* Copy the reference configuration file from the '\r_flash_rx\ref' directory
     into the 'r_config' directory and rename it to 'r_flash_rx_config.h'.
-* Open "r_config\r_flash_rx_config.h" file and configure the driver for your 
+* Open "r_config\r_flash_rx_config.h" file and configure the driver for your
   project.
-* Add a #include for r_flash_rx_if.h to any source files that need to use the 
+* Add a #include for r_flash_rx_if.h to any source files that need to use the
   API functions.
 
 * (The following steps are only required if you are programming or erasing ROM.
-    If you are only operating on data flash, then these steps can be ignored. 
+    If you are only operating on data flash, then these steps can be ignored.
     These steps are discussed with more detail in the app note.)
 * Make a linker ROM section named 'PFRAM'.
 * Make a linker RAM section named 'RPFRAM'.
-* Configure your linker such that code in the 'FRAM' section will be executed 
+* Configure your linker such that code in the 'FRAM' section will be executed
     in RAM (see app note PFRAM=RPFRAM in linker output).
 
 
@@ -235,13 +235,13 @@ r_flash_rx
         |
         +--rx71m
              +-- r_flash_rx71m.h
-        |    
+        |
         +--rx72m
              +-- r_flash_rx72m.h
-        |    
+        |
         +--rx72n
              +-- r_flash_rx72n.h
-        |    
+        |
         +--rx72t
              +-- r_flash_rx72t.h
 

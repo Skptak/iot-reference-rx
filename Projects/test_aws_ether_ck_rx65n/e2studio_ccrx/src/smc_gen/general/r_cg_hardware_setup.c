@@ -2,15 +2,15 @@
 * DISCLAIMER
 * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products.
 * No other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
-* applicable laws, including copyright laws. 
+* applicable laws, including copyright laws.
 * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING THIS SOFTWARE, WHETHER EXPRESS, IMPLIED
 * OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 * NON-INFRINGEMENT.  ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY
 * LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE FOR ANY DIRECT,
 * INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR
 * ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability 
-* of this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability
+* of this software. By using this software, you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
 *
@@ -25,13 +25,13 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Pragma directive
+*  Pragma directive
 ***********************************************************************************************************************/
 /* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-Includes
+*  Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_smc_cgc.h"
@@ -41,7 +41,7 @@ Includes
 #include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
-Global variables and functions
+*  Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
@@ -53,7 +53,7 @@ Global variables and functions
 * Return Value : None
 ***********************************************************************************************************************/
 
-void r_undefined_exception(void)
+void r_undefined_exception( void )
 {
     /* Start user code for r_undefined_exception. Do not edit comment generated here */
     /* End user code. Do not edit comment generated here */
@@ -66,7 +66,7 @@ void r_undefined_exception(void)
 * Return Value : None
 ***********************************************************************************************************************/
 
-void R_Systeminit(void)
+void R_Systeminit( void )
 {
     /* Enable writing to registers related to operating modes, LPC, CGC and software reset */
     SYSTEM.PRCR.WORD = 0xA50BU;
@@ -85,7 +85,7 @@ void R_Systeminit(void)
     R_Interrupt_Create();
 
     /* Register undefined interrupt */
-    R_BSP_InterruptWrite(BSP_INT_SRC_UNDEFINED_INTERRUPT,(bsp_int_cb_t)r_undefined_exception);
+    R_BSP_InterruptWrite( BSP_INT_SRC_UNDEFINED_INTERRUPT, ( bsp_int_cb_t ) r_undefined_exception );
 
     /* Disable writing to MPC pin function control registers */
     MPC.PWPR.BIT.PFSWE = 0U;
@@ -97,4 +97,3 @@ void R_Systeminit(void)
 
 /* Start user code for adding. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
-

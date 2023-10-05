@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_smcwrx.c
  * Description  : Function to initiate downlink continuous wave services.
@@ -47,21 +48,24 @@
 /****************************************************************************
  * Function Name  @fn            cellular_smcwrx
  ***************************************************************************/
-e_cellular_err_t cellular_smcwrx(st_cellular_ctrl_t * const p_ctrl, const uint16_t earfcn)
+e_cellular_err_t cellular_smcwrx( st_cellular_ctrl_t * const p_ctrl,
+                                  const uint16_t earfcn )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_ERR_TAKE;
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
 
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
     {
-        ret = atc_cfun(p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL5);
-        if (CELLULAR_SUCCESS == ret)
+        ret = atc_cfun( p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL5 );
+
+        if( CELLULAR_SUCCESS == ret )
         {
-            ret = atc_smcwrx(p_ctrl, earfcn);
+            ret = atc_smcwrx( p_ctrl, earfcn );
         }
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+
+        cellular_give_semaphore( p_ctrl->at_semaphore );
     }
     else
     {
@@ -70,6 +74,7 @@ e_cellular_err_t cellular_smcwrx(st_cellular_ctrl_t * const p_ctrl, const uint16
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function cellular_smcwrx
+ * End of function cellular_smcwrx
  *********************************************************************************************************************/

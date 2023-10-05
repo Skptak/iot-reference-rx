@@ -185,17 +185,18 @@ int mbedtls_platform_mutex_unlock( mbedtls_threading_mutex_t * pMutex )
 /*-----------------------------------------------------------*/
 
 #ifdef _WIN32
-    /**
-     * @brief Function to generate a random number.
-     *
-     * @param[in] data Callback context.
-     * @param[out] output The address of the buffer that receives the random number.
-     * @param[in] len Maximum size of the random number to be generated.
-     * @param[out] olen The size, in bytes, of the #output buffer.
-     *
-     * @return 0 if no critical failures occurred,
-     * MBEDTLS_ERR_ENTROPY_SOURCE_FAILED otherwise.
-     */
+
+/**
+ * @brief Function to generate a random number.
+ *
+ * @param[in] data Callback context.
+ * @param[out] output The address of the buffer that receives the random number.
+ * @param[in] len Maximum size of the random number to be generated.
+ * @param[out] olen The size, in bytes, of the #output buffer.
+ *
+ * @return 0 if no critical failures occurred,
+ * MBEDTLS_ERR_ENTROPY_SOURCE_FAILED otherwise.
+ */
     int mbedtls_platform_entropy_poll( void * data,
                                        unsigned char * output,
                                        size_t len,
@@ -229,25 +230,26 @@ int mbedtls_platform_mutex_unlock( mbedtls_threading_mutex_t * pMutex )
 
         return status;
     }
-#endif
+#endif /* ifdef _WIN32 */
 
 /*-----------------------------------------------------------*/
 
 #ifdef _WIN32
-    /**
-     * @brief Function to generate a random number based on a hardware poll.
-     *
-     * For this FreeRTOS Windows port, this function is redirected by calling
-     * #mbedtls_platform_entropy_poll.
-     *
-     * @param[in] data Callback context.
-     * @param[out] output The address of the buffer that receives the random number.
-     * @param[in] len Maximum size of the random number to be generated.
-     * @param[out] olen The size, in bytes, of the #output buffer.
-     *
-     * @return 0 if no critical failures occurred,
-     * MBEDTLS_ERR_ENTROPY_SOURCE_FAILED otherwise.
-     */
+
+/**
+ * @brief Function to generate a random number based on a hardware poll.
+ *
+ * For this FreeRTOS Windows port, this function is redirected by calling
+ * #mbedtls_platform_entropy_poll.
+ *
+ * @param[in] data Callback context.
+ * @param[out] output The address of the buffer that receives the random number.
+ * @param[in] len Maximum size of the random number to be generated.
+ * @param[out] olen The size, in bytes, of the #output buffer.
+ *
+ * @return 0 if no critical failures occurred,
+ * MBEDTLS_ERR_ENTROPY_SOURCE_FAILED otherwise.
+ */
     int mbedtls_hardware_poll( void * data,
                                unsigned char * output,
                                size_t len,

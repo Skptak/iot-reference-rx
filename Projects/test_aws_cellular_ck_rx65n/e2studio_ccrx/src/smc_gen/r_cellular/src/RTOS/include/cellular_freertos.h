@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_freertos.h
  * Description  : Configures the driver.
@@ -29,113 +30,114 @@
  *********************************************************************************************************************/
 #include "r_cellular_if.h"
 
-#if (CELLULAR_CFG_DEBUGLOG != 0)
+#if ( CELLULAR_CFG_DEBUGLOG != 0 )
 /* print debug info */
-#include "logging_levels.h"
+    #include "logging_levels.h"
 
 /* Logging configuration */
-#ifndef LIBRARY_LOG_NAME
-    #define LIBRARY_LOG_NAME    "Renesas RYZ014A driver"
-#endif
+    #ifndef LIBRARY_LOG_NAME
+        #define LIBRARY_LOG_NAME    "Renesas RYZ014A driver"
+    #endif
 
-#ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL   (CELLULAR_CFG_DEBUGLOG)
-#endif
+    #ifndef LIBRARY_LOG_LEVEL
+        #define LIBRARY_LOG_LEVEL    ( CELLULAR_CFG_DEBUGLOG )
+    #endif
 
-#if (LIBRARY_LOG_LEVEL != LOG_NONE)
-#include "logging_stack.h"
+    #if ( LIBRARY_LOG_LEVEL != LOG_NONE )
+        #include "logging_stack.h"
 
 /* These messages describe the situations when a library encounters
  * an error from which it cannot recover. */
-#define CELLULAR_LOG_ERROR( message )   LogError( message )
+        #define CELLULAR_LOG_ERROR( message )    LogError( message )
 
 /* These messages describe the situations when a library encounters
  * abnormal event that may be indicative of an error. Libraries continue
  * execution after logging a warning.*/
-#define CELLULAR_LOG_WARN( message )    LogWarn( message )
+        #define CELLULAR_LOG_WARN( message )     LogWarn( message )
 
 /* These messages describe normal execution of a library. They provide
  * the progress of the program at a coarse-grained level. */
-#define CELLULAR_LOG_INFO( message )    LogInfo( message )
+        #define CELLULAR_LOG_INFO( message )     LogInfo( message )
 
 /* Debug log messages are used to provide the
  * progress of the program at a fine-grained level. These are mostly used
  * for debugging and may contain excessive information such as internal
  * variables, buffers, or other specific information. */
-#define CELLULAR_LOG_DEBUG( message )   LogDebug( message )
-#endif
+        #define CELLULAR_LOG_DEBUG( message )    LogDebug( message )
+    #endif /* if ( LIBRARY_LOG_LEVEL != LOG_NONE ) */
 #else /* CELLULAR_CFG_DEBUGLOG != 0 */
 /* Don't show logs */
-#define CELLULAR_LOG_ERROR( message )   (NULL)
+    #define CELLULAR_LOG_ERROR( message )    ( NULL )
 
 /* Don't show logs */
-#define CELLULAR_LOG_WARN( message )    (NULL)
+    #define CELLULAR_LOG_WARN( message )     ( NULL )
 
 /* Don't show logs */
-#define CELLULAR_LOG_INFO( message )    (NULL)
+    #define CELLULAR_LOG_INFO( message )     ( NULL )
 
 /* Don't show logs */
-#define CELLULAR_LOG_DEBUG( message )   (NULL)
+    #define CELLULAR_LOG_DEBUG( message )    ( NULL )
 #endif /* CELLULAR_CFG_DEBUGLOG != 0 */
 
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define CELLULAR_RECV_TASK_NAME  "cellular_recv_task"
-#define CELLULAR_RING_TASK_NAME  "cellular_ring_task"
+#define CELLULAR_RECV_TASK_NAME          "cellular_recv_task"
+#define CELLULAR_RING_TASK_NAME          "cellular_ring_task"
 
-#if BSP_CFG_RTOS_USED == (1)
-#define CELLULAR_RECV_THREAD_SIZE   (2048 / sizeof(configSTACK_DEPTH_TYPE)) //cast
-#define CELLULAR_RING_THREAD_SIZE   (512)
-#elif BSP_CFG_RTOS_USED == (5)
-#define CELLULAR_RECV_THREAD_SIZE   (2048)
-#define CELLULAR_RING_THREAD_SIZE   (512)
+#if BSP_CFG_RTOS_USED == ( 1 )
+    #define CELLULAR_RECV_THREAD_SIZE    ( 2048 / sizeof( configSTACK_DEPTH_TYPE ) ) /*cast */
+    #define CELLULAR_RING_THREAD_SIZE    ( 512 )
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    #define CELLULAR_RECV_THREAD_SIZE    ( 2048 )
+    #define CELLULAR_RING_THREAD_SIZE    ( 512 )
 
 /* Convert time to milliseconds */
-#define MS_TO_TICKS( time )    (( UINT )((( UINT)( time ) * ( UINT ) TX_TIMER_TICKS_PER_SECOND ) / ( UINT ) 1000U ))
+    #define MS_TO_TICKS( time )    ( ( UINT ) ( ( ( UINT ) ( time ) * ( UINT ) TX_TIMER_TICKS_PER_SECOND ) / ( UINT ) 1000U ) )
 
 /* Get the memory size of the socket management structure */
-#define SOCKET_BLOCK_SIZE             (sizeof(st_cellular_socket_ctrl_t))
+    #define SOCKET_BLOCK_SIZE             ( sizeof( st_cellular_socket_ctrl_t ) )
 
 /* Each memory block contains a pointer to the overhead represented by "sizeof(void *)" */
-#define TOTAL_SOCKET_BLOCK_SIZE       (CELLULAR_CREATABLE_SOCKETS * (SOCKET_BLOCK_SIZE  + sizeof(void *)))
+    #define TOTAL_SOCKET_BLOCK_SIZE       ( CELLULAR_CREATABLE_SOCKETS * ( SOCKET_BLOCK_SIZE + sizeof( void * ) ) )
 
 /* Get the memory size of the event group handle */
-#define EVENT_BLOCK_SIZE              (sizeof(TX_EVENT_FLAGS_GROUP))
+    #define EVENT_BLOCK_SIZE              ( sizeof( TX_EVENT_FLAGS_GROUP ) )
 
 /* Each memory block contains a pointer to the overhead represented by "sizeof(void *)" */
-#define TOTAL_EVENT_BLOCK_SIZE        (2 * (EVENT_BLOCK_SIZE + sizeof(void *)))
+    #define TOTAL_EVENT_BLOCK_SIZE        ( 2 * ( EVENT_BLOCK_SIZE + sizeof( void * ) ) )
 
 /* Get the memory size of the thread structure */
-#define THREAD_BLOCK_SIZE             (sizeof(TX_THREAD))
+    #define THREAD_BLOCK_SIZE             ( sizeof( TX_THREAD ) )
 
 /* Each memory block contains a pointer to the overhead represented by "sizeof(void *)" */
-#define TOTAL_THREAD_BLOCK_SIZE       (2 * (THREAD_BLOCK_SIZE + sizeof(void *)))
+    #define TOTAL_THREAD_BLOCK_SIZE       ( 2 * ( THREAD_BLOCK_SIZE + sizeof( void * ) ) )
 
 /* Get the memory size of the semaphore handle */
-#define SEMAPHORE_BLOCK_SIZE          (sizeof(TX_SEMAPHORE))
+    #define SEMAPHORE_BLOCK_SIZE          ( sizeof( TX_SEMAPHORE ) )
 
 /* Each memory block contains a pointer to the overhead represented by "sizeof(void *)" */
-#define TOTAL_SEMAPHORE_BLOCK_SIZE    ((CELLULAR_CREATABLE_SOCKETS + 2) * (SEMAPHORE_BLOCK_SIZE  + sizeof(void *)))
+    #define TOTAL_SEMAPHORE_BLOCK_SIZE    ( ( CELLULAR_CREATABLE_SOCKETS + 2 ) * ( SEMAPHORE_BLOCK_SIZE + sizeof( void * ) ) )
 
-extern uint8_t g_recv_thread[CELLULAR_RECV_THREAD_SIZE];
-extern uint8_t g_ring_thread[CELLULAR_RING_THREAD_SIZE];
-extern TX_BLOCK_POOL g_cellular_socket_pool;
-extern TX_BLOCK_POOL g_cellular_event_pool;
-extern TX_BLOCK_POOL g_cellular_thread_pool;
-extern TX_BLOCK_POOL g_cellular_semaphore_pool;
+    extern uint8_t g_recv_thread[ CELLULAR_RECV_THREAD_SIZE ];
+    extern uint8_t g_ring_thread[ CELLULAR_RING_THREAD_SIZE ];
+    extern TX_BLOCK_POOL g_cellular_socket_pool;
+    extern TX_BLOCK_POOL g_cellular_event_pool;
+    extern TX_BLOCK_POOL g_cellular_thread_pool;
+    extern TX_BLOCK_POOL g_cellular_semaphore_pool;
 #endif /* BSP_CFG_RTOS_USED == 1 */
 
 /*****************************************************************************
- * Private Functions
- *****************************************************************************/
+* Private Functions
+*****************************************************************************/
+
 /****************************************************************************
  * Function Name  @fn            cellular_create_event_group
  * Description    @details       Create an event group.
  * Return Value   @retval        void * -
  *                                  Event group handle.
  ***************************************************************************/
-void * cellular_create_event_group (const char * str);
+void * cellular_create_event_group( const char * str );
 
 /****************************************************************************
  * Function Name  @fn            cellular_delete_event_group
@@ -143,7 +145,7 @@ void * cellular_create_event_group (const char * str);
  * Arguments      @param[in]     xEventGroup -
  *                                  Pointer to the event group to be deleted.
  ***************************************************************************/
-void cellular_delete_event_group (void * const xEventGroup);
+void cellular_delete_event_group( void * const xEventGroup );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_synchro_event_group
@@ -161,10 +163,10 @@ void cellular_delete_event_group (void * const xEventGroup);
  *                               uxBitsToWaitFor -
  *                                  Successful synchronization
  ****************************************************************************************/
-uint32_t cellular_synchro_event_group (void * const xEventGroup,
-                                        const uint32_t uxBitsToSet,
-                                        const uint32_t uxBitsToWaitFor,
-                                        const uint32_t xTicksToWait);
+uint32_t cellular_synchro_event_group( void * const xEventGroup,
+                                       const uint32_t uxBitsToSet,
+                                       const uint32_t uxBitsToWaitFor,
+                                       const uint32_t xTicksToWait );
 
 /****************************************************************************
  * Function Name  @fn            cellular_create_semaphore
@@ -172,7 +174,7 @@ uint32_t cellular_synchro_event_group (void * const xEventGroup,
  * Return Value   @retval        void * -
  *                                  Semaphore handle.
  ***************************************************************************/
-void * cellular_create_semaphore (const char * str);
+void * cellular_create_semaphore( const char * str );
 
 /****************************************************************************
  * Function Name  @fn            cellular_delete_semaphore
@@ -180,7 +182,7 @@ void * cellular_create_semaphore (const char * str);
  * Arguments      @param[in]     xEventGroup -
  *                                  Pointer to the semaphore to be deleted.
  ***************************************************************************/
-void cellular_delete_semaphore (void * xSemaphore);
+void cellular_delete_semaphore( void * xSemaphore );
 
 /****************************************************************************
  * Function Name  @fn            cellular_create_task
@@ -190,21 +192,21 @@ void cellular_delete_semaphore (void * xSemaphore);
  *                @retval        Except for [pdPASS] -
  *                                  Failed to create task.
  ***************************************************************************/
-#if BSP_CFG_RTOS_USED == (1)
-e_cellular_err_t cellular_create_task (void (*pxTaskCode)(void *),
-                                        const char * const pcName,
-                                        const uint16_t usStackDepth,
-                                        void * const pvParameters,
-                                        const uint32_t uxPriority,
-                                        void * const pxCreatedTask);
-#elif BSP_CFG_RTOS_USED == (5)
-e_cellular_err_t cellular_create_task (void (*pxTaskCode)(ULONG),
-                                        const char * const pcName,
-                                        const uint16_t usStackDepth,
-                                        void * const pvParameters,
-                                        const uint32_t uxPriority,
-                                        void * const pxCreatedTask);
-#endif
+#if BSP_CFG_RTOS_USED == ( 1 )
+    e_cellular_err_t cellular_create_task( void ( * pxTaskCode )( void * ),
+                                           const char * const pcName,
+                                           const uint16_t usStackDepth,
+                                           void * const pvParameters,
+                                           const uint32_t uxPriority,
+                                           void * const pxCreatedTask );
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    e_cellular_err_t cellular_create_task( void ( * pxTaskCode )( ULONG ),
+                                           const char * const pcName,
+                                           const uint16_t usStackDepth,
+                                           void * const pvParameters,
+                                           const uint32_t uxPriority,
+                                           void * const pxCreatedTask );
+#endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
 
 
 /****************************************************************************
@@ -213,7 +215,7 @@ e_cellular_err_t cellular_create_task (void (*pxTaskCode)(ULONG),
  * Arguments      @param[in]     delay_time -
  *                                  Time to perform delay(milliseconds).
  ***************************************************************************/
-void cellular_delay_task (const uint32_t delay_time);
+void cellular_delay_task( const uint32_t delay_time );
 
 /****************************************************************************
  * Function Name  @fn            cellular_delete_task
@@ -221,7 +223,7 @@ void cellular_delay_task (const uint32_t delay_time);
  * Arguments      @param[in]     taskhandle -
  *                                  Pointer to the taskhandle to be deleted.
  ***************************************************************************/
-void cellular_delete_task (void * taskhandle);
+void cellular_delete_task( void * taskhandle );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_get_tickcount
@@ -229,7 +231,7 @@ void cellular_delete_task (void * taskhandle);
  * Return Value   @retval        uint32_t -
  *                                  Time elapsed(millisecond).
  ****************************************************************************************/
-uint32_t cellular_get_tickcount (void);
+uint32_t cellular_get_tickcount( void );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_malloc
@@ -239,7 +241,7 @@ uint32_t cellular_get_tickcount (void);
  * Return Value   @retval        void *
  *                                  Pointer to retrieved memory.
  ****************************************************************************************/
-void * cellular_malloc (const size_t size);
+void * cellular_malloc( const size_t size );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_free
@@ -247,7 +249,7 @@ void * cellular_malloc (const size_t size);
  * Arguments      @param[in]     p_free -
  *                                  Pointer to memory.
  ****************************************************************************************/
-void cellular_free (void * p_free);
+void cellular_free( void * p_free );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_give_semaphore
@@ -259,7 +261,7 @@ void cellular_free (void * p_free);
  *                               CELLULAR_SEMAPHORE_ERR_GIVE
  *                                  Semaphore return failed.
  ****************************************************************************************/
-e_cellular_err_semaphore_t cellular_give_semaphore (void * const xSemaphore);
+e_cellular_err_semaphore_t cellular_give_semaphore( void * const xSemaphore );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_take_semaphore
@@ -271,7 +273,7 @@ e_cellular_err_semaphore_t cellular_give_semaphore (void * const xSemaphore);
  *                               CELLULAR_SEMAPHORE_ERR_TAKE -
  *                                  Semaphore acquisition failed.
  ****************************************************************************************/
-e_cellular_err_semaphore_t cellular_take_semaphore (void * const xSemaphore);
+e_cellular_err_semaphore_t cellular_take_semaphore( void * const xSemaphore );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_set_event_flg
@@ -287,8 +289,9 @@ e_cellular_err_semaphore_t cellular_take_semaphore (void * const xSemaphore);
  *                               CELLULAR_ERR_EVENT_GROUP_INIT -
  *                                  Failed to set flag.
  ****************************************************************************************/
-e_cellular_err_t cellular_set_event_flg (void * const xEventGroup, const uint32_t uxBitsToSet,
-                                            int32_t * pxHigherPriorityTaskWoken);
+e_cellular_err_t cellular_set_event_flg( void * const xEventGroup,
+                                         const uint32_t uxBitsToSet,
+                                         int32_t * pxHigherPriorityTaskWoken );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_get_event_flg
@@ -304,23 +307,25 @@ e_cellular_err_t cellular_set_event_flg (void * const xEventGroup, const uint32_
  *                               CELLULAR_ERR_EVENT_GROUP_INIT -
  *                                  Failed to get flag.
  ****************************************************************************************/
-e_cellular_err_t cellular_get_event_flg (void * const xEventGroup, const uint32_t uxBitsToGet,
-                                            const uint32_t xTicksToWait);
+e_cellular_err_t cellular_get_event_flg( void * const xEventGroup,
+                                         const uint32_t uxBitsToGet,
+                                         const uint32_t xTicksToWait );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_interrupt_disable
  * Description    @details       Disable Interrupt.
  * Return Value   @retval        Preemption value of the calling task.
  ****************************************************************************************/
-uint32_t cellular_interrupt_disable (void);
+uint32_t cellular_interrupt_disable( void );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_interrupt_enable
  * Description    @details       Enable Interrupt.
  ****************************************************************************************/
-void cellular_interrupt_enable (uint32_t preemption);
+void cellular_interrupt_enable( uint32_t preemption );
 
-#if BSP_CFG_RTOS_USED == (5)
+#if BSP_CFG_RTOS_USED == ( 5 )
+
 /*****************************************************************************************
  * Function Name  @fn            cellular_block_pool_create
  * Description    @details       Create a memory pool.
@@ -329,7 +334,7 @@ void cellular_interrupt_enable (uint32_t preemption);
  *                               CELLULAR_ERR_MEMORY_ALLOCATION -
  *                                  Failed to create the memory pool.
  ****************************************************************************************/
-e_cellular_err_t cellular_block_pool_create (void);
+    e_cellular_err_t cellular_block_pool_create( void );
 
 /*****************************************************************************************
  * Function Name  @fn            cellular_block_pool_delete
@@ -339,7 +344,7 @@ e_cellular_err_t cellular_block_pool_create (void);
  *                               CELLULAR_ERR_MEMORY_ALLOCATION -
  *                                  Failed to delete the memory pool.
  ****************************************************************************************/
-e_cellular_err_t cellular_block_pool_delete (void);
+    e_cellular_err_t cellular_block_pool_delete( void );
 #endif
 
-#endif  /* CELLULAR_FREERTOS_H */
+#endif /* CELLULAR_FREERTOS_H */

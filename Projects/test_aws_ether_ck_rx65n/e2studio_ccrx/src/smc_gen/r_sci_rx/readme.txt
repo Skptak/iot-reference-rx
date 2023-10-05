@@ -7,12 +7,12 @@ Overview
 --------------------------------------------------------------------------------
 The r_sci_rx module is a multi-channel, multi-mode, interrupt-driven driver which
 supports Asynchronous, Master Synchronous, and Single Master Simple SPI (SSPI)
-operation for the SCI peripherals. The API includes standard functions 
-to initialize a channel and to send and receive data, as well as a special control 
-function for taking actions such as issuing a break signal or enabling noise 
-cancellation. The driver supports all channels available on the mcu. The driver 
-can be reduced in size by removing code used for parameter checking, unused 
-channels, or unused modes. These configuration options can be found in 
+operation for the SCI peripherals. The API includes standard functions
+to initialize a channel and to send and receive data, as well as a special control
+function for taking actions such as issuing a break signal or enabling noise
+cancellation. The driver supports all channels available on the mcu. The driver
+can be reduced in size by removing code used for parameter checking, unused
+channels, or unused modes. These configuration options can be found in
 "r_config\r_sci_rx_config.h".
 
 
@@ -59,7 +59,7 @@ r_sci_rx
     |   r_sci_rx_private.h
     |
     +---targets
-        |   
+        |
         +---rx110
         |       r_sci_rx110.c
         |       r_sci_rx110_data.c

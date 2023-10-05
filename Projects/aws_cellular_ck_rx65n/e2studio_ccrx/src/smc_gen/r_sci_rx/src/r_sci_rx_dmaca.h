@@ -16,36 +16,45 @@
  *
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /***********************************************************************************************************************
 * File Name    : r_sci_rx_dmaca.h
-* Description  : 
+* Description  :
 ************************************************************************************************************************
 * History : DD.MM.YYYY Version Description
 *           25.08.2020 1.00    Initial Release
 ***********************************************************************************************************************/
 
 /**********************************************************************************************************************
- Includes   <System Includes> , "Project Includes"
+ * Includes   <System Includes> , "Project Includes"
  *********************************************************************************************************************/
 #include "platform.h"
 #include "r_sci_rx_if.h"
 
 /**********************************************************************************************************************
- Macro definitions
+ * Macro definitions
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
- Global Typedef definitions
+ * Global Typedef definitions
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
- External global variables
+ * External global variables
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
- Exported global functions
+ * Exported global functions
  *********************************************************************************************************************/
-sci_err_t sci_txfifo_dmaca_create(sci_hdl_t const hdl, uint8_t *p_src, uint16_t const length);
-sci_err_t sci_rxfifo_dmaca_create(sci_hdl_t const hdl, uint8_t *p_dst, uint16_t const length);
-sci_err_t sci_tx_dmaca_create(sci_hdl_t const hdl, uint8_t *p_src, uint16_t const length);
-sci_err_t sci_rx_dmaca_create(sci_hdl_t const hdl, uint8_t *p_dst, uint16_t const length);
+sci_err_t sci_txfifo_dmaca_create( sci_hdl_t const hdl,
+                                   uint8_t * p_src,
+                                   uint16_t const length );
+sci_err_t sci_rxfifo_dmaca_create( sci_hdl_t const hdl,
+                                   uint8_t * p_dst,
+                                   uint16_t const length );
+sci_err_t sci_tx_dmaca_create( sci_hdl_t const hdl,
+                               uint8_t * p_src,
+                               uint16_t const length );
+sci_err_t sci_rx_dmaca_create( sci_hdl_t const hdl,
+                               uint8_t * p_dst,
+                               uint16_t const length );

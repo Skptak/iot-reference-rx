@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cgsn.c
  * Description  : Function to execute the AT command (CGSN).
@@ -46,18 +47,19 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cgsn
  ************************************************************************************************/
-e_cellular_err_t atc_cgsn(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cgsn( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_GET_SERIAL_NUMBER][0],   // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_SERIAL_NUMBER ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_SERIAL_NUMBER);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_SERIAL_NUMBER );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgsn
  *********************************************************************************************************************/
@@ -65,18 +67,19 @@ e_cellular_err_t atc_cgsn(st_cellular_ctrl_t * const p_ctrl)
 /*************************************************************************************************
  * Function Name  @fn            atc_cgsn3
  ************************************************************************************************/
-e_cellular_err_t atc_cgsn3(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cgsn3( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-            (const uint8_t*) &gp_at_command[ATC_GET_SVN][0],   // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_SVN ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_SVN);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_SVN );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgsn3
  *********************************************************************************************************************/

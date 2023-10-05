@@ -7,19 +7,19 @@ The sample implementations add metadata information of **task name**, **FreeRTOS
 
 **Note**: Users can provide their own implementations of the logging interface to enable logging, if they choose to not use this implementation. Please refer [here](#using-your-custom-implementation-of-logging-interface) for more information.
 
-### Logging Task 
+### Logging Task
 The sample implementation serializes logging messages from different tasks using a FreeRTOS queue that is serviced by a daemon logging task. The daemon task reads log message strings from the queue and forwards them to the vendor-specific function through the `configPRINT` macro.
 
 Each of the implementations (ISO C90 and ISO C99 with GNU extension) route the logging interface macros to a logging function (defined in [`iot_logging_task.h`](./include/iot_logging_task.h)) that pushes the message to the FreeRTOS queue, thereby serializing messages logged through the logging interfaces.
 
 ### Using the Sample Implementation
 
-To enable logging for a FreeRTOS library and/or demo using the sample implementation, 
-* Configure logging level by defining the `LIBRARY_LOG_LEVEL` macro to one of `LOG_NONE` (this disables logging), `LOG_ERROR`, `LOG_WARN`, `LOG_INFO` or `LOG_DEBUG` constants. 
+To enable logging for a FreeRTOS library and/or demo using the sample implementation,
+* Configure logging level by defining the `LIBRARY_LOG_LEVEL` macro to one of `LOG_NONE` (this disables logging), `LOG_ERROR`, `LOG_WARN`, `LOG_INFO` or `LOG_DEBUG` constants.
 * By default, the ISO C90 implementation is enabled. If your compiler supports ISO C99 (with GNU extension), you can enable the ISO C99 implementation by setting the `LOGGING_ENABLE_METADATA_WITH_C99_AND_GNU_EXTENSION` macro to `1`. When using the ISO C99 implementation, define the `LIBRARY_LOG_NAME` macro to configure the library name which is prefixed in
 the log messages.
 
-The above macro definitions should occur in the FreeRTOS library-specific config file (like `core_mqtt_config.h` file for the coreMQTT library) for which logging is being configured. 
+The above macro definitions should occur in the FreeRTOS library-specific config file (like `core_mqtt_config.h` file for the coreMQTT library) for which logging is being configured.
 
 The logging file include and macro definitions must follow the following order in the config file:
 * Include [`logging_levels.h`](./include/logging_levels.h).
@@ -43,7 +43,7 @@ Here is a sample logging configuration for the coreMQTT library which is defined
 #include "logging_stack.h"
 ```
 
-When using the ISO C90 implementation, the above configuration generates the following log messages for the coreMQTT library. 
+When using the ISO C90 implementation, the above configuration generates the following log messages for the coreMQTT library.
 
 ```
 78 1950 [iot_thread] [INFO] Packet received. ReceivedBytes=2.
@@ -51,7 +51,7 @@ When using the ISO C90 implementation, the above configuration generates the fol
 80 1951 [iot_thread] [INFO] State record updated. New state=MQTTPublishDone.
 ```
 
-If using the ISO C99 implementation (i.e. when `LOGGING_ENABLE_METADATA_WITH_C99_AND_GNU_EXTENSION` macro is set to `1`), the log messages from coreMQTT library look like the following.  
+If using the ISO C99 implementation (i.e. when `LOGGING_ENABLE_METADATA_WITH_C99_AND_GNU_EXTENSION` macro is set to `1`), the log messages from coreMQTT library look like the following.
 Note that the library name (`[MQTT]`) and source file location (`[core_mqtt.c:<line-number>]`)
 are present in each log message.
 
@@ -78,7 +78,7 @@ LogInfo( ( “This prints an integer %d”, 100 ) );
 ```
 
 Your custom implementation of the logging interface needs to define these macros to
-map them to your logging implementation, depending on the logging levels you want to enable.  
+map them to your logging implementation, depending on the logging levels you want to enable.
 Logging macros use format specifier and variable number of arguments, just like standard function, `printf`, but they use double parenthesis to support ISO C90 standard which should be taken care while defining them.
 
 If you have a thread safe printf function, LogInfo should be defined like

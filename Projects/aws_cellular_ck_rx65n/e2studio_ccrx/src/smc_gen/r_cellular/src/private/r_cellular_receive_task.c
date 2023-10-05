@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_receive_task.c
  * Description  : Functions of the receiving task.
@@ -32,12 +33,12 @@
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define CHAR_CHECK_1    ('+')
-#define CHAR_CHECK_2    ('>')
-#define CHAR_CHECK_3    (':')
-#define CHAR_CHECK_4    ('\n')
-#define CHAR_CHECK_5    (',')
-#define CHAR_CHECK_6    (' ')
+#define CHAR_CHECK_1    ( '+' )
+#define CHAR_CHECK_2    ( '>' )
+#define CHAR_CHECK_3    ( ':' )
+#define CHAR_CHECK_4    ( '\n' )
+#define CHAR_CHECK_5    ( ',' )
+#define CHAR_CHECK_6    ( ' ' )
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -50,45 +51,45 @@
 /**********************************************************************************************************************
  * Private (static) variables and functions
  *********************************************************************************************************************/
-static const uint8_t s_atc_res_go_send[]            = ATC_RES_GO_SEND;
-static const uint8_t s_atc_res_ok[]                 = ATC_RES_OK;
-static const uint8_t s_atc_res_error[]              = ATC_RES_ERROR;
-static const uint8_t s_atc_res_no_carrier[]         = ATC_RES_NO_CARRIER;
-static const uint8_t s_atc_res_connect[]            = ATC_RES_CONNECT;
-static const uint8_t s_atc_res_exit[]               = ATC_RES_EXIT;
-static const uint8_t s_atc_res_data_receive[]       = ATC_RES_DATA_RECEIVE;
-static const uint8_t s_atc_res_data_receive_qird[]  = ATC_RES_DATA_RECEIVE_QIRD;
-static const uint8_t s_atc_res_read_dns[]           = ATC_RES_READ_DNS;
-static const uint8_t s_atc_res_pin_lock_status[]    = ATC_RES_PIN_LOCK_STATUS;
-static const uint8_t s_atc_res_socket_close[]       = ATC_RES_SOCKET_CLOSE;
-static const uint8_t s_atc_res_system_start[]       = ATC_RES_SYSTEM_START;
-static const uint8_t s_atc_res_attach_status[]      = ATC_RES_ATTACH_STATUS;
-static const uint8_t s_atc_res_function_level[]     = ATC_RES_FUNCTION_LEVEL;
-static const uint8_t s_atc_res_timezone[]           = ATC_RES_TIMEZONE;
-static const uint8_t s_atc_res_creg_status[]        = ATC_RES_CREG_STATUS;
-static const uint8_t s_atc_res_cereg_status[]       = ATC_RES_CEREG_STATUS;
-static const uint8_t s_atc_res_get_time[]           = ATC_RES_GET_TIME;
+static const uint8_t s_atc_res_go_send[] = ATC_RES_GO_SEND;
+static const uint8_t s_atc_res_ok[] = ATC_RES_OK;
+static const uint8_t s_atc_res_error[] = ATC_RES_ERROR;
+static const uint8_t s_atc_res_no_carrier[] = ATC_RES_NO_CARRIER;
+static const uint8_t s_atc_res_connect[] = ATC_RES_CONNECT;
+static const uint8_t s_atc_res_exit[] = ATC_RES_EXIT;
+static const uint8_t s_atc_res_data_receive[] = ATC_RES_DATA_RECEIVE;
+static const uint8_t s_atc_res_data_receive_qird[] = ATC_RES_DATA_RECEIVE_QIRD;
+static const uint8_t s_atc_res_read_dns[] = ATC_RES_READ_DNS;
+static const uint8_t s_atc_res_pin_lock_status[] = ATC_RES_PIN_LOCK_STATUS;
+static const uint8_t s_atc_res_socket_close[] = ATC_RES_SOCKET_CLOSE;
+static const uint8_t s_atc_res_system_start[] = ATC_RES_SYSTEM_START;
+static const uint8_t s_atc_res_attach_status[] = ATC_RES_ATTACH_STATUS;
+static const uint8_t s_atc_res_function_level[] = ATC_RES_FUNCTION_LEVEL;
+static const uint8_t s_atc_res_timezone[] = ATC_RES_TIMEZONE;
+static const uint8_t s_atc_res_creg_status[] = ATC_RES_CREG_STATUS;
+static const uint8_t s_atc_res_cereg_status[] = ATC_RES_CEREG_STATUS;
+static const uint8_t s_atc_res_get_time[] = ATC_RES_GET_TIME;
 static const uint8_t s_atc_res_get_service_status[] = ATC_RES_GET_SERVICE_STATUS;
-static const uint8_t s_atc_res_get_pdp_status[]     = ATC_RES_GET_PDP_STATUS;
-static const uint8_t s_atc_res_get_ip_addr[]        = ATC_RES_GET_IP_ADDR;
-static const uint8_t s_atc_res_get_psms[]           = ATC_RES_GET_PSMS;
-static const uint8_t s_atc_res_get_edrxs[]          = ATC_RES_GET_EDRXS;
-static const uint8_t s_atc_res_set_edrxs[]          = ATC_RES_SET_EDRXS;
-static const uint8_t s_atc_res_get_signal[]         = ATC_RES_GET_SIGNAL;
-static const uint8_t s_atc_res_command_send_sim[]   = ATC_RES_COMMAND_SEND_SIM;
-static const uint8_t s_atc_res_timezene_info[]      = ATC_RES_TIMEZONE_INFO;
-static const uint8_t s_atc_res_ind_info[]           = ATC_RES_IND_INFO;
-static const uint8_t s_atc_res_svn[]                = ATC_RES_SVN;
-static const uint8_t s_atc_res_get_phone_num[]      = ATC_RES_GET_PHONE_NUM;
-static const uint8_t s_atc_res_get_iccid[]          = ATC_RES_GET_ICCID;
-static const uint8_t s_atc_res_ping[]               = ATC_RES_PING;
-static const uint8_t s_atc_res_get_cellinfo[]       = ATC_RES_GET_CELLINFO;
-static const uint8_t s_atc_res_get_autoconnect[]    = ATC_RES_GET_AUTOCONNECT;
-static const uint8_t s_atc_res_get_ctm[]            = ATC_RES_GET_CTM;
-static const uint8_t s_atc_res_smcwrx[]             = ATC_RES_SMCWRX;
-static const uint8_t s_atc_res_smcwtx[]             = ATC_RES_SMCWTX;
+static const uint8_t s_atc_res_get_pdp_status[] = ATC_RES_GET_PDP_STATUS;
+static const uint8_t s_atc_res_get_ip_addr[] = ATC_RES_GET_IP_ADDR;
+static const uint8_t s_atc_res_get_psms[] = ATC_RES_GET_PSMS;
+static const uint8_t s_atc_res_get_edrxs[] = ATC_RES_GET_EDRXS;
+static const uint8_t s_atc_res_set_edrxs[] = ATC_RES_SET_EDRXS;
+static const uint8_t s_atc_res_get_signal[] = ATC_RES_GET_SIGNAL;
+static const uint8_t s_atc_res_command_send_sim[] = ATC_RES_COMMAND_SEND_SIM;
+static const uint8_t s_atc_res_timezene_info[] = ATC_RES_TIMEZONE_INFO;
+static const uint8_t s_atc_res_ind_info[] = ATC_RES_IND_INFO;
+static const uint8_t s_atc_res_svn[] = ATC_RES_SVN;
+static const uint8_t s_atc_res_get_phone_num[] = ATC_RES_GET_PHONE_NUM;
+static const uint8_t s_atc_res_get_iccid[] = ATC_RES_GET_ICCID;
+static const uint8_t s_atc_res_ping[] = ATC_RES_PING;
+static const uint8_t s_atc_res_get_cellinfo[] = ATC_RES_GET_CELLINFO;
+static const uint8_t s_atc_res_get_autoconnect[] = ATC_RES_GET_AUTOCONNECT;
+static const uint8_t s_atc_res_get_ctm[] = ATC_RES_GET_CTM;
+static const uint8_t s_atc_res_smcwrx[] = ATC_RES_SMCWRX;
+static const uint8_t s_atc_res_smcwtx[] = ATC_RES_SMCWTX;
 
-static const uint8_t * const sp_cellular_atc_res_tbl[CELLULAR_RES_MAX] =
+static const uint8_t * const sp_cellular_atc_res_tbl[ CELLULAR_RES_MAX ] =
 {
     s_atc_res_go_send,
     s_atc_res_ok,
@@ -129,96 +130,138 @@ static const uint8_t * const sp_cellular_atc_res_tbl[CELLULAR_RES_MAX] =
     s_atc_res_smcwtx
 };
 
-static void cellular_job_check (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static e_atc_return_code_t cellular_response_string_check (uint8_t * p_string);
+static void cellular_job_check( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive );
+static e_atc_return_code_t cellular_response_string_check( uint8_t * p_string );
 
-static void cellular_response_check (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_data_send_command (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_data_reception (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_request_data (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_store_data (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_dns_result (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_ap_connect_status (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_station_info (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_control_level (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_cpin_status (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_time (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_imei (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_imsi (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_system_start (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_disconnect_socket (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_timezone (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_service_status (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_pdp_status (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_pdp_addr (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_psms (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_edrx (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_signal (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_res_command_send_sim (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_timezone_info (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_ind_info (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_svn (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_phone_number (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_iccid (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_ping (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_cellinfo (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_autoconnect (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_ctm (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_set_smcwrx (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_set_smcwtx (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_get_revision (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_response_skip (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_memclear (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static void cellular_exit (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
+static void cellular_response_check( st_cellular_ctrl_t * p_ctrl,
+                                     st_cellular_receive_t * cellular_receive );
+static void cellular_data_send_command( st_cellular_ctrl_t * p_ctrl,
+                                        st_cellular_receive_t * cellular_receive );
+static void cellular_get_data_reception( st_cellular_ctrl_t * p_ctrl,
+                                         st_cellular_receive_t * cellular_receive );
+static void cellular_request_data( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_store_data( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive );
+static void cellular_dns_result( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive );
+static void cellular_get_ap_connect_status( st_cellular_ctrl_t * p_ctrl,
+                                            st_cellular_receive_t * cellular_receive );
+static void cellular_station_info( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_control_level( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive );
+static void cellular_cpin_status( st_cellular_ctrl_t * p_ctrl,
+                                  st_cellular_receive_t * cellular_receive );
+static void cellular_get_time( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_get_imei( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_get_imsi( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_system_start( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_disconnect_socket( st_cellular_ctrl_t * p_ctrl,
+                                        st_cellular_receive_t * cellular_receive );
+static void cellular_get_timezone( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_get_service_status( st_cellular_ctrl_t * p_ctrl,
+                                         st_cellular_receive_t * cellular_receive );
+static void cellular_get_pdp_status( st_cellular_ctrl_t * p_ctrl,
+                                     st_cellular_receive_t * cellular_receive );
+static void cellular_get_pdp_addr( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_get_psms( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_get_edrx( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_get_signal( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive );
+static void cellular_res_command_send_sim( st_cellular_ctrl_t * p_ctrl,
+                                           st_cellular_receive_t * cellular_receive );
+static void cellular_timezone_info( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive );
+static void cellular_ind_info( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_get_svn( st_cellular_ctrl_t * p_ctrl,
+                              st_cellular_receive_t * cellular_receive );
+static void cellular_get_phone_number( st_cellular_ctrl_t * p_ctrl,
+                                       st_cellular_receive_t * cellular_receive );
+static void cellular_get_iccid( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive );
+static void cellular_ping( st_cellular_ctrl_t * p_ctrl,
+                           st_cellular_receive_t * cellular_receive );
+static void cellular_get_cellinfo( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_get_autoconnect( st_cellular_ctrl_t * p_ctrl,
+                                      st_cellular_receive_t * cellular_receive );
+static void cellular_get_ctm( st_cellular_ctrl_t * p_ctrl,
+                              st_cellular_receive_t * cellular_receive );
+static void cellular_set_smcwrx( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive );
+static void cellular_set_smcwtx( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive );
+static void cellular_get_revision( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive );
+static void cellular_response_skip( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive );
+static void cellular_memclear( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive );
+static void cellular_exit( st_cellular_ctrl_t * p_ctrl,
+                           st_cellular_receive_t * cellular_receive );
 
-static e_atc_list_t cellular_get_at_command (st_cellular_ctrl_t * const p_ctrl);
-static void cellular_set_atc_response (st_cellular_ctrl_t * const p_ctrl, const e_cellular_atc_return_t result);
-static void cellular_cleardata (st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive);
-static int32_t binary_conversion (int32_t binary);
+static e_atc_list_t cellular_get_at_command( st_cellular_ctrl_t * const p_ctrl );
+static void cellular_set_atc_response( st_cellular_ctrl_t * const p_ctrl,
+                                       const e_cellular_atc_return_t result );
+static void cellular_cleardata( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive );
+static int32_t binary_conversion( int32_t binary );
 
-static void(* p_cellular_recvtask_api[])(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive) =
+static void (* p_cellular_recvtask_api[])( st_cellular_ctrl_t * p_ctrl,
+                                           st_cellular_receive_t * cellular_receive ) =
 {
-        cellular_data_send_command,
-        cellular_memclear,
-        cellular_memclear,
-        cellular_memclear,
-        cellular_memclear,
-        cellular_exit,
-        cellular_get_data_reception,
-        cellular_request_data,
-        cellular_dns_result,
-        cellular_cpin_status,
-        cellular_disconnect_socket,
-        cellular_system_start,
-        cellular_get_ap_connect_status,
-        cellular_control_level,
-        cellular_get_timezone,
-        cellular_station_info,
-        cellular_station_info,
-        cellular_get_time,
-        cellular_get_service_status,
-        cellular_get_pdp_status,
-        cellular_get_pdp_addr,
-        cellular_get_psms,
-        cellular_get_edrx,
-        cellular_get_edrx,
-        cellular_get_signal,
-        cellular_res_command_send_sim,
-        cellular_timezone_info,
-        cellular_ind_info,
-        cellular_get_svn,
-        cellular_get_phone_number,
-        cellular_get_iccid,
-        cellular_ping,
-        cellular_get_cellinfo,
-        cellular_get_autoconnect,
-        cellular_get_ctm,
-        cellular_set_smcwrx,
-        cellular_set_smcwtx,
-        cellular_response_skip,
-        cellular_store_data,
-        cellular_response_check,
-        cellular_job_check
+    cellular_data_send_command,
+    cellular_memclear,
+    cellular_memclear,
+    cellular_memclear,
+    cellular_memclear,
+    cellular_exit,
+    cellular_get_data_reception,
+    cellular_request_data,
+    cellular_dns_result,
+    cellular_cpin_status,
+    cellular_disconnect_socket,
+    cellular_system_start,
+    cellular_get_ap_connect_status,
+    cellular_control_level,
+    cellular_get_timezone,
+    cellular_station_info,
+    cellular_station_info,
+    cellular_get_time,
+    cellular_get_service_status,
+    cellular_get_pdp_status,
+    cellular_get_pdp_addr,
+    cellular_get_psms,
+    cellular_get_edrx,
+    cellular_get_edrx,
+    cellular_get_signal,
+    cellular_res_command_send_sim,
+    cellular_timezone_info,
+    cellular_ind_info,
+    cellular_get_svn,
+    cellular_get_phone_number,
+    cellular_get_iccid,
+    cellular_ping,
+    cellular_get_cellinfo,
+    cellular_get_autoconnect,
+    cellular_get_ctm,
+    cellular_set_smcwrx,
+    cellular_set_smcwtx,
+    cellular_response_skip,
+    cellular_store_data,
+    cellular_response_check,
+    cellular_job_check
 };
 
 /***********************************************************************************************
@@ -227,57 +270,61 @@ static void(* p_cellular_recvtask_api[])(st_cellular_ctrl_t * p_ctrl, st_cellula
  * Arguments      @param[in/out] p_pvParameters -
  *                                  Pointer to the parameter given at the time of task creation.
  **********************************************************************************************/
-#if BSP_CFG_RTOS_USED == (1)
-void cellular_recv_task(void * const p_pvParameters)
-#elif BSP_CFG_RTOS_USED == (5)
-void cellular_recv_task(ULONG p_pvParameters)
+#if BSP_CFG_RTOS_USED == ( 1 )
+    void cellular_recv_task( void * const p_pvParameters )
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    void cellular_recv_task( ULONG p_pvParameters )
 #endif
 {
-#if BSP_CFG_RTOS_USED == (1)
-    st_cellular_ctrl_t * const p_ctrl = p_pvParameters;
-#elif BSP_CFG_RTOS_USED == (5)
-    st_cellular_ctrl_t * const p_ctrl = gp_cellular_ctrl;
-#endif
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        st_cellular_ctrl_t * const p_ctrl = p_pvParameters;
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        st_cellular_ctrl_t * const p_ctrl = gp_cellular_ctrl;
+    #endif
 
     sci_err_t sci_ret = SCI_SUCCESS;
-    st_cellular_receive_t cellular_receive = {0,0,CELLULAR_RES_NONE,JOB_STATUS_NONE,0,0,0};
+    st_cellular_receive_t cellular_receive = { 0, 0, CELLULAR_RES_NONE, JOB_STATUS_NONE, 0, 0, 0 };
 
-    memset(p_ctrl->sci_ctrl.receive_buff, 0, sizeof(p_ctrl->sci_ctrl.receive_buff));
+    memset( p_ctrl->sci_ctrl.receive_buff, 0, sizeof( p_ctrl->sci_ctrl.receive_buff ) );
 
-    cellular_synchro_event_group(p_ctrl->eventgroup, CELLULAR_RECV_TASK_BIT,
-                                (CELLULAR_MAIN_TASK_BIT | CELLULAR_RECV_TASK_BIT), CELLULAR_TIME_WAIT_TASK_START);
+    cellular_synchro_event_group( p_ctrl->eventgroup, CELLULAR_RECV_TASK_BIT,
+                                  ( CELLULAR_MAIN_TASK_BIT | CELLULAR_RECV_TASK_BIT ), CELLULAR_TIME_WAIT_TASK_START );
 
-    while (1)
+    while( 1 )
     {
-        sci_ret = R_SCI_Receive(p_ctrl->sci_ctrl.sci_hdl, &cellular_receive.data, 1);
-        if (SCI_SUCCESS != sci_ret)
+        sci_ret = R_SCI_Receive( p_ctrl->sci_ctrl.sci_hdl, &cellular_receive.data, 1 );
+
+        if( SCI_SUCCESS != sci_ret )
         {
-            cellular_delay_task(1);
+            cellular_delay_task( 1 );
         }
         else
         {
-            if (cellular_receive.recv_count > CELLULAR_ATC_RESPONSE_BUFF_SIZE)
+            if( cellular_receive.recv_count > CELLULAR_ATC_RESPONSE_BUFF_SIZE )
             {
                 cellular_receive.overflow_flag = 1;
-                CELLULAR_LOG_ERROR(("sci buffer overflow\n"));
-                cellular_memclear(p_ctrl, &cellular_receive);
+                CELLULAR_LOG_ERROR( ( "sci buffer overflow\n" ) );
+                cellular_memclear( p_ctrl, &cellular_receive );
             }
             else
             {
-                p_ctrl->sci_ctrl.receive_buff[cellular_receive.recv_count] = cellular_receive.data;
+                p_ctrl->sci_ctrl.receive_buff[ cellular_receive.recv_count ] = cellular_receive.data;
                 cellular_receive.recv_count++;
             }
-            (* p_cellular_recvtask_api[cellular_receive.job_no])(p_ctrl, &cellular_receive);
+
+            ( *p_cellular_recvtask_api[ cellular_receive.job_no ] )( p_ctrl, &cellular_receive );
         }
-        if (CELLULAR_MODULE_OPERATING_RESET == p_ctrl->module_status)
+
+        if( CELLULAR_MODULE_OPERATING_RESET == p_ctrl->module_status )
         {
-            memset(p_ctrl->sci_ctrl.receive_buff, 0, sizeof(p_ctrl->sci_ctrl.receive_buff));
-            memset(&cellular_receive, 0, sizeof(st_cellular_receive_t));
+            memset( p_ctrl->sci_ctrl.receive_buff, 0, sizeof( p_ctrl->sci_ctrl.receive_buff ) );
+            memset( &cellular_receive, 0, sizeof( st_cellular_receive_t ) );
             cellular_receive.job_no = CELLULAR_RES_NONE;
             p_ctrl->module_status = CELLULAR_MODULE_OPERATING_LEVEL0;
         }
     }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_recv_task
  *********************************************************************************************************************/
@@ -290,36 +337,38 @@ void cellular_recv_task(ULONG p_pvParameters)
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_job_check(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_job_check( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    switch (p_cellular_receive->job_status)
+    switch( p_cellular_receive->job_status )
     {
         case JOB_STATUS_NONE:
-        {
-            if ((char)p_cellular_receive->data == (CHAR_CHECK_4))           // (uint8_t)->(char)
+
+            if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_4 ) )         /* (uint8_t)->(char) */
             {
-                if ((NULL != strstr((char *)p_ctrl->sci_ctrl.receive_buff,  //(uint8_t *)->(char *)
-                                        ATC_RES_BEGIN_OR_END)) && (2 == p_cellular_receive->recv_count))
+                if( ( NULL != strstr( ( char * ) p_ctrl->sci_ctrl.receive_buff, /*(uint8_t *)->(char *) */
+                                      ATC_RES_BEGIN_OR_END ) ) && ( 2 == p_cellular_receive->recv_count ) )
                 {
                     p_cellular_receive->job_status = JOB_STATUS_FIRST_CHAR_CHECK;
                     p_cellular_receive->tmp_recvcnt = p_cellular_receive->recv_count;
                 }
                 else
                 {
-                    cellular_memclear(p_ctrl, p_cellular_receive);
+                    cellular_memclear( p_ctrl, p_cellular_receive );
                 }
             }
+
             break;
-        }
+
         case JOB_STATUS_FIRST_CHAR_CHECK:
-        {
-            if ((char)p_cellular_receive->data == (CHAR_CHECK_1))          //(uint8_t)->(char)
+
+            if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_1 ) )    /*(uint8_t)->(char) */
             {
                 p_cellular_receive->job_status = JOB_STATUS_COLON_CHECK;
             }
-            else if ((char)p_cellular_receive->data == (CHAR_CHECK_2))     //(uint8_t)->(char)
+            else if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_2 ) ) /*(uint8_t)->(char) */
             {
                 p_cellular_receive->job_no = CELLULAR_RES_GO_SEND;
             }
@@ -327,37 +376,37 @@ static void cellular_job_check(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_
             {
                 p_cellular_receive->job_no = CELLULAR_RES_CHECK;
             }
+
             break;
-        }
+
         case JOB_STATUS_COLON_CHECK:
-        {
-            if ((char)p_cellular_receive->data == (CHAR_CHECK_3))          //(uint8_t)->(char)
+
+            if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_3 ) )    /*(uint8_t)->(char) */
             {
                 p_cellular_receive->job_no
-                = cellular_response_string_check(&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);
+                    = cellular_response_string_check( &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] );
                 p_cellular_receive->tmp_recvcnt = p_cellular_receive->recv_count;
             }
-            else if ((char)p_cellular_receive->data == (CHAR_CHECK_4))     //(uint8_t)->(char)
+            else if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_4 ) ) /*(uint8_t)->(char) */
             {
                 p_cellular_receive->job_no
-                = cellular_response_string_check(&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);
-                (* p_cellular_recvtask_api[cellular_receive->job_no])(p_ctrl, cellular_receive);
+                    = cellular_response_string_check( &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] );
+                ( *p_cellular_recvtask_api[ cellular_receive->job_no ] )( p_ctrl, cellular_receive );
             }
             else
             {
                 /* Do Nothing */
                 R_BSP_NOP();
             }
+
             break;
-        }
-        default :
-        {
-            cellular_memclear(p_ctrl, p_cellular_receive);
+
+        default:
+            cellular_memclear( p_ctrl, p_cellular_receive );
             break;
-        }
     }
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_job_check
  *********************************************************************************************************************/
@@ -370,15 +419,15 @@ static void cellular_job_check(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_
  * Return Value   @retval        e_atc_return_code_t -
  *                                  Returns the e-num value corresponding to the analysis result.
  ***********************************************************************************************/
-static e_atc_return_code_t cellular_response_string_check(uint8_t * p_string)
+static e_atc_return_code_t cellular_response_string_check( uint8_t * p_string )
 {
     uint8_t i = 0;
     e_atc_return_code_t res = CELLULAR_RES_MAX;
 
-    while (i < CELLULAR_RES_MAX)
+    while( i < CELLULAR_RES_MAX )
     {
-        if (NULL != strstr((const char *)p_string,                      //(uint8_t *)->(char *)
-                            (const char *)sp_cellular_atc_res_tbl[i]))  //(uint8_t *)->(char *)
+        if( NULL != strstr( ( const char * ) p_string,                        /*(uint8_t *)->(char *) */
+                            ( const char * ) sp_cellular_atc_res_tbl[ i ] ) ) /*(uint8_t *)->(char *) */
         {
             break;
         }
@@ -387,13 +436,15 @@ static e_atc_return_code_t cellular_response_string_check(uint8_t * p_string)
             i++;
         }
     }
-    if (i < CELLULAR_RES_MAX)
+
+    if( i < CELLULAR_RES_MAX )
     {
-        res = (e_atc_return_code_t)i; //(uint8_t)->(e_atc_return_code_t)
+        res = ( e_atc_return_code_t ) i; /*(uint8_t)->(e_atc_return_code_t) */
     }
 
     return res;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_response_string_check
  *********************************************************************************************************************/
@@ -406,68 +457,69 @@ static e_atc_return_code_t cellular_response_string_check(uint8_t * p_string)
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_response_check(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_response_check( st_cellular_ctrl_t * p_ctrl,
+                                     st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if ((char)p_cellular_receive->data == (CHAR_CHECK_4))  //(uint8_t)->(char)
+    if( ( char ) p_cellular_receive->data == ( CHAR_CHECK_4 ) ) /*(uint8_t)->(char) */
     {
-        p_cellular_receive->job_no = cellular_response_string_check(p_ctrl->sci_ctrl.receive_buff);
+        p_cellular_receive->job_no = cellular_response_string_check( p_ctrl->sci_ctrl.receive_buff );
 
-        switch (p_cellular_receive->job_no)
+        switch( p_cellular_receive->job_no )
         {
             case CELLULAR_RES_OK:
             case CELLULAR_RES_CONNECT:
-            {
-                cellular_set_atc_response(p_ctrl, ATC_RETURN_OK);
+                cellular_set_atc_response( p_ctrl, ATC_RETURN_OK );
                 break;
-            }
-            case CELLULAR_RES_ERROR:
-            {
-                cellular_set_atc_response(p_ctrl, ATC_RETURN_ERROR);
-                break;
-            }
-            case CELLULAR_RES_NO_CARRIER:
-            {
-                cellular_set_atc_response(p_ctrl, ATC_RETURN_SEND_NO_CARRIER);
-                break;
-            }
-            case CELLULAR_RES_EXIT:
-            {
-                cellular_set_atc_response(p_ctrl, ATC_RETURN_ERROR);
-                cellular_exit(p_ctrl, cellular_receive);
-                break;
-            }
-            default:
-            {
-                if (ATC_GET_SERIAL_NUMBER == p_ctrl->sci_ctrl.at_command)
-                {
-                    cellular_get_imei(p_ctrl, cellular_receive);
-                }
-                if (ATC_GET_MODULE_NAME == p_ctrl->sci_ctrl.at_command)
-                {
-                    R_BSP_NOP();
-                }
-                if (ATC_GET_MAKER_NAME == p_ctrl->sci_ctrl.at_command)
-                {
-                    R_BSP_NOP();
-                }
-                if (ATC_GET_IMSI == p_ctrl->sci_ctrl.at_command)
-                {
-                    cellular_get_imsi(p_ctrl, cellular_receive);
-                }
-                if (ATC_GET_SW_REVISION == p_ctrl->sci_ctrl.at_command)
-                {
-                    cellular_get_revision(p_ctrl, cellular_receive);
-                }
-                break;
-            }
-        }
-        cellular_memclear(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+            case CELLULAR_RES_ERROR:
+                cellular_set_atc_response( p_ctrl, ATC_RETURN_ERROR );
+                break;
+
+            case CELLULAR_RES_NO_CARRIER:
+                cellular_set_atc_response( p_ctrl, ATC_RETURN_SEND_NO_CARRIER );
+                break;
+
+            case CELLULAR_RES_EXIT:
+                cellular_set_atc_response( p_ctrl, ATC_RETURN_ERROR );
+                cellular_exit( p_ctrl, cellular_receive );
+                break;
+
+            default:
+
+                if( ATC_GET_SERIAL_NUMBER == p_ctrl->sci_ctrl.at_command )
+                {
+                    cellular_get_imei( p_ctrl, cellular_receive );
+                }
+
+                if( ATC_GET_MODULE_NAME == p_ctrl->sci_ctrl.at_command )
+                {
+                    R_BSP_NOP();
+                }
+
+                if( ATC_GET_MAKER_NAME == p_ctrl->sci_ctrl.at_command )
+                {
+                    R_BSP_NOP();
+                }
+
+                if( ATC_GET_IMSI == p_ctrl->sci_ctrl.at_command )
+                {
+                    cellular_get_imsi( p_ctrl, cellular_receive );
+                }
+
+                if( ATC_GET_SW_REVISION == p_ctrl->sci_ctrl.at_command )
+                {
+                    cellular_get_revision( p_ctrl, cellular_receive );
+                }
+
+                break;
+        }
+
+        cellular_memclear( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_response_check
  *********************************************************************************************************************/
@@ -480,26 +532,23 @@ static void cellular_response_check(st_cellular_ctrl_t * p_ctrl, st_cellular_rec
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_data_send_command(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_data_send_command( st_cellular_ctrl_t * p_ctrl,
+                                        st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    switch (p_cellular_receive->data)
+    switch( p_cellular_receive->data )
     {
         case CHAR_CHECK_6:
-        {
-            cellular_set_atc_response(p_ctrl, ATC_RETURN_OK_GO_SEND);
-            cellular_memclear(p_ctrl, p_cellular_receive);
+            cellular_set_atc_response( p_ctrl, ATC_RETURN_OK_GO_SEND );
+            cellular_memclear( p_ctrl, p_cellular_receive );
             break;
-        }
-        default:
-        {
-            break;
-        }
-    }
 
-    return;
+        default:
+            break;
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_data_send_command
  *********************************************************************************************************************/
@@ -512,44 +561,45 @@ static void cellular_data_send_command(st_cellular_ctrl_t * p_ctrl, st_cellular_
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_data_reception(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_data_reception( st_cellular_ctrl_t * p_ctrl,
+                                         st_cellular_receive_t * cellular_receive )
 {
     int32_t sscanf_ret = 0;
     int32_t socket_no = 0;
-    int32_t length    = 0;
+    int32_t length = 0;
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    switch (p_cellular_receive->data)
+    switch( p_cellular_receive->data )
     {
         case CHAR_CHECK_4:
-        {
-            if (NULL != strstr((char *)         //(uint8_t *)->(char *)
-                            &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                                ATC_RES_BEGIN_OR_END))
+
+            if( NULL != strstr( ( char * )      /*(uint8_t *)->(char *) */
+                                &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                                ATC_RES_BEGIN_OR_END ) )
             {
-                sscanf_ret = sscanf((char *)    //(uint8_t *)->(char *)
-                                &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                                    " %ld,%ld", &socket_no, &length);
-                if (2 == sscanf_ret)
+                sscanf_ret = sscanf( ( char * ) /*(uint8_t *)->(char *) */
+                                     &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                                     " %ld,%ld", &socket_no, &length );
+
+                if( 2 == sscanf_ret )
                 {
                     p_cellular_receive->socket_no = socket_no;
                     p_cellular_receive->socket_no -= CELLULAR_START_SOCKET_NUMBER;
-                    p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_unprocessed_size += length;
-                    p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_count = 0;
-                    p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_flg = CELLULAR_RECEIVE_FLAG_ON;
+                    p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_unprocessed_size += length;
+                    p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_count = 0;
+                    p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_flg = CELLULAR_RECEIVE_FLAG_ON;
                 }
-                cellular_cleardata(p_ctrl, p_cellular_receive);
-            }
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
 
-    return;
+                cellular_cleardata( p_ctrl, p_cellular_receive );
+            }
+
+            break;
+
+        default:
+            break;
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_data_reception
  *********************************************************************************************************************/
@@ -562,43 +612,45 @@ static void cellular_get_data_reception(st_cellular_ctrl_t * p_ctrl, st_cellular
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_request_data(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_request_data( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     int32_t sscanf_ret = 0;
     int32_t socket_no = 0;
     int32_t length = 0;
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf_ret = sscanf((char *)    //(uint8_t *)->(char *)
-                        &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                            " %ld,%ld", &socket_no, &length);
-        if (2 == sscanf_ret)
+        sscanf_ret = sscanf( ( char * ) /*(uint8_t *)->(char *) */
+                             &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                             " %ld,%ld", &socket_no, &length );
+
+        if( 2 == sscanf_ret )
         {
             p_cellular_receive->socket_no = socket_no;
             p_cellular_receive->socket_no -= CELLULAR_START_SOCKET_NUMBER;
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_unprocessed_size -= length;
+            p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_unprocessed_size -= length;
 
-            if (0 >= p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_unprocessed_size)
+            if( 0 >= p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_unprocessed_size )
             {
-                p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_unprocessed_size = 0;
-                p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_flg = CELLULAR_RECEIVE_FLAG_OFF;
+                p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_unprocessed_size = 0;
+                p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_flg = CELLULAR_RECEIVE_FLAG_OFF;
             }
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_num = length;
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_count = 0;
+
+            p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_num = length;
+            p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_count = 0;
             p_cellular_receive->job_no = CELLULAR_RES_PUT_CHAR;
         }
         else
         {
-            cellular_memclear(p_ctrl, p_cellular_receive);
-            cellular_set_atc_response(p_ctrl, ATC_RETURN_ERROR);
-            CELLULAR_LOG_ERROR(("Incoming data request failed.\n"));
+            cellular_memclear( p_ctrl, p_cellular_receive );
+            cellular_set_atc_response( p_ctrl, ATC_RETURN_ERROR );
+            CELLULAR_LOG_ERROR( ( "Incoming data request failed.\n" ) );
         }
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_request_data
  *********************************************************************************************************************/
@@ -611,30 +663,30 @@ static void cellular_request_data(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_store_data(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_store_data( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_count <
-        p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_num)
+    if( p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_count <
+        p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_num )
     {
-        *(p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].p_recv +
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].total_recv_count) = p_cellular_receive->data;
-        p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_count++;
-        p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].total_recv_count++;
+        *( p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].p_recv +
+           p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].total_recv_count ) = p_cellular_receive->data;
+        p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_count++;
+        p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].total_recv_count++;
     }
     else
     {
-        if (CHAR_CHECK_4 == p_cellular_receive->data)
+        if( CHAR_CHECK_4 == p_cellular_receive->data )
         {
-            cellular_cleardata(p_ctrl, p_cellular_receive);
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_count = 0;
-            p_ctrl->p_socket_ctrl[p_cellular_receive->socket_no].receive_num = 0;
+            cellular_cleardata( p_ctrl, p_cellular_receive );
+            p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_count = 0;
+            p_ctrl->p_socket_ctrl[ p_cellular_receive->socket_no ].receive_num = 0;
         }
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_store_data
  *********************************************************************************************************************/
@@ -647,34 +699,32 @@ static void cellular_store_data(st_cellular_ctrl_t * p_ctrl, st_cellular_receive
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_dns_result(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_dns_result( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    switch (p_cellular_receive->data)
+    switch( p_cellular_receive->data )
     {
         case CHAR_CHECK_5:
-        {
             p_cellular_receive->tmp_recvcnt = p_cellular_receive->recv_count;
             break;
-        }
-        case CHAR_CHECK_4:
-        {
-            if (NULL != p_ctrl->recv_data)
-            {
-                sprintf(p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);
-            }
-            cellular_cleardata(p_ctrl, p_cellular_receive);
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
 
-    return;
+        case CHAR_CHECK_4:
+
+            if( NULL != p_ctrl->recv_data )
+            {
+                sprintf( p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] );
+            }
+
+            cellular_cleardata( p_ctrl, p_cellular_receive );
+            break;
+
+        default:
+            break;
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_dns_result
  *********************************************************************************************************************/
@@ -687,32 +737,34 @@ static void cellular_dns_result(st_cellular_ctrl_t * p_ctrl, st_cellular_receive
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_ap_connect_status(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_ap_connect_status( st_cellular_ctrl_t * p_ctrl,
+                                            st_cellular_receive_t * cellular_receive )
 {
-    int32_t  sscanf_ret = 0;
-    int32_t  status     = 0;
+    int32_t sscanf_ret = 0;
+    int32_t status = 0;
     e_atc_list_t active_atc;
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        active_atc = cellular_get_at_command(p_ctrl);
+        active_atc = cellular_get_at_command( p_ctrl );
 
-        if (ATC_CONNECT_CHECK == active_atc)
+        if( ATC_CONNECT_CHECK == active_atc )
         {
-            sscanf_ret = sscanf((char *) //(uint8_t *)->(char *)
-                            &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                                " %ld" , &status);
-            if ((1 == sscanf_ret) && (1 == status))
+            sscanf_ret = sscanf( ( char * ) /*(uint8_t *)->(char *) */
+                                 &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                                 " %ld", &status );
+
+            if( ( 1 == sscanf_ret ) && ( 1 == status ) )
             {
                 p_ctrl->system_state = CELLULAR_SYSTEM_CONNECT;
             }
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_ap_connect_status
  *********************************************************************************************************************/
@@ -725,7 +777,8 @@ static void cellular_get_ap_connect_status(st_cellular_ctrl_t * p_ctrl, st_cellu
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_station_info(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_station_info( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_notice_t * p_cellular_notice = p_ctrl->recv_data;
@@ -734,43 +787,44 @@ static void cellular_station_info(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
     int32_t stat = 0;
     int32_t tec = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        ret = cellular_get_at_command(p_ctrl);
+        ret = cellular_get_at_command( p_ctrl );
 
-        if ((ATC_GET_NOTICE_LEVEL == ret) && (NULL != p_cellular_notice))
+        if( ( ATC_GET_NOTICE_LEVEL == ret ) && ( NULL != p_cellular_notice ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[]->char*)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[]->char*) */
                     " %ld,%ld,\"%4s\",\"%8s\",%ld,,,\"%8s\",\"%8s\"",
                     &level,
                     &stat,
-                    (char *)p_cellular_notice->ta_code,     //(&uint8_t[]->char*)
-                    (char *)p_cellular_notice->cell_id,     //(&uint8_t[]->char*)
+                    ( char * ) p_cellular_notice->ta_code,                    /*(&uint8_t[]->char*) */
+                    ( char * ) p_cellular_notice->cell_id,                    /*(&uint8_t[]->char*) */
                     &tec,
-                    (char *)p_cellular_notice->active_time, //(&uint8_t[]->char*)
-                    (char *)p_cellular_notice->tau);        //(&uint8_t[]->char*)
+                    ( char * ) p_cellular_notice->active_time,                /*(&uint8_t[]->char*) */
+                    ( char * ) p_cellular_notice->tau );                      /*(&uint8_t[]->char*) */
 
-            p_cellular_notice->level = (e_cellular_network_result_t)level;//(int32_t->e_cellular_network_result_t)
-            p_cellular_notice->stat = (e_cellular_reg_stat_t)stat;        //(int32_t->e_cellular_reg_stat_t)
-            p_cellular_notice->access_tec = (e_cellular_access_tec_t)tec; //(int32_t->e_cellular_access_tec_t)
+            p_cellular_notice->level = ( e_cellular_network_result_t ) level; /*(int32_t->e_cellular_network_result_t) */
+            p_cellular_notice->stat = ( e_cellular_reg_stat_t ) stat;         /*(int32_t->e_cellular_reg_stat_t) */
+            p_cellular_notice->access_tec = ( e_cellular_access_tec_t ) tec;  /*(int32_t->e_cellular_access_tec_t) */
         }
         else
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[]->char*)
-                                " %ld", &stat);
-            if (1 == stat)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[]->char*) */
+                    " %ld", &stat );
+
+            if( 1 == stat )
             {
                 p_ctrl->system_state = CELLULAR_SYSTEM_CONNECT;
             }
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-        memset(p_ctrl->sci_ctrl.receive_buff, 0, sizeof(p_ctrl->sci_ctrl.receive_buff));
-        memset(p_cellular_receive, 0, sizeof(st_cellular_receive_t));
+
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+        memset( p_ctrl->sci_ctrl.receive_buff, 0, sizeof( p_ctrl->sci_ctrl.receive_buff ) );
+        memset( p_cellular_receive, 0, sizeof( st_cellular_receive_t ) );
         p_cellular_receive->job_no = CELLULAR_RES_NONE;
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_station_info
  *********************************************************************************************************************/
@@ -783,32 +837,33 @@ static void cellular_station_info(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_control_level(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_control_level( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive )
 {
     int32_t sscanf_ret = 0;
-    int32_t status     = 0;
+    int32_t status = 0;
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf_ret = sscanf((char *) //(uint8_t *)->(char *)
-                        &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                            " %ld", &status);
+        sscanf_ret = sscanf( ( char * ) /*(uint8_t *)->(char *) */
+                             &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                             " %ld", &status );
 
-        if ((1 == sscanf_ret))
+        if( ( 1 == sscanf_ret ) )
         {
-            p_ctrl->module_status = (e_cellular_module_status_t)status; //cast
+            p_ctrl->module_status = ( e_cellular_module_status_t ) status; /*cast */
         }
         else
         {
             /* Do Nothing */
-            CELLULAR_LOG_DEBUG(("Received unexpected string"));
+            CELLULAR_LOG_DEBUG( ( "Received unexpected string" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_control_level
  *********************************************************************************************************************/
@@ -821,21 +876,22 @@ static void cellular_control_level(st_cellular_ctrl_t * p_ctrl, st_cellular_rece
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_cpin_status(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_cpin_status( st_cellular_ctrl_t * p_ctrl,
+                                  st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_ctrl->recv_data)
+        if( NULL != p_ctrl->recv_data )
         {
-            sprintf(p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);
+            sprintf( p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_cpin_status
  *********************************************************************************************************************/
@@ -848,38 +904,39 @@ static void cellular_cpin_status(st_cellular_ctrl_t * p_ctrl, st_cellular_receiv
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_time(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_time( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_datetime_t * p_date_time = p_ctrl->recv_data;
-    int32_t year    = 0;
-    int32_t month   = 0;
-    int32_t day     = 0;
-    int32_t hour    = 0;
-    int32_t min     = 0;
-    int32_t sec     = 0;
+    int32_t year = 0;
+    int32_t month = 0;
+    int32_t day = 0;
+    int32_t hour = 0;
+    int32_t min = 0;
+    int32_t sec = 0;
     int32_t timezone = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_date_time)
+        if( NULL != p_date_time )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[]->char*)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[]->char*) */
                     " \"%2d/%2d/%2d,%2d:%2d:%2d%3d\"\r\n",
-                    &year, &month, &day, &hour, &min, &sec, &timezone);
-            p_date_time->year = (uint8_t)year;          // int32_t -> uint8_t
-            p_date_time->month = (uint8_t)month;        // int32_t -> uint8_t
-            p_date_time->day = (uint8_t)day;            // int32_t -> uint8_t
-            p_date_time->hour = (uint8_t)hour;          // int32_t -> uint8_t
-            p_date_time->min = (uint8_t)min;            // int32_t -> uint8_t
-            p_date_time->sec = (uint8_t)sec;            // int32_t -> uint8_t
-            p_date_time->timezone = (uint8_t)timezone;  // int32_t -> uint8_t
+                    &year, &month, &day, &hour, &min, &sec, &timezone );
+            p_date_time->year = ( uint8_t ) year;         /* int32_t -> uint8_t */
+            p_date_time->month = ( uint8_t ) month;       /* int32_t -> uint8_t */
+            p_date_time->day = ( uint8_t ) day;           /* int32_t -> uint8_t */
+            p_date_time->hour = ( uint8_t ) hour;         /* int32_t -> uint8_t */
+            p_date_time->min = ( uint8_t ) min;           /* int32_t -> uint8_t */
+            p_date_time->sec = ( uint8_t ) sec;           /* int32_t -> uint8_t */
+            p_date_time->timezone = ( uint8_t ) timezone; /* int32_t -> uint8_t */
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_time
  *********************************************************************************************************************/
@@ -892,29 +949,31 @@ static void cellular_get_time(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_imei(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_imei( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_imei_t * p_imei = p_ctrl->recv_data;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //(&uint8_t[] -> char *)
-        if ((CELLULAR_MAX_IMEI_LENGTH >= (len - CELLULAR_IMEI_USELESS_CHAR)) && (NULL != p_imei))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*(&uint8_t[] -> char *) */
+
+        if( ( CELLULAR_MAX_IMEI_LENGTH >= ( len - CELLULAR_IMEI_USELESS_CHAR ) ) && ( NULL != p_imei ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[] -> char *)
-                    "%[0-9]", (char *)p_imei->imei);                                        //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[] -> char *) */
+                    "%[0-9]", ( char * ) p_imei->imei );                                          /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("IMEI Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "IMEI Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_imei
  *********************************************************************************************************************/
@@ -927,29 +986,31 @@ static void cellular_get_imei(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_imsi(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_imsi( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_imsi_t * p_imsi = p_ctrl->recv_data;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //(&uint8_t[] -> char *)
-        if ((CELLULAR_MAX_IMSI_LENGTH >= (len - CELLULAR_IMSI_USELESS_CHAR)) && (NULL != p_imsi))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*(&uint8_t[] -> char *) */
+
+        if( ( CELLULAR_MAX_IMSI_LENGTH >= ( len - CELLULAR_IMSI_USELESS_CHAR ) ) && ( NULL != p_imsi ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],     //(&uint8_t[] -> char *)
-                    "%[0-9]", (char *)p_imsi->imsi);                                            //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[] -> char *) */
+                    "%[0-9]", ( char * ) p_imsi->imsi );                                          /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("IMSI Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "IMSI Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_imsi
  *********************************************************************************************************************/
@@ -962,19 +1023,19 @@ static void cellular_get_imsi(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_system_start(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_system_start( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (NULL != p_ctrl->recv_data)
+    if( NULL != p_ctrl->recv_data )
     {
-        *(uint8_t *)p_ctrl->recv_data = CELLULAR_START_FLG_ON;    //(void *)->(uint8_t *)
+        *( uint8_t * ) p_ctrl->recv_data = CELLULAR_START_FLG_ON; /*(void *)->(uint8_t *) */
     }
 
-    cellular_cleardata(p_ctrl, p_cellular_receive);
-
-    return;
+    cellular_cleardata( p_ctrl, p_cellular_receive );
 }
+
 /**********************************************************************************************************************
  * End of function cellular_system_start
  *********************************************************************************************************************/
@@ -987,28 +1048,29 @@ static void cellular_system_start(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_disconnect_socket(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_disconnect_socket( st_cellular_ctrl_t * p_ctrl,
+                                        st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     int32_t sscanf_ret = 0;
     int32_t socket_no = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf_ret = sscanf((char *) //(uint8_t *)->(char *)
-                        &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],
-                            " %ld" , &socket_no);
-        if (0 != sscanf_ret)
+        sscanf_ret = sscanf( ( char * ) /*(uint8_t *)->(char *) */
+                             &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],
+                             " %ld", &socket_no );
+
+        if( 0 != sscanf_ret )
         {
-            p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].socket_status
-            = CELLULAR_SOCKET_STATUS_SOCKET;
+            p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].socket_status
+                = CELLULAR_SOCKET_STATUS_SOCKET;
         }
 
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_disconnect_socket
  *********************************************************************************************************************/
@@ -1021,17 +1083,17 @@ static void cellular_disconnect_socket(st_cellular_ctrl_t * p_ctrl, st_cellular_
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_timezone(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_timezone( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_timezone
  *********************************************************************************************************************/
@@ -1044,7 +1106,8 @@ static void cellular_get_timezone(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_service_status(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_service_status( st_cellular_ctrl_t * p_ctrl,
+                                         st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
@@ -1053,16 +1116,15 @@ static void cellular_get_service_status(st_cellular_ctrl_t * p_ctrl, st_cellular
     int32_t status_3 = 0;
     int32_t status_4 = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
+        sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
                 " %ld,%ld,\"%ld\",%ld",
-                &status_1, &status_2, &status_3, &status_4);
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+                &status_1, &status_2, &status_3, &status_4 );
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_service_status
  *********************************************************************************************************************/
@@ -1075,22 +1137,22 @@ static void cellular_get_service_status(st_cellular_ctrl_t * p_ctrl, st_cellular
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_pdp_status(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_pdp_status( st_cellular_ctrl_t * p_ctrl,
+                                     st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
     int32_t status_1 = 0;
     int32_t status_2 = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
-                " %ld,%ld", &status_1, &status_2);
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
+                " %ld,%ld", &status_1, &status_2 );
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_pdp_status
  *********************************************************************************************************************/
@@ -1103,21 +1165,22 @@ static void cellular_get_pdp_status(st_cellular_ctrl_t * p_ctrl, st_cellular_rec
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_pdp_addr(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_pdp_addr( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_ctrl->recv_data)
+        if( NULL != p_ctrl->recv_data )
         {
-            sprintf(p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);
+            sprintf( p_ctrl->recv_data, "%s", &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_pdp_addr
  *********************************************************************************************************************/
@@ -1130,7 +1193,8 @@ static void cellular_get_pdp_addr(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_psms(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_psms( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_psm_config_t * p_psm_ret = p_ctrl->recv_data;
@@ -1141,24 +1205,24 @@ static void cellular_get_psms(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
     int32_t active_cycle = 0;
     int32_t active_multiplier = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_psm_ret)
+        if( NULL != p_psm_ret )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
                     " %ld,,,\"%3d%5d\",\"%3d%5d\"",
-                    &status, &tau_cycle, &tau_multiplier, &active_cycle, &active_multiplier);
-            p_psm_ret->psm_mode = (e_cellular_psm_mode_t)status;                                                //cast
-            p_psm_ret->tau_cycle = (e_cellular_tau_cycle_t)binary_conversion(tau_cycle);                        //cast
-            p_psm_ret->tau_multiplier = (e_cellular_cycle_multiplier_t)binary_conversion(tau_multiplier);       //cast
-            p_psm_ret->active_cycle = (e_cellular_active_cycle_t)binary_conversion(active_cycle);               //cast
-            p_psm_ret->active_multiplier = (e_cellular_cycle_multiplier_t)binary_conversion(active_multiplier); //cast
+                    &status, &tau_cycle, &tau_multiplier, &active_cycle, &active_multiplier );
+            p_psm_ret->psm_mode = ( e_cellular_psm_mode_t ) status;                                                  /*cast */
+            p_psm_ret->tau_cycle = ( e_cellular_tau_cycle_t ) binary_conversion( tau_cycle );                        /*cast */
+            p_psm_ret->tau_multiplier = ( e_cellular_cycle_multiplier_t ) binary_conversion( tau_multiplier );       /*cast */
+            p_psm_ret->active_cycle = ( e_cellular_active_cycle_t ) binary_conversion( active_cycle );               /*cast */
+            p_psm_ret->active_multiplier = ( e_cellular_cycle_multiplier_t ) binary_conversion( active_multiplier ); /*cast */
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_psms
  *********************************************************************************************************************/
@@ -1171,7 +1235,8 @@ static void cellular_get_psms(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_edrx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_edrx( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_edrx_config_t * p_edrx_ret = p_ctrl->recv_data;
@@ -1182,28 +1247,28 @@ static void cellular_get_edrx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
     int32_t provided_edrx = 0;
     int32_t ptw = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if ((ATC_GET_EDRXS == p_ctrl->sci_ctrl.at_command) && (NULL != p_edrx_ret))
+        if( ( ATC_GET_EDRXS == p_ctrl->sci_ctrl.at_command ) && ( NULL != p_edrx_ret ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
                     " %ld,%ld,\"%ld\",\"%ld\"",
-                    &status, &act_type, &provided_edrx, &ptw);
-            p_edrx_ret->edrx_mode = (e_cellular_edrx_mode_t)status;                                 //cast
-            p_edrx_ret->edrx_cycle = (e_cellular_edrx_cycle_t)binary_conversion(provided_edrx);     //cast
-            p_edrx_ret->ptw_cycle = (e_cellular_ptw_cycle_t)binary_conversion(ptw);                 //cast
+                    &status, &act_type, &provided_edrx, &ptw );
+            p_edrx_ret->edrx_mode = ( e_cellular_edrx_mode_t ) status;                               /*cast */
+            p_edrx_ret->edrx_cycle = ( e_cellular_edrx_cycle_t ) binary_conversion( provided_edrx ); /*cast */
+            p_edrx_ret->ptw_cycle = ( e_cellular_ptw_cycle_t ) binary_conversion( ptw );             /*cast */
         }
         else
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
                     " %ld,\"%ld\",\"%ld\",\"%ld\"",
-                    &status, &requested_edrx, &provided_edrx, &ptw);
+                    &status, &requested_edrx, &provided_edrx, &ptw );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_edrx
  *********************************************************************************************************************/
@@ -1216,23 +1281,24 @@ static void cellular_get_edrx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_signal(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_signal( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_rssi_t * p_rssi = p_ctrl->recv_data;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_rssi)
+        if( NULL != p_rssi )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *) -> (char *)
-                    " %2s,%2s", (char *)p_rssi->rssi, (char *)p_rssi->ber);                 //(&uint8_t[]) -> (char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *) -> (char *) */
+                    " %2s,%2s", ( char * ) p_rssi->rssi, ( char * ) p_rssi->ber );                /*(&uint8_t[]) -> (char *) */
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_signal
  *********************************************************************************************************************/
@@ -1245,21 +1311,21 @@ static void cellular_get_signal(st_cellular_ctrl_t * p_ctrl, st_cellular_receive
  * Return Value   @retval        e_atc_list_t -
  *                                  AT command number being executed.
  **********************************************************************************************/
-static void cellular_res_command_send_sim(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_res_command_send_sim( st_cellular_ctrl_t * p_ctrl,
+                                           st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
-    uint8_t response[100 + 1] = {0};
+    uint8_t response[ 100 + 1 ] = { 0 };
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *)->(char *)
-                " %100s", &response);
+        sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *)->(char *) */
+                " %100s", &response );
 
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_res_command_send_sim
  *********************************************************************************************************************/
@@ -1272,17 +1338,17 @@ static void cellular_res_command_send_sim(st_cellular_ctrl_t * p_ctrl, st_cellul
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_timezone_info(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_timezone_info( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_timezone_info
  *********************************************************************************************************************/
@@ -1295,18 +1361,18 @@ static void cellular_timezone_info(st_cellular_ctrl_t * p_ctrl, st_cellular_rece
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_ind_info(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_ind_info( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
         p_cellular_receive = cellular_receive;
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_ind_info
  *********************************************************************************************************************/
@@ -1319,29 +1385,31 @@ static void cellular_ind_info(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_svn(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_svn( st_cellular_ctrl_t * p_ctrl,
+                              st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_svn_t * p_svn = p_ctrl->recv_data;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //cast
-        if ((CELLULAR_MAX_SVN_LENGTH >= (len - CELLULAR_SVN_USELESS_CHAR)) && (NULL != p_svn))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*cast */
+
+        if( ( CELLULAR_MAX_SVN_LENGTH >= ( len - CELLULAR_SVN_USELESS_CHAR ) ) && ( NULL != p_svn ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[] -> char *)
-                    " \"%[a-zA-Z0-9]", (char *)p_svn->svn);                                 //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[] -> char *) */
+                    " \"%[a-zA-Z0-9]", ( char * ) p_svn->svn );                                   /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("SVN Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "SVN Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_svn
  *********************************************************************************************************************/
@@ -1354,29 +1422,31 @@ static void cellular_get_svn(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t 
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_revision(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_revision( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_svn_t * p_svn = p_ctrl->recv_data;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //cast
-        if ((CELLULAR_MAX_REVISION_LENGTH >= (len - CELLULAR_REVISION_USELESS_CHAR)) && (NULL != p_svn))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*cast */
+
+        if( ( CELLULAR_MAX_REVISION_LENGTH >= ( len - CELLULAR_REVISION_USELESS_CHAR ) ) && ( NULL != p_svn ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[] -> char *)
-                    "%[a-zA-Z0-9.]", (char *)p_svn->revision);                              //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[] -> char *) */
+                    "%[a-zA-Z0-9.]", ( char * ) p_svn->revision );                                /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("Revision Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "Revision Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_revision
  *********************************************************************************************************************/
@@ -1389,30 +1459,32 @@ static void cellular_get_revision(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_phone_number(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_phone_number( st_cellular_ctrl_t * p_ctrl,
+                                       st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_phonenum_t * p_phonenum = p_ctrl->recv_data;
-    st_cellular_phonenum_t phonenum = {0};
+    st_cellular_phonenum_t phonenum = { 0 };
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //cast
-        if ((CELLULAR_MAX_PHONENUM_LENGTH >= (len - CELLULAR_PHONENUM_USELESS_CHAR)) && (NULL != p_phonenum))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*cast */
+
+        if( ( CELLULAR_MAX_PHONENUM_LENGTH >= ( len - CELLULAR_PHONENUM_USELESS_CHAR ) ) && ( NULL != p_phonenum ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(&uint8_t[] -> char *)
-                    " %[^,],\"%[0-9]", (char *)&phonenum, (char *)p_phonenum->phonenum);    //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(&uint8_t[] -> char *) */
+                    " %[^,],\"%[0-9]", ( char * ) &phonenum, ( char * ) p_phonenum->phonenum );   /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("Revision Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "Revision Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_phone_number
  *********************************************************************************************************************/
@@ -1425,29 +1497,31 @@ static void cellular_get_phone_number(st_cellular_ctrl_t * p_ctrl, st_cellular_r
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_iccid(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_iccid( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     st_cellular_iccid_t * p_iccid = p_ctrl->recv_data;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //cast
-        if ((CELLULAR_MAX_ICCID_LENGTH >= (len - CELLULAR_ICCID_USELESS_CHAR)) && (NULL != p_iccid))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*cast */
+
+        if( ( CELLULAR_MAX_ICCID_LENGTH >= ( len - CELLULAR_ICCID_USELESS_CHAR ) ) && ( NULL != p_iccid ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t * -> char *)
-                    " \"%[0-9]", (char *)p_iccid->iccid);                                   //(&uint8_t[] -> char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t * -> char *) */
+                    " \"%[0-9]", ( char * ) p_iccid->iccid );                                     /*(&uint8_t[] -> char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("ICCID Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "ICCID Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_iccid
  *********************************************************************************************************************/
@@ -1460,32 +1534,33 @@ static void cellular_get_iccid(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_ping(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_ping( st_cellular_ctrl_t * p_ctrl,
+                           st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     sci_err_t sci_ret;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
 
         do
         {
-            sci_ret = R_SCI_Receive(p_ctrl->sci_ctrl.sci_hdl, &p_cellular_receive->data, 1);
-            cellular_delay_task(1);
-        } while (SCI_SUCCESS != sci_ret);
+            sci_ret = R_SCI_Receive( p_ctrl->sci_ctrl.sci_hdl, &p_cellular_receive->data, 1 );
+            cellular_delay_task( 1 );
+        } while( SCI_SUCCESS != sci_ret );
 
-        p_ctrl->sci_ctrl.receive_buff[0] = p_cellular_receive->data;
+        p_ctrl->sci_ctrl.receive_buff[ 0 ] = p_cellular_receive->data;
         p_cellular_receive->recv_count++;
-        if (CHAR_CHECK_1 == p_cellular_receive->data)
+
+        if( CHAR_CHECK_1 == p_cellular_receive->data )
         {
             p_cellular_receive->job_no = CELLULAR_PING;
             p_cellular_receive->tmp_recvcnt = 6;
         }
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_ping
  *********************************************************************************************************************/
@@ -1498,32 +1573,33 @@ static void cellular_ping(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * c
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_cellinfo(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_cellinfo( st_cellular_ctrl_t * p_ctrl,
+                                   st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     sci_err_t sci_ret;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
 
         do
         {
-            sci_ret = R_SCI_Receive(p_ctrl->sci_ctrl.sci_hdl, &p_cellular_receive->data, 1);
-            cellular_delay_task(1);
-        } while (SCI_SUCCESS != sci_ret);
+            sci_ret = R_SCI_Receive( p_ctrl->sci_ctrl.sci_hdl, &p_cellular_receive->data, 1 );
+            cellular_delay_task( 1 );
+        } while( SCI_SUCCESS != sci_ret );
 
-        p_ctrl->sci_ctrl.receive_buff[0] = p_cellular_receive->data;
+        p_ctrl->sci_ctrl.receive_buff[ 0 ] = p_cellular_receive->data;
         p_cellular_receive->recv_count++;
-        if (CHAR_CHECK_1 == p_cellular_receive->data)
+
+        if( CHAR_CHECK_1 == p_cellular_receive->data )
         {
             p_cellular_receive->job_no = CELLULAR_GET_CELLINFO;
             p_cellular_receive->tmp_recvcnt = 9;
         }
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_cellinfo
  *********************************************************************************************************************/
@@ -1536,24 +1612,25 @@ static void cellular_get_cellinfo(st_cellular_ctrl_t * p_ctrl, st_cellular_recei
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_autoconnect(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_autoconnect( st_cellular_ctrl_t * p_ctrl,
+                                      st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     int32_t type = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        if (NULL != p_ctrl->recv_data)
+        if( NULL != p_ctrl->recv_data )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt],     //(uint8_t * -> char *)
-                    " %ld", &type);
-            *(e_cellular_auto_connect_t *)p_ctrl->recv_data = (e_cellular_auto_connect_t)type;  //cast
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ],    /*(uint8_t * -> char *) */
+                    " %ld", &type );
+            *( e_cellular_auto_connect_t * ) p_ctrl->recv_data = ( e_cellular_auto_connect_t ) type; /*cast */
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_autoconnect
  *********************************************************************************************************************/
@@ -1566,28 +1643,30 @@ static void cellular_get_autoconnect(st_cellular_ctrl_t * p_ctrl, st_cellular_re
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_get_ctm(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_get_ctm( st_cellular_ctrl_t * p_ctrl,
+                              st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
     uint16_t len = 0;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        len = strlen((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt]);  //cast
-        if ((CELLULAR_MAX_CTM_LENGTH >= (len - CELLULAR_CTM_USELESS_CHAR)) && (NULL != p_ctrl->recv_data))
+        len = strlen( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ] ); /*cast */
+
+        if( ( CELLULAR_MAX_CTM_LENGTH >= ( len - CELLULAR_CTM_USELESS_CHAR ) ) && ( NULL != p_ctrl->recv_data ) )
         {
-            sscanf((char *)&p_ctrl->sci_ctrl.receive_buff[p_cellular_receive->tmp_recvcnt], //(uint8_t *) -> (char *)
-                    " %[a-zA-Z0-9-]", (char *)p_ctrl->recv_data);                           //(void *) -> (char *)
+            sscanf( ( char * ) &p_ctrl->sci_ctrl.receive_buff[ p_cellular_receive->tmp_recvcnt ], /*(uint8_t *) -> (char *) */
+                    " %[a-zA-Z0-9-]", ( char * ) p_ctrl->recv_data );                             /*(void *) -> (char *) */
         }
         else
         {
-            CELLULAR_LOG_ERROR(("CTM Buffer Size Error\n"));
+            CELLULAR_LOG_ERROR( ( "CTM Buffer Size Error\n" ) );
         }
-        cellular_cleardata(p_ctrl, p_cellular_receive);
-    }
 
-    return;
+        cellular_cleardata( p_ctrl, p_cellular_receive );
+    }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_ctm
  *********************************************************************************************************************/
@@ -1600,18 +1679,18 @@ static void cellular_get_ctm(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t 
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_set_smcwrx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_set_smcwrx( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
         p_cellular_receive->job_no = CELLULAR_RES_CHECK;
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_set_smcwrx
  *********************************************************************************************************************/
@@ -1624,18 +1703,18 @@ static void cellular_set_smcwrx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_set_smcwtx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_set_smcwtx( st_cellular_ctrl_t * p_ctrl,
+                                 st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
         p_cellular_receive->job_no = CELLULAR_RES_CHECK;
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_set_smcwtx
  *********************************************************************************************************************/
@@ -1648,18 +1727,18 @@ static void cellular_set_smcwtx(st_cellular_ctrl_t * p_ctrl, st_cellular_receive
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_response_skip(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_response_skip( st_cellular_ctrl_t * p_ctrl,
+                                    st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        CELLULAR_LOG_DEBUG(("SKIP URC\n"));
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        CELLULAR_LOG_DEBUG( ( "SKIP URC\n" ) );
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_response_skip
  *********************************************************************************************************************/
@@ -1673,17 +1752,17 @@ static void cellular_response_skip(st_cellular_ctrl_t * p_ctrl, st_cellular_rece
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **************************************************************************************************/
-static void cellular_exit(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_exit( st_cellular_ctrl_t * p_ctrl,
+                           st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    if (CHAR_CHECK_4 == p_cellular_receive->data)
+    if( CHAR_CHECK_4 == p_cellular_receive->data )
     {
-        cellular_cleardata(p_ctrl, p_cellular_receive);
+        cellular_cleardata( p_ctrl, p_cellular_receive );
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_exit
  *********************************************************************************************************************/
@@ -1696,18 +1775,18 @@ static void cellular_exit(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * c
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_memclear(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_memclear( st_cellular_ctrl_t * p_ctrl,
+                               st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-    CELLULAR_LOG_DEBUG(("clear buff = %s\n", p_ctrl->sci_ctrl.receive_buff));
+    CELLULAR_LOG_DEBUG( ( "clear buff = %s\n", p_ctrl->sci_ctrl.receive_buff ) );
 
-    memset(p_ctrl->sci_ctrl.receive_buff, 0, sizeof(p_ctrl->sci_ctrl.receive_buff));
-    memset(p_cellular_receive, 0, sizeof(st_cellular_receive_t));
+    memset( p_ctrl->sci_ctrl.receive_buff, 0, sizeof( p_ctrl->sci_ctrl.receive_buff ) );
+    memset( p_cellular_receive, 0, sizeof( st_cellular_receive_t ) );
     p_cellular_receive->job_no = CELLULAR_RES_NONE;
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_memclear
  *********************************************************************************************************************/
@@ -1720,10 +1799,11 @@ static void cellular_memclear(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t
  * Return Value   @retval        e_atc_list_t -
  *                                  AT command number being executed.
  **********************************************************************************************/
-static e_atc_list_t cellular_get_at_command(st_cellular_ctrl_t * const p_ctrl)
+static e_atc_list_t cellular_get_at_command( st_cellular_ctrl_t * const p_ctrl )
 {
     return p_ctrl->sci_ctrl.at_command;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_at_command
  *********************************************************************************************************************/
@@ -1736,16 +1816,17 @@ static e_atc_list_t cellular_get_at_command(st_cellular_ctrl_t * const p_ctrl)
  *                @param[in]     result -
  *                                  Response from module.
  **********************************************************************************************/
-static void cellular_set_atc_response(st_cellular_ctrl_t * const p_ctrl, const e_cellular_atc_return_t result)
+static void cellular_set_atc_response( st_cellular_ctrl_t * const p_ctrl,
+                                       const e_cellular_atc_return_t result )
 {
-    if (CELLULAR_ATC_RESPONSE_UNCONFIRMED == p_ctrl->sci_ctrl.atc_flg)
+    if( CELLULAR_ATC_RESPONSE_UNCONFIRMED == p_ctrl->sci_ctrl.atc_flg )
     {
         p_ctrl->sci_ctrl.atc_res = result;
         p_ctrl->sci_ctrl.atc_flg = CELLULAR_ATC_RESPONSE_CONFIRMED;
-        CELLULAR_LOG_DEBUG(("received AT command response: %s", p_ctrl->sci_ctrl.receive_buff));
+        CELLULAR_LOG_DEBUG( ( "received AT command response: %s", p_ctrl->sci_ctrl.receive_buff ) );
     }
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_set_atc_response
  *********************************************************************************************************************/
@@ -1758,22 +1839,22 @@ static void cellular_set_atc_response(st_cellular_ctrl_t * const p_ctrl, const e
  *                @param[in/out] cellular_receive -
  *                                  Pointer to structure for analysis processing.
  **********************************************************************************************/
-static void cellular_cleardata(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_t * cellular_receive)
+static void cellular_cleardata( st_cellular_ctrl_t * p_ctrl,
+                                st_cellular_receive_t * cellular_receive )
 {
     st_cellular_receive_t * p_cellular_receive = cellular_receive;
 
-#if CELLULAR_CFG_URC_CHARGET_ENABLED == 1
-    CELLULAR_CFG_URC_CHARGET_FUNCTION(p_ctrl->sci_ctrl.receive_buff);
-#endif
+    #if CELLULAR_CFG_URC_CHARGET_ENABLED == 1
+        CELLULAR_CFG_URC_CHARGET_FUNCTION( p_ctrl->sci_ctrl.receive_buff );
+    #endif
 
-    CELLULAR_LOG_DEBUG(("URC = %s\n", p_ctrl->sci_ctrl.receive_buff));
+    CELLULAR_LOG_DEBUG( ( "URC = %s\n", p_ctrl->sci_ctrl.receive_buff ) );
 
-    memset(p_ctrl->sci_ctrl.receive_buff, 0, sizeof(p_ctrl->sci_ctrl.receive_buff));
-    memset(p_cellular_receive, 0, sizeof(st_cellular_receive_t));
+    memset( p_ctrl->sci_ctrl.receive_buff, 0, sizeof( p_ctrl->sci_ctrl.receive_buff ) );
+    memset( p_cellular_receive, 0, sizeof( st_cellular_receive_t ) );
     p_cellular_receive->job_no = CELLULAR_RES_NONE;
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_cleardata
  *********************************************************************************************************************/
@@ -1782,20 +1863,21 @@ static void cellular_cleardata(st_cellular_ctrl_t * p_ctrl, st_cellular_receive_
  * Function Name  @fn            binary_conversion
  * Description    @details       Convert binary numbers to decimal numbers.
  **********************************************************************************************/
-static int32_t binary_conversion(int32_t binary)
+static int32_t binary_conversion( int32_t binary )
 {
     int32_t decimal = 0;
     int32_t base = 1;
 
-    while (binary > 0)
+    while( binary > 0 )
     {
-        decimal = decimal + ((binary % 10) * base);
+        decimal = decimal + ( ( binary % 10 ) * base );
         binary = binary / 10;
         base = base * 2;
     }
 
     return decimal;
 }
+
 /**********************************************************************************************************************
  * End of function binary_conversion
  *********************************************************************************************************************/

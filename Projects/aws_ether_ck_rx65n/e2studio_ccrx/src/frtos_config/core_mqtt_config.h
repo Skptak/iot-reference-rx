@@ -111,4 +111,4 @@
  *
  */
 #define MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME         ( 50 )
-#endif
+#endif /* ifndef CORE_MQTT_CONFIG_H_ */

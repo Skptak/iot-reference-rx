@@ -67,13 +67,13 @@
  */
 
 #ifndef __TC_ECC_DH_H__
-#define __TC_ECC_DH_H__
+    #define __TC_ECC_DH_H__
 
-#include <tinycrypt/ecc.h>
+    #include <tinycrypt/ecc.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
 /**
  * @brief Create a public/private key pair.
@@ -91,9 +91,11 @@ extern "C" {
  * @warning A cryptographically-secure PRNG function must be set (using
  * uECC_set_rng()) before calling uECC_make_key().
  */
-int uECC_make_key(uint8_t *p_public_key, uint8_t *p_private_key, uECC_Curve curve);
+    int uECC_make_key( uint8_t * p_public_key,
+                       uint8_t * p_private_key,
+                       uECC_Curve curve );
 
-#ifdef ENABLE_TESTS
+    #ifdef ENABLE_TESTS
 
 /**
  * @brief Create a public/private key pair given a specific d.
@@ -101,9 +103,11 @@ int uECC_make_key(uint8_t *p_public_key, uint8_t *p_private_key, uECC_Curve curv
  * @note THIS FUNCTION SHOULD BE CALLED ONLY FOR TEST PURPOSES. Refer to
  * uECC_make_key() function for real applications.
  */
-int uECC_make_key_with_d(uint8_t *p_public_key, uint8_t *p_private_key,
-    			 unsigned int *d, uECC_Curve curve);
-#endif
+        int uECC_make_key_with_d( uint8_t * p_public_key,
+                                  uint8_t * p_private_key,
+                                  unsigned int * d,
+                                  uECC_Curve curve );
+    #endif
 
 /**
  * @brief Compute a shared secret given your secret key and someone else's
@@ -121,11 +125,13 @@ int uECC_make_key_with_d(uint8_t *p_public_key, uint8_t *p_private_key,
  * input of a recommended Key Derivation Function (see NIST SP 800-108) in
  * order to produce a cryptographically secure symmetric key.
  */
-int uECC_shared_secret(const uint8_t *p_public_key, const uint8_t *p_private_key,
-		       uint8_t *p_secret, uECC_Curve curve);
+    int uECC_shared_secret( const uint8_t * p_public_key,
+                            const uint8_t * p_private_key,
+                            uint8_t * p_secret,
+                            uECC_Curve curve );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_ECC_DH_H__ */

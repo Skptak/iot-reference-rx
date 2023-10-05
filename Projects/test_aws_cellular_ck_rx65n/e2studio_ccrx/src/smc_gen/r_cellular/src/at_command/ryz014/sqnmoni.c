@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnmoni.c
  * Description  : Function to execute the AT command (SQNMONI).
@@ -46,23 +47,25 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnmoni
  ************************************************************************************************/
-e_cellular_err_t atc_sqnmoni(st_cellular_ctrl_t * const p_ctrl, const e_cellular_info_type_t type)
+e_cellular_err_t atc_sqnmoni( st_cellular_ctrl_t * const p_ctrl,
+                              const e_cellular_info_type_t type )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[2] = {0};
+    uint8_t str[ 2 ] = { 0 };
 
-    sprintf((char *)str, "%d", type);   // (uint8_t *)->(char *)
+    sprintf( ( char * ) str, "%d", type ); /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-            (const uint8_t*) &gp_at_command[ATC_GET_CELLINFO][0],   // (const uint8_t *const *)->(const uint8_t **)
-                (const uint8_t **)&p_command_arg);                  // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_CELLINFO ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                       /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_CELLINFO);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_CELLINFO );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnmoni
  *********************************************************************************************************************/

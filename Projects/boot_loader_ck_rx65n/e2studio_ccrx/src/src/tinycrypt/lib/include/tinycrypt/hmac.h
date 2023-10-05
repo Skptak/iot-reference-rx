@@ -61,21 +61,22 @@
  */
 
 #ifndef __TC_HMAC_H__
-#define __TC_HMAC_H__
+    #define __TC_HMAC_H__
 
-#include <tinycrypt/sha256.h>
+    #include <tinycrypt/sha256.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
-struct tc_hmac_state_struct {
-	/* the internal state required by h */
-	struct tc_sha256_state_struct hash_state;
-	/* HMAC key schedule */
-	uint8_t key[2*TC_SHA256_BLOCK_SIZE];
-};
-typedef struct tc_hmac_state_struct *TCHmacState_t;
+    struct tc_hmac_state_struct
+    {
+        /* the internal state required by h */
+        struct tc_sha256_state_struct hash_state;
+        /* HMAC key schedule */
+        uint8_t key[ 2 * TC_SHA256_BLOCK_SIZE ];
+    };
+    typedef struct tc_hmac_state_struct * TCHmacState_t;
 
 /**
  *  @brief HMAC set key procedure
@@ -89,8 +90,9 @@ typedef struct tc_hmac_state_struct *TCHmacState_t;
  * @param key IN -- the HMAC key to configure
  * @param key_size IN -- the HMAC key size
  */
-int tc_hmac_set_key(TCHmacState_t ctx, const uint8_t *key,
-		    unsigned int key_size);
+    int tc_hmac_set_key( TCHmacState_t ctx,
+                         const uint8_t * key,
+                         unsigned int key_size );
 
 /**
  * @brief HMAC init procedure
@@ -99,7 +101,7 @@ int tc_hmac_set_key(TCHmacState_t ctx, const uint8_t *key,
  *         returns TC_CRYPTO_FAIL (0) if: ctx == NULL or key == NULL
  * @param ctx IN/OUT -- struct tc_hmac_state_struct buffer to init
  */
-int tc_hmac_init(TCHmacState_t ctx);
+    int tc_hmac_init( TCHmacState_t ctx );
 
 /**
  *  @brief HMAC update procedure
@@ -111,8 +113,9 @@ int tc_hmac_init(TCHmacState_t ctx);
  *  @param data IN -- data to incorporate into state
  *  @param data_length IN -- size of data in bytes
  */
-int tc_hmac_update(TCHmacState_t ctx, const void *data,
-		   unsigned int data_length);
+    int tc_hmac_update( TCHmacState_t ctx,
+                        const void * data,
+                        unsigned int data_length );
 
 /**
  *  @brief HMAC final procedure
@@ -130,10 +133,12 @@ int tc_hmac_update(TCHmacState_t ctx, const void *data,
  *  @param taglen IN -- size of tag in bytes
  *  @param ctx IN/OUT -- the HMAC state for computing tag
  */
-int tc_hmac_final(uint8_t *tag, unsigned int taglen, TCHmacState_t ctx);
+    int tc_hmac_final( uint8_t * tag,
+                       unsigned int taglen,
+                       TCHmacState_t ctx );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /*__TC_HMAC_H__*/

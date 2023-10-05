@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : at_command.h
  * Description  : Configures the AT command.
@@ -30,12 +31,12 @@
  * Macro definitions
  *********************************************************************************************************************/
 #ifndef AT_COMMAND_H
-#define AT_COMMAND_H
+    #define AT_COMMAND_H
 
 /**********************************************************************************************************************
  * Exported global variables
  *********************************************************************************************************************/
-extern const uint8_t * const gp_at_command[ATC_LIST_MAX];
+    extern const uint8_t * const gp_at_command[ ATC_LIST_MAX ];
 
 /*************************************************************************************************
  * Function Name  @fn            atc_ate0
@@ -47,7 +48,7 @@ extern const uint8_t * const gp_at_command[ATC_LIST_MAX];
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_ate0 (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_ate0( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cfun
@@ -61,7 +62,8 @@ e_cellular_err_t atc_ate0 (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cfun (st_cellular_ctrl_t * const p_ctrl, const e_cellular_module_status_t mode);
+    e_cellular_err_t atc_cfun( st_cellular_ctrl_t * const p_ctrl,
+                               const e_cellular_module_status_t mode );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cfun_check
@@ -73,7 +75,7 @@ e_cellular_err_t atc_cfun (st_cellular_ctrl_t * const p_ctrl, const e_cellular_m
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cfun_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cfun_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgatt
@@ -87,7 +89,8 @@ e_cellular_err_t atc_cfun_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgatt (st_cellular_ctrl_t * const p_ctrl, const e_atc_ap_status_t mode);
+    e_cellular_err_t atc_cgatt( st_cellular_ctrl_t * const p_ctrl,
+                                const e_atc_ap_status_t mode );
 
 /****************************************************************************************************************
  * Function Name  @fn            atc_cgatt_check
@@ -99,7 +102,7 @@ e_cellular_err_t atc_cgatt (st_cellular_ctrl_t * const p_ctrl, const e_atc_ap_st
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***************************************************************************************************************/
-e_cellular_err_t atc_cgatt_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgatt_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgauth
@@ -113,7 +116,8 @@ e_cellular_err_t atc_cgatt_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgauth (st_cellular_ctrl_t * const p_ctrl, const st_cellular_ap_cfg_t * const p_ap_cfg);
+    e_cellular_err_t atc_cgauth( st_cellular_ctrl_t * const p_ctrl,
+                                 const st_cellular_ap_cfg_t * const p_ap_cfg );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgdcont
@@ -127,7 +131,8 @@ e_cellular_err_t atc_cgauth (st_cellular_ctrl_t * const p_ctrl, const st_cellula
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgdcont (st_cellular_ctrl_t * const p_ctrl, const st_cellular_ap_cfg_t * const p_ap_cfg);
+    e_cellular_err_t atc_cgdcont( st_cellular_ctrl_t * const p_ctrl,
+                                  const st_cellular_ap_cfg_t * const p_ap_cfg );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cpin
@@ -141,7 +146,8 @@ e_cellular_err_t atc_cgdcont (st_cellular_ctrl_t * const p_ctrl, const st_cellul
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cpin (st_cellular_ctrl_t * const p_ctrl, const st_cellular_cfg_t * const p_cfg);
+    e_cellular_err_t atc_cpin( st_cellular_ctrl_t * const p_ctrl,
+                               const st_cellular_cfg_t * const p_cfg );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cpin_check
@@ -153,7 +159,7 @@ e_cellular_err_t atc_cpin (st_cellular_ctrl_t * const p_ctrl, const st_cellular_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cpin_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cpin_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqndnslkup
@@ -169,8 +175,9 @@ e_cellular_err_t atc_cpin_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqndnslkup (st_cellular_ctrl_t * const p_ctrl, const uint8_t * const p_domain_name,
-                                    const uint8_t ip_version);
+    e_cellular_err_t atc_sqndnslkup( st_cellular_ctrl_t * const p_ctrl,
+                                     const uint8_t * const p_domain_name,
+                                     const uint8_t ip_version );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnscfg
@@ -184,7 +191,8 @@ e_cellular_err_t atc_sqndnslkup (st_cellular_ctrl_t * const p_ctrl, const uint8_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnscfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no);
+    e_cellular_err_t atc_sqnscfg( st_cellular_ctrl_t * const p_ctrl,
+                                  const uint8_t socket_no );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnscfgext
@@ -198,7 +206,8 @@ e_cellular_err_t atc_sqnscfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t s
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnscfgext (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no);
+    e_cellular_err_t atc_sqnscfgext( st_cellular_ctrl_t * const p_ctrl,
+                                     const uint8_t socket_no );
 
 /*******************************************************************************************************
  * Function Name  @fn            atc_sqnsd
@@ -216,8 +225,10 @@ e_cellular_err_t atc_sqnscfgext (st_cellular_ctrl_t * const p_ctrl, const uint8_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ******************************************************************************************************/
-e_cellular_err_t atc_sqnsd (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no,
-                                const uint8_t * const p_ip_addr, const uint16_t port);
+    e_cellular_err_t atc_sqnsd( st_cellular_ctrl_t * const p_ctrl,
+                                const uint8_t socket_no,
+                                const uint8_t * const p_ip_addr,
+                                const uint16_t port );
 
 /****************************************************************************************************
  * Function Name  @fn            atc_sqnsd_host
@@ -235,8 +246,10 @@ e_cellular_err_t atc_sqnsd (st_cellular_ctrl_t * const p_ctrl, const uint8_t soc
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***************************************************************************************************/
-e_cellular_err_t atc_sqnsd_host (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no,
-                                    const uint8_t * p_hostname, const uint16_t port);
+    e_cellular_err_t atc_sqnsd_host( st_cellular_ctrl_t * const p_ctrl,
+                                     const uint8_t socket_no,
+                                     const uint8_t * p_hostname,
+                                     const uint16_t port );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnsh
@@ -250,7 +263,8 @@ e_cellular_err_t atc_sqnsd_host (st_cellular_ctrl_t * const p_ctrl, const uint8_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnsh (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no);
+    e_cellular_err_t atc_sqnsh( st_cellular_ctrl_t * const p_ctrl,
+                                const uint8_t socket_no );
 
 /************************************************************************************************************
  * Function Name  @fn            atc_sqnsrecv
@@ -266,7 +280,9 @@ e_cellular_err_t atc_sqnsh (st_cellular_ctrl_t * const p_ctrl, const uint8_t soc
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***********************************************************************************************************/
-e_cellular_err_t atc_sqnsrecv (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no, const int32_t length);
+    e_cellular_err_t atc_sqnsrecv( st_cellular_ctrl_t * const p_ctrl,
+                                   const uint8_t socket_no,
+                                   const int32_t length );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnssendext
@@ -282,7 +298,9 @@ e_cellular_err_t atc_sqnsrecv (st_cellular_ctrl_t * const p_ctrl, const uint8_t 
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnssendext (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no, const int32_t length);
+    e_cellular_err_t atc_sqnssendext( st_cellular_ctrl_t * const p_ctrl,
+                                      const uint8_t socket_no,
+                                      const int32_t length );
 
 /*****************************************************************************************************************
  * Function Name  @fn            atc_sqnsshdn
@@ -294,7 +312,7 @@ e_cellular_err_t atc_sqnssendext (st_cellular_ctrl_t * const p_ctrl, const uint8
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ****************************************************************************************************************/
-e_cellular_err_t atc_sqnsshdn (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnsshdn( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cclk
@@ -308,7 +326,8 @@ e_cellular_err_t atc_sqnsshdn (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cclk (st_cellular_ctrl_t * const p_ctrl, const st_cellular_datetime_t * const p_time);
+    e_cellular_err_t atc_cclk( st_cellular_ctrl_t * const p_ctrl,
+                               const st_cellular_datetime_t * const p_time );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cclk_check
@@ -320,7 +339,7 @@ e_cellular_err_t atc_cclk (st_cellular_ctrl_t * const p_ctrl, const st_cellular_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cclk_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cclk_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_reset
@@ -332,7 +351,7 @@ e_cellular_err_t atc_cclk_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_reset (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_reset( st_cellular_ctrl_t * const p_ctrl );
 
 /********************************************************************************************************
  * Function Name  @fn            atc_cereg
@@ -347,7 +366,8 @@ e_cellular_err_t atc_reset (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *******************************************************************************************************/
-e_cellular_err_t atc_cereg (st_cellular_ctrl_t * const p_ctrl , const e_cellular_network_result_t level);
+    e_cellular_err_t atc_cereg( st_cellular_ctrl_t * const p_ctrl,
+                                const e_cellular_network_result_t level );
 
 /********************************************************************************************************
  * Function Name  @fn            atc_cereg_check
@@ -360,7 +380,7 @@ e_cellular_err_t atc_cereg (st_cellular_ctrl_t * const p_ctrl , const e_cellular
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *******************************************************************************************************/
-e_cellular_err_t atc_cereg_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cereg_check( st_cellular_ctrl_t * const p_ctrl );
 
 /***************************************************************************************************************
  * Function Name  @fn            atc_sqnautoconnect
@@ -374,7 +394,8 @@ e_cellular_err_t atc_cereg_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  **************************************************************************************************************/
-e_cellular_err_t atc_sqnautoconnect (st_cellular_ctrl_t * const p_ctrl, e_cellular_auto_connect_t const type);
+    e_cellular_err_t atc_sqnautoconnect( st_cellular_ctrl_t * const p_ctrl,
+                                         e_cellular_auto_connect_t const type );
 
 /***************************************************************************************************************
  * Function Name  @fn            atc_sqnautoconnect_check
@@ -386,7 +407,7 @@ e_cellular_err_t atc_sqnautoconnect (st_cellular_ctrl_t * const p_ctrl, e_cellul
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  **************************************************************************************************************/
-e_cellular_err_t atc_sqnautoconnect_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnautoconnect_check( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************************
  * Function Name  @fn            atc_sqnsimst
@@ -398,7 +419,7 @@ e_cellular_err_t atc_sqnautoconnect_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *********************************************************************************************************/
-e_cellular_err_t atc_sqnsimst (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnsimst( st_cellular_ctrl_t * const p_ctrl );
 
 /***************************************************************************************************************
  * Function Name  @fn            atc_cops
@@ -416,8 +437,10 @@ e_cellular_err_t atc_sqnsimst (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  **************************************************************************************************************/
-e_cellular_err_t atc_cops (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode,
-                                            const uint16_t mcc, const uint8_t mnc);
+    e_cellular_err_t atc_cops( st_cellular_ctrl_t * const p_ctrl,
+                               const uint8_t mode,
+                               const uint16_t mcc,
+                               const uint8_t mnc );
 
 /****************************************************************************************************
  * Function Name  @fn            atc_cops_check
@@ -429,7 +452,7 @@ e_cellular_err_t atc_cops (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***************************************************************************************************/
-e_cellular_err_t atc_cops_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cops_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgact
@@ -445,7 +468,9 @@ e_cellular_err_t atc_cops_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgact (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode, const uint8_t context_id);
+    e_cellular_err_t atc_cgact( st_cellular_ctrl_t * const p_ctrl,
+                                const uint8_t mode,
+                                const uint8_t context_id );
 
 /********************************************************************************************************
  * Function Name  @fn            atc_cgact_check
@@ -457,7 +482,7 @@ e_cellular_err_t atc_cgact (st_cellular_ctrl_t * const p_ctrl, const uint8_t mod
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *******************************************************************************************************/
-e_cellular_err_t atc_cgact_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgact_check( st_cellular_ctrl_t * const p_ctrl );
 
 /**********************************************************************************************************************
  * Function Name  @fn            atc_cgpaddr
@@ -469,7 +494,7 @@ e_cellular_err_t atc_cgact_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *********************************************************************************************************************/
-e_cellular_err_t atc_cgpaddr (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgpaddr( st_cellular_ctrl_t * const p_ctrl );
 
 /************************************************************************************************************
  * Function Name  @fn            atc_cpsms
@@ -483,7 +508,8 @@ e_cellular_err_t atc_cgpaddr (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***********************************************************************************************************/
-e_cellular_err_t atc_cpsms (st_cellular_ctrl_t * const p_ctrl, const st_cellular_psm_config_t * const p_config);
+    e_cellular_err_t atc_cpsms( st_cellular_ctrl_t * const p_ctrl,
+                                const st_cellular_psm_config_t * const p_config );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cpsms_check
@@ -495,7 +521,7 @@ e_cellular_err_t atc_cpsms (st_cellular_ctrl_t * const p_ctrl, const st_cellular
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cpsms_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cpsms_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnedrx
@@ -509,7 +535,8 @@ e_cellular_err_t atc_cpsms_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnedrx (st_cellular_ctrl_t * const p_ctrl, const st_cellular_edrx_config_t * const p_config);
+    e_cellular_err_t atc_sqnedrx( st_cellular_ctrl_t * const p_ctrl,
+                                  const st_cellular_edrx_config_t * const p_config );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnedrx_check
@@ -521,7 +548,7 @@ e_cellular_err_t atc_sqnedrx (st_cellular_ctrl_t * const p_ctrl, const st_cellul
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnedrx_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnedrx_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_csq
@@ -533,7 +560,7 @@ e_cellular_err_t atc_sqnedrx_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_csq (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_csq( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgmr
@@ -545,7 +572,7 @@ e_cellular_err_t atc_csq (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgmr (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgmr( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgsn
@@ -557,7 +584,7 @@ e_cellular_err_t atc_cgmr (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgsn (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgsn( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgsn3
@@ -569,7 +596,7 @@ e_cellular_err_t atc_cgsn (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgsn3 (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgsn3( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgmm
@@ -581,7 +608,7 @@ e_cellular_err_t atc_cgsn3 (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgmm (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgmm( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgmi
@@ -593,7 +620,7 @@ e_cellular_err_t atc_cgmm (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgmi (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgmi( st_cellular_ctrl_t * const p_ctrl );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cimi
@@ -605,7 +632,7 @@ e_cellular_err_t atc_cgmi (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cimi (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cimi( st_cellular_ctrl_t * const p_ctrl );
 
 /*******************************************************************************************************************
  * Function Name  @fn            atc_crsm
@@ -633,9 +660,14 @@ e_cellular_err_t atc_cimi (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ******************************************************************************************************************/
-e_cellular_err_t atc_crsm (st_cellular_ctrl_t * const p_ctrl, const uint8_t command, const uint16_t fileid,
-                            const uint8_t para_1, const uint8_t para_2, const uint8_t para_3,
-                            const uint8_t * data, const uint8_t * pathid);
+    e_cellular_err_t atc_crsm( st_cellular_ctrl_t * const p_ctrl,
+                               const uint8_t command,
+                               const uint16_t fileid,
+                               const uint8_t para_1,
+                               const uint8_t para_2,
+                               const uint8_t para_3,
+                               const uint8_t * data,
+                               const uint8_t * pathid );
 
 /******************************************************************************************************************
  * Function Name  @fn            atc_sqnipscfg
@@ -649,7 +681,8 @@ e_cellular_err_t atc_crsm (st_cellular_ctrl_t * const p_ctrl, const uint8_t comm
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *****************************************************************************************************************/
-e_cellular_err_t atc_sqnipscfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode);
+    e_cellular_err_t atc_sqnipscfg( st_cellular_ctrl_t * const p_ctrl,
+                                    const uint8_t mode );
 
 /***************************************************************************************************
  * Function Name  @fn            atc_sqnricfg
@@ -663,7 +696,8 @@ e_cellular_err_t atc_sqnipscfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  **************************************************************************************************/
-e_cellular_err_t atc_sqnricfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode);
+    e_cellular_err_t atc_sqnricfg( st_cellular_ctrl_t * const p_ctrl,
+                                   const uint8_t mode );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_cmer
@@ -677,7 +711,8 @@ e_cellular_err_t atc_sqnricfg (st_cellular_ctrl_t * const p_ctrl, const uint8_t 
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_cmer (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode);
+    e_cellular_err_t atc_cmer( st_cellular_ctrl_t * const p_ctrl,
+                               const uint8_t mode );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnpscfg
@@ -689,7 +724,7 @@ e_cellular_err_t atc_cmer (st_cellular_ctrl_t * const p_ctrl, const uint8_t mode
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnpscfg (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnpscfg( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_cnum
@@ -701,7 +736,7 @@ e_cellular_err_t atc_sqnpscfg (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_cnum (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cnum( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnccid
@@ -713,7 +748,7 @@ e_cellular_err_t atc_cnum (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnccid (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnccid( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnsl
@@ -731,8 +766,10 @@ e_cellular_err_t atc_sqnccid (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnsl (st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no,
-                                const uint8_t ip_version, const uint16_t port);
+    e_cellular_err_t atc_sqnsl( st_cellular_ctrl_t * const p_ctrl,
+                                const uint8_t socket_no,
+                                const uint8_t ip_version,
+                                const uint16_t port );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_ping
@@ -748,8 +785,9 @@ e_cellular_err_t atc_sqnsl (st_cellular_ctrl_t * const p_ctrl, const uint8_t soc
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_ping (st_cellular_ctrl_t * const p_ctrl, const uint8_t * const p_host,
-                            const st_cellular_ping_cfg_t * const p_cfg);
+    e_cellular_err_t atc_ping( st_cellular_ctrl_t * const p_ctrl,
+                               const uint8_t * const p_host,
+                               const st_cellular_ping_cfg_t * const p_cfg );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnmoni
@@ -763,7 +801,8 @@ e_cellular_err_t atc_ping (st_cellular_ctrl_t * const p_ctrl, const uint8_t * co
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnmoni (st_cellular_ctrl_t * const p_ctrl, const e_cellular_info_type_t type);
+    e_cellular_err_t atc_sqnmoni( st_cellular_ctrl_t * const p_ctrl,
+                                  const e_cellular_info_type_t type );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnctm
@@ -775,7 +814,7 @@ e_cellular_err_t atc_sqnmoni (st_cellular_ctrl_t * const p_ctrl, const e_cellula
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnctm (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnctm( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnctm_check
@@ -787,7 +826,7 @@ e_cellular_err_t atc_sqnctm (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnctm_check (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnctm_check( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnbandsel
@@ -801,7 +840,8 @@ e_cellular_err_t atc_sqnctm_check (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnbandsel (st_cellular_ctrl_t * const p_ctrl, const uint8_t * const p_band);
+    e_cellular_err_t atc_sqnbandsel( st_cellular_ctrl_t * const p_ctrl,
+                                     const uint8_t * const p_band );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_sqnsfactoryreset
@@ -813,7 +853,7 @@ e_cellular_err_t atc_sqnbandsel (st_cellular_ctrl_t * const p_ctrl, const uint8_
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_sqnsfactoryreset (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_sqnsfactoryreset( st_cellular_ctrl_t * const p_ctrl );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_smcwrx
@@ -827,7 +867,8 @@ e_cellular_err_t atc_sqnsfactoryreset (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_smcwrx (st_cellular_ctrl_t * const p_ctrl, const uint16_t earfcn);
+    e_cellular_err_t atc_smcwrx( st_cellular_ctrl_t * const p_ctrl,
+                                 const uint16_t earfcn );
 
 /*********************************************************************************************************************
  * Function Name  @fn            atc_smcwtx
@@ -846,8 +887,10 @@ e_cellular_err_t atc_smcwrx (st_cellular_ctrl_t * const p_ctrl, const uint16_t e
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ********************************************************************************************************************/
-e_cellular_err_t atc_smcwtx (st_cellular_ctrl_t * const p_ctrl, const uint8_t enable,
-                                const uint16_t earfcn, const int32_t level);
+    e_cellular_err_t atc_smcwtx( st_cellular_ctrl_t * const p_ctrl,
+                                 const uint8_t enable,
+                                 const uint16_t earfcn,
+                                 const int32_t level );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_cgpiaf
@@ -859,9 +902,10 @@ e_cellular_err_t atc_smcwtx (st_cellular_ctrl_t * const p_ctrl, const uint8_t en
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_cgpiaf (st_cellular_ctrl_t * const p_ctrl);
+    e_cellular_err_t atc_cgpiaf( st_cellular_ctrl_t * const p_ctrl );
 
-#if (CELLULAR_IMPLEMENT_TYPE == 'B')
+    #if ( CELLULAR_IMPLEMENT_TYPE == 'B' )
+
 /****************************************************************************************************************
  * Function Name  @fn            atc_sqnsnvw
  * Description    @details       Execute the AT command (SQNSNVW). / Writing certificates and other data
@@ -881,8 +925,10 @@ e_cellular_err_t atc_cgpiaf (st_cellular_ctrl_t * const p_ctrl);
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ***************************************************************************************************************/
-e_cellular_err_t atc_sqnsnvw (st_cellular_ctrl_t * const p_ctrl, const e_cellular_nvm_type_t data_type,
-                                    const uint8_t index, const uint32_t size);
+        e_cellular_err_t atc_sqnsnvw( st_cellular_ctrl_t * const p_ctrl,
+                                      const e_cellular_nvm_type_t data_type,
+                                      const uint8_t index,
+                                      const uint32_t size );
 
 /********************************************************************************************************
  * Function Name  @fn            atc_sqnsnvw_erase
@@ -899,8 +945,9 @@ e_cellular_err_t atc_sqnsnvw (st_cellular_ctrl_t * const p_ctrl, const e_cellula
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  *******************************************************************************************************/
-e_cellular_err_t atc_sqnsnvw_erase (st_cellular_ctrl_t * const p_ctrl, const e_cellular_nvm_type_t data_type,
-                                    const uint8_t index);
+        e_cellular_err_t atc_sqnsnvw_erase( st_cellular_ctrl_t * const p_ctrl,
+                                            const e_cellular_nvm_type_t data_type,
+                                            const uint8_t index );
 
 /*****************************************************************************************************
  * Function Name  @fn            atc_sqnspcfg
@@ -924,12 +971,12 @@ e_cellular_err_t atc_sqnsnvw_erase (st_cellular_ctrl_t * const p_ctrl, const e_c
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ****************************************************************************************************/
-e_cellular_err_t atc_sqnspcfg (st_cellular_ctrl_t * const p_ctrl,
-                                    const uint8_t security_profile_id,
-                                    const e_cellular_cert_validate_level_t cert_valid_level,
-                                    const uint8_t ca_certificate_id,
-                                    const uint8_t client_certificate_id,
-                                    const uint8_t client_privatekey_id);
+        e_cellular_err_t atc_sqnspcfg( st_cellular_ctrl_t * const p_ctrl,
+                                       const uint8_t security_profile_id,
+                                       const e_cellular_cert_validate_level_t cert_valid_level,
+                                       const uint8_t ca_certificate_id,
+                                       const uint8_t client_certificate_id,
+                                       const uint8_t client_privatekey_id );
 
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnsscfg
@@ -947,11 +994,11 @@ e_cellular_err_t atc_sqnspcfg (st_cellular_ctrl_t * const p_ctrl,
  *                @retval        CELLULAR_ERR_MODULE_COM -
  *                                  Communication with module failed.
  ************************************************************************************************/
-e_cellular_err_t atc_sqnsscfg (st_cellular_ctrl_t * const p_ctrl,
-                                    const uint8_t socket_no,
-                                    const e_cellular_ssl_active_t active,
-                                    const uint8_t security_profile_id);
-#endif /* (CELLULAR_IMPLEMENT_TYPE == 'B') */
+        e_cellular_err_t atc_sqnsscfg( st_cellular_ctrl_t * const p_ctrl,
+                                       const uint8_t socket_no,
+                                       const e_cellular_ssl_active_t active,
+                                       const uint8_t security_profile_id );
+    #endif /* (CELLULAR_IMPLEMENT_TYPE == 'B') */
 
 /*****************************************************************************
  * Function Name  @fn            atc_generate
@@ -963,6 +1010,8 @@ e_cellular_err_t atc_sqnsscfg (st_cellular_ctrl_t * const p_ctrl,
  *                @param[in]     pp_command_arg -
  *                                  Pointer to the argument of the AT command.
  ****************************************************************************/
-void atc_generate (uint8_t * const p_command_buff, const uint8_t * p_command, const uint8_t ** pp_command_arg);
+    void atc_generate( uint8_t * const p_command_buff,
+                       const uint8_t * p_command,
+                       const uint8_t ** pp_command_arg );
 
 #endif /* AT_COMMAND_H */

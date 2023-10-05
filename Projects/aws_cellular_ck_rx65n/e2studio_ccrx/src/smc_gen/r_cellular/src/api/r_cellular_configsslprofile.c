@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_configsslprofile.c
  * Description  : Function to configurate security profile.
@@ -44,53 +45,56 @@
  * Private (static) variables and functions
  *********************************************************************************************************************/
 
-#if (CELLULAR_IMPLEMENT_TYPE == 'B')
+#if ( CELLULAR_IMPLEMENT_TYPE == 'B' )
+
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_ConfigSSLProfile
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_ConfigSSLProfile(st_cellular_ctrl_t * const p_ctrl,
-                                    const uint8_t security_profile_id,
-                                    const e_cellular_cert_validate_level_t cert_valid_level,
-                                    const uint8_t ca_certificate_id, 
-                                    const uint8_t client_certificate_id, 
-                                    const uint8_t client_privatekey_id)
-{
-    e_cellular_err_t ret = CELLULAR_SUCCESS;
-    e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
+    e_cellular_err_t R_CELLULAR_ConfigSSLProfile( st_cellular_ctrl_t * const p_ctrl,
+                                                  const uint8_t security_profile_id,
+                                                  const e_cellular_cert_validate_level_t cert_valid_level,
+                                                  const uint8_t ca_certificate_id,
+                                                  const uint8_t client_certificate_id,
+                                                  const uint8_t client_privatekey_id )
+    {
+        e_cellular_err_t ret = CELLULAR_SUCCESS;
+        e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
 
-    if ((NULL == p_ctrl) ||
-            (CELLULAR_SECURITY_PROFILE_ID_L > security_profile_id) ||
-            (CELLULAR_SECURITY_PROFILE_ID_H < security_profile_id) ||
-            ((CELLULAR_NO_CERT_VALIDATE != cert_valid_level) && (CELLULAR_VALIDATE_CERT_EXPDATE != cert_valid_level) &&
-            (CELLULAR_VALIDATE_CERT_EXPDATE_CN != cert_valid_level)))
-    {
-        ret = CELLULAR_ERR_PARAMETER;
-    }
-    else
-    {
-        if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        if( ( NULL == p_ctrl ) ||
+            ( CELLULAR_SECURITY_PROFILE_ID_L > security_profile_id ) ||
+            ( CELLULAR_SECURITY_PROFILE_ID_H < security_profile_id ) ||
+            ( ( CELLULAR_NO_CERT_VALIDATE != cert_valid_level ) && ( CELLULAR_VALIDATE_CERT_EXPDATE != cert_valid_level ) &&
+              ( CELLULAR_VALIDATE_CERT_EXPDATE_CN != cert_valid_level ) ) )
         {
-            ret = CELLULAR_ERR_NOT_OPEN;
-        }
-    }
-
-    if (CELLULAR_SUCCESS == ret)
-    {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
-        {
-            ret = atc_sqnspcfg(p_ctrl, security_profile_id, cert_valid_level,
-                    ca_certificate_id, client_certificate_id, client_privatekey_id);
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            ret = CELLULAR_ERR_PARAMETER;
         }
         else
         {
-            ret = CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING;
+            if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
+            {
+                ret = CELLULAR_ERR_NOT_OPEN;
+            }
         }
+
+        if( CELLULAR_SUCCESS == ret )
+        {
+            semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+            if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
+            {
+                ret = atc_sqnspcfg( p_ctrl, security_profile_id, cert_valid_level,
+                                    ca_certificate_id, client_certificate_id, client_privatekey_id );
+                cellular_give_semaphore( p_ctrl->at_semaphore );
+            }
+            else
+            {
+                ret = CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING;
+            }
+        }
+
+        return ret;
     }
 
-    return ret;
-}
 /**********************************************************************************************************************
  * End of function R_CELLULAR_ConfigSSLProfile
  *********************************************************************************************************************/

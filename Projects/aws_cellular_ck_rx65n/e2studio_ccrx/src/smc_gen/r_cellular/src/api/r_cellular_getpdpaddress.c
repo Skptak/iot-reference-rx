@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_getpdpaddress.c
  * Description  : Function to obtain a PDP address.
@@ -47,31 +48,33 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_GetPDPAddress
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_GetPDPAddress(st_cellular_ctrl_t * const p_ctrl, st_cellular_ipaddr_t * const p_addr)
+e_cellular_err_t R_CELLULAR_GetPDPAddress( st_cellular_ctrl_t * const p_ctrl,
+                                           st_cellular_ipaddr_t * const p_addr )
 {
-    uint8_t pdpaddr[70] = {0};
+    uint8_t pdpaddr[ 70 ] = { 0 };
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (NULL == p_addr))
+
+    if( ( NULL == p_ctrl ) || ( NULL == p_addr ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        memset(p_addr, 0, sizeof(st_cellular_ipaddr_t));
+        memset( p_addr, 0, sizeof( st_cellular_ipaddr_t ) );
 
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
-        else if (CELLULAR_SYSTEM_OPEN == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_OPEN == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_CONNECT;
         }
@@ -80,21 +83,25 @@ e_cellular_err_t R_CELLULAR_GetPDPAddress(st_cellular_ctrl_t * const p_ctrl, st_
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
         {
             p_ctrl->recv_data = pdpaddr;
-            ret = atc_cgpaddr(p_ctrl);
-            if (CELLULAR_SUCCESS == ret)
+            ret = atc_cgpaddr( p_ctrl );
+
+            if( CELLULAR_SUCCESS == ret )
             {
-                cellular_getpdpaddr(p_ctrl, p_addr);
+                cellular_getpdpaddr( p_ctrl, p_addr );
             }
+
             p_ctrl->recv_data = NULL;
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
@@ -106,6 +113,7 @@ e_cellular_err_t R_CELLULAR_GetPDPAddress(st_cellular_ctrl_t * const p_ctrl, st_
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_GetPDPAddress
  *********************************************************************************************************************/

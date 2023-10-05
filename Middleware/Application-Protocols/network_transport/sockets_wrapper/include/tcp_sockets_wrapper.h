@@ -74,7 +74,7 @@ extern void vLoggingPrintf( const char * pcFormatString,
 #define TCP_SOCKETS_ERRNO_ENOSPC              ( -10 ) /*!< No space left on device */
 #define TCP_SOCKETS_ERRNO_EINTR               ( -11 ) /*!< Interrupted system call */
 
-#define SOCKETS_INVALID_SOCKET      ( ( Socket_t ) ~0U )
+#define SOCKETS_INVALID_SOCKET                ( ( Socket_t ) ~0U )
 
 #ifndef SOCKET_T_TYPEDEFED
     struct xSOCKET;

@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_getimsi.c
  * Description  : Function to retrieve the IMSI.
@@ -31,7 +32,7 @@
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define CELLULAR_GET_IMSI_LIMIT     (10)
+#define CELLULAR_GET_IMSI_LIMIT    ( 10 )
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -48,7 +49,8 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_GetIMSI
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_GetIMSI(st_cellular_ctrl_t * const p_ctrl, st_cellular_imsi_t * const p_imsi)
+e_cellular_err_t R_CELLULAR_GetIMSI( st_cellular_ctrl_t * const p_ctrl,
+                                     st_cellular_imsi_t * const p_imsi )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
@@ -56,17 +58,18 @@ e_cellular_err_t R_CELLULAR_GetIMSI(st_cellular_ctrl_t * const p_ctrl, st_cellul
     uint8_t count = 0;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (NULL == p_imsi))
+
+    if( ( NULL == p_ctrl ) || ( NULL == p_imsi ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -75,26 +78,32 @@ e_cellular_err_t R_CELLULAR_GetIMSI(st_cellular_ctrl_t * const p_ctrl, st_cellul
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
         {
             p_ctrl->recv_data = p_imsi;
-            while (1)
+
+            while( 1 )
             {
-                ret = atc_cimi(p_ctrl);
-                if ((count > CELLULAR_GET_IMSI_LIMIT) || (CELLULAR_SUCCESS == ret))
+                ret = atc_cimi( p_ctrl );
+
+                if( ( count > CELLULAR_GET_IMSI_LIMIT ) || ( CELLULAR_SUCCESS == ret ) )
                 {
                     break;
                 }
+
                 count++;
-                cellular_delay_task(1000);
+                cellular_delay_task( 1000 );
             }
+
             p_ctrl->recv_data = NULL;
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
@@ -106,6 +115,7 @@ e_cellular_err_t R_CELLULAR_GetIMSI(st_cellular_ctrl_t * const p_ctrl, st_cellul
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_GetIMSI
  *********************************************************************************************************************/

@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cimi.c
  * Description  : Function to execute the AT command (CIMI).
@@ -46,18 +47,19 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cimi
  ************************************************************************************************/
-e_cellular_err_t atc_cimi(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cimi( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_GET_IMSI][0],   // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_IMSI ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_IMSI);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_IMSI );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cimi
  *********************************************************************************************************************/

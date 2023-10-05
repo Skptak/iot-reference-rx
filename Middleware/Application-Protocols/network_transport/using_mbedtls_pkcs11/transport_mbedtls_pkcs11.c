@@ -61,8 +61,8 @@
 #include "core_pki_utils.h"
 
 /* CC-RX Compiler v3.04.00 and below do not support the strnlen function, so use the strlen function instead. */
-#if !defined(strnlen)
-	#define strnlen( _s1, _s2)	(strlen( _s1))
+#if !defined( strnlen )
+    #define strnlen( _s1, _s2 )    ( strlen( _s1 ) )
 #endif
 
 /*-----------------------------------------------------------*/
@@ -659,7 +659,7 @@ static CK_RV initializeClientKeys( SSLContext_t * pxCtx,
     }
 
     /* Free memory. */
-    if( pxSlotIds!= NULL )
+    if( pxSlotIds != NULL )
     {
         vPortFree( pxSlotIds );
     }

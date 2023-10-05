@@ -20,7 +20,7 @@ afr_module_sources(
 
 afr_module_include_dirs(
     ${AFR_CURRENT_MODULE}
-    PUBLIC 
+    PUBLIC
         "${CMAKE_CURRENT_LIST_DIR}/include"
 )
 

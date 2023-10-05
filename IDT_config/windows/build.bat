@@ -8,7 +8,7 @@ set board_folder_name=%2
 
 IF %3 == ccrx (
   set projects_environment_path=%board_folder_name%\e2studio_ccrx
-  set path_project_OTA=%board_folder_name% 
+  set path_project_OTA=%board_folder_name%
 ) ELSE IF %3 == gcc (
   set projects_environment_path=%board_folder_name%\e2studio-gcc
    set path_project_OTA=%board_folder_name%"-gcc"

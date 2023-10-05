@@ -145,12 +145,12 @@
  * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
-#define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
-#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
-#define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 1 )
+#define appmainMQTT_NUM_PUBSUB_TASKS                      ( 2 )
+#define appmainMQTT_PUBSUB_TASK_STACK_SIZE                ( 2048 )
+#define appmainMQTT_PUBSUB_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
 /*-----------------------------------------------------------*/
-#define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#define appmainMQTT_AGENT_TASK_PRIORITY           ( tskIDLE_PRIORITY + 2 )
+#define appmainMQTT_AGENT_TASK_STACK_SIZE                 ( 6144 )
+#define appmainMQTT_AGENT_TASK_PRIORITY                   ( tskIDLE_PRIORITY + 2 )
 
 
 /**
@@ -495,7 +495,6 @@ static MQTTStatus_t prvPublishToTopic( MQTTQoS_t xQoS,
 
 
 
-
 void vSimpleSubscribePublishTask( void * pvParameters )
 {
     uint32_t ulTaskNumber = ( uint32_t ) pvParameters;
@@ -527,7 +526,7 @@ void vSimpleSubscribePublishTask( void * pvParameters )
         xInTopicLength = snprintf( cInTopicBuf,
                                    mqttexampleINPUT_TOPIC_BUFFER_LENGTH,
                                    mqttexampleINPUT_TOPIC_FORMAT,
-								   clientcredentialIOT_THING_NAME,
+                                   clientcredentialIOT_THING_NAME,
                                    ulTaskNumber );
 
         /*  Assert if the topic buffer is enough to hold the required topic. */
@@ -562,7 +561,7 @@ void vSimpleSubscribePublishTask( void * pvParameters )
         xOutTopicLength = snprintf( cOutTopicBuf,
                                     mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH,
                                     mqttexampleOUTPUT_TOPIC_FORMAT,
-									clientcredentialIOT_THING_NAME,
+                                    clientcredentialIOT_THING_NAME,
                                     ulTaskNumber );
 
         /*  Assert if the topic buffer is enough to hold the required topic. */
@@ -624,6 +623,7 @@ void vSimpleSubscribePublishTask( void * pvParameters )
         /* Delete the task if it is complete. */
         LogInfo( ( "Task %u completed.", ulTaskNumber ) );
     }
+
     vTaskDelete( NULL );
 }
 
@@ -654,17 +654,17 @@ BaseType_t xStartSimplePubSubTasks( uint32_t ulNumPubsubTasks,
 
 void vStartSimplePubSubDemo( void * pvParameters )
 {
-	BaseType_t xResult = pdPASS;
-	if( xResult == pdPASS )
-	{
-		xResult = xMQTTAgentInit( appmainMQTT_AGENT_TASK_STACK_SIZE, appmainMQTT_AGENT_TASK_PRIORITY );
-	}
-	if( xResult == pdPASS )
-	{
-	    xStartSimplePubSubTasks( appmainMQTT_NUM_PUBSUB_TASKS,
-	                                       appmainMQTT_PUBSUB_TASK_STACK_SIZE,
-	                                       appmainMQTT_PUBSUB_TASK_PRIORITY );
+    BaseType_t xResult = pdPASS;
 
-	}
+    if( xResult == pdPASS )
+    {
+        xResult = xMQTTAgentInit( appmainMQTT_AGENT_TASK_STACK_SIZE, appmainMQTT_AGENT_TASK_PRIORITY );
+    }
 
+    if( xResult == pdPASS )
+    {
+        xStartSimplePubSubTasks( appmainMQTT_NUM_PUBSUB_TASKS,
+                                 appmainMQTT_PUBSUB_TASK_STACK_SIZE,
+                                 appmainMQTT_PUBSUB_TASK_PRIORITY );
+    }
 }

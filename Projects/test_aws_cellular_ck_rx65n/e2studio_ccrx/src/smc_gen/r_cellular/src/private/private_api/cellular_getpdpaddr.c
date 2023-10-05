@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_getpdpaddr.c
  * Description  : Function to obtain a PDP address.
@@ -47,35 +48,38 @@
 /************************************************************************
  * Function Name  @fn            cellular_getpdpaddr
  ***********************************************************************/
-void cellular_getpdpaddr(st_cellular_ctrl_t * const p_ctrl, st_cellular_ipaddr_t * const p_addr)
+void cellular_getpdpaddr( st_cellular_ctrl_t * const p_ctrl,
+                          st_cellular_ipaddr_t * const p_addr )
 {
-    uint32_t dns[4] = {0};
+    uint32_t dns[ 4 ] = { 0 };
     uint8_t * p_add = NULL;
 
-    p_add = (uint8_t *)strstr((char *)p_ctrl->recv_data, "\"");  //(uint8_t *)<->(char *)
-    if (NULL != p_add)
+    p_add = ( uint8_t * ) strstr( ( char * ) p_ctrl->recv_data, "\"" ); /*(uint8_t *)<->(char *) */
+
+    if( NULL != p_add )
     {
-        sscanf((char *)p_add + 1,       //(uint8_t *)->(char *)
+        sscanf( ( char * ) p_add + 1, /*(uint8_t *)->(char *) */
                 "%ld.%ld.%ld.%ld",
-                &dns[0], &dns[1], &dns[2], &dns[3]);
+                &dns[ 0 ], &dns[ 1 ], &dns[ 2 ], &dns[ 3 ] );
 
-        sprintf((char *)p_addr->ipv4,   //(uint8_t *)->(char *)
-                "%ld.%ld.%ld.%ld",
-                dns[0], dns[1], dns[2], dns[3]);
+        sprintf( ( char * ) p_addr->ipv4, /*(uint8_t *)->(char *) */
+                 "%ld.%ld.%ld.%ld",
+                 dns[ 0 ], dns[ 1 ], dns[ 2 ], dns[ 3 ] );
 
-        p_add = (uint8_t *)strstr((char *)p_add + 1, "\"");  //(uint8_t *)<->(char *)
+        p_add = ( uint8_t * ) strstr( ( char * ) p_add + 1, "\"" ); /*(uint8_t *)<->(char *) */
     }
 
-    if (NULL != p_add)
+    if( NULL != p_add )
     {
-        p_add = (uint8_t *)strstr((char *)p_add + 1, "\"");  //(uint8_t *)<->(char *)
+        p_add = ( uint8_t * ) strstr( ( char * ) p_add + 1, "\"" ); /*(uint8_t *)<->(char *) */
     }
 
-    if (NULL != p_add)
+    if( NULL != p_add )
     {
-        strncpy((char *)p_addr->ipv6, (char *)p_add + 1, CELLULAR_IPV6_ADDR_LENGTH);  //(uint8_t *)->(char *)
+        strncpy( ( char * ) p_addr->ipv6, ( char * ) p_add + 1, CELLULAR_IPV6_ADDR_LENGTH ); /*(uint8_t *)->(char *) */
     }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_getpdpaddr
  *********************************************************************************************************************/

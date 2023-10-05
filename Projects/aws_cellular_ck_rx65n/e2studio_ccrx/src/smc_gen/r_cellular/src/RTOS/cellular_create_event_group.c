@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_create_event_group.c
  * Description  : Function to create an event group using RTOS features.
@@ -45,28 +46,32 @@
 /****************************************************************************
  * Function Name  @fn            cellular_create_event_group
  ***************************************************************************/
-void * cellular_create_event_group(const char *str)
+void * cellular_create_event_group( const char * str )
 {
     void * p_ret = NULL;
-#if BSP_CFG_RTOS_USED == (1)
-    (void *)str;
 
-    p_ret = xEventGroupCreate();
-#elif BSP_CFG_RTOS_USED == (5)
-    UINT rtos_ret;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        ( void * ) str;
 
-    p_ret = cellular_malloc(sizeof(TX_EVENT_FLAGS_GROUP));
-    if (NULL != p_ret)
-    {
-        rtos_ret = tx_event_flags_create((TX_EVENT_FLAGS_GROUP *)p_ret, (CHAR *)str);
-        if (TX_SUCCESS != rtos_ret)
+        p_ret = xEventGroupCreate();
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        UINT rtos_ret;
+
+        p_ret = cellular_malloc( sizeof( TX_EVENT_FLAGS_GROUP ) );
+
+        if( NULL != p_ret )
         {
-            cellular_free(p_ret);
+            rtos_ret = tx_event_flags_create( ( TX_EVENT_FLAGS_GROUP * ) p_ret, ( CHAR * ) str );
+
+            if( TX_SUCCESS != rtos_ret )
+            {
+                cellular_free( p_ret );
+            }
         }
-    }
-#endif
+    #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
     return p_ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_create_event_group
  *********************************************************************************************************************/

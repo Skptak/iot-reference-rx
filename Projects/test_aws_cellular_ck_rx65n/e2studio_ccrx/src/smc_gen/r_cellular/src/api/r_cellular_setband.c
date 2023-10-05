@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_setband.c
  * Description  : Function to configure band settings.
@@ -36,7 +37,7 @@
  * Typedef definitions
  *********************************************************************************************************************/
 #define CELLULAR_CTM_CHECK          "standard"
-#define CELLULAR_FLG_CHECK_LIMIT    (60)
+#define CELLULAR_FLG_CHECK_LIMIT    ( 60 )
 
 /**********************************************************************************************************************
  * Exported global variables
@@ -45,12 +46,13 @@
 /**********************************************************************************************************************
  * Private (static) variables and functions
  *********************************************************************************************************************/
-static e_cellular_err_t cellular_ctm_config (st_cellular_ctrl_t * const p_ctrl);
+static e_cellular_err_t cellular_ctm_config( st_cellular_ctrl_t * const p_ctrl );
 
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_SetBand
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_SetBand(st_cellular_ctrl_t * const p_ctrl, const uint8_t * const p_band)
+e_cellular_err_t R_CELLULAR_SetBand( st_cellular_ctrl_t * const p_ctrl,
+                                     const uint8_t * const p_band )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
@@ -58,21 +60,22 @@ e_cellular_err_t R_CELLULAR_SetBand(st_cellular_ctrl_t * const p_ctrl, const uin
     uint8_t count = 0;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (NULL == p_band))
+
+    if( ( NULL == p_ctrl ) || ( NULL == p_band ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
-        else if (CELLULAR_SYSTEM_CONNECT == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CONNECT == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_ALREADY_CONNECT;
         }
@@ -81,47 +84,52 @@ e_cellular_err_t R_CELLULAR_SetBand(st_cellular_ctrl_t * const p_ctrl, const uin
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        ret = cellular_ctm_config(p_ctrl);
-        if (CELLULAR_SUCCESS == ret)
+        ret = cellular_ctm_config( p_ctrl );
+
+        if( CELLULAR_SUCCESS == ret )
         {
-            ret = atc_sqnbandsel(p_ctrl, p_band);
+            ret = atc_sqnbandsel( p_ctrl, p_band );
         }
 
-        if (CELLULAR_SUCCESS == ret)
+        if( CELLULAR_SUCCESS == ret )
         {
-            p_ctrl->recv_data = (void *) &flg;  //(&uint8_t)->(void *)
-            ret = atc_reset(p_ctrl);
+            p_ctrl->recv_data = ( void * ) &flg; /*(&uint8_t)->(void *) */
+            ret = atc_reset( p_ctrl );
         }
 
-        if (CELLULAR_SUCCESS == ret)
+        if( CELLULAR_SUCCESS == ret )
         {
             ret = CELLULAR_ERR_MODULE_COM;
+
             do
             {
-                if (CELLULAR_START_FLG_ON == flg)
+                if( CELLULAR_START_FLG_ON == flg )
                 {
                     count = CELLULAR_FLG_CHECK_LIMIT;
                     ret = CELLULAR_SUCCESS;
                 }
                 else
                 {
-                    cellular_delay_task(1000);
+                    cellular_delay_task( 1000 );
                 }
+
                 count++;
-            } while (count < CELLULAR_FLG_CHECK_LIMIT);
+            } while( count < CELLULAR_FLG_CHECK_LIMIT );
         }
 
         p_ctrl->recv_data = NULL;
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+        cellular_give_semaphore( p_ctrl->at_semaphore );
         p_ctrl->running_api_count -= 2;
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_SetBand
  *********************************************************************************************************************/
@@ -129,54 +137,58 @@ e_cellular_err_t R_CELLULAR_SetBand(st_cellular_ctrl_t * const p_ctrl, const uin
 /************************************************************************
  * Function Name  @fn            cellular_ctm_config
  ***********************************************************************/
-static e_cellular_err_t cellular_ctm_config(st_cellular_ctrl_t * const p_ctrl)
+static e_cellular_err_t cellular_ctm_config( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t ctm_name[CELLULAR_MAX_CTM_LENGTH + 1] = {0};
+    uint8_t ctm_name[ CELLULAR_MAX_CTM_LENGTH + 1 ] = { 0 };
     uint8_t flg = CELLULAR_START_FLG_OFF;
     uint8_t count = 0;
 
-    for (count = CELLULAR_START_SOCKET_NUMBER; count <= p_ctrl->creatable_socket; count++ )
+    for( count = CELLULAR_START_SOCKET_NUMBER; count <= p_ctrl->creatable_socket; count++ )
     {
-        cellular_closesocket(p_ctrl, count);
+        cellular_closesocket( p_ctrl, count );
     }
 
-    if (CELLULAR_SYSTEM_CONNECT == p_ctrl->system_state)
+    if( CELLULAR_SYSTEM_CONNECT == p_ctrl->system_state )
     {
-        cellular_disconnect(p_ctrl);
+        cellular_disconnect( p_ctrl );
     }
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
-    {
-        p_ctrl->recv_data = (void *)ctm_name;   //(uint8_t[])->(void *)
-        ret = atc_sqnctm_check(p_ctrl);
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
 
-        if ((CELLULAR_SUCCESS == ret) && (NULL == strstr(p_ctrl->recv_data, CELLULAR_CTM_CHECK)))
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
+    {
+        p_ctrl->recv_data = ( void * ) ctm_name; /*(uint8_t[])->(void *) */
+        ret = atc_sqnctm_check( p_ctrl );
+
+        if( ( CELLULAR_SUCCESS == ret ) && ( NULL == strstr( p_ctrl->recv_data, CELLULAR_CTM_CHECK ) ) )
         {
             count = 0;
-            p_ctrl->recv_data = (void *) &flg;  //(&uint8_t)->(void *)
-            ret = atc_sqnctm(p_ctrl);
+            p_ctrl->recv_data = ( void * ) &flg; /*(&uint8_t)->(void *) */
+            ret = atc_sqnctm( p_ctrl );
 
-            if (CELLULAR_SUCCESS == ret)
+            if( CELLULAR_SUCCESS == ret )
             {
                 ret = CELLULAR_ERR_MODULE_COM;
+
                 do
                 {
-                    if (CELLULAR_START_FLG_ON == flg)
+                    if( CELLULAR_START_FLG_ON == flg )
                     {
                         count = CELLULAR_FLG_CHECK_LIMIT;
                         ret = CELLULAR_SUCCESS;
                     }
                     else
                     {
-                        cellular_delay_task(1000);
+                        cellular_delay_task( 1000 );
                     }
+
                     count++;
-                } while (count < CELLULAR_FLG_CHECK_LIMIT);
+                } while( count < CELLULAR_FLG_CHECK_LIMIT );
             }
         }
+
         p_ctrl->recv_data = NULL;
     }
     else
@@ -186,6 +198,7 @@ static e_cellular_err_t cellular_ctm_config(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_ctm_config
  *********************************************************************************************************************/

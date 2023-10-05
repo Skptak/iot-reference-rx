@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cgatt.c
  * Description  : Function to execute the AT command (CGATT).
@@ -46,30 +47,32 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cgatt
  ************************************************************************************************/
-e_cellular_err_t atc_cgatt(st_cellular_ctrl_t * const p_ctrl, const e_atc_ap_status_t mode)
+e_cellular_err_t atc_cgatt( st_cellular_ctrl_t * const p_ctrl,
+                            const e_atc_ap_status_t mode )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[10] = {0};
+    uint8_t str[ 10 ] = { 0 };
 
-    sprintf((char *)str, "%d", mode); // (uint8_t *)->(char *)
+    sprintf( ( char * ) str, "%d", mode ); /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SET_CONNECT_STATUS][0], // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                      // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SET_CONNECT_STATUS ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                             /* (const uint8_t *const *)->(const uint8_t **) */
 
-    if (ATC_AP_CONNECT == mode)
+    if( ATC_AP_CONNECT == mode )
     {
-        ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_CONNECT_STATUS);
+        ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_CONNECT_STATUS );
     }
     else
     {
-        ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_CONNECT_STATUS);
+        ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_CONNECT_STATUS );
     }
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgatt
  *********************************************************************************************************************/
@@ -78,18 +81,19 @@ e_cellular_err_t atc_cgatt(st_cellular_ctrl_t * const p_ctrl, const e_atc_ap_sta
 /*************************************************************************************************
  * Function Name  @fn            atc_cgatt_check
  ************************************************************************************************/
-e_cellular_err_t atc_cgatt_check(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cgatt_check( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_CONNECT_CHECK][0], // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_CONNECT_CHECK ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_CONNECT_CHECK);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_CONNECT_CHECK );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cgatt_check
  *********************************************************************************************************************/

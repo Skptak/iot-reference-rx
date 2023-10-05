@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_smcwtx.c
  * Description  : Function to initiate downlink continuous wave services.
@@ -47,22 +48,26 @@
 /****************************************************************************
  * Function Name  @fn            cellular_smcwtx
  ***************************************************************************/
-e_cellular_err_t cellular_smcwtx(st_cellular_ctrl_t * const p_ctrl, const uint8_t enable,
-                                    const uint16_t earfcn, const int32_t level)
+e_cellular_err_t cellular_smcwtx( st_cellular_ctrl_t * const p_ctrl,
+                                  const uint8_t enable,
+                                  const uint16_t earfcn,
+                                  const int32_t level )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_ERR_TAKE;
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
 
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
     {
-        ret = atc_cfun(p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL5);
-        if (CELLULAR_SUCCESS == ret)
+        ret = atc_cfun( p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL5 );
+
+        if( CELLULAR_SUCCESS == ret )
         {
-            ret = atc_smcwtx(p_ctrl, enable, earfcn, level);
+            ret = atc_smcwtx( p_ctrl, enable, earfcn, level );
         }
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+
+        cellular_give_semaphore( p_ctrl->at_semaphore );
     }
     else
     {
@@ -71,6 +76,7 @@ e_cellular_err_t cellular_smcwtx(st_cellular_ctrl_t * const p_ctrl, const uint8_
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function cellular_smcwtx
+ * End of function cellular_smcwtx
  *********************************************************************************************************************/

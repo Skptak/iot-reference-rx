@@ -73,9 +73,10 @@
  * A correct PRNG function is set by default (default_RNG_defined = 1) and works
  * for some platforms, such as Unix and Linux. For other platforms, you may need
  * to provide another PRNG function.
-*/
-#define default_RNG_defined 0
+ */
+#define default_RNG_defined    0
 
-int default_CSPRNG(uint8_t *dest, unsigned int size);
+int default_CSPRNG( uint8_t * dest,
+                    unsigned int size );
 
 #endif /* __UECC_PLATFORM_SPECIFIC_H_ */

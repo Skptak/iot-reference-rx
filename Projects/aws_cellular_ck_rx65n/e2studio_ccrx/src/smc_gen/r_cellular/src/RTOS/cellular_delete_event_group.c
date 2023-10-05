@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_delete_event_group.c
  * Description  : Function to delete an event group using RTOS functions.
@@ -45,20 +46,19 @@
 /****************************************************************************
  * Function Name  @fn            cellular_delete_event_group
  ***************************************************************************/
-void cellular_delete_event_group(void * xEventGroup)
+void cellular_delete_event_group( void * xEventGroup )
 {
-    if (NULL != xEventGroup)
+    if( NULL != xEventGroup )
     {
-#if BSP_CFG_RTOS_USED == (1)
-        vEventGroupDelete((EventGroupHandle_t)xEventGroup);
-#elif BSP_CFG_RTOS_USED == (5)
-        tx_event_flags_delete((TX_EVENT_FLAGS_GROUP *)xEventGroup);
-        cellular_free(xEventGroup);
-#endif
+        #if BSP_CFG_RTOS_USED == ( 1 )
+            vEventGroupDelete( ( EventGroupHandle_t ) xEventGroup );
+        #elif BSP_CFG_RTOS_USED == ( 5 )
+            tx_event_flags_delete( ( TX_EVENT_FLAGS_GROUP * ) xEventGroup );
+            cellular_free( xEventGroup );
+        #endif
     }
-
-    return;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_delete_event_group
  *********************************************************************************************************************/

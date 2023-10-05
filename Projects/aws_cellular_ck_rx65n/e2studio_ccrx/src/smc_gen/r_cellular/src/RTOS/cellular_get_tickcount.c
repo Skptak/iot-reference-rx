@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_get_tickcount.c
  * Description  : Function to get the time elapsed since the task was started using the RTOS function.
@@ -45,17 +46,19 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_get_tickcount
  ****************************************************************************************/
-uint32_t cellular_get_tickcount(void)
+uint32_t cellular_get_tickcount( void )
 {
     uint32_t ret = 0;
-#if BSP_CFG_RTOS_USED == (1)
-    ret = xTaskGetTickCount();
-#elif BSP_CFG_RTOS_USED == (5)
-    ret = tx_time_get();
-#endif
+
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        ret = xTaskGetTickCount();
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        ret = tx_time_get();
+    #endif
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_get_tickcount
  *********************************************************************************************************************/

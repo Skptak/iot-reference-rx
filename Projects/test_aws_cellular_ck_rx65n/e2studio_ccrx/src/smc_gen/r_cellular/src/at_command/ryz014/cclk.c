@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cclk.c
  * Description  : Function to execute the AT command (CCLK).
@@ -46,30 +47,32 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cclk
  ************************************************************************************************/
-e_cellular_err_t atc_cclk(st_cellular_ctrl_t * const p_ctrl, const st_cellular_datetime_t * const p_time)
+e_cellular_err_t atc_cclk( st_cellular_ctrl_t * const p_ctrl,
+                           const st_cellular_datetime_t * const p_time )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[CELLULAR_MAX_ARG_COUNT][10] = {0};
+    uint8_t str[ CELLULAR_MAX_ARG_COUNT ][ 10 ] = { 0 };
 
-    sprintf((char *)str[0], "%02d", p_time->year);      // (uint8_t *)->(char *)
-    sprintf((char *)str[1], "%02d", p_time->month);     // (uint8_t *)->(char *)
-    sprintf((char *)str[2], "%02d", p_time->day);       // (uint8_t *)->(char *)
-    sprintf((char *)str[3], "%02d", p_time->hour);      // (uint8_t *)->(char *)
-    sprintf((char *)str[4], "%02d", p_time->min);       // (uint8_t *)->(char *)
-    sprintf((char *)str[5], "%02d", p_time->sec);       // (uint8_t *)->(char *)
-    sprintf((char *)str[6], "%+03d", p_time->timezone); // (uint8_t *)->(char *)
+    sprintf( ( char * ) str[ 0 ], "%02d", p_time->year );      /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 1 ], "%02d", p_time->month );     /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 2 ], "%02d", p_time->day );       /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 3 ], "%02d", p_time->hour );      /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 4 ], "%02d", p_time->min );       /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 5 ], "%02d", p_time->sec );       /* (uint8_t *)->(char *) */
+    sprintf( ( char * ) str[ 6 ], "%+03d", p_time->timezone ); /* (uint8_t *)->(char *) */
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] =
-                            {str[0], str[1], str[2], str[3], str[4], str[5], str[6]};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] =
+    { str[ 0 ], str[ 1 ], str[ 2 ], str[ 3 ], str[ 4 ], str[ 5 ], str[ 6 ] };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SET_TIME][0],   // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);              // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SET_TIME ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                   /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_TIME);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_TIME );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cclk
  *********************************************************************************************************************/
@@ -77,18 +80,19 @@ e_cellular_err_t atc_cclk(st_cellular_ctrl_t * const p_ctrl, const st_cellular_d
 /*************************************************************************************************
  * Function Name  @fn            atc_cclk_check
  ************************************************************************************************/
-e_cellular_err_t atc_cclk_check(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cclk_check( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_GET_TIME][0], // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_TIME ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_TIME);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_TIME );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cclk_check
  *********************************************************************************************************************/

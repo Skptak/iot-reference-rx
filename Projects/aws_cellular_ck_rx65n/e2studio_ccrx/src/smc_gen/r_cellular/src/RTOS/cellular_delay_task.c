@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_delay_task.c
  * Description  : Function to perform a delay using RTOS functions.
@@ -25,8 +26,8 @@
  * Includes   <System Includes> , "Project Includes"
  *********************************************************************************************************************/
 #include "cellular_freertos.h"
-#if BSP_CFG_RTOS_USED == (5)
-#include "tx_api.h"
+#if BSP_CFG_RTOS_USED == ( 5 )
+    #include "tx_api.h"
 #endif
 
 /**********************************************************************************************************************
@@ -48,15 +49,15 @@
 /****************************************************************************
  * Function Name  @fn            cellular_delay_task
  ***************************************************************************/
-void cellular_delay_task(const uint32_t delay_time)
+void cellular_delay_task( const uint32_t delay_time )
 {
-#if BSP_CFG_RTOS_USED == (1)
-    vTaskDelay(pdMS_TO_TICKS(delay_time + 1));      //Convert to milliseconds
-#elif BSP_CFG_RTOS_USED == (5)
-    tx_thread_sleep(MS_TO_TICKS(delay_time + 1));   //Convert to milliseconds
-#endif
-    return;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        vTaskDelay( pdMS_TO_TICKS( delay_time + 1 ) );    /*Convert to milliseconds */
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        tx_thread_sleep( MS_TO_TICKS( delay_time + 1 ) ); /*Convert to milliseconds */
+    #endif
 }
+
 /**********************************************************************************************************************
  * End of function cellular_delay_task
  *********************************************************************************************************************/

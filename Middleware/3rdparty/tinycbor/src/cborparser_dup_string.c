@@ -23,13 +23,13 @@
 ****************************************************************************/
 
 #ifndef _BSD_SOURCE
-#define _BSD_SOURCE 1
+    #define _BSD_SOURCE            1
 #endif
 #ifndef _DEFAULT_SOURCE
-#define _DEFAULT_SOURCE 1
+    #define _DEFAULT_SOURCE        1
 #endif
 #ifndef __STDC_LIMIT_MACROS
-#  define __STDC_LIMIT_MACROS 1
+    #define __STDC_LIMIT_MACROS    1
 #endif
 
 #include "cbor.h"
@@ -94,26 +94,39 @@
  *
  * \sa cbor_value_get_text_string_chunk(), cbor_value_copy_byte_string(), cbor_value_dup_text_string()
  */
-CborError _cbor_value_dup_string(const CborValue *value, void **buffer, size_t *buflen, CborValue *next)
+CborError _cbor_value_dup_string( const CborValue * value,
+                                  void ** buffer,
+                                  size_t * buflen,
+                                  CborValue * next )
 {
     CborError err;
-    cbor_assert(buffer);
-    cbor_assert(buflen);
+
+    cbor_assert( buffer );
+    cbor_assert( buflen );
     *buflen = SIZE_MAX;
-    err = _cbor_value_copy_string(value, NULL, buflen, NULL);
-    if (err)
+    err = _cbor_value_copy_string( value, NULL, buflen, NULL );
+
+    if( err )
+    {
         return err;
+    }
 
     ++*buflen;
-    *buffer = malloc(*buflen);
-    if (!*buffer) {
+    *buffer = malloc( *buflen );
+
+    if( !*buffer )
+    {
         /* out of memory */
         return CborErrorOutOfMemory;
     }
-    err = _cbor_value_copy_string(value, *buffer, buflen, next);
-    if (err) {
-        free(*buffer);
+
+    err = _cbor_value_copy_string( value, *buffer, buflen, next );
+
+    if( err )
+    {
+        free( *buffer );
         return err;
     }
+
     return CborNoError;
 }

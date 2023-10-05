@@ -72,27 +72,28 @@
  */
 
 #ifndef __TC_CCM_MODE_H__
-#define __TC_CCM_MODE_H__
+    #define __TC_CCM_MODE_H__
 
-#include <tinycrypt/aes.h>
-#include <stddef.h>
+    #include <tinycrypt/aes.h>
+    #include <stddef.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
 /* max additional authenticated size in bytes: 2^16 - 2^8 = 65280 */
-#define TC_CCM_AAD_MAX_BYTES 0xff00
+    #define TC_CCM_AAD_MAX_BYTES        0xff00
 
 /* max message size in bytes: 2^(8L) = 2^16 = 65536 */
-#define TC_CCM_PAYLOAD_MAX_BYTES 0x10000
+    #define TC_CCM_PAYLOAD_MAX_BYTES    0x10000
 
 /* struct tc_ccm_mode_struct represents the state of a CCM computation */
-typedef struct tc_ccm_mode_struct {
-	TCAesKeySched_t sched; /* AES key schedule */
-	uint8_t *nonce; /* nonce required by CCM */
-	unsigned int mlen; /* mac length in bytes (parameter t in SP-800 38C) */
-} *TCCcmMode_t;
+    typedef struct tc_ccm_mode_struct
+    {
+        TCAesKeySched_t sched; /* AES key schedule */
+        uint8_t * nonce;       /* nonce required by CCM */
+        unsigned int mlen;     /* mac length in bytes (parameter t in SP-800 38C) */
+    } * TCCcmMode_t;
 
 /**
  * @brief CCM configuration procedure
@@ -108,8 +109,11 @@ typedef struct tc_ccm_mode_struct {
  * @param nlen -- nonce length in bytes
  * @param mlen -- mac length in bytes (parameter t in SP-800 38C)
  */
-int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint8_t *nonce,
-		  unsigned int nlen, unsigned int mlen);
+    int tc_ccm_config( TCCcmMode_t c,
+                       TCAesKeySched_t sched,
+                       uint8_t * nonce,
+                       unsigned int nlen,
+                       unsigned int mlen );
 
 /**
  * @brief CCM tag generation and encryption procedure
@@ -153,10 +157,13 @@ int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint8_t *nonce,
  *          6: Adata (0 if alen == 0, and 1 otherwise)
  *          7: always 0
  */
-int tc_ccm_generation_encryption(uint8_t *out, unsigned int olen,
-			   	 const uint8_t *associated_data,
-			   	 unsigned int alen, const uint8_t *payload,
-				 unsigned int plen, TCCcmMode_t c);
+    int tc_ccm_generation_encryption( uint8_t * out,
+                                      unsigned int olen,
+                                      const uint8_t * associated_data,
+                                      unsigned int alen,
+                                      const uint8_t * payload,
+                                      unsigned int plen,
+                                      TCCcmMode_t c );
 
 /**
  * @brief CCM decryption and tag verification procedure
@@ -199,13 +206,16 @@ int tc_ccm_generation_encryption(uint8_t *out, unsigned int olen,
  *          6: Adata (0 if alen == 0, and 1 otherwise)
  *          7: always 0
  */
-int tc_ccm_decryption_verification(uint8_t *out, unsigned int olen,
-				   const uint8_t *associated_data,
-				   unsigned int alen, const uint8_t *payload, unsigned int plen,
-				   TCCcmMode_t c);
+    int tc_ccm_decryption_verification( uint8_t * out,
+                                        unsigned int olen,
+                                        const uint8_t * associated_data,
+                                        unsigned int alen,
+                                        const uint8_t * payload,
+                                        unsigned int plen,
+                                        TCCcmMode_t c );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_CCM_MODE_H__ */

@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_noticeconfig.c
  * Description  : Function to set network information notification.
@@ -47,27 +48,28 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_GetAPConnectState
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_GetAPConnectState(st_cellular_ctrl_t * const p_ctrl,
-                                                const e_cellular_network_result_t level,
-                                                st_cellular_notice_t * const p_result)
+e_cellular_err_t R_CELLULAR_GetAPConnectState( st_cellular_ctrl_t * const p_ctrl,
+                                               const e_cellular_network_result_t level,
+                                               st_cellular_notice_t * const p_result )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (NULL == p_result) ||
-            ((level < CELLULAR_DISABLE_NETWORK_RESULT_CODE) || (level > CELLULAR_ENABLE_NETWORK_RESULT_CODE_LEVEL5)))
+
+    if( ( NULL == p_ctrl ) || ( NULL == p_result ) ||
+        ( ( level < CELLULAR_DISABLE_NETWORK_RESULT_CODE ) || ( level > CELLULAR_ENABLE_NETWORK_RESULT_CODE_LEVEL5 ) ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -76,19 +78,21 @@ e_cellular_err_t R_CELLULAR_GetAPConnectState(st_cellular_ctrl_t * const p_ctrl,
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
         {
-            ret = atc_cereg(p_ctrl, level);
-            memset(p_result, 0, sizeof(st_cellular_notice_t));
+            ret = atc_cereg( p_ctrl, level );
+            memset( p_result, 0, sizeof( st_cellular_notice_t ) );
             p_ctrl->recv_data = p_result;
-            ret = atc_cereg_check(p_ctrl);
+            ret = atc_cereg_check( p_ctrl );
             p_ctrl->recv_data = NULL;
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
@@ -100,6 +104,7 @@ e_cellular_err_t R_CELLULAR_GetAPConnectState(st_cellular_ctrl_t * const p_ctrl,
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_GetAPConnectState
  *********************************************************************************************************************/

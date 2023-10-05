@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_factoryreset.c
  * Description  : Function to restore factory conditions.
@@ -47,24 +48,25 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_FactoryReset
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_FactoryReset(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t R_CELLULAR_FactoryReset( st_cellular_ctrl_t * const p_ctrl )
 {
     uint32_t preemption = 0;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
     preemption = cellular_interrupt_disable();
-    if (NULL == p_ctrl)
+
+    if( NULL == p_ctrl )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 < (p_ctrl->running_api_count))
+        if( 0 < ( p_ctrl->running_api_count ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -73,24 +75,26 @@ e_cellular_err_t R_CELLULAR_FactoryReset(st_cellular_ctrl_t * const p_ctrl)
             p_ctrl->running_api_count += 1;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
         {
-            ret = atc_sqnsfactoryreset(p_ctrl);
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+            ret = atc_sqnsfactoryreset( p_ctrl );
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
             ret = CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING;
         }
 
-        if (CELLULAR_SUCCESS == ret)
+        if( CELLULAR_SUCCESS == ret )
         {
-            ret = cellular_module_reset(p_ctrl);
+            ret = cellular_module_reset( p_ctrl );
         }
 
         p_ctrl->running_api_count -= 1;
@@ -98,6 +102,7 @@ e_cellular_err_t R_CELLULAR_FactoryReset(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_FactoryReset
  *********************************************************************************************************************/

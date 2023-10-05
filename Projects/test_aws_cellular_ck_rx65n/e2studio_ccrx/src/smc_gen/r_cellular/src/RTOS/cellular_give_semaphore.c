@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_give_semaphore.c
  * Description  : Function to return semaphore.
@@ -45,27 +46,29 @@
 /*****************************************************************************************
  * Function Name  @fn            cellular_give_semaphore
  ****************************************************************************************/
-e_cellular_err_semaphore_t cellular_give_semaphore(void * const xSemaphore)
+e_cellular_err_semaphore_t cellular_give_semaphore( void * const xSemaphore )
 {
     e_cellular_err_semaphore_t ret = CELLULAR_SEMAPHORE_SUCCESS;
 
-#if BSP_CFG_RTOS_USED == (1)
-    if (pdTRUE != xSemaphoreGive((SemaphoreHandle_t)xSemaphore))
-    {
-        ret = CELLULAR_SEMAPHORE_ERR_GIVE;
-    }
-#elif BSP_CFG_RTOS_USED == (5)
-    UINT rtos_ret;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        if( pdTRUE != xSemaphoreGive( ( SemaphoreHandle_t ) xSemaphore ) )
+        {
+            ret = CELLULAR_SEMAPHORE_ERR_GIVE;
+        }
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        UINT rtos_ret;
 
-    rtos_ret = tx_semaphore_put((TX_SEMAPHORE *)xSemaphore);
-    if (TX_SUCCESS != rtos_ret)
-    {
-        ret = CELLULAR_SEMAPHORE_ERR_GIVE;
-    }
-#endif
+        rtos_ret = tx_semaphore_put( ( TX_SEMAPHORE * ) xSemaphore );
+
+        if( TX_SUCCESS != rtos_ret )
+        {
+            ret = CELLULAR_SEMAPHORE_ERR_GIVE;
+        }
+    #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_give_semaphore
  *********************************************************************************************************************/

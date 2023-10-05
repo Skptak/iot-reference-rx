@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cpin.c
  * Description  : Function to execute the AT command (CPIN).
@@ -30,8 +31,8 @@
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define URC_CPIN_READY          "READY"
-#define URC_CPIN_SIM_LOCK       "SIM PIN"
+#define URC_CPIN_READY       "READY"
+#define URC_CPIN_SIM_LOCK    "SIM PIN"
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -48,33 +49,35 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_cpin
  ************************************************************************************************/
-e_cellular_err_t atc_cpin(st_cellular_ctrl_t * const p_ctrl, const st_cellular_cfg_t * const p_cfg)
+e_cellular_err_t atc_cpin( st_cellular_ctrl_t * const p_ctrl,
+                           const st_cellular_cfg_t * const p_cfg )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[8 + 1] = {0};
+    uint8_t str[ 8 + 1 ] = { 0 };
 
-    if (NULL == p_cfg)
+    if( NULL == p_cfg )
     {
-        strncpy((char *)str, CELLULAR_STRING_CONVERT(CELLULAR_CFG_PIN_CODE), sizeof(str));    // (uint8_t *)->(char *)
+        strncpy( ( char * ) str, CELLULAR_STRING_CONVERT( CELLULAR_CFG_PIN_CODE ), sizeof( str ) ); /* (uint8_t *)->(char *) */
     }
     else
     {
-        strncpy((char *)str, (char *)p_cfg->sim_pin_code, sizeof(str));  // (uint8_t *)->(char *)
+        strncpy( ( char * ) str, ( char * ) p_cfg->sim_pin_code, sizeof( str ) ); /* (uint8_t *)->(char *) */
     }
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str}; // (&uint8_t[])->(uint8_t *)
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str }; /* (&uint8_t[])->(uint8_t *) */
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_PIN_LOCK_RELEASE][0],   // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);                      // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_PIN_LOCK_RELEASE ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                           /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_PIN_LOCK_RELEASE);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_PIN_LOCK_RELEASE );
 
-    memset(p_ctrl->sci_ctrl.atc_buff, 0x00, CELLULAR_ATC_BUFF_SIZE);
-    memset(str, 0x00, sizeof(str));
+    memset( p_ctrl->sci_ctrl.atc_buff, 0x00, CELLULAR_ATC_BUFF_SIZE );
+    memset( str, 0x00, sizeof( str ) );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cpin
  *********************************************************************************************************************/
@@ -82,22 +85,22 @@ e_cellular_err_t atc_cpin(st_cellular_ctrl_t * const p_ctrl, const st_cellular_c
 /*************************************************************************************************
  * Function Name  @fn            atc_cpin_check
  ************************************************************************************************/
-e_cellular_err_t atc_cpin_check(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_cpin_check( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t lock_state[15] = {0};
+    uint8_t lock_state[ 15 ] = { 0 };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_PIN_LOCK_CHECK][0], // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_PIN_LOCK_CHECK ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
     p_ctrl->recv_data = lock_state;
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_PIN_LOCK_CHECK);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_PIN_LOCK_CHECK );
 
-    if (CELLULAR_SUCCESS == ret)
+    if( CELLULAR_SUCCESS == ret )
     {
-        if (NULL == strstr((char *)&lock_state, URC_CPIN_READY))//(uint8_t *)->(char *)
+        if( NULL == strstr( ( char * ) &lock_state, URC_CPIN_READY ) ) /*(uint8_t *)->(char *) */
         {
             ret = CELLULAR_ERR_MODULE_COM;
         }
@@ -105,6 +108,7 @@ e_cellular_err_t atc_cpin_check(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_cpin_check
  *********************************************************************************************************************/

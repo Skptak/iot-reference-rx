@@ -21,31 +21,33 @@
 *
 * Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/
+
 /**********************************************************************************************************************
-* File Name    : unique_id.h
-* Device(s)    : CK-RX65N
-* Tool-Chain   : Renesas CC-RX
-* Description  :
-***********************************************************************************************************************/
+ * File Name    : unique_id.h
+ * Device(s)    : CK-RX65N
+ * Tool-Chain   : Renesas CC-RX
+ * Description  :
+ ***********************************************************************************************************************/
+
 /**********************************************************************************************************************
-* History : DD.MM.YYYY Version  Description
-***********************************************************************************************************************/
+ * History : DD.MM.YYYY Version  Description
+ ***********************************************************************************************************************/
 #include "platform.h"
 
 #ifndef FREERTOS_COMMON_UNIQUE_ID_H_
-#define FREERTOS_COMMON_UNIQUE_ID_H_
+    #define FREERTOS_COMMON_UNIQUE_ID_H_
 
-#define UUID_NUMBER_OF_REGISTER     ( 4 )
-#define UUID_MAX_SIZE               ( sizeof( uint32_t) * UUID_NUMBER_OF_REGISTER )
+    #define UUID_NUMBER_OF_REGISTER    ( 4 )
+    #define UUID_MAX_SIZE              ( sizeof( uint32_t ) * UUID_NUMBER_OF_REGISTER )
 
-typedef struct uuid_param_t
-{
-    uint32_t uuid0;
-    uint32_t uuid1;
-    uint32_t uuid2;
-    uint32_t uuid3;
-} uuid_param_t;
+    typedef struct uuid_param_t
+    {
+        uint32_t uuid0;
+        uint32_t uuid1;
+        uint32_t uuid2;
+        uint32_t uuid3;
+    } uuid_param_t;
 
-bool get_unique_id (uuid_param_t * uuid);
+    bool get_unique_id( uuid_param_t * uuid );
 
 #endif /* FREERTOS_COMMON_UNIQUE_ID_H_ */

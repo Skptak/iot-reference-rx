@@ -65,14 +65,14 @@
  */
 
 #ifndef __TC_CTR_MODE_H__
-#define __TC_CTR_MODE_H__
+    #define __TC_CTR_MODE_H__
 
-#include <tinycrypt/aes.h>
-#include <tinycrypt/constants.h>
+    #include <tinycrypt/aes.h>
+    #include <tinycrypt/constants.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
 
 /**
  *  @brief CTR mode encryption/decryption procedure.
@@ -98,11 +98,15 @@ extern "C" {
  * @param ctr IN/OUT -- the current counter value
  * @param sched IN -- an initialized AES key schedule
  */
-int tc_ctr_mode(uint8_t *out, unsigned int outlen, const uint8_t *in,
-		unsigned int inlen, uint8_t *ctr, const TCAesKeySched_t sched);
+    int tc_ctr_mode( uint8_t * out,
+                     unsigned int outlen,
+                     const uint8_t * in,
+                     unsigned int inlen,
+                     uint8_t * ctr,
+                     const TCAesKeySched_t sched );
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif /* __TC_CTR_MODE_H__ */

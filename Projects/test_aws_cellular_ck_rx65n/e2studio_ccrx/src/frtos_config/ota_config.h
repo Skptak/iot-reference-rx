@@ -143,7 +143,7 @@
  * testing purpose and it is recommended to always update to higher version and keep this
  * configuration disabled.
  */
-#define otaconfigAllowDowngrade           0U
+#define otaconfigAllowDowngrade                 0U
 
 /**
  * @brief The protocol selected for OTA control operations.
@@ -153,7 +153,7 @@
  *
  * Note - Only MQTT is supported at this time for control operations.
  */
-#define configENABLED_CONTROL_PROTOCOL    ( OTA_CONTROL_OVER_MQTT )
+#define configENABLED_CONTROL_PROTOCOL          ( OTA_CONTROL_OVER_MQTT )
 
 /**
  * @brief The protocol selected for OTA data operations.
@@ -169,7 +169,7 @@
  * Note - Please check the OTA over HTTP demo which has the HTTP data transfer functionality and
  * and this configuration is set to OTA_DATA_OVER_HTTP.
  */
-#define configENABLED_DATA_PROTOCOLS      ( OTA_DATA_OVER_MQTT )
+#define configENABLED_DATA_PROTOCOLS            ( OTA_DATA_OVER_MQTT )
 
 /**
  * @brief The preferred protocol selected for OTA data operations.

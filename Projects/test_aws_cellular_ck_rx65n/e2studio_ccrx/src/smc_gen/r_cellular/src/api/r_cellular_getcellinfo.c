@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : r_cellular_getcellinfo.c
  * Description  : Function to get information on the serving and neighbor cells.
@@ -31,7 +32,7 @@
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define CELLULAR_GET_INFO_LIMIT     (100)
+#define CELLULAR_GET_INFO_LIMIT    ( 100 )
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -48,7 +49,8 @@
 /************************************************************************
  * Function Name  @fn            R_CELLULAR_GetCellInfo
  ***********************************************************************/
-e_cellular_err_t R_CELLULAR_GetCellInfo(st_cellular_ctrl_t * const p_ctrl, const e_cellular_info_type_t type)
+e_cellular_err_t R_CELLULAR_GetCellInfo( st_cellular_ctrl_t * const p_ctrl,
+                                         const e_cellular_info_type_t type )
 {
     uint32_t preemption = 0;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
@@ -56,19 +58,20 @@ e_cellular_err_t R_CELLULAR_GetCellInfo(st_cellular_ctrl_t * const p_ctrl, const
     uint8_t count = 0;
 
     preemption = cellular_interrupt_disable();
-    if ((NULL == p_ctrl) || (1 != CELLULAR_CFG_URC_CHARGET_ENABLED) ||
-            ((CELLULAR_INFO_TYPE0 != type) && (CELLULAR_INFO_TYPE1 != type) &&
-                    (CELLULAR_INFO_TYPE2 != type) && (CELLULAR_INFO_TYPE7 != type) && (CELLULAR_INFO_TYPE9 != type)))
+
+    if( ( NULL == p_ctrl ) || ( 1 != CELLULAR_CFG_URC_CHARGET_ENABLED ) ||
+        ( ( CELLULAR_INFO_TYPE0 != type ) && ( CELLULAR_INFO_TYPE1 != type ) &&
+          ( CELLULAR_INFO_TYPE2 != type ) && ( CELLULAR_INFO_TYPE7 != type ) && ( CELLULAR_INFO_TYPE9 != type ) ) )
     {
         ret = CELLULAR_ERR_PARAMETER;
     }
     else
     {
-        if (0 != (p_ctrl->running_api_count % 2))
+        if( 0 != ( p_ctrl->running_api_count % 2 ) )
         {
             ret = CELLULAR_ERR_OTHER_API_RUNNING;
         }
-        else if (CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state)
+        else if( CELLULAR_SYSTEM_CLOSE == p_ctrl->system_state )
         {
             ret = CELLULAR_ERR_NOT_OPEN;
         }
@@ -77,31 +80,35 @@ e_cellular_err_t R_CELLULAR_GetCellInfo(st_cellular_ctrl_t * const p_ctrl, const
             p_ctrl->running_api_count += 2;
         }
     }
-    cellular_interrupt_enable(preemption);
 
-    if (CELLULAR_SUCCESS == ret)
+    cellular_interrupt_enable( preemption );
+
+    if( CELLULAR_SUCCESS == ret )
     {
-        semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-        if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
-        {
-            ret = atc_cfun_check(p_ctrl);
+        semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
 
-            if (CELLULAR_SUCCESS == ret)
+        if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
+        {
+            ret = atc_cfun_check( p_ctrl );
+
+            if( CELLULAR_SUCCESS == ret )
             {
-                if (CELLULAR_MODULE_OPERATING_LEVEL1 != p_ctrl->module_status)
+                if( CELLULAR_MODULE_OPERATING_LEVEL1 != p_ctrl->module_status )
                 {
-                    ret = atc_cfun(p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL1);
+                    ret = atc_cfun( p_ctrl, CELLULAR_MODULE_OPERATING_LEVEL1 );
                 }
-                if (CELLULAR_SUCCESS == ret)
+
+                if( CELLULAR_SUCCESS == ret )
                 {
                     do
                     {
-                        ret = atc_sqnmoni(p_ctrl, type);
+                        ret = atc_sqnmoni( p_ctrl, type );
                         count++;
-                    } while ((count < CELLULAR_GET_INFO_LIMIT) && (CELLULAR_SUCCESS != ret));
+                    } while( ( count < CELLULAR_GET_INFO_LIMIT ) && ( CELLULAR_SUCCESS != ret ) );
                 }
             }
-            cellular_give_semaphore(p_ctrl->at_semaphore);
+
+            cellular_give_semaphore( p_ctrl->at_semaphore );
         }
         else
         {
@@ -113,6 +120,7 @@ e_cellular_err_t R_CELLULAR_GetCellInfo(st_cellular_ctrl_t * const p_ctrl, const
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function R_CELLULAR_GetCellInfo
  *********************************************************************************************************************/

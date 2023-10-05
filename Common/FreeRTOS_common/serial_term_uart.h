@@ -9,7 +9,7 @@
 #ifndef VENDOR_CODE_RSKRX65N_UART_H_
 #define VENDOR_CODE_RSKRX65N_UART_H_
 
-void uart_config(void);
-void uart_string_printf(char * pString);
+void uart_config( void );
+void uart_string_printf( char * pString );
 
 #endif /* VENDOR_CODE_RSKRX65N_UART_H_ */

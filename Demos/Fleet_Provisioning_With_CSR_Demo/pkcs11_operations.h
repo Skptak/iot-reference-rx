@@ -67,10 +67,10 @@ CK_RV xGetCertificateAndKeyState( CK_SESSION_HANDLE xP11Session,
  * @return True on success.
  */
 bool xLoadClaimCredentials( CK_SESSION_HANDLE xP11Session,
-                           const char * pClaimCert,
-                           size_t       ClaimCertLength,
-                           const char * pClaimPrivKey,
-                           size_t       ClaimPrivKeyLength );
+                            const char * pClaimCert,
+                            size_t ClaimCertLength,
+                            const char * pClaimPrivKey,
+                            size_t ClaimPrivKeyLength );
 
 /**
  * @brief Generate a new public-private key pair in the PKCS #11 module, and

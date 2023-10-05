@@ -60,8 +60,8 @@
  * @return Number of bytes sent on success; else a negative value.
  */
 int xMbedTLSBioTCPSocketsWrapperSend( void * ctx,
-                           const unsigned char * buf,
-                           size_t len )
+                                      const unsigned char * buf,
+                                      size_t len )
 {
     configASSERT( ctx != NULL );
     configASSERT( buf != NULL );
@@ -81,25 +81,25 @@ int xMbedTLSBioTCPSocketsWrapperSend( void * ctx,
  * @return Number of bytes received if successful; Negative value on error.
  */
 int xMbedTLSBioTCPSocketsWrapperRecv( void * ctx,
-                           unsigned char * buf,
-                           size_t len )
+                                      unsigned char * buf,
+                                      size_t len )
 {
-	 int recvStatus = 0;
-	    int returnStatus = -1;
+    int recvStatus = 0;
+    int returnStatus = -1;
 
-	    configASSERT( ctx != NULL );
-	    configASSERT( buf != NULL );
+    configASSERT( ctx != NULL );
+    configASSERT( buf != NULL );
 
-	    recvStatus = TCP_Sockets_Recv( ( Socket_t ) ctx, buf, len );
+    recvStatus = TCP_Sockets_Recv( ( Socket_t ) ctx, buf, len );
 
-	    if( recvStatus < 0 )
-	    {
-	        returnStatus = MBEDTLS_ERR_SSL_INTERNAL_ERROR;
-	    }
-	    else
-	    {
-	        returnStatus = recvStatus;
-	    }
+    if( recvStatus < 0 )
+    {
+        returnStatus = MBEDTLS_ERR_SSL_INTERNAL_ERROR;
+    }
+    else
+    {
+        returnStatus = recvStatus;
+    }
 
-	    return returnStatus;
+    return returnStatus;
 }

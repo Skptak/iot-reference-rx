@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_shutdownsocket.c
  * Description  : Function to disconnect a socket connection.
@@ -62,22 +63,25 @@
  *                @retval        CELLULAR_ERR_OTHER_ATCOMMAND_RUNNING -
  *                                  Other AT commands are running.
  ***********************************************************************/
-e_cellular_err_t cellular_shutdownsocket(st_cellular_ctrl_t * const p_ctrl, const uint8_t socket_no)
+e_cellular_err_t cellular_shutdownsocket( st_cellular_ctrl_t * const p_ctrl,
+                                          const uint8_t socket_no )
 {
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    semaphore_ret = cellular_take_semaphore(p_ctrl->at_semaphore);
-    if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+    semaphore_ret = cellular_take_semaphore( p_ctrl->at_semaphore );
+
+    if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
     {
-        ret = atc_sqnsh(p_ctrl, socket_no);
-        if (CELLULAR_SUCCESS == ret)
+        ret = atc_sqnsh( p_ctrl, socket_no );
+
+        if( CELLULAR_SUCCESS == ret )
         {
-            p_ctrl->p_socket_ctrl[socket_no - CELLULAR_START_SOCKET_NUMBER].socket_status
+            p_ctrl->p_socket_ctrl[ socket_no - CELLULAR_START_SOCKET_NUMBER ].socket_status
                 = CELLULAR_SOCKET_STATUS_SOCKET;
         }
 
-        cellular_give_semaphore(p_ctrl->at_semaphore);
+        cellular_give_semaphore( p_ctrl->at_semaphore );
     }
     else
     {
@@ -86,6 +90,7 @@ e_cellular_err_t cellular_shutdownsocket(st_cellular_ctrl_t * const p_ctrl, cons
 
     return ret;
 }
+
 /**********************************************************************************************************************
- End of function cellular_shutdownsocket
+ * End of function cellular_shutdownsocket
  *********************************************************************************************************************/

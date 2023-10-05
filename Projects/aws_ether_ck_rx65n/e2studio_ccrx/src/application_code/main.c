@@ -1,27 +1,27 @@
 /*
-FreeRTOS
-Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- http://aws.amazon.com/freertos
- http://www.FreeRTOS.org
-*/
+ * FreeRTOS
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * http://aws.amazon.com/freertos
+ * http://www.FreeRTOS.org
+ */
 
 /* FreeRTOS includes. */
 #include "FreeRTOS.h"
@@ -41,23 +41,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "demo_config.h"
 
-//#include "mqtt_agent_task.h"
-extern void UserInitialization(void);
+/*#include "mqtt_agent_task.h" */
+extern void UserInitialization( void );
 
-#if defined(SIMPLE_PUBSUB_DEMO)
+#if defined( SIMPLE_PUBSUB_DEMO )
     extern void vStartSimplePubSubDemo( void * pvParameters );
 #endif
 
-#if defined(PKCS_MUTUAL_AUTH_DEMO)
+#if defined( PKCS_MUTUAL_AUTH_DEMO )
     extern void vStartPKCSMutualAuthDemo( void );
 #endif
 
-#if defined(OTA_OVER_MQTT_DEMO)
+#if defined( OTA_OVER_MQTT_DEMO )
     extern void vStartOtaDemo( void );
 #endif
 
-#if defined(FLEET_PROVISIONING_DEMO)
-    extern void vStartFleetProvisioningDemo(void);
+#if defined( FLEET_PROVISIONING_DEMO )
+    extern void vStartFleetProvisioningDemo( void );
 #endif
 
 /**
@@ -84,7 +84,7 @@ extern void UserInitialization(void);
  */
 #define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
 #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
-#define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY +1 )
+#define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 1 )
 
 /**
  * @brief Stack size and priority for OTA Update task.
@@ -114,13 +114,14 @@ extern void vOTAUpdateTask( void * pvParam );
 
 
 
-#define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
-#define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
-#define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
-#define UNSIGNED_SHORT_RANDOM_NUMBER_MASK         (0xFFFFUL)
+#define mainLOGGING_TASK_STACK_SIZE          ( configMINIMAL_STACK_SIZE * 6 )
+#define mainLOGGING_MESSAGE_QUEUE_LENGTH     ( 15 )
+#define mainTEST_RUNNER_TASK_STACK_SIZE      ( configMINIMAL_STACK_SIZE * 8 )
+#define UNSIGNED_SHORT_RANDOM_NUMBER_MASK    ( 0xFFFFUL )
+
 /* The MAC address array is not declared const as the MAC address will
-normally be read from an EEPROM and not hard coded (in real deployed
-applications).*/
+ * normally be read from an EEPROM and not hard coded (in real deployed
+ * applications).*/
 static uint8_t ucMACAddress[ 6 ] =
 {
     configMAC_ADDR0,
@@ -129,11 +130,11 @@ static uint8_t ucMACAddress[ 6 ] =
     configMAC_ADDR3,
     configMAC_ADDR4,
     configMAC_ADDR5
-}; //XXX
+}; /*XXX */
 
 /* Define the network addressing.  These parameters will be used if either
-ipconfigUDE_DHCP is 0 or if ipconfigUSE_DHCP is 1 but DHCP auto configuration
-failed. */
+ * ipconfigUDE_DHCP is 0 or if ipconfigUSE_DHCP is 1 but DHCP auto configuration
+ * failed. */
 static const uint8_t ucIPAddress[ 4 ] =
 {
     configIP_ADDR0,
@@ -182,9 +183,9 @@ static void prvMiscInitialization( void );
  */
 void main( void )
 {
-    while(1)
+    while( 1 )
     {
-        vTaskDelay(10000);
+        vTaskDelay( 10000 );
     }
 }
 /*-----------------------------------------------------------*/
@@ -205,16 +206,16 @@ static void prvMiscInitialization( void )
 
 void vApplicationDaemonTaskStartupHook( void )
 {
-	prvMiscInitialization();
+    prvMiscInitialization();
 
 
     {
         /* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
-        are created in the vApplicationIPNetworkEventHook() hook function
-        below.  The hook function is called when the network connects. */
+         * are created in the vApplicationIPNetworkEventHook() hook function
+         * below.  The hook function is called when the network connects. */
 
 
-    	FreeRTOS_IPInit( ucIPAddress,
+        FreeRTOS_IPInit( ucIPAddress,
                          ucNetMask,
                          ucGatewayAddress,
                          ucDNSServerAddress,
@@ -223,34 +224,34 @@ void vApplicationDaemonTaskStartupHook( void )
         /* We should wait for the network to be up before we run any demos. */
         while( FreeRTOS_IsNetworkUp() == pdFALSE )
         {
-            vTaskDelay(300);
+            vTaskDelay( 300 );
         }
 
         FreeRTOS_printf( ( "Initialise the RTOS's TCP/IP stack\n" ) );
 
         FreeRTOS_printf( ( "---------STARTING DEMO---------\r\n" ) );
 
-#if !defined(FLEET_PROVISIONING_DEMO)
-	    /* Provision the device with AWS certificate and private key. */
-	    vDevModeKeyProvisioning();
-#endif
+        #if !defined( FLEET_PROVISIONING_DEMO )
+            /* Provision the device with AWS certificate and private key. */
+            vDevModeKeyProvisioning();
+        #endif
 
-	    /* Run all demos. */
-#if defined(SIMPLE_PUBSUB_DEMO)
-        vStartSimplePubSubDemo(NULL);
-#endif
+        /* Run all demos. */
+        #if defined( SIMPLE_PUBSUB_DEMO )
+            vStartSimplePubSubDemo( NULL );
+        #endif
 
-#if defined(PKCS_MUTUAL_AUTH_DEMO)
-        vStartPKCSMutualAuthDemo();
-#endif
+        #if defined( PKCS_MUTUAL_AUTH_DEMO )
+            vStartPKCSMutualAuthDemo();
+        #endif
 
-#if defined(OTA_OVER_MQTT_DEMO)
-        vStartOtaDemo();
-#endif
+        #if defined( OTA_OVER_MQTT_DEMO )
+            vStartOtaDemo();
+        #endif
 
-#if defined(FLEET_PROVISIONING_DEMO)
-        vStartFleetProvisioningDemo();
-#endif
+        #if defined( FLEET_PROVISIONING_DEMO )
+            vStartFleetProvisioningDemo();
+        #endif
     }
 }
 

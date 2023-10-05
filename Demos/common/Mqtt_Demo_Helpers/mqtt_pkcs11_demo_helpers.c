@@ -338,7 +338,8 @@ static uint32_t prvGetTimeMs( void );
 static MQTTStatus_t prvProcessLoopWithTimeout( MQTTContext_t * pMqttContext,
                                                uint32_t ulTimeoutMs );
 
-extern void get_random_number(uint8_t *data, uint32_t len);
+extern void get_random_number( uint8_t * data,
+                               uint32_t len );
 
 /*-----------------------------------------------------------*/
 
@@ -353,26 +354,28 @@ static TlsTransportStatus_t prvConnectToServerWithBackoffRetries( NetworkContext
     uint16_t usNextRetryBackOff = 0U;
 
     #if defined( democonfigCLIENT_USERNAME )
-        /*
-         * When democonfigCLIENT_USERNAME is defined, use the "mqtt" alpn to connect
-         * to AWS IoT Core with Custom Authentication on port 443.
-         *
-         * Custom Authentication uses the contents of the username and password
-         * fields of the MQTT CONNECT packet to authenticate the client.
-         *
-         * For more information, refer to the documentation at:
-         * https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
-         */
-        static const char * ppcAlpnProtocols[] = { "mqtt", NULL };
-        #if democonfigMQTT_BROKER_PORT != 443U
-        #error "Connections to AWS IoT Core with custom authentication must connect to TCP port 443 with the \"mqtt\" alpn."
-        #endif /* democonfigMQTT_BROKER_PORT != 443U */
+
+    /*
+     * When democonfigCLIENT_USERNAME is defined, use the "mqtt" alpn to connect
+     * to AWS IoT Core with Custom Authentication on port 443.
+     *
+     * Custom Authentication uses the contents of the username and password
+     * fields of the MQTT CONNECT packet to authenticate the client.
+     *
+     * For more information, refer to the documentation at:
+     * https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+     */
+    static const char * ppcAlpnProtocols[] = { "mqtt", NULL };
+    #if democonfigMQTT_BROKER_PORT != 443U
+    #error "Connections to AWS IoT Core with custom authentication must connect to TCP port 443 with the \"mqtt\" alpn."
+    #endif /* democonfigMQTT_BROKER_PORT != 443U */
     #else /* if !defined( democonfigCLIENT_USERNAME ) */
-        /*
-         * Otherwise, use the "x-amzn-mqtt-ca" alpn to connect to AWS IoT Core using
-         * x509 Certificate Authentication.
-         */
-        static const char * ppcAlpnProtocols[] = { "x-amzn-mqtt-ca", NULL };
+
+    /*
+     * Otherwise, use the "x-amzn-mqtt-ca" alpn to connect to AWS IoT Core using
+     * x509 Certificate Authentication.
+     */
+    static const char * ppcAlpnProtocols[] = { "x-amzn-mqtt-ca", NULL };
     #endif /* !defined( democonfigCLIENT_USERNAME ) */
 
     /*
@@ -425,14 +428,14 @@ static TlsTransportStatus_t prvConnectToServerWithBackoffRetries( NetworkContext
 
         if( xNetworkStatus != TLS_TRANSPORT_SUCCESS )
         {
-        	uint32_t random_number = 0;
+            uint32_t random_number = 0;
 
             /* Generate a random number and calculate backoff value (in milliseconds) for
              * the next connection retry.
              * Note: It is recommended to seed the random number generator with a device-specific
              * entropy source so that possibility of multiple devices retrying failed network operations
              * at similar intervals can be avoided. */
-        	get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
+            get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
             xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( &xReconnectParams, random_number, &usNextRetryBackOff );
 
             if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
@@ -648,7 +651,7 @@ BaseType_t xEstablishMqttSession( MQTTContext_t * pxMqttContext,
                                   MQTTEventCallback_t eventCallback,
                                   char * pcClientCertLabel,
                                   char * pcPrivateKeyLabel,
-                                  char * pcClient_identifier)
+                                  char * pcClient_identifier )
 {
     BaseType_t xReturnStatus = pdTRUE;
     MQTTStatus_t xMQTTStatus;

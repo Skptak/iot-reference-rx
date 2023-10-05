@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : cellular_irq_ctrl.c
  * Description  : Function for managing the external terminal interrupt function.
@@ -28,13 +29,13 @@
 #include "cellular_freertos.h"
 #include "r_irq_rx_pinset.h"
 #ifndef R_IRQ_RX_H
-#error "Please add IRQ Pin setting in Smart Configurator."
+    #error "Please add IRQ Pin setting in Smart Configurator."
 #endif
 
 /**********************************************************************************************************************
  * Macro definitions
  *********************************************************************************************************************/
-#define CELLULAR_RING_EVENT (0x01)
+#define CELLULAR_RING_EVENT    ( 0x01 )
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -47,23 +48,23 @@
 /**********************************************************************************************************************
  * Private (static) variables and functions
  *********************************************************************************************************************/
-static void cellular_ring_callback (void * const p_Args);
+static void cellular_ring_callback( void * const p_Args );
 
 /**********************************************************************************************
  * Function Name  @fn            cellular_irq_open
  *********************************************************************************************/
-e_cellular_err_t cellular_irq_open(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t cellular_irq_open( st_cellular_ctrl_t * const p_ctrl )
 {
-    e_cellular_err_t    ret = CELLULAR_SUCCESS;
-    irq_err_t           irq_ret = IRQ_SUCCESS;
+    e_cellular_err_t ret = CELLULAR_SUCCESS;
+    irq_err_t irq_ret = IRQ_SUCCESS;
 
-    irq_ret = R_IRQ_Open((irq_number_t)CELLULAR_CFG_IRQ_NUM,    //cast
-                            IRQ_TRIG_FALLING,
-                            IRQ_PRI_1,
-                            &p_ctrl->ring_ctrl.ring_irqhandle,
-                            cellular_ring_callback);
+    irq_ret = R_IRQ_Open( ( irq_number_t ) CELLULAR_CFG_IRQ_NUM, /*cast */
+                          IRQ_TRIG_FALLING,
+                          IRQ_PRI_1,
+                          &p_ctrl->ring_ctrl.ring_irqhandle,
+                          cellular_ring_callback );
 
-    if (IRQ_SUCCESS != irq_ret)
+    if( IRQ_SUCCESS != irq_ret )
     {
         ret = CELLULAR_ERR_IRQ_OPEN;
     }
@@ -74,6 +75,7 @@ e_cellular_err_t cellular_irq_open(st_cellular_ctrl_t * const p_ctrl)
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function cellular_irq_open
  *********************************************************************************************************************/
@@ -81,11 +83,11 @@ e_cellular_err_t cellular_irq_open(st_cellular_ctrl_t * const p_ctrl)
 /**********************************************************************************************
  * Function Name  @fn            cellular_irq_close
  *********************************************************************************************/
-void cellular_irq_close(st_cellular_ctrl_t * const p_ctrl)
+void cellular_irq_close( st_cellular_ctrl_t * const p_ctrl )
 {
-    R_IRQ_Close(p_ctrl->ring_ctrl.ring_irqhandle);
-    return;
+    R_IRQ_Close( p_ctrl->ring_ctrl.ring_irqhandle );
 }
+
 /**********************************************************************************************************************
  * End of function cellular_irq_close
  *********************************************************************************************************************/
@@ -94,26 +96,27 @@ void cellular_irq_close(st_cellular_ctrl_t * const p_ctrl)
  * Function Name  @fn            cellular_ring_callback
  * Description    @details       Callback function for RING line.
  **********************************************************************************************/
-static void cellular_ring_callback(void * const p_Args)
+static void cellular_ring_callback( void * const p_Args )
 {
-#if BSP_CFG_RTOS_USED == (1)
-    e_cellular_err_t ret = CELLULAR_SUCCESS;
-    int32_t xHigherPriorityTaskWoken = 0;
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        e_cellular_err_t ret = CELLULAR_SUCCESS;
+        int32_t xHigherPriorityTaskWoken = 0;
 
-    ret = cellular_set_event_flg(gp_cellular_ctrl->ring_ctrl.ring_event,
-                                    CELLULAR_RING_EVENT,
-                                    &xHigherPriorityTaskWoken);
+        ret = cellular_set_event_flg( gp_cellular_ctrl->ring_ctrl.ring_event,
+                                      CELLULAR_RING_EVENT,
+                                      &xHigherPriorityTaskWoken );
 
-    if (CELLULAR_SUCCESS == ret)
-    {
-        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-    }
-#elif BSP_CFG_RTOS_USED == (5)
-    cellular_set_event_flg(gp_cellular_ctrl->ring_ctrl.ring_event,
-                            CELLULAR_RING_EVENT,
-                            NULL);
-#endif
+        if( CELLULAR_SUCCESS == ret )
+        {
+            portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+        }
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        cellular_set_event_flg( gp_cellular_ctrl->ring_ctrl.ring_event,
+                                CELLULAR_RING_EVENT,
+                                NULL );
+    #endif /* if BSP_CFG_RTOS_USED == ( 1 ) */
 }
+
 /**********************************************************************************************************************
  * End of function cellular_ring_callback
  *********************************************************************************************************************/
@@ -124,62 +127,65 @@ static void cellular_ring_callback(void * const p_Args)
  * Arguments      @param[in/out] p_pvParameters -
  *                                  Pointer to the parameter given at the time of task creation.
  *************************************************************************************************************/
-#if BSP_CFG_RTOS_USED == (1)
-void cellular_ring_task(void * const p_pvParameters)
-#elif BSP_CFG_RTOS_USED == (5)
-void cellular_ring_task(ULONG p_pvParameters)
+#if BSP_CFG_RTOS_USED == ( 1 )
+    void cellular_ring_task( void * const p_pvParameters )
+#elif BSP_CFG_RTOS_USED == ( 5 )
+    void cellular_ring_task( ULONG p_pvParameters )
 #endif
 {
-#if BSP_CFG_RTOS_USED == (1)
-    st_cellular_ctrl_t * const p_ctrl = p_pvParameters;
-#elif BSP_CFG_RTOS_USED == (5)
-    st_cellular_ctrl_t * const p_ctrl = gp_cellular_ctrl;
-#endif
+    #if BSP_CFG_RTOS_USED == ( 1 )
+        st_cellular_ctrl_t * const p_ctrl = p_pvParameters;
+    #elif BSP_CFG_RTOS_USED == ( 5 )
+        st_cellular_ctrl_t * const p_ctrl = gp_cellular_ctrl;
+    #endif
     st_cellular_time_ctrl_t * const p_timeout_ctrl = &p_ctrl->ring_ctrl.timeout;
     e_cellular_err_semaphore_t semaphore_ret = CELLULAR_SEMAPHORE_SUCCESS;
     e_cellular_timeout_check_t timeout = CELLULAR_NOT_TIMEOUT;
 
-    while (1)
+    while( 1 )
     {
-        cellular_get_event_flg(p_ctrl->ring_ctrl.ring_event,
+        cellular_get_event_flg( p_ctrl->ring_ctrl.ring_event,
                                 CELLULAR_RING_EVENT,
-                                CELLULAR_TIME_OUT_MAX_DELAY);
+                                CELLULAR_TIME_OUT_MAX_DELAY );
 
-        cellular_timeout_init(p_timeout_ctrl, CELLULAR_CFG_RING_LINE_ACTIVE_TIME);
-#if CELLULAR_CFG_CTS_SW_CTRL == 1
-        cellular_rts_hw_flow_enable();
-#else
-        cellular_rts_ctrl(0);
-#endif
+        cellular_timeout_init( p_timeout_ctrl, CELLULAR_CFG_RING_LINE_ACTIVE_TIME );
+        #if CELLULAR_CFG_CTS_SW_CTRL == 1
+            cellular_rts_hw_flow_enable();
+        #else
+            cellular_rts_ctrl( 0 );
+        #endif
 
-        while (1)
+        while( 1 )
         {
-            timeout = cellular_check_timeout(p_timeout_ctrl);
-            if (CELLULAR_TIMEOUT == timeout)
+            timeout = cellular_check_timeout( p_timeout_ctrl );
+
+            if( CELLULAR_TIMEOUT == timeout )
             {
                 break;
             }
         }
 
-        while (1)
+        while( 1 )
         {
-            semaphore_ret = cellular_take_semaphore(p_ctrl->ring_ctrl.rts_semaphore);
-            if (CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret)
+            semaphore_ret = cellular_take_semaphore( p_ctrl->ring_ctrl.rts_semaphore );
+
+            if( CELLULAR_SEMAPHORE_SUCCESS == semaphore_ret )
             {
-#if CELLULAR_CFG_CTS_SW_CTRL == 1
-                cellular_rts_hw_flow_disable();
-#endif
-                cellular_rts_ctrl(1);
-                cellular_give_semaphore(p_ctrl->ring_ctrl.rts_semaphore);
+                #if CELLULAR_CFG_CTS_SW_CTRL == 1
+                    cellular_rts_hw_flow_disable();
+                #endif
+                cellular_rts_ctrl( 1 );
+                cellular_give_semaphore( p_ctrl->ring_ctrl.rts_semaphore );
                 break;
             }
             else
             {
-                cellular_delay_task(1);
+                cellular_delay_task( 1 );
             }
         }
     }
 }
+
 /**********************************************************************************************************************
  * End of function cellular_ring_task
  *********************************************************************************************************************/

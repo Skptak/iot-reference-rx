@@ -85,8 +85,8 @@ typedef struct RsaParams_t
 } RsaParams_t;
 
 /* CC-RX Compiler v3.04.00 and below do not support the strnlen function, so use the strlen function instead. */
-#if !defined(strnlen)
-	#define strnlen( _s1, _s2)	(strlen( _s1))
+#if !defined( strnlen )
+    #define strnlen( _s1, _s2 )    ( strlen( _s1 ) )
 #endif
 
 /*-----------------------------------------------------------*/
@@ -675,7 +675,7 @@ static CK_RV provisionPrivateRSAKey( CK_SESSION_HANDLE session,
 
     if( NULL != rsaParams )
     {
-    	vPortFree( rsaParams );
+        vPortFree( rsaParams );
     }
 
     return result;
@@ -692,25 +692,28 @@ static CK_RV provisionPrivateKey( CK_SESSION_HANDLE session,
     mbedtls_pk_type_t mbedKeyType = MBEDTLS_PK_NONE;
     int mbedResult = 0;
     mbedtls_pk_context mbedPkContext = { 0 };
-#if MBEDTLS_VERSION_NUMBER >= 0x03000000
-    mbedtls_entropy_context xEntropyContext;
-    mbedtls_ctr_drbg_context xDrbgContext;
-#endif
+
+    #if MBEDTLS_VERSION_NUMBER >= 0x03000000
+        mbedtls_entropy_context xEntropyContext;
+        mbedtls_ctr_drbg_context xDrbgContext;
+    #endif
 
     mbedtls_pk_init( &mbedPkContext );
 
     /* Try parsing the private key using mbedtls_pk_parse_key. */
     #if MBEDTLS_VERSION_NUMBER < 0x03000000
-        mbedResult = mbedtls_pk_parse_key( &mbedPkContext, ( const uint8_t * ) privateKey, privateKeyLength, NULL, 0  );
+        mbedResult = mbedtls_pk_parse_key( &mbedPkContext, ( const uint8_t * ) privateKey, privateKeyLength, NULL, 0 );
     #else
         mbedtls_entropy_init( &xEntropyContext );
         mbedtls_ctr_drbg_init( &xDrbgContext );
         mbedResult = mbedtls_ctr_drbg_seed( &xDrbgContext, mbedtls_entropy_func, &xEntropyContext, NULL, 0 );
+
         if( mbedResult == 0 )
         {
-        	mbedResult = mbedtls_pk_parse_key( &mbedPkContext, ( const uint8_t * ) privateKey, privateKeyLength, NULL, 0,
-                mbedtls_ctr_drbg_random, &xDrbgContext );
+            mbedResult = mbedtls_pk_parse_key( &mbedPkContext, ( const uint8_t * ) privateKey, privateKeyLength, NULL, 0,
+                                               mbedtls_ctr_drbg_random, &xDrbgContext );
         }
+
         mbedtls_ctr_drbg_free( &xDrbgContext );
         mbedtls_entropy_free( &xEntropyContext );
     #endif /* MBEDTLS_VERSION_NUMBER < 0x03000000 */
@@ -860,10 +863,10 @@ static CK_RV provisionCertificate( CK_SESSION_HANDLE session,
 /*-----------------------------------------------------------*/
 
 bool xLoadClaimCredentials( CK_SESSION_HANDLE xP11Session,
-                           const char * pClaimCert,
-                           size_t       ClaimCertLength,
-                           const char * pClaimPrivKey,
-                           size_t       ClaimPrivKeyLength )
+                            const char * pClaimCert,
+                            size_t ClaimCertLength,
+                            const char * pClaimPrivKey,
+                            size_t ClaimPrivKeyLength )
 {
     bool status;
     CK_RV ret;
@@ -873,13 +876,13 @@ bool xLoadClaimCredentials( CK_SESSION_HANDLE xP11Session,
     assert( pClaimPrivKey != NULL );
     assert( ClaimPrivKeyLength != NULL );
 
-	status = true;
+    status = true;
 
     if( status == true )
     {
         ret = provisionPrivateKey( xP11Session, pClaimPrivKey,
                                    ClaimPrivKeyLength, /* MbedTLS includes null character in length for PEM objects. */
-								   pkcs11configLABEL_CLAIM_PRIVATE_KEY );
+                                   pkcs11configLABEL_CLAIM_PRIVATE_KEY );
         status = ( ret == CKR_OK );
     }
 
@@ -887,7 +890,7 @@ bool xLoadClaimCredentials( CK_SESSION_HANDLE xP11Session,
     {
         ret = provisionCertificate( xP11Session, pClaimCert,
                                     ClaimCertLength, /* MbedTLS includes null character in length for PEM objects. */
-									pkcs11configLABEL_CLAIM_CERTIFICATE );
+                                    pkcs11configLABEL_CLAIM_CERTIFICATE );
         status = ( ret == CKR_OK );
     }
 

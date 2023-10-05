@@ -16,6 +16,7 @@
  *
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  *********************************************************************************************************************/
+
 /**********************************************************************************************************************
  * File Name    : sqnedrx.c
  * Description  : Function to execute the AT command (SQNEDRX).
@@ -46,36 +47,38 @@
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnedrx
  ************************************************************************************************/
-e_cellular_err_t atc_sqnedrx(st_cellular_ctrl_t * const p_ctrl, const st_cellular_edrx_config_t * const p_config)
+e_cellular_err_t atc_sqnedrx( st_cellular_ctrl_t * const p_ctrl,
+                              const st_cellular_edrx_config_t * const p_config )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
-    uint8_t str[3][5] = {0};
+    uint8_t str[ 3 ][ 5 ] = { 0 };
     uint8_t value;
 
-    str[0][0] = p_config->edrx_mode + 0x30;
+    str[ 0 ][ 0 ] = p_config->edrx_mode + 0x30;
 
     value = p_config->edrx_cycle;
-    str[1][0] = ((value & 0x08) >> 3) + 0x30;
-    str[1][1] = ((value & 0x04) >> 2) + 0x30;
-    str[1][2] = ((value & 0x02) >> 1) + 0x30;
-    str[1][3] = (value & 0x01) + 0x30;
+    str[ 1 ][ 0 ] = ( ( value & 0x08 ) >> 3 ) + 0x30;
+    str[ 1 ][ 1 ] = ( ( value & 0x04 ) >> 2 ) + 0x30;
+    str[ 1 ][ 2 ] = ( ( value & 0x02 ) >> 1 ) + 0x30;
+    str[ 1 ][ 3 ] = ( value & 0x01 ) + 0x30;
 
     value = p_config->ptw_cycle;
-    str[2][0] = ((value & 0x08) >> 3) + 0x30;
-    str[2][1] = ((value & 0x04) >> 2) + 0x30;
-    str[2][2] = ((value & 0x02) >> 1) + 0x30;
-    str[2][3] = (value & 0x01) + 0x30;
+    str[ 2 ][ 0 ] = ( ( value & 0x08 ) >> 3 ) + 0x30;
+    str[ 2 ][ 1 ] = ( ( value & 0x04 ) >> 2 ) + 0x30;
+    str[ 2 ][ 2 ] = ( ( value & 0x02 ) >> 1 ) + 0x30;
+    str[ 2 ][ 3 ] = ( value & 0x01 ) + 0x30;
 
-    const uint8_t * const p_command_arg[CELLULAR_MAX_ARG_COUNT] = {str[0], str[1], str[2]};
+    const uint8_t * const p_command_arg[ CELLULAR_MAX_ARG_COUNT ] = { str[ 0 ], str[ 1 ], str[ 2 ] };
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_SET_EDRXS][0],  // (const uint8_t *const *)->(const uint8_t **)
-            (const uint8_t **)&p_command_arg);              // (const uint8_t *const *)->(const uint8_t **)
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_SET_EDRXS ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  ( const uint8_t ** ) &p_command_arg );                    /* (const uint8_t *const *)->(const uint8_t **) */
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_EDRXS);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_SET_EDRXS );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnedrx
  *********************************************************************************************************************/
@@ -83,18 +86,19 @@ e_cellular_err_t atc_sqnedrx(st_cellular_ctrl_t * const p_ctrl, const st_cellula
 /*************************************************************************************************
  * Function Name  @fn            atc_sqnedrx_check
  ************************************************************************************************/
-e_cellular_err_t atc_sqnedrx_check(st_cellular_ctrl_t * const p_ctrl)
+e_cellular_err_t atc_sqnedrx_check( st_cellular_ctrl_t * const p_ctrl )
 {
     e_cellular_err_t ret = CELLULAR_SUCCESS;
 
-    atc_generate(p_ctrl->sci_ctrl.atc_buff,
-        (const uint8_t *)&gp_at_command[ATC_GET_EDRXS][0], // (const uint8_t *const *)->(const uint8_t **)
-            NULL);
+    atc_generate( p_ctrl->sci_ctrl.atc_buff,
+                  ( const uint8_t * ) &gp_at_command[ ATC_GET_EDRXS ][ 0 ], /* (const uint8_t *const *)->(const uint8_t **) */
+                  NULL );
 
-    ret = cellular_execute_at_command(p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_EDRXS);
+    ret = cellular_execute_at_command( p_ctrl, p_ctrl->sci_ctrl.atc_timeout, ATC_RETURN_OK, ATC_GET_EDRXS );
 
     return ret;
 }
+
 /**********************************************************************************************************************
  * End of function atc_sqnedrx_check
  *********************************************************************************************************************/

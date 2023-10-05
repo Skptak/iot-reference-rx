@@ -58,7 +58,7 @@ only is available for windows.
 2. Plug in the Ethernet cable to the CK-RX65N board for using ethernet
 
 
-## 3 Porting project 
+## 3 Porting project
 ### 3.1 Structure skeleton
 
 ### 3.2 Build mbed network transport implementation
@@ -75,7 +75,7 @@ Using .h [FreeRTOS-Plus-TCP] layer to port
 
 * Copy and modify [tcp_sockets_wrapper/ports/cellular](https://github.com/FreeRTOS/FreeRTOS/blob/202212.01/FreeRTOS-Plus/Source/Application-Protocols/network_transport/tcp_sockets_wrapper/ports/cellular/tcp_sockets_wrapper.c) to Middleware/abstractions/secure_sockets
 * Copy [mbedtls_pk_pkcs11.c and mbedtls_pkcs11.h files](https://github.com/FreeRTOS/FreeRTOS/tree/202212.01/FreeRTOS-Plus/Source/Application-Protocols/network_transport) to Middleware/mbedtls_utils
-* Copy [transport_mbedtls_pkcs11 files](https://github.com/FreeRTOS/FreeRTOS/blob/202212.01/FreeRTOS-Plus/Source/Application-Protocols/network_transport) to Middleware/mbedtls_utils to Middleware/mbedtls_utils. 
+* Copy [transport_mbedtls_pkcs11 files](https://github.com/FreeRTOS/FreeRTOS/blob/202212.01/FreeRTOS-Plus/Source/Application-Protocols/network_transport) to Middleware/mbedtls_utils to Middleware/mbedtls_utils.
 *Note:Using mbedtls_bio_freertos_cellular.c*
 
 | RX MCU and Board | Old Structure|New Structure |
@@ -85,7 +85,7 @@ Using .h [FreeRTOS-Plus-TCP] layer to port
 | TLS layer | TLS_Init<br>TLS_Connect<br>TLS_Send<br>TLS_Recv<br>TLS_Cleanup|initMbedtls<br>tlsSetup<br>|
 
 
-#####  Modify [socket_wrapper/cellular](Middleware/Application-Protocols/network_transport/sockets_wrapper/ports/cellular_ryz014a/sockets_wrapper.c): 
+#####  Modify [socket_wrapper/cellular](Middleware/Application-Protocols/network_transport/sockets_wrapper/ports/cellular_ryz014a/sockets_wrapper.c):
 * Because sockets_wrapper.c is using [FreeRTOS-Plus-TCP] layer APIs, we need to change to use RYZ014A cellular API into each of function belows : Sockets_Connect, Sockets_Recv, Sockets_Send, Sockets_Disconnect
 
 
