@@ -161,6 +161,7 @@ SDHI
 SECP
 SEGGER
 SETPSW
+SNTP
 SPIWP
 SPRI
 SPTI
@@ -249,6 +250,7 @@ otatestpal
 pboot
 pcallback
 pcontext
+pkcs
 pkparse
 pkwrite
 pmode
@@ -267,7 +269,9 @@ rsdiv
 rskrx
 rssi
 search
+sigv
 sinclude
+sntp
 srtp
 stringz
 subpubunsubconfig

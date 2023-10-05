@@ -32,6 +32,7 @@ jobs:
         uses: FreeRTOS/CI-CD-Github-Actions/formatting@main
         with:
           path: ./
+          exclude-files: '*.pdf'
 
   link-verifier:
     runs-on: ubuntu-latest

@@ -34,10 +34,9 @@ See [ FreeRTOS TCP/IP ](https://github.com/FreeRTOS/FreeRTOS-Plus-TCP) for detai
 ### Mbedtls 3.1.0 TLS and Cryptography library <todo: confirm which version renesas would use>
 See [ MbedTLS ](https://github.com/Mbed-TLS/mbedtls/tree/d65aeb37349ad1a50e0f6c9b694d4b5290d60e49) for details.
 
-### Command Line Interface (CLI)
+### TODO: Command Line Interface (CLI)
 The CLI interface located in the Common/cli directory is used to provision the
-device. It also provides other Unix-like utilities. See 
-[Common/cli](Common/cli/ReadMe.md) for details.
+device. It also provides other Unix-like utilities.
 
 ### Key-Value Store <todo: confirm which s/w renesas would use>
 The key-value store located in the Common/kvstore directory is used to store runtime configuration values in non-volatile flash memory.
