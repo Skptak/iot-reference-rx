@@ -67,6 +67,7 @@
 #include "mbedtls/oid.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/entropy.h"
+#include "mbedtls/ecp.h"
 
 /* Default FreeRTOS API for console logging. */
 #define DEV_MODE_KEY_PROVISIONING_PRINT( X )    vLoggingPrintf X
@@ -83,7 +84,7 @@ extern void vLoggingPrint( const char * pcFormat );
  * execution of an existing image on device generates key-pair on device and flashing of
  * new image on device. */
 #ifndef keyprovisioningDELAY_BEFORE_KEY_PAIR_GENERATION_SECS
-    #define keyprovisioningDELAY_BEFORE_KEY_PAIR_GENERATION_SECS    180
+    #define keyprovisioningDELAY_BEFORE_KEY_PAIR_GENERATION_SECS    10
 #endif
 
 /* Internal structure for parsing RSA keys. */

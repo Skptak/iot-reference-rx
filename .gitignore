@@ -1,5 +1,5 @@
 ### ported from Amazon FreeRTOS: https://github.com/aws/amazon-freertos/blob/master/.gitignore
-
+sorenCerts.h
 # Ignore uncrustify backups
 *.unc*
 doc/html/*

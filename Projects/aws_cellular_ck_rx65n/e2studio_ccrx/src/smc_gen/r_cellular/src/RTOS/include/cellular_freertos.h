@@ -39,7 +39,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL   (CELLULAR_CFG_DEBUGLOG)
+    #define LIBRARY_LOG_LEVEL   LOG_DEBUG
 #endif
 
 #if (LIBRARY_LOG_LEVEL != LOG_NONE)

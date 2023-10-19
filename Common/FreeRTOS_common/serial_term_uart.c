@@ -40,6 +40,14 @@ Includes   <System Includes> , "Project Includes"
 #include "r_sci_rx_if.h"        // The SCI module API interface file.
 #include "r_pinset.h"
 
+/* FreeRTOS includes. */
+#include "FreeRTOS.h"
+
+/* Logging includes. */
+#include "iot_logging_task.h"
+
+/* FreeRTOS+TCP includes. */
+#include "FreeRTOS_IP.h"
 
 /*******************************************************************************
  Macro definitions
@@ -232,4 +240,9 @@ void uart_string_printf(char *pString)
         R_BSP_NOP(); //TODO error handling code
     }
 
+}
+
+void mbedtls_string_printf(void * ssl, int level, const char * file, int line, const char * str)
+{
+    FreeRTOS_printf ( (str) );
 }

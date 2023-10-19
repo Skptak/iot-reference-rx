@@ -51,7 +51,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 #include "iot_logging_task.h"
@@ -69,7 +69,7 @@
 #if defined(FLEET_PROVISIONING_DEMO)
 #define democonfigROOT_CA_PEM             "...insert here..."
 #else
-#define democonfigROOT_CA_PEM               tlsSTARFIELD_ROOT_CERTIFICATE_PEM
+#define democonfigROOT_CA_PEM               tlsATS3_ROOT_CERTIFICATE_PEM
 #endif
 
 /**

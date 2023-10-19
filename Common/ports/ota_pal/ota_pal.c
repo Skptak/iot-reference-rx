@@ -41,19 +41,23 @@
 /* OTA PAL test config file include. */
 #include "ota_demo_config.h"
 
-
-
 /* Amazon FreeRTOS include. */
-#include "iot_crypto.h"
+/** Soren This file and iot_crypto.c are not used
+ * #include "iot_crypto.h"
+*/
 #include "core_pkcs11.h"
 
 /* Renesas RX Driver Package include */
 #include "platform.h"
 #include "r_flash_rx_if.h"
 
+
+/* Soren - No need to build this file if not running the OTA demo */
+#include "demo_config.h"
 /* Specify the OTA signature algorithm we support on this platform. */
 const char OTA_JsonFileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";
 
+#ifdef OTA_OVER_MQTT_DEMO
 /* The static functions below (otaPAL_CheckFileSignature and otaPAL_ReadAndAssumeCertificate)
  * are optionally implemented. If these functions are implemented then please set the following
  * macros in aws_test_ota_config.h to 1:
@@ -1387,3 +1391,5 @@ static void ota_header_flashing_callback( void * event )
         nop(); /* trap */
     }
 }
+
+#endif

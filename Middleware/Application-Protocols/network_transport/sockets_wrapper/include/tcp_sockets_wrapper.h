@@ -1,5 +1,5 @@
 /*
- * FreeRTOS V202112.00
+ * FreeRTOS V202212.00
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -25,7 +25,7 @@
  */
 
 /**
- * @file sockets_wrapper.h
+ * @file tcp_sockets_wrapper.h
  * @brief TCP transport functions wrapper.
  */
 
@@ -46,7 +46,7 @@
     #define LIBRARY_LOG_NAME     "Sockets"
 #endif
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL    LOG_INFO
+    #define LIBRARY_LOG_LEVEL     LOG_DEBUG
 #endif
 
 extern void vLoggingPrintf( const char * pcFormatString,
@@ -59,6 +59,13 @@ extern void vLoggingPrintf( const char * pcFormatString,
 
 /* FreeRTOS Kernel includes. */
 #include "FreeRTOS.h"
+
+/**
+ * @brief Commonly used buffer sizes for storing cryptographic hash computation
+ * results.
+ */
+#define cryptoSHA1_DIGEST_BYTES      20
+#define cryptoSHA256_DIGEST_BYTES    32
 
 /* Error codes. */
 #define TCP_SOCKETS_ERRNO_NONE                ( 0 )   /*!< No error. */

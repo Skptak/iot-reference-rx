@@ -33,7 +33,7 @@
 #include "logging_levels.h"
 
 #define LIBRARY_LOG_NAME     "PkcsTlsTransport"
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 
 #include "logging_stack.h"
 
@@ -53,12 +53,20 @@
 /* TLS transport header. */
 #include "transport_mbedtls_pkcs11.h"
 #include "mbedtls_pk_pkcs11.h"
+#include "debug.h"
+#include "ssl.h"
 
 /* PKCS #11 includes. */
 #include "core_pkcs11_config.h"
 #include "core_pkcs11.h"
 #include "pkcs11.h"
 #include "core_pki_utils.h"
+
+#include "serial_term_uart.h"
+
+// Soren - Fix missing include error
+#include "psa/crypto_values.h"
+#include "mbedtls/x509_crt.h"
 
 /* CC-RX Compiler v3.04.00 and below do not support the strnlen function, so use the strlen function instead. */
 #if !defined(strnlen)
@@ -227,6 +235,11 @@ static void sslContextInit( SSLContext_t * pSslContext )
     mbedtls_x509_crt_init( &( pSslContext->rootCa ) );
     mbedtls_x509_crt_init( &( pSslContext->clientCert ) );
     mbedtls_ssl_init( &( pSslContext->context ) );
+    mbedtls_debug_set_threshold(5);
+
+    mbedtls_ssl_conf_dbg( &( pSslContext->config ),
+            &mbedtls_string_printf,
+            &( pSslContext->context ) );
 
     xInitializePkcs11Session( &( pSslContext->xP11Session ) );
     C_GetFunctionList( &( pSslContext->pxP11FunctionList ) );
@@ -241,7 +254,6 @@ static void sslContextFree( SSLContext_t * pSslContext )
     mbedtls_x509_crt_free( &( pSslContext->rootCa ) );
     mbedtls_x509_crt_free( &( pSslContext->clientCert ) );
     mbedtls_ssl_config_free( &( pSslContext->config ) );
-
     mbedtls_pk_free( &( pSslContext->privKey ) );
 
     pSslContext->pxP11FunctionList->C_CloseSession( pSslContext->xP11Session );
@@ -276,6 +288,12 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
                                                 MBEDTLS_SSL_TRANSPORT_STREAM,
                                                 MBEDTLS_SSL_PRESET_DEFAULT );
 
+    mbedtlsError = psa_crypto_init();
+    if (mbedtlsError != PSA_SUCCESS)
+    {
+        LogError( ( "Failed to initialize PSA Crypto implementation: %s", (int) mbedtlsError ) );
+    }
+
     if( mbedtlsError != 0 )
     {
         LogError( ( "Failed to set default SSL configuration: mbedTLSError= %s : %s.",
@@ -289,7 +307,7 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
     if( returnStatus == TLS_TRANSPORT_SUCCESS )
     {
         /* Set up the certificate security profile, starting from the default value. */
-        pTlsTransportParams->sslContext.certProfile = mbedtls_x509_crt_profile_default;
+        pTlsTransportParams->sslContext.certProfile = mbedtls_x509_crt_profile_default; // @suppress("Symbol is not resolved")
 
         /* test.mosquitto.org only provides a 1024-bit RSA certificate, which is
          * not acceptable by the default mbed TLS certificate security profile.
@@ -297,7 +315,7 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
          * This block should be removed otherwise. */
         if( strncmp( pHostName, "test.mosquitto.org", strlen( pHostName ) ) == 0 )
         {
-            pTlsTransportParams->sslContext.certProfile.rsa_min_bitlen = 1024;
+            pTlsTransportParams->sslContext.certProfile.rsa_min_bitlen = 1024; // @suppress("Field cannot be resolved")
         }
 
         /* Set SSL authmode and the RNG context. */
@@ -472,14 +490,21 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
         }
     }
 
+    /* Soren - Just adding some more logging */
     if( returnStatus != TLS_TRANSPORT_SUCCESS )
     {
+        LogError( ( "Failed to perform TLS Min Version 0x%x handshake: ",
+                pTlsTransportParams->sslContext.config.min_tls_version,
+                pTlsTransportParams->sslContext.config.max_tls_version ) );
+
         sslContextFree( &( pTlsTransportParams->sslContext ) );
     }
     else
     {
-        LogInfo( ( "(Network connection %p) TLS handshake successful.",
-                   pNetworkContext ) );
+        LogInfo( ( "(Network connection %p) TLS Min Version 0x%x, Max Version 0x%x handshake successful.",
+                    pTlsTransportParams->sslContext.config.min_tls_version,
+                    pTlsTransportParams->sslContext.config.max_tls_version,
+                    pNetworkContext ) );
     }
 
     return returnStatus;
@@ -730,6 +755,9 @@ TlsTransportStatus_t TLS_FreeRTOS_Connect( NetworkContext_t * pNetworkContext,
     /* Clean up on failure. */
     if( returnStatus != TLS_TRANSPORT_SUCCESS )
     {
+        LogError( ( "(Network connection %p) Connection to %s FAILED to establish.",
+                   pNetworkContext,
+                   pHostName ) );
         TCP_Sockets_Disconnect( pTlsTransportParams->tcpSocket );
     }
     else
@@ -893,6 +921,9 @@ int32_t TLS_FreeRTOS_send( NetworkContext_t * pNetworkContext,
         }
         else
         {
+            LogError( ( "Read all data I think?: mbedTLSError= %s : %s.",
+                        mbedtlsHighLevelCodeOrDefault( tlsStatus ),
+                        mbedtlsLowLevelCodeOrDefault( tlsStatus ) ) );
             /* Empty else marker. */
         }
     }

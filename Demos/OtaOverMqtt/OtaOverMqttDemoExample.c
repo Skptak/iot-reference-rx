@@ -55,6 +55,8 @@
 /* Demo config includes. */
 #include "demo_config.h"
 
+/* Soren - Only include the file if this demo is being built */
+#ifdef OTA_OVER_MQTT_DEMO
 /* Library config includes. */
 #include "ota_config.h"
 #include "ota_demo_config.h"
@@ -90,6 +92,7 @@
 #include "ota_pal.h"
 #include "core_pkcs11_config.h"
 #include "../OtaOverMqtt/subscription_manager.h"
+
 
 /*------------- Demo configurations -------------------------*/
 
@@ -2170,3 +2173,4 @@ void vStartOtaDemo( void )
                  tskIDLE_PRIORITY + 1,     /* Task priority, must be between 0 and configMAX_PRIORITIES - 1. */
                  NULL );                   /* Optional - used to pass out a handle to the created task. */
 }
+#endif /* OTA_OVER_MQTT_DEMO */

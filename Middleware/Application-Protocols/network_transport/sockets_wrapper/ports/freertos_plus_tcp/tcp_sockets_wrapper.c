@@ -37,7 +37,7 @@
     #define LIBRARY_LOG_NAME     "SocketsWrapper"
 #endif
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL    LOG_INFO
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 extern void vLoggingPrintf( const char * pcFormatString,
@@ -63,7 +63,9 @@ extern void vLoggingPrintf( const char * pcFormatString,
 
 /* FreeRTOS includes. */
 #include "core_pkcs11.h"
-#include "iot_crypto.h"
+/** Soren This file and iot_crypto.c are not used
+ * #include "iot_crypto.h"
+*/
 
 /**
  * @brief Maximum number of times to call FreeRTOS_recv when initiating a graceful shutdown.

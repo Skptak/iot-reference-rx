@@ -11,5 +11,6 @@
 
 void uart_config(void);
 void uart_string_printf(char * pString);
+void mbedtls_string_printf(void * ssl, int level, const char * file, int line, const char * str);
 
 #endif /* VENDOR_CODE_RSKRX65N_UART_H_ */

@@ -37,7 +37,7 @@
 
 /* Standard Include. */
 #include <stdint.h>
-
+#define LIBRARY_LOG_LEVEL LOG_DEBUG
 /**
  * @brief This config enables extra verbosity in log messages with metadata information
  * about the source library and location of the log message.

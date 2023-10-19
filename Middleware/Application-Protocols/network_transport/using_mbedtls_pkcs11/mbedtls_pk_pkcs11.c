@@ -27,7 +27,7 @@
 #include "logging_levels.h"
 
 #define LIBRARY_LOG_NAME     "MbedTLSPkP11"
-#define LIBRARY_LOG_LEVEL    LOG_ERROR
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 
 #include "logging_stack.h"
 
@@ -53,6 +53,8 @@
 #include "core_pkcs11_config.h"
 #include "core_pkcs11.h"
 
+/* FreeRTOS Includes */
+#include "FreeRTOS.h"
 /*-----------------------------------------------------------*/
 
 typedef struct P11PkCtx

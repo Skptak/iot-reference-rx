@@ -166,10 +166,12 @@
 /**
  * @brief The MQTT metrics string expected by AWS IoT.
  */
-#define AWS_IOT_METRICS_STRING                                 \
-    "?SDK=" democonfigOS_NAME "&Version=" democonfigOS_VERSION \
-    "&Platform=" democonfigHARDWARE_PLATFORM_NAME "&MQTTLib=" democonfigMQTT_LIB
-
+#ifndef AWS_IOT_METRICS_STRING
+/* Remove re-definition warning */
+    #define AWS_IOT_METRICS_STRING                                 \
+        "?SDK=" democonfigOS_NAME "&Version=" democonfigOS_VERSION \
+        "&Platform=" democonfigHARDWARE_PLATFORM_NAME "&MQTTLib=" democonfigMQTT_LIB
+#endif /* AWS_IOT_METRICS_STRING */
 /*-----------------------------------------------------------*/
 
 /**

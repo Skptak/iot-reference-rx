@@ -53,17 +53,23 @@
 #define MBEDTLS_REMOVE_ARC4_CIPHERSUITES
 #define MBEDTLS_ECP_DP_SECP256R1_ENABLED
 #define MBEDTLS_ECP_NIST_OPTIM
+#define MBEDTLS_KEY_EXCHANGE_PSK_ENABLED // @kazuki.mochizuki
 #define MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED
 #define MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED
+#define MBEDTLS_GENPRIME // @kazuki.mochizuki
 
 /* Enable all SSL alert messages. */
 #define MBEDTLS_SSL_ALL_ALERT_MESSAGES
 
 /* Enable the following SSL features. */
-#define MBEDTLS_SSL_ENCRYPT_THEN_MAC
-#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+//#define MBEDTLS_SSL_ENCRYPT_THEN_MAC @kazuki.mochizuki
+//#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET @kazuki.mochizuki
 #define MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
-#define MBEDTLS_SSL_PROTO_TLS1_2
+#define MBEDTLS_SSL_KEEP_PEER_CERTIFICATE // @kazuki.mochizuki
+//#define MBEDTLS_SSL_RENEGOTIATION // @kazuki.mochizuki
+//#define MBEDTLS_SSL_PROTO_TLS1_2 // @kazuki.mochizuki
+#define MBEDTLS_SSL_PROTO_TLS1_3 // @kazuki.mochizuki
+#define MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE // @kazuki.mochizuki
 #define MBEDTLS_SSL_ALPN
 #define MBEDTLS_SSL_SERVER_NAME_INDICATION
 
@@ -75,8 +81,10 @@
 
 /* Disable platform entropy functions. */
 #define MBEDTLS_NO_PLATFORM_ENTROPY
+#define MBEDTLS_ENTROPY_FORCE_SHA256 // @kazuki.mochizuki
 
 /* Enable the following mbed TLS features. */
+#define MBEDTLS_PK_RSA_ALT_SUPPORT // @kazuki.mochiuzki
 #define MBEDTLS_AES_C
 #define MBEDTLS_ASN1_PARSE_C
 #define MBEDTLS_ASN1_WRITE_C
@@ -92,6 +100,7 @@
 #define MBEDTLS_ENTROPY_HARDWARE_ALT
 
 #define MBEDTLS_GCM_C
+#define MBEDTLS_HKDF_C // @kazuki.mochizuki
 #define MBEDTLS_MD_C
 #define MBEDTLS_OID_C
 #define MBEDTLS_PEM_PARSE_C
@@ -100,23 +109,34 @@
 #define MBEDTLS_PK_WRITE_C
 #define MBEDTLS_PKCS1_V15
 #define MBEDTLS_PLATFORM_C
-#define MBEDTLS_RSA_C
+#define MBEDTLS_PSA_CRYPTO_C // @kazuki.mochizuki
+#define MBEDTLS_RSA_C // @kazuki.mochizuki
 #define MBEDTLS_SHA1_C
 #define MBEDTLS_SHA224_C
 #define MBEDTLS_SHA256_C
+#define MBEDTLS_SHA384_C // @kazuki.mochizuki
+#define MBEDTLS_SHA512_C // @kazuki.mochizuki
 #define MBEDTLS_SSL_CLI_C
 #define MBEDTLS_SSL_TLS_C
 #define MBEDTLS_THREADING_ALT
+#define MBEDTLS_USE_PSA_CRYPTO // @kazuki.mochizuki
 #define MBEDTLS_THREADING_C
 #define MBEDTLS_X509_USE_C
 #define MBEDTLS_X509_CRT_PARSE_C
 #define MBEDTLS_CMAC_C
 #define MBEDTLS_PEM_WRITE_C
+#define MBEDTLS_SSL_DEBUG_ALL // @kazuki.mochizuki
+#define MBEDTLS_DEBUG_C // @kazuki.mochizuki
+#define MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED // @kazuki.mochizuki
+#define MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED // @kazuki.mochizuki
+#define MBEDTLS_DHM_C // @kazuki.mochizuki
+#define MBEDTLS_THREADING_IMPL
 
 /* Set the memory allocation functions on FreeRTOS. */
 void * mbedtls_platform_calloc( size_t nmemb,
                                 size_t size );
 void mbedtls_platform_free( void * ptr );
+#define MBEDTLS_HAVE_ASM // @kazuki.mochizuki
 #define MBEDTLS_PLATFORM_MEMORY
 #define MBEDTLS_PLATFORM_CALLOC_MACRO    mbedtls_platform_calloc
 #define MBEDTLS_PLATFORM_FREE_MACRO      mbedtls_platform_free
@@ -140,6 +160,6 @@ int mbedtls_platform_entropy_poll( void * data,
                                    size_t len,
                                    size_t * olen );
 
-#include "mbedtls/check_config.h"
+// #include "mbedtls/check_config.h"
 
 #endif /* ifndef MBEDTLS_CONFIG_H_ */

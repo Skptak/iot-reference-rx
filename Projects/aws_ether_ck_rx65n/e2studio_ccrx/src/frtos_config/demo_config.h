@@ -32,6 +32,9 @@
 #include "aws_clientcredential.h"
 #include "aws_clientcredential_keys.h"
 #include "iot_default_root_certificates.h"
+
+/* Soren - I put my certs and relevant info in this file */
+#include "sorenCerts.h"
 /**************************************************/
 /******* DO NOT CHANGE the following order ********/
 /**************************************************/
@@ -51,7 +54,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 #include "iot_logging_task.h"
@@ -61,15 +64,55 @@
 //#define democonfigCLIENT_USERNAME			  keyJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM
 
 /* Select only one demo task to run. */
-#define SIMPLE_PUBSUB_DEMO
-//#define PKCS_MUTUAL_AUTH_DEMO
+//#define SIMPLE_PUBSUB_DEMO
+#define PKCS_MUTUAL_AUTH_DEMO  // Soren - Using the PKCS Mutual Auth Demo
 //#define OTA_OVER_MQTT_DEMO
 //#define FLEET_PROVISIONING_DEMO
 
+/* Soren - The project won't build without this, regardless of demo selected
+ */
+#include "ota_demo_config.h"
+
+#define AmazonRootCA3PEM \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIBtjCCAVugAwIBAgITBmyf1XSXNmY/Owua2eiedgPySjAKBggqhkjOPQQDAjA5\n" \
+"MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6b24g\n" \
+"Um9vdCBDQSAzMB4XDTE1MDUyNjAwMDAwMFoXDTQwMDUyNjAwMDAwMFowOTELMAkG\n" \
+"A1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJvb3Qg\n" \
+"Q0EgMzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABCmXp8ZBf8ANm+gBG1bG8lKl\n" \
+"ui2yEujSLtf6ycXYqm0fc4E7O5hrOXwzpcVOho6AF2hiRVd9RFgdszflZwjrZt6j\n" \
+"QjBAMA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgGGMB0GA1UdDgQWBBSr\n" \
+"ttvXBp43rDCGB5Fwx5zEGbF4wDAKBggqhkjOPQQDAgNJADBGAiEA4IWSoxe3jfkr\n" \
+"BqWTrBqYaGFy+uGh0PsceGCmQ5nFuMQCIQCcAu/xlJyzlvnrxir4tiz+OpAUFteM\n" \
+"YyRIHN8wfdVoOw==\n" \
+"-----END CERTIFICATE-----\n"
+
+#define AmazonRootCA1PEM \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n" \
+"ADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\n" \
+"b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\n" \
+"MAkGA1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\n" \
+"b3QgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJ4gHHKeNXj\n" \
+"ca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIthtOgQ3pOsqTQNroBvo3bSMgHFzZM\n" \
+"9O6II8c+6zf1tRn4SWiw3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\n" \
+"IFAGbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUcAwhmahRWa6\n" \
+"VOujw5H5SNz/0egwLX0tdHA114gk957EWW67c4cX8jJGKLhD+rcdqsq08p8kDi1L\n" \
+"93FcXmn/6pUCyziKrlA4b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\n" \
+"jgSubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n" \
+"AYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx7IQTgoIMA0GCSqGSIb3DQEBCwUA\n" \
+"A4IBAQCY8jdaQZChGsV2USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\n" \
+"U5PMCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/msv0tadQ1wUs\n" \
+"N+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/Uq2V8viTO96LXFvKWlJbYK8U90vv\n" \
+"o/ufQJVtMVT8QtPHRh8jrdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\n" \
+"5MsI+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQdeXeGADbkpy\n" \
+"rqXRfboQnoZsG4q5WTP468SQvvG5\n" \
+"-----END CERTIFICATE-----\n"
+
 #if defined(FLEET_PROVISIONING_DEMO)
-#define democonfigROOT_CA_PEM             "...insert here..."
+    #define democonfigROOT_CA_PEM             "...insert here..."
 #else
-#define democonfigROOT_CA_PEM               tlsSTARFIELD_ROOT_CERTIFICATE_PEM
+    #define democonfigROOT_CA_PEM               AmazonRootCA1PEM
 #endif
 
 /**
@@ -90,7 +133,8 @@
  * account ID, and <template-name> with the name of your provisioning template.
  *
  */
-#define democonfigCLAIM_CERT_PEM            "...insert here..."
+// Soren - Set this to your proper cert
+#define democonfigCLAIM_CERT_PEM sorenClientCertPem
 
 /**
  * @brief Path of the file containing the provisioning claim private key. This
@@ -103,7 +147,8 @@
  * @note This private key should be PEM-encoded.
  *
  */
-#define democonfigCLAIM_PRIVATE_KEY_PEM     "...insert here..."
+// Soren - Set this to your proper key
+#define democonfigCLAIM_PRIVATE_KEY_PEM sorenPrivateRSAKey
 
 /**
  * @brief An option to disable Server Name Indication.
@@ -147,11 +192,11 @@
  * binary is used at the same time to connect to the broker.
  */
 #ifndef democonfigCLIENT_IDENTIFIER
-#if defined(FLEET_PROVISIONING_DEMO)
-    #define democonfigCLIENT_IDENTIFIER    "client"democonfigFP_DEMO_ID
-#else
-    #define democonfigCLIENT_IDENTIFIER    clientcredentialIOT_THING_NAME
-#endif
+    #if defined(FLEET_PROVISIONING_DEMO)
+        #define democonfigCLIENT_IDENTIFIER    "client"democonfigFP_DEMO_ID
+    #else
+        #define democonfigCLIENT_IDENTIFIER    sorenClient_Identifier
+    #endif
 #endif
 
 /**
@@ -195,7 +240,7 @@
  * the provisioning template name is "FleetProvisioningDemoTemplate".
  * However, if you used CloudFormation to set up the demo, the template name is "CF_FleetProvisioningDemoTemplate"
  */
- #define democonfigPROVISIONING_TEMPLATE_NAME    "...insert here..."
+ #define democonfigPROVISIONING_TEMPLATE_NAME    sorenProvisioningTemplateName
 
 /**
  * @brief Subject name to use when creating the certificate signing request (CSR)
@@ -229,8 +274,6 @@
 #include "core_mqtt.h" /* Include coreMQTT header for MQTT_LIBRARY_VERSION macro. */
 #define democonfigMQTT_LIB    "core-mqtt@"MQTT_LIBRARY_VERSION
 
-#define democonfigDISABLE_SNI       ( pdFALSE )
-
 /**
  * @brief ALPN (Application-Layer Protocol Negotiation) protocol name for AWS IoT MQTT.
  *
@@ -239,13 +282,13 @@
  * in the link below.
  * https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/
  */
-#define AWS_IOT_MQTT_ALPN           "\x0ex-amzn-mqtt-ca"
+#define AWS_IOT_MQTT_ALPN           "x-amzn-mqtt-ca"
 
 /**
  * @brief This is the ALPN (Application-Layer Protocol Negotiation) string
  * required by AWS IoT for password-based authentication using TCP port 443.
  */
-#define AWS_IOT_CUSTOM_AUTH_ALPN    "\x04mqtt"
+#define AWS_IOT_CUSTOM_AUTH_ALPN    "mqtt"
 /**
  * @brief The MQTT metrics string expected by AWS IoT.
  */
@@ -261,7 +304,7 @@
  * on. The current value is given as an example. Please update for your specific
  * operating system version.
  */
-#define democonfigOS_VERSION    "V10.4.3"
+#define democonfigOS_VERSION    "V10.5.1"
 
 /**
  * @brief The name of the hardware platform the application is running on. The
@@ -273,9 +316,10 @@
 /**
  * @brief The MQTT metrics string expected by AWS IoT.
  */
+/* Soren - Use the metric string with the platform name */
 #define AWS_IOT_METRICS_STRING                                 \
     "?SDK=" democonfigOS_NAME "&Version=" democonfigOS_VERSION \
-    "&MQTTLib=" democonfigMQTT_LIB
+    "&Platform=" democonfigHARDWARE_PLATFORM_NAME "&MQTTLib=" democonfigMQTT_LIB
 
 /**
  * @brief The length of the MQTT metrics string expected by AWS IoT.

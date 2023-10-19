@@ -54,6 +54,9 @@ extern void UserInitialization(void);
 
 #if defined(OTA_OVER_MQTT_DEMO)
     extern void vStartOtaDemo( void );
+#else /* Soren - Only include OTA when building OTA Demo */
+    #include "ota_appversion32.h"
+    const AppVersion32_t appFirmwareVersion = { 0 };
 #endif
 
 #if defined(FLEET_PROVISIONING_DEMO)
