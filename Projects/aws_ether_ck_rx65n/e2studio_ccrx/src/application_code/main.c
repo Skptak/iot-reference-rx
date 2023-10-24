@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /* FreeRTOS includes. */
+#include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -62,7 +63,7 @@ extern void vStartSimplePubSubDemo( void  );
  * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
  * available notification from OTA service.
  */
-#define appmainINCLUDE_OTA_UPDATE_TASK            ( 1 )
+#define appmainINCLUDE_OTA_UPDATE_TASK            ( 0 )
 
 
 /**
@@ -71,8 +72,8 @@ extern void vStartSimplePubSubDemo( void  );
  * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
-#define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
-#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
+#define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
+#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( configMINIMAL_STACK_SIZE )
 #define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY +1 )
 
 /**
@@ -98,7 +99,7 @@ extern void vStartSimplePubSubDemo( void  );
 #define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
-#define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
+#define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x50 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
 #define UNSIGNED_SHORT_RANDOM_NUMBER_MASK         (0xFFFFUL)
 

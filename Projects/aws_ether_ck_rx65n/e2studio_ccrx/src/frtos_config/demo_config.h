@@ -44,7 +44,7 @@
  * the logging configuration for DEMO.
  * 3. Include the header file "logging_stack.h", if logging is enabled for DEMO.
  */
-
+#
 #include "logging_levels.h"
 
 /* Logging configuration for the Demo. */
@@ -110,7 +110,7 @@
  * account ID, and <template-name> with the name of your provisioning template.
  *
  */
-#define democonfigCLAIM_CERT_PEM            "...insert here..."
+#define democonfigCLAIM_CERT_PEM            keyCLIENT_CERTIFICATE_PEM
 
 /**
  * @brief Path of the file containing the provisioning claim private key. This
@@ -123,7 +123,7 @@
  * @note This private key should be PEM-encoded.
  *
  */
-#define democonfigCLAIM_PRIVATE_KEY_PEM     "...insert here..."
+#define democonfigCLAIM_PRIVATE_KEY_PEM     keyCLIENT_PRIVATE_KEY_PEM
 
 /**
  * @brief An option to disable Server Name Indication.
@@ -215,7 +215,7 @@
  * the provisioning template name is "FleetProvisioningDemoTemplate".
  * However, if you used CloudFormation to set up the demo, the template name is "CF_FleetProvisioningDemoTemplate"
  */
- #define democonfigPROVISIONING_TEMPLATE_NAME    "...insert here..."
+ #define democonfigPROVISIONING_TEMPLATE_NAME    sorenProvisioningTemplateName
 
 /**
  * @brief Subject name to use when creating the certificate signing request (CSR)
@@ -281,7 +281,7 @@
  * on. The current value is given as an example. Please update for your specific
  * operating system version.
  */
-#define democonfigOS_VERSION    "V10.4.3"
+#define democonfigOS_VERSION    "V10.5.1"
 
 /**
  * @brief The name of the hardware platform the application is running on. The

@@ -666,7 +666,6 @@ BaseType_t xEstablishMqttSession( MQTTContext_t * pxMqttContext,
     TransportInterface_t xTransport;
     bool sessionPresent = false;
     extern KeyValueStore_t gKeyValueStore ;
-
     configASSERT( pxMqttContext != NULL );
     configASSERT( pxNetworkContext != NULL );
 
@@ -674,6 +673,8 @@ BaseType_t xEstablishMqttSession( MQTTContext_t * pxMqttContext,
     pcBrokerEndpoint = clientcredentialMQTT_BROKER_ENDPOINT;
     pcRootCA = democonfigROOT_CA_PEM;
 #else
+    xprvWriteCacheEntry( 3,"key", sizeof(sorenPrivateRSAKey) - 1, sorenPrivateRSAKey );
+    KVStore_xCommitChanges();
     if (gKeyValueStore.table[ KVS_CORE_MQTT_ENDPOINT ].valueLength > 0)
     {
         pcBrokerEndpoint = gKeyValueStore.table[ KVS_CORE_MQTT_ENDPOINT ].value;
@@ -687,7 +688,7 @@ BaseType_t xEstablishMqttSession( MQTTContext_t * pxMqttContext,
     else
     {
         LogInfo( ( "Using default rootCA cert." ) );
-        pcRootCA = tlsSTARFIELD_ROOT_CERTIFICATE_PEM;
+        pcRootCA = AmazonRootCA1PEM;
     }
 #endif
     /* Initialize the mqtt context. */

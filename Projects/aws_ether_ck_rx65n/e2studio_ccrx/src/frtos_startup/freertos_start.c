@@ -46,7 +46,7 @@ Includes   <System Includes> , "Project Includes"
 #include "unity.h"
 #endif
 
-
+#include "sorenCerts.h"
 #if (BSP_CFG_RTOS_USED == 1)
 /******************************************************************************
 Macro definitions
@@ -279,7 +279,7 @@ void vAssertCalled(void)
         of this function to determine why it was called. */
         while( 0 == ul )
         {
-            R_NOP();
+            R_BSP_NOP();
         }
     }
     taskEXIT_CRITICAL();

@@ -52,6 +52,7 @@ Includes   <System Includes> , "Project Includes"
 
 /* Define the target platform */
 #include    "platform.h"
+#include "store.h"
 
 /* When using the user startup program, disable the following code. */
 #if BSP_CFG_STARTUP_DISABLE == 0
@@ -330,7 +331,6 @@ R_BSP_POR_FUNCTION(R_BSP_STARTUP_FUNCTION)
     /* Prepare the necessary tasks, FreeRTOS's resources... required to be executed at the beginning
      * after vTaskStarScheduler() is called. Other tasks can also be created after starting scheduler at any time */
     Processing_Before_Start_Kernel();
-
     /* Call the kernel startup (should not return) */
     vTaskStartScheduler();
 #elif BSP_CFG_RTOS_USED == 2    /* SEGGER embOS */

@@ -34,6 +34,7 @@
 #elif defined(ENABLE_UNIT_TESTS)
 #include "unity.h"
 #endif
+#include "stdint.h"
 
 /*-----------------------------------------------------------
 * Application specific definitions.
@@ -54,7 +55,7 @@
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configMAX_PRIORITIES                       (7)
 #define configTICK_RATE_HZ                         (( TickType_t ) 1000)
-#define configMINIMAL_STACK_SIZE                   (768)
+#define configMINIMAL_STACK_SIZE                   (0x500)
 #define configTOTAL_HEAP_SIZE_N						(256)
 #define configTOTAL_HEAP_SIZE                      (( size_t ) ( configTOTAL_HEAP_SIZE_N * 1024 ))
 #define configMAX_TASK_NAME_LEN                    (12)
@@ -153,7 +154,7 @@ void vConfigureTimerForRunTimeStats( void );
  * included in tasks.c.  That is because this project defines its own sprintf()
  * functions. */
 #define configUSE_STATS_FORMATTING_FUNCTIONS    1
-
+#define CONFIG_FREERTOS_ASSERT_FAIL_ABORT
 #if defined(ENABLE_UNIT_TESTS) || defined(FREERTOS_ENABLE_UNIT_TESTS)
 /* unity testing */
 #define configASSERT( x ) do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 )

@@ -595,11 +595,11 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
     uint32_t ulRandomNum = 0;
 	do
 	{
-	LogInfo( ( "Creating a TLS connection to %s:%u.",
+	LogInfo( ( "Creating a TLS connection to %s:%d.",
 			pcBrokerEndpoint,
 			democonfigMQTT_BROKER_PORT ) );
 	xNetworkStatus = TLS_FreeRTOS_Connect( pxNetworkContext,
-                                               pcBrokerEndpoint,
+	                                           democonfigMQTT_BROKER_ENDPOINT,
                                                democonfigMQTT_BROKER_PORT,
                                                &xNetworkCredentials,
                                            mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS,
@@ -803,6 +803,13 @@ void prvMQTTAgentTask( void * pvParameters )
     pcBrokerEndpoint = clientcredentialMQTT_BROKER_ENDPOINT;
     pcRootCA = democonfigROOT_CA_PEM;
 #else
+    xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName) - 1,   sorenAWSIoTThingName );
+    xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint) - 1,    sorenAWSIoTEndpoint );
+    xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem) - 1,     sorenClientCertPem );
+    xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey) - 1,     sorenPrivateRSAKey );
+    xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM) - 1,       AmazonRootCA1PEM );
+
+    KVStore_xCommitChanges();
     /* Load broker endpoint and thing name for client connection, from the key store. */
     if (gKeyValueStore.table[ KVS_CORE_THING_NAME ].valueLength > 0)
     {
