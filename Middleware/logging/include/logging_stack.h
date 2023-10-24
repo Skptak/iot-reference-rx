@@ -68,7 +68,7 @@
     #define SdkLogInfo( message )            vLoggingPrintfInfo message
     #define SdkLogDebug( message )           vLoggingPrintfDebug message
 #endif /* if defined( LOGGING_METADATA_WITH_C99_SUPPORT ) && ( LOGGING_METADATA_WITH_C99_SUPPORT == 1 ) */
-
+#define LIBRARY_LOG_LEVEL LOG_DEBUG
 /* Check that LIBRARY_LOG_LEVEL is defined and has a valid value. */
 #if !defined( LIBRARY_LOG_LEVEL ) ||       \
     ( ( LIBRARY_LOG_LEVEL != LOG_NONE ) && \

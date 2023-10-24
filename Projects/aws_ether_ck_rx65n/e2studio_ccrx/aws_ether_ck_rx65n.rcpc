@@ -336,6 +336,7 @@
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\aws_mbedtls_config.h</Path>
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\sorenCerts.h</Path>
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\threading_alt.h</Path>
+            <Path>..\..\..\Middleware\3rdparty\mbedtls_config\tls13-only.h</Path>
           </Category>
           <Category Name="mbedtls_utils">
             <Path>..\..\..\Middleware\3rdparty\mbedtls_utils\mbedtls_bio_tcp_sockets_wrapper.c</Path>

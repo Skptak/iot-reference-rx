@@ -101,6 +101,14 @@
 
 #include "store.h"
 
+/* MbedTLS Includes */
+#define MBEDTLS_ALLOW_PRIVATE_ACCESS
+#include "mbedtls/private_access.h"
+#include "mbedtls/debug.h"
+#include "psa/crypto.h"
+#include "psa/crypto_values.h"
+
+
 #ifndef democonfigMQTT_BROKER_ENDPOINT
     #define democonfigMQTT_BROKER_ENDPOINT    clientcredentialMQTT_BROKER_ENDPOINT
 #endif

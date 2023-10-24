@@ -90,7 +90,7 @@ typedef struct SignatureVerificationState
 
 
 /*-----------------------------------------------------------*/
-
+#if 0
 /**
  * @brief Verifies a cryptographic signature based on the signer
  * certificate, hash algorithm, and the data that was signed.
@@ -289,3 +289,4 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
 
     return xResult;
 }
+#endif

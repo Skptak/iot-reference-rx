@@ -228,6 +228,8 @@ static void sslContextInit( SSLContext_t * pSslContext )
     mbedtls_x509_crt_init( &( pSslContext->rootCa ) );
     mbedtls_x509_crt_init( &( pSslContext->clientCert ) );
     mbedtls_ssl_init( &( pSslContext->context ) );
+    mbedtls_debug_set_threshold(2);
+    mbedtls_ssl_conf_dbg(&( pSslContext->config ), mbedtls_string_printf, NULL);
 
     xInitializePkcs11Session( &( pSslContext->xP11Session ) );
     C_GetFunctionList( &( pSslContext->pxP11FunctionList ) );
@@ -271,7 +273,6 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
 
     /* Initialize the mbed TLS context structures. */
     sslContextInit( &( pTlsTransportParams->sslContext ) );
-
     mbedtlsError = mbedtls_ssl_config_defaults( &( pTlsTransportParams->sslContext.config ),
                                                 MBEDTLS_SSL_IS_CLIENT,
                                                 MBEDTLS_SSL_TRANSPORT_STREAM,
@@ -286,7 +287,12 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
         /* Per mbed TLS docs, mbedtls_ssl_config_defaults only fails on memory allocation. */
         returnStatus = TLS_TRANSPORT_INSUFFICIENT_MEMORY;
     }
-
+    mbedtlsError = psa_crypto_init();
+    if (mbedtlsError != PSA_SUCCESS)
+    {
+        LogError(("Failed to initialize PSA Crypto implementation: %s", (int)mbedtlsError));
+    }
+    mbedtls_ssl_conf_tls13_key_exchange_modes(&( pTlsTransportParams->sslContext.config ), MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_ALL);
     if( returnStatus == TLS_TRANSPORT_SUCCESS )
     {
         /* Set up the certificate security profile, starting from the default value. */
