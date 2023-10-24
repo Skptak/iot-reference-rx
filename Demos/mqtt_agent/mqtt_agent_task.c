@@ -108,6 +108,7 @@
 #include "psa/crypto.h"
 #include "psa/crypto_values.h"
 
+#define LIBRARY_LOG_LEVEL LOG_DEBUG
 
 #ifndef democonfigMQTT_BROKER_ENDPOINT
     #define democonfigMQTT_BROKER_ENDPOINT    clientcredentialMQTT_BROKER_ENDPOINT
@@ -811,11 +812,12 @@ void prvMQTTAgentTask( void * pvParameters )
     pcBrokerEndpoint = clientcredentialMQTT_BROKER_ENDPOINT;
     pcRootCA = democonfigROOT_CA_PEM;
 #else
-    xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName) - 1,   sorenAWSIoTThingName );
-    xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint) - 1,    sorenAWSIoTEndpoint );
-    xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem) - 1,     sorenClientCertPem );
-    xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey) - 1,     sorenPrivateRSAKey );
-    xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM) - 1,       AmazonRootCA1PEM );
+    xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName) ,   sorenAWSIoTThingName );
+    xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint) ,    sorenAWSIoTEndpoint );
+    xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem) ,     sorenClientCertPem );
+    xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey) ,     sorenPrivateRSAKey );
+    xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM) ,       AmazonRootCA1PEM );
+    //xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA3PEM) - 1,       AmazonRootCA3PEM );
 
     KVStore_xCommitChanges();
     /* Load broker endpoint and thing name for client connection, from the key store. */

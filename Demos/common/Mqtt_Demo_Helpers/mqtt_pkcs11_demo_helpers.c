@@ -406,7 +406,7 @@ static TlsTransportStatus_t prvConnectToServerWithBackoffRetries( NetworkContext
     xNetworkCredentials.pClientCertLabel = pcClientCertLabel;
     xNetworkCredentials.pPrivateKeyLabel = pcPrivateKeyLabel;
 
-    xNetworkCredentials.disableSni = pdFALSE;
+    xNetworkCredentials.disableSni = democonfigDISABLE_SNI;
 
     /* Initialize reconnect attempts and interval.*/
     BackoffAlgorithm_InitializeParams( &xReconnectParams,
