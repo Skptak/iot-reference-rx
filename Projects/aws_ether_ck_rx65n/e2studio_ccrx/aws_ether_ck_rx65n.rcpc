@@ -741,7 +741,6 @@
           <Path>src\frtos_config\rm_littlefs_flash_config.h</Path>
           <Path>src\frtos_config\shadow_config.h</Path>
           <Path>src\frtos_config\sigv4_config.h</Path>
-          <Path>src\frtos_config\sorenCerts.h</Path>
         </Category>
         <Category Name="frtos_skeleton">
           <Path>src\frtos_skeleton\task_function.h</Path>

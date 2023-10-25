@@ -33,7 +33,7 @@
 #include "logging_levels.h"
 
 #define LIBRARY_LOG_NAME     "PkcsTlsTransport"
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 
 #include "logging_stack.h"
 
@@ -229,7 +229,7 @@ static void sslContextInit( SSLContext_t * pSslContext )
     mbedtls_x509_crt_init( &( pSslContext->clientCert ) );
     mbedtls_ssl_init( &( pSslContext->context ) );
     // debug_threshold debug threshold
-    mbedtls_debug_set_threshold(3);
+    mbedtls_debug_set_threshold(5);
     mbedtls_ssl_conf_dbg(&( pSslContext->config ), mbedtls_string_printf, NULL);
 
     xInitializePkcs11Session( &( pSslContext->xP11Session ) );
