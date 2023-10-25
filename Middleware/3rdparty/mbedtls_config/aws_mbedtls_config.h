@@ -1475,7 +1475,7 @@
  *          configuration of this extension).
  *
  */
-#define MBEDTLS_SSL_RENEGOTIATION
+//#define MBEDTLS_SSL_RENEGOTIATION
 
 /**
  * \def MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
@@ -1541,7 +1541,7 @@
  * effect on the build.
  *
  */
-#define MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE
+//#define MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE
 
 /**
  * \def MBEDTLS_SSL_PROTO_DTLS

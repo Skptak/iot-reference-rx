@@ -73,7 +73,7 @@ extern void vStartSimplePubSubDemo( void  );
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
 #define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
-#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( configMINIMAL_STACK_SIZE )
+#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 6144 )
 #define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY +1 )
 
 /**
@@ -173,7 +173,7 @@ extern void vRegisterSampleCLICommands( void );
  */
 void main_task( void )
 {
-	int32_t xResults, Time2Wait = 10000;
+	int32_t xResults, Time2Wait = 1000;
 
 	#define mainUART_COMMAND_CONSOLE_STACK_SIZE	( configMINIMAL_STACK_SIZE * 6UL )
 	/* The priority used by the UART command console task. */

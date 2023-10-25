@@ -53,7 +53,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 #include "iot_logging_task.h"
@@ -90,7 +90,6 @@
 #error "OTA demo is not support in this release"
 #endif
 
-#define democonfigROOT_CA_PEM               tlsSTARFIELD_ROOT_CERTIFICATE_PEM
 
 /**
  * @brief Path of the file containing the provisioning claim certificate. This
@@ -234,7 +233,7 @@
  * In the Windows port, this stack only holds a structure. The actual
  * stack is created by an operating system thread.
  */
-#define democonfigDEMO_STACKSIZE        configMINIMAL_STACK_SIZE * 3
+#define democonfigDEMO_STACKSIZE        configMINIMAL_STACK_SIZE
 
 /**
  * @brief Set the stack size of the main demo task.
@@ -244,12 +243,36 @@
  */
 #define democonfigDEMO_TASK_PRIORITY    ( tskIDLE_PRIORITY + 1 )
 
-#define democonfigNETWORK_BUFFER_SIZE    ( configMINIMAL_STACK_SIZE * 3 )
+#define democonfigNETWORK_BUFFER_SIZE    ( configMINIMAL_STACK_SIZE * 5 )
+
+/**
+ * @brief The length of the queue used to hold commands for the agent.
+ */
+#define MQTT_AGENT_COMMAND_QUEUE_LENGTH         ( 25 )
+
+/**
+ * @brief Dimensions the buffer used to serialise and deserialise MQTT packets.
+ * @note Specified in bytes.  Must be large enough to hold the maximum
+ * anticipated MQTT payload.
+ */
+#define MQTT_AGENT_NETWORK_BUFFER_SIZE          ( 10000 )
+
+/**
+ * @brief Maximum time MQTT agent waits in the queue for any pending MQTT
+ * operations.
+ *
+ * The wait time is kept smallest possible to increase the responsiveness of
+ * MQTT agent while processing  pending MQTT operations as well as receive
+ * packets from network.
+ */
+#ifndef MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME
+    #define MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME    ( 50U )
+#endif /* MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME */
+
+#define MQTT_COMMAND_CONTEXTS_POOL_SIZE              ( 10 )
 
 #include "core_mqtt.h" /* Include coreMQTT header for MQTT_LIBRARY_VERSION macro. */
 #define democonfigMQTT_LIB    "core-mqtt@"MQTT_LIBRARY_VERSION
-
-#define democonfigDISABLE_SNI       ( pdFALSE )
 
 /**
  * @brief ALPN (Application-Layer Protocol Negotiation) protocol name for AWS IoT MQTT.
@@ -381,30 +404,6 @@
  * "-----END CERTIFICATE-----\n"
  *
  */
-#define democonfigROOT_CA_PEM                   tlsSTARFIELD_ROOT_CERTIFICATE_PEM
-
-/**
- * @brief The length of the queue used to hold commands for the agent.
- */
-#define MQTT_AGENT_COMMAND_QUEUE_LENGTH         ( 25 )
-
-/**
- * @brief Dimensions the buffer used to serialise and deserialise MQTT packets.
- * @note Specified in bytes.  Must be large enough to hold the maximum
- * anticipated MQTT payload.
- */
-#define MQTT_AGENT_NETWORK_BUFFER_SIZE          ( 5000 )
-
-/**
- * @brief Maximum time MQTT agent waits in the queue for any pending MQTT
- * operations.
- *
- * The wait time is kept smallest possible to increase the responsiveness of
- * MQTT agent while processing  pending MQTT operations as well as receive
- * packets from network.
- */
-#define MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME    ( 50U )
-
-#define MQTT_COMMAND_CONTEXTS_POOL_SIZE              ( 10 )
+#define democonfigROOT_CA_PEM AmazonRootCA1PEM
 
 #endif /* DEMO_CONFIG_H */

@@ -271,7 +271,8 @@ void vAssertCalled(void)
     /* debugging with E1/E2/E2L emulator */
     /* if not using a emulator, you can use LED on/off or serial terminal */
     volatile unsigned long ul = 0;
-
+    // Give 5 seconds for logging task to run hopefully
+    vTaskDelay(5000);
     taskENTER_CRITICAL();
     {
         /* Program may stop here when you stop it by debugger. In the case,
@@ -279,6 +280,7 @@ void vAssertCalled(void)
         of this function to determine why it was called. */
         while( 0 == ul )
         {
+            vPortYield();
             R_BSP_NOP();
         }
     }

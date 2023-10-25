@@ -79,7 +79,7 @@
 * <b>Default value:</b> `10`
 *
 */
-#define MQTT_RECV_POLLING_TIMEOUT_MS    ( 1000U )
+#define MQTT_RECV_POLLING_TIMEOUT_MS    ( 10U )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

@@ -373,16 +373,16 @@ static TlsTransportStatus_t prvConnectToServerWithBackoffRetries( NetworkContext
          * For more information, refer to the documentation at:
          * https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
          */
-        static const char * ppcAlpnProtocols[] = { "mqtt", NULL };
+        static const char * ppcAlpnProtocols[] = { AWS_IOT_CUSTOM_AUTH_ALPN, NULL };
         #if democonfigMQTT_BROKER_PORT != 443U
-        #error "Connections to AWS IoT Core with custom authentication must connect to TCP port 443 with the \"mqtt\" alpn."
+            #error "Connections to AWS IoT Core with custom authentication must connect to TCP port 443 with the \"mqtt\" alpn."
         #endif /* democonfigMQTT_BROKER_PORT != 443U */
     #else /* if !defined( democonfigCLIENT_USERNAME ) */
         /*
          * Otherwise, use the "x-amzn-mqtt-ca" alpn to connect to AWS IoT Core using
          * x509 Certificate Authentication.
          */
-        static const char * ppcAlpnProtocols[] = { "x-amzn-mqtt-ca", NULL };
+        static const char * ppcAlpnProtocols[] = { AWS_IOT_MQTT_ALPN, NULL };
     #endif /* !defined( democonfigCLIENT_USERNAME ) */
 
     /*
@@ -1019,7 +1019,7 @@ BaseType_t xPublishToTopic( MQTTContext_t * pxMqttContext,
     }
     else
     {
-        LogInfo( ( "the published payload:%.*s \r\n ", payloadLength, pcPayload ) );
+        LogDebug( ( "the published payload:%.*s \r\n ", payloadLength, pcPayload ) );
         /* This example publishes to only one topic and uses QOS1. */
         outgoingPublishPackets[ ucPublishIndex ].pubInfo.qos = MQTTQoS1;
         outgoingPublishPackets[ ucPublishIndex ].pubInfo.pTopicName = pcTopicFilter;

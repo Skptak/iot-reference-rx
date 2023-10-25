@@ -221,7 +221,7 @@
  * @brief The MQTT agent manages the MQTT contexts.  This set the handle to the
  * context used by this demo.
  */
-#define mqttexampleMQTT_CONTEXT_HANDLE               ( ( MQTTContextHandle_t ) 0 ) ''
+#define mqttexampleMQTT_CONTEXT_HANDLE               ( ( MQTTContextHandle_t ) 0 )
 
 /**
  * @brief Event Bit corresponding to an MQTT agent state.
@@ -268,8 +268,6 @@ typedef struct TopicFilterSubscription
 } TopicFilterSubscription_t;
 
 /*-----------------------------------------------------------*/
-
-static TlsTransportParams_t xTlsTransportParams;
 
 /**
  * @brief Initializes an MQTT context, including transport interface and
@@ -389,7 +387,9 @@ struct NetworkContext
     TlsTransportParams_t * pParams;
 };
 
-static NetworkContext_t xNetworkContext;
+static TlsTransportParams_t xTlsTransportParams = {0};
+
+static NetworkContext_t xNetworkContext = {0};
 
 /**
  * @brief Global entry time into the application to use as a reference timestamp
@@ -397,17 +397,17 @@ static NetworkContext_t xNetworkContext;
  * between the current time and the global entry time. This will reduce the chances
  * of overflow for the 32 bit unsigned integer used for holding the timestamp.
  */
-static uint32_t ulGlobalEntryTimeMs;
+static uint32_t ulGlobalEntryTimeMs = 0;
 
-MQTTAgentContext_t xGlobalMqttAgentContext;
+MQTTAgentContext_t xGlobalMqttAgentContext = {0};
 
-static uint8_t xNetworkBuffer[ MQTT_AGENT_NETWORK_BUFFER_SIZE ];
+static uint8_t xNetworkBuffer[ MQTT_AGENT_NETWORK_BUFFER_SIZE ] = {0};
 
-static MQTTAgentMessageContext_t xCommandQueue;
+static MQTTAgentMessageContext_t xCommandQueue={0};
 
-static TopicFilterSubscription_t xTopicFilterSubscriptions[ MQTT_AGENT_MAX_SUBSCRIPTIONS ];
+static TopicFilterSubscription_t xTopicFilterSubscriptions[ MQTT_AGENT_MAX_SUBSCRIPTIONS ]= {0};
 
-static SemaphoreHandle_t xSubscriptionsMutex;
+static SemaphoreHandle_t xSubscriptionsMutex = {0};
 
 /**
  * @brief Holds the current state of the MQTT agent.
@@ -418,9 +418,7 @@ static MQTTAgentState_t xState = MQTT_AGENT_STATE_NONE;
 /**
  * @brief Event group used by other tasks to synchronize with the MQTT agent states.
  */
-static EventGroupHandle_t xStateEventGrp;
-
-
+static EventGroupHandle_t xStateEventGrp = {0};
 
 
 /*-----------------------------------------------------------*/
@@ -511,28 +509,28 @@ static MQTTStatus_t prvCreateMQTTConnection( bool xIsReconnect )
 
     /* Append metrics when connecting to the AWS IoT Core broker. */
 #ifdef democonfigUSE_AWS_IOT_CORE_BROKER
-#ifdef democonfigCLIENT_USERNAME
-    xConnectInfo.pUserName = CLIENT_USERNAME_WITH_METRICS;
-    xConnectInfo.userNameLength = ( uint16_t ) strlen( CLIENT_USERNAME_WITH_METRICS );
-    xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
-    xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
-#else
-    xConnectInfo.pUserName = AWS_IOT_METRICS_STRING;
-    xConnectInfo.userNameLength = AWS_IOT_METRICS_STRING_LENGTH;
-    /* Password for authentication is not used. */
-    xConnectInfo.pPassword = NULL;
-    xConnectInfo.passwordLength = 0U;
-#endif
+    #ifdef democonfigCLIENT_USERNAME
+        xConnectInfo.pUserName = CLIENT_USERNAME_WITH_METRICS;
+        xConnectInfo.userNameLength = ( uint16_t ) strlen( CLIENT_USERNAME_WITH_METRICS );
+        xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
+        xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
+    #else
+        xConnectInfo.pUserName = AWS_IOT_METRICS_STRING;
+        xConnectInfo.userNameLength = AWS_IOT_METRICS_STRING_LENGTH;
+        /* Password for authentication is not used. */
+        xConnectInfo.pPassword = NULL;
+        xConnectInfo.passwordLength = 0U;
+    #endif /* democonfigCLIENT_USERNAME */
 #else /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
-#ifdef democonfigCLIENT_USERNAME
-    xConnectInfo.pUserName = democonfigCLIENT_USERNAME;
-    xConnectInfo.userNameLength = ( uint16_t ) strlen( democonfigCLIENT_USERNAME );
-    xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
-    xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
-#endif /* ifdef democonfigCLIENT_USERNAME */
+    #ifdef democonfigCLIENT_USERNAME
+        xConnectInfo.pUserName = democonfigCLIENT_USERNAME;
+        xConnectInfo.userNameLength = ( uint16_t ) strlen( democonfigCLIENT_USERNAME );
+        xConnectInfo.pPassword = democonfigCLIENT_PASSWORD;
+        xConnectInfo.passwordLength = ( uint16_t ) strlen( democonfigCLIENT_PASSWORD );
+    #endif /* ifdef democonfigCLIENT_USERNAME */
 #endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
 
-    LogInfo( ( "Creating an MQTT connection to the broker." ) );
+    LogDebug( ( "%s:%s:%d Creating an MQTT connection to the broker.", __FILE__, __func__, __LINE__ ) );
 
     /* Send MQTT CONNECT packet to broker. MQTT's Last Will and Testament feature
      * is not used in this demo, so it is passed as NULL. */
@@ -602,13 +600,13 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
      * democonfigMQTT_BROKER_PORT at the top of this file. */
 
     uint32_t ulRandomNum = 0;
-	do
-	{
-	LogInfo( ( "Creating a TLS connection to %s:%d.",
-			pcBrokerEndpoint,
-			democonfigMQTT_BROKER_PORT ) );
-	xNetworkStatus = TLS_FreeRTOS_Connect( pxNetworkContext,
-	                                           democonfigMQTT_BROKER_ENDPOINT,
+    do
+    {
+    LogInfo( ( "Creating a TLS connection to %s:%d.",
+            pcBrokerEndpoint,
+            democonfigMQTT_BROKER_PORT ) );
+    xNetworkStatus = TLS_FreeRTOS_Connect( pxNetworkContext,
+                                               democonfigMQTT_BROKER_ENDPOINT,
                                                democonfigMQTT_BROKER_PORT,
                                                &xNetworkCredentials,
                                            mqttexampleTRANSPORT_SEND_RECV_TIMEOUT_MS,
@@ -616,29 +614,29 @@ static BaseType_t prvCreateTLSConnection( NetworkContext_t * pxNetworkContext )
 
     xConnected = ( xNetworkStatus == TLS_TRANSPORT_SUCCESS ) ? pdPASS : pdFAIL;
 
-		if( !xConnected )
-		{
-			/* Get back-off value (in milliseconds) for the next connection retry. */
-			if( xPkcs11GenerateRandomNumber( ( uint8_t * ) &ulRandomNum,
-												 sizeof( ulRandomNum ) ) == pdPASS )
-			{
-			xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( &xReconnectParams, ulRandomNum, &usNextRetryBackOff );
-			}
+        if( !xConnected )
+        {
+            /* Get back-off value (in milliseconds) for the next connection retry. */
+            if( xPkcs11GenerateRandomNumber( ( uint8_t * ) &ulRandomNum,
+                    sizeof( ulRandomNum ) ) == pdPASS )
+            {
+                xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( &xReconnectParams, ulRandomNum, &usNextRetryBackOff );
+            }
 
-			if( xBackoffAlgStatus == BackoffAlgorithmSuccess )
-			{
-				LogWarn( ( "Connection to the broker failed. "
-						   "Retrying connection in %hu ms.",
-						   usNextRetryBackOff ) );
-				vTaskDelay( pdMS_TO_TICKS( usNextRetryBackOff ) );
-			}
-		}
+            if( xBackoffAlgStatus == BackoffAlgorithmSuccess )
+            {
+                LogWarn( ( "Connection to the broker failed. "
+                            "Retrying connection in %hu ms.",
+                            usNextRetryBackOff ) );
+                vTaskDelay( pdMS_TO_TICKS( usNextRetryBackOff ) );
+            }
+        }
 
-		if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
-		{
-			LogError( ( "Connection to the broker failed, all attempts exhausted." ) );
-		}
-	} while( ( xConnected != pdPASS ) && ( xBackoffAlgStatus == BackoffAlgorithmSuccess ) );
+        if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
+        {
+            LogError( ( "Connection to the broker failed, all attempts exhausted." ) );
+        }
+    } while( ( xConnected != pdPASS ) && ( xBackoffAlgStatus == BackoffAlgorithmSuccess ) );
 
     return xConnected;
 }
@@ -765,7 +763,7 @@ static void prvIncomingPublishCallback( MQTTAgentContext_t * pMqttAgentContext,
     /* Fan out the incoming publishes to the callbacks registered using
      * subscription manager. */
     xPublishHandled = prvMatchTopicFilterSubscriptions( pxPublishInfo );
-
+    LogDebug( ( "Received an incoming publish from topic %s", pxPublishInfo->pTopicName ) );
     /* If there are no callbacks to handle the incoming publishes,
      * handle it as an unsolicited publish. */
     if( xPublishHandled != true )
@@ -800,8 +798,13 @@ void prvMQTTAgentTask( void * pvParameters )
     MQTTContext_t * pMqttContext = &( xGlobalMqttAgentContext.mqttContext );
     extern KeyValueStore_t gKeyValueStore ;
     ( void ) pvParameters;
+    volatile int32_t retVal = 0;
 
-    ( void ) xWaitForMQTTAgentState( MQTT_AGENT_STATE_INITIALIZED, portMAX_DELAY );
+    xStatus = xWaitForMQTTAgentState( MQTT_AGENT_STATE_INITIALIZED, portMAX_DELAY );
+    if( pdPASS != xStatus){
+        LogError( ( "MQTT MQTT_AGENT_STATE_INITIALIZED NOT TRUE ") );
+    }
+    configASSERT( pdPASS == xStatus );
     LogInfo( ( "---------Start MQTT Agent Task---------\r\n" ) );
 
     /* Initialization of timestamp for MQTT. */
@@ -812,14 +815,42 @@ void prvMQTTAgentTask( void * pvParameters )
     pcBrokerEndpoint = clientcredentialMQTT_BROKER_ENDPOINT;
     pcRootCA = democonfigROOT_CA_PEM;
 #else
-    xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName) ,   sorenAWSIoTThingName );
-    xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint) ,    sorenAWSIoTEndpoint );
-    xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem) ,     sorenClientCertPem );
-    xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey) ,     sorenPrivateRSAKey );
-    xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM) ,       AmazonRootCA1PEM );
-    //xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA3PEM) - 1,       AmazonRootCA3PEM );
+    retVal = xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName),           sorenAWSIoTThingName );
+    configASSERT( retVal == KVS_CORE_THING_NAME );
 
-    KVStore_xCommitChanges();
+    retVal = xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint),            sorenAWSIoTEndpoint );
+    configASSERT( retVal == KVS_CORE_MQTT_ENDPOINT );
+
+    retVal = xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem),             sorenClientCertPem );
+    configASSERT( retVal == KVS_DEVICE_CERT_ID );
+
+    retVal = xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey),             sorenPrivateRSAKey );
+    configASSERT( retVal == KVS_DEVICE_PRIVKEY_ID );
+
+    //retVal = xprvWriteCacheEntry( 3,"pub",       sizeof(sorenPublicRSAKey),              sorenPublicRSAKey );
+    //configASSERT( retVal == KVS_DEVICE_PUBKEY_ID );
+
+    /* retVal =  xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA3PEM) - 1,       AmazonRootCA3PEM ); */
+    retVal = xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM),               AmazonRootCA1PEM );
+    configASSERT( retVal == KVS_ROOT_CA_ID );
+
+    retVal = xprvWriteCacheEntry( 8,"template",  sizeof(sorenProvisioningTemplateName),  sorenProvisioningTemplateName );
+    configASSERT( retVal == KVS_TEMPLATE_NAME );
+
+    retVal = xprvWriteCacheEntry( 9,"claimcert", sizeof(sorenClientCertPem) ,            sorenClientCertPem );
+    configASSERT( retVal == KVS_CLAIM_CERT_ID );
+
+    retVal = xprvWriteCacheEntry( 8,"claimkey",  sizeof(sorenPrivateRSAKey) ,            sorenPrivateRSAKey );
+    configASSERT( retVal == KVS_CLAIM_PRIVKEY_ID );
+
+
+    xStatus = KVStore_xCommitChanges();
+    if(xStatus != pdPASS){
+        LogError( ( "Got a value of %d from KVStore_xCommitChanges ", xStatus ) );
+        xStatus = pdPASS;
+        //configASSERT( xStatus == pdTRUE );
+    }
+
     /* Load broker endpoint and thing name for client connection, from the key store. */
     if (gKeyValueStore.table[ KVS_CORE_THING_NAME ].valueLength > 0)
     {
@@ -840,6 +871,7 @@ void prvMQTTAgentTask( void * pvParameters )
     {
         LogInfo( ( "Using default rootCA cert." ) );
         pcRootCA = democonfigROOT_CA_PEM;
+        configASSERT( 0 );
     }
 
 #endif
@@ -855,6 +887,7 @@ void prvMQTTAgentTask( void * pvParameters )
         {
             LogError( ( "Failed to initialize MQTT with error %d.", xMQTTStatus ) );
         }
+        configASSERT( MQTTSuccess == xMQTTStatus );
     }
 
     if( xMQTTStatus == MQTTSuccess )
@@ -959,6 +992,7 @@ static MQTTConnectionStatus_t prvConnectToMQTTBroker( bool xIsReconnect )
                 LogError( ( "Failed to connect to MQTT broker, error = %u", xMQTTStatus ) );
                 prvDisconnectTLS( &xNetworkContext );
                 xStatus = pdFAIL;
+                configASSERT( MQTTSuccess == xMQTTStatus );
             }
             else
             {
@@ -1024,6 +1058,10 @@ static bool prvMatchTopicFilterSubscriptions( MQTTPublishInfo_t * pxPublishInfo 
         {
             if( xTopicFilterSubscriptions[ ulIndex ].usTopicFilterLength > 0 )
             {
+                LogDebug( ( "mqtt_agent_task.c: pxPublishInfo->pTopicName =%s\r\n"
+                            "\txTopicFilterSubscriptions[ ulIndex ].pcTopicFilter =%s",
+                              pxPublishInfo->pTopicName,
+                              xTopicFilterSubscriptions[ ulIndex ].pcTopicFilter ) );
                 MQTT_MatchTopic( pxPublishInfo->pTopicName,
                                  pxPublishInfo->topicNameLength,
                                  xTopicFilterSubscriptions[ ulIndex ].pcTopicFilter,

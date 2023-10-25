@@ -58,7 +58,7 @@
 #define configMINIMAL_STACK_SIZE                   (0x500)
 #define configTOTAL_HEAP_SIZE_N						(256)
 #define configTOTAL_HEAP_SIZE                      (( size_t ) ( configTOTAL_HEAP_SIZE_N * 1024 ))
-#define configMAX_TASK_NAME_LEN                    (12)
+#define configMAX_TASK_NAME_LEN                    (30)
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
@@ -182,7 +182,7 @@ extern void vOutputString( const char * pcMessage );
 
 /* Sets the length of the buffers into which logging messages are written - so
  * also defines the maximum length of each log message. */
-#define configLOGGING_MAX_MESSAGE_LENGTH            192
+#define configLOGGING_MAX_MESSAGE_LENGTH            0x180
 
 /* Set to 1 to prepend each log message with a message number, the task name,
  * and a time stamp. */

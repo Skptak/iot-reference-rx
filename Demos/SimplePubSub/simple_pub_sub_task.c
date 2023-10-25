@@ -64,6 +64,7 @@
 /* Fetches thing name from the key store */
 #include "aws_clientcredential.h"
 
+#define LIBRARY_LOG_LEVEL LOG_DEBUG
 /**
  * @brief Delay for the synchronous publisher task between publishes.
  */
@@ -146,7 +147,7 @@
  * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
-#define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
+#define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
 #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
 #define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 1 )
 /*-----------------------------------------------------------*/
@@ -442,6 +443,7 @@ static MQTTStatus_t prvPublishToTopic( MQTTQoS_t xQoS,
 
     xTaskNotifyStateClear( NULL );
 
+    LogDebug( ( "simple_pub_sub.c: pxPublishInfo->pTopicName =%s\r\n", pcTopic ) );
     /* Configure the publish operation. */
     xPublishInfo.qos = xQoS;
     xPublishInfo.pTopicName = pcTopic;
@@ -499,28 +501,28 @@ static MQTTStatus_t prvPublishToTopic( MQTTQoS_t xQoS,
 
 void vSimpleSubscribePublishTask( void * pvParameters )
 {
-    uint32_t ulTaskNumber = ( uint32_t ) pvParameters;
-    MQTTQoS_t xQoS;
-    TickType_t xTicksToDelay;
-    char cPayloadBuf[ mqttexampleSTRING_BUFFER_LENGTH ];
-    char cInTopicBuf[ mqttexampleINPUT_TOPIC_BUFFER_LENGTH ];
-    char cOutTopicBuf[ mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH ];
-    size_t xInTopicLength = 0UL, xOutTopicLength = 0UL, xPayloadLength = 0UL;
-    uint32_t ulPublishCount = 0U, ulSuccessCount = 0U, ulFailCount = 0U;
-    BaseType_t xStatus = pdPASS;
-    MQTTStatus_t xMQTTStatus;
+    volatile uint32_t ulTaskNumber = ( uint32_t ) pvParameters;
+    volatile MQTTQoS_t xQoS;
+    volatile TickType_t xTicksToDelay;
+    volatile char cPayloadBuf[ mqttexampleSTRING_BUFFER_LENGTH ];
+    volatile char cInTopicBuf[ mqttexampleINPUT_TOPIC_BUFFER_LENGTH ];
+    volatile char cOutTopicBuf[ mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH ];
+    volatile size_t xInTopicLength = 0UL, xOutTopicLength = 0UL, xPayloadLength = 0UL;
+    volatile uint32_t ulPublishCount = 0U, ulSuccessCount = 0U, ulFailCount = 0U;
+    volatile BaseType_t xStatus = pdPASS;
+    volatile MQTTStatus_t xMQTTStatus;
 
     /* Have different tasks use different QoS.  0 and 1.  2 can also be used
      * if supported by the broker. */
-    xQoS = ( MQTTQoS_t ) ( ulTaskNumber % 2UL );
+    //xQoS = ( MQTTQoS_t ) ( ulTaskNumber % 2UL );
+    xQoS = 1UL;
 
-    if( xStatus == pdPASS )
+    if( xGetMQTTAgentState() != MQTT_AGENT_STATE_CONNECTED )
     {
-        if( xGetMQTTAgentState() != MQTT_AGENT_STATE_CONNECTED )
-        {
-            ( void ) xWaitForMQTTAgentState( MQTT_AGENT_STATE_CONNECTED, portMAX_DELAY );
-        }
+        xStatus = xWaitForMQTTAgentState( MQTT_AGENT_STATE_CONNECTED, portMAX_DELAY );
     }
+
+    configASSERT(pdTRUE == xStatus);
     LogInfo(( "---------Start PubSub Demo Task  %u---------\r\n", ulTaskNumber ));
 
     if( xStatus == pdPASS )
@@ -529,7 +531,7 @@ void vSimpleSubscribePublishTask( void * pvParameters )
         xInTopicLength = snprintf( cInTopicBuf,
                                    mqttexampleINPUT_TOPIC_BUFFER_LENGTH,
                                    mqttexampleINPUT_TOPIC_FORMAT,
-								   clientcredentialIOT_THING_NAME,
+                                   clientcredentialIOT_THING_NAME,
                                    ulTaskNumber );
 
         /*  Assert if the topic buffer is enough to hold the required topic. */
@@ -564,12 +566,12 @@ void vSimpleSubscribePublishTask( void * pvParameters )
         xOutTopicLength = snprintf( cOutTopicBuf,
                                     mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH,
                                     mqttexampleOUTPUT_TOPIC_FORMAT,
-									clientcredentialIOT_THING_NAME,
+                                    clientcredentialIOT_THING_NAME,
                                     ulTaskNumber );
 
         /*  Assert if the topic buffer is enough to hold the required topic. */
         configASSERT( xOutTopicLength <= mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH );
-
+        LogDebug( ( "cOutTopicBuf = %s, xOutTopicLength = %d", cOutTopicBuf, xOutTopicLength ) );
         /* For a finite number of publishes... */
         for( ulPublishCount = 0UL; ulPublishCount < mqttexamplePUBLISH_COUNT; ulPublishCount++ )
         {

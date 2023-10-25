@@ -228,6 +228,7 @@ static void sslContextInit( SSLContext_t * pSslContext )
     mbedtls_x509_crt_init( &( pSslContext->rootCa ) );
     mbedtls_x509_crt_init( &( pSslContext->clientCert ) );
     mbedtls_ssl_init( &( pSslContext->context ) );
+    // debug_threshold debug threshold
     mbedtls_debug_set_threshold(3);
     mbedtls_ssl_conf_dbg(&( pSslContext->config ), mbedtls_string_printf, NULL);
 
@@ -371,7 +372,7 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
             }
         }
     }
-
+#ifdef MBEDTLS_SSL_ALPN
     if( ( returnStatus == TLS_TRANSPORT_SUCCESS ) && ( pNetworkCredentials->pAlpnProtos != NULL ) )
     {
         /* Include an application protocol list in the TLS ClientHello
@@ -388,7 +389,7 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
             returnStatus = TLS_TRANSPORT_INTERNAL_ERROR;
         }
     }
-
+#endif
     if( returnStatus == TLS_TRANSPORT_SUCCESS )
     {
         /* Initialize the mbed TLS secured connection context. */
@@ -476,8 +477,6 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
                         mbedtlsLowLevelCodeOrDefault( mbedtlsError ) ) );
 
             returnStatus = TLS_TRANSPORT_HANDSHAKE_FAILED;
-            // Sleep 5 seconds to let the logging task run before asserting
-            vTaskDelay(10000);
             configASSERT(returnStatus == TLS_TRANSPORT_SUCCESS);
         }
     }
@@ -797,7 +796,7 @@ int32_t TLS_FreeRTOS_recv( NetworkContext_t * pNetworkContext,
                            void * pBuffer,
                            size_t bytesToRecv )
 {
-    TlsTransportParams_t * pTlsTransportParams = NULL;
+    volatile TlsTransportParams_t * pTlsTransportParams = NULL;
     int32_t tlsStatus = 0;
 
     if( ( pNetworkContext == NULL ) || ( pNetworkContext->pParams == NULL ) )

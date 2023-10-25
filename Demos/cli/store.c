@@ -164,7 +164,7 @@ int32_t xprvWriteCacheEntry(size_t KeyLength,
 						size_t ValueLength,
 						char * pvNewValue )
 {
-	KVStoreKey_t xKey;
+	KVStoreKey_t xKey = 0;
 	xKey = (KVStoreKey_t)Filename2Handle( Key,KeyLength);
 
 	if (xKey < 0)
