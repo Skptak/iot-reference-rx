@@ -64,9 +64,9 @@
 
 /* Demo Specific configs. */
 #include "demo_config.h"
-#include "demo_config.h"
 #include "core_pkcs11_config.h"
 #include "core_pkcs11_config_defaults.h"
+#include "pkcs11_helpers.h"
 
 /* MQTT library includes. */
 #include "core_mqtt.h"
@@ -91,6 +91,7 @@
 
 /* Transport interface header file. */
 #include "transport_mbedtls_pkcs11.h"
+#include "mbedtls_bio_tcp_sockets_wrapper.h"
 
 /* Keystore APIs to fetch configuration data. */
 #include "aws_clientcredential.h"
@@ -530,7 +531,7 @@ static MQTTStatus_t prvCreateMQTTConnection( bool xIsReconnect )
     #endif /* ifdef democonfigCLIENT_USERNAME */
 #endif /* ifdef democonfigUSE_AWS_IOT_CORE_BROKER */
 
-    LogDebug( ( "%s:%s:%d Creating an MQTT connection to the broker.", __FILE__, __func__, __LINE__ ) );
+    LogDebug( ( "%s:%d Creating an MQTT connection to the broker.", __func__, __LINE__ ) );
 
     /* Send MQTT CONNECT packet to broker. MQTT's Last Will and Testament feature
      * is not used in this demo, so it is passed as NULL. */

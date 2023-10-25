@@ -276,8 +276,6 @@ extern void vOutputString( const char * pcMessage );
 #define configPROFILING                      ( 0 )
 
 /* Pseudo random number generater used by some demo tasks. */
-uint32_t ulRand(void);
-#define configRAND32()    ulRand()
 
 /* The platform FreeRTOS is running on. */
 #define configPLATFORM_NAME    "RenesasRX65N"
