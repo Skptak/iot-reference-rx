@@ -47,83 +47,7 @@ extern int32_t littlFs_init(void);
 bool ApplicationCounter(uint32_t xWaitTime);
 signed char vISR_Routine( void );
 extern KeyValueStore_t gKeyValueStore;
-extern void vStartSimplePubSubDemo( void  );
 
-#if (ENABLE_OTA_UPDATE_DEMO == 1)
-    extern void vStartOtaDemo( void );
-#endif
-
-#if (ENABLE_FLEET_PROVISIONING_DEMO == 1)
-    extern void vStartFleetProvisioningDemo(void);
-#endif
-
-/**
- * @brief Flag which enables OTA update task in background along with other demo tasks.
- * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
- * available notification from OTA service.
- */
-#define appmainINCLUDE_OTA_UPDATE_TASK            ( 0 )
-
-
-/**
- * @brief Subscribe Publish demo tasks configuration.
- * Subscribe publish demo task shows the basic functionality of connecting to an MQTT broker, subscribing
- * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
- * Number of subscribe publish demo tasks to be spawned is configurable.
- */
-#ifndef appmainMQTT_NUM_PUBSUB_TASKS
-    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
-#endif
-
-#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
-    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 4096)
-#endif
-
-/**
- * @brief Stack size and priority for OTA Update task.
- */
-#ifndef appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE
-    #define appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
-#endif
-
-#ifndef appmainMQTT_OTA_UPDATE_TASK_PRIORITY
-    #define appmainMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
-#endif
-
-/**
- * @brief Stack size and priority for MQTT agent task.
- * Stack size is capped to an adequate value based on requirements from MbedTLS stack
- * for establishing a TLS connection. Task priority of MQTT agent is set to a priority
- * higher than other MQTT application tasks, so that the agent can drain the queue
- * as work is being produced.
- */
-#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
-    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#endif
-
-/**
- * @brief Stack size and priority for CLI task.
- */
-#ifndef appmainCLI_TASK_STACK_SIZE
-    #define appmainCLI_TASK_STACK_SIZE                ( 6144 )
-#endif
-
-#ifndef appmainCLI_TASK_PRIORITY
-    #define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
-#endif
-
-
-#ifndef mainLOGGING_TASK_STACK_SIZE
-    #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
-#endif
-
-#ifndef mainLOGGING_MESSAGE_QUEUE_LENGTH
-    #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x30 )
-#endif
-
-#ifndef mainTEST_RUNNER_TASK_STACK_SIZE
-    #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
-#endif
 
 #ifndef UNSIGNED_SHORT_RANDOM_NUMBER_MASK
     #define UNSIGNED_SHORT_RANDOM_NUMBER_MASK         (0xFFFFUL)
@@ -201,12 +125,7 @@ void main_task( void )
 	int32_t xResults, Time2Wait = 1000;
 	int32_t retVal = 0;
 	BaseType_t xStatus = pdFALSE;
-	#define mainUART_COMMAND_CONSOLE_STACK_SIZE	( configMINIMAL_STACK_SIZE * 6UL )
-	/* The priority used by the UART command console task. */
-	#define mainUART_COMMAND_CONSOLE_TASK_PRIORITY	( 1 )
 
-	extern void vRegisterSampleCLICommands( void );
-	extern void vUARTCommandConsoleStart( uint16_t usStackSize, UBaseType_t uxPriority );
 	extern TaskHandle_t xCLIHandle;
 
 	prvMiscInitialization();
@@ -214,7 +133,8 @@ void main_task( void )
 
 	/* Register the standard CLI commands. */
 	vRegisterSampleCLICommands();
-	vUARTCommandConsoleStart( mainUART_COMMAND_CONSOLE_STACK_SIZE, mainUART_COMMAND_CONSOLE_TASK_PRIORITY );
+	vUARTCommandConsoleStart( demoUART_COMMAND_CONSOLE_STACK_SIZE,
+                                 demoUART_COMMAND_CONSOLE_TASK_PRIORITY );
 
 	xResults = littlFs_init();
 
@@ -290,12 +210,13 @@ void main_task( void )
            xSetMQTTAgentState( MQTT_AGENT_STATE_INITIALIZED );
         #endif
 
-        vStartMQTTAgent (appmainMQTT_AGENT_TASK_STACK_SIZE, appmainMQTT_AGENT_TASK_PRIORITY);
+        vStartMQTTAgent (demoMQTT_AGENT_TASK_STACK_SIZE,
+                         demoMQTT_AGENT_TASK_PRIORITY);
 
         vStartSimplePubSubDemo ();
 
         #if (ENABLE_OTA_UPDATE_DEMO == 1)
-                  vStartOtaDemo();
+            vStartOtaDemo();
         #endif
 	}
 
@@ -312,9 +233,9 @@ void prvMiscInitialization( void )
 	CLI_Support_Settings();
 
     /* Start logging task. */
-    xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
-                            tskIDLE_PRIORITY + 2,
-                            mainLOGGING_MESSAGE_QUEUE_LENGTH );
+    xLoggingTaskInitialize( configLOGGING_TASK_STACK_SIZE,
+                            configLOGGING_TASK_PRIORITY,
+                            configLOGGING_MESSAGE_QUEUE_LENGTH );
 
 }
 /*-----------------------------------------------------------*/
@@ -440,7 +361,7 @@ void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
 
 #if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 ) || ( ipconfigDHCP_REGISTER_HOSTNAME == 1 )
     /* This function will be called during the DHCP: the machine will be registered
-     * with an IP address plus this name. 
+     * with an IP address plus this name.
      * Note: Please make sure vprvCacheInit() is called before this function, because
 	 * it retrieves thingname value from KeyValue table. */
     const char * pcApplicationHostnameHook( void )

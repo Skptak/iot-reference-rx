@@ -49,15 +49,33 @@
 
 /* Logging configuration for the Demo. */
 #ifndef LIBRARY_LOG_NAME
-#define LIBRARY_LOG_NAME    "MQTTDemo"
+    #define LIBRARY_LOG_NAME    "DEMO_CONFIG"
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-#define LIBRARY_LOG_LEVEL    LOG_DEBUG
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
+#endif
+
+/*----------------------- Logging Task Configurations -----------------------*/
+
+#ifndef configLOGGING_TASK_STACK_SIZE
+    #define configLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
+#endif
+
+#ifndef configLOGGING_MESSAGE_QUEUE_LENGTH
+    #define configLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x30 )
+#endif
+
+#ifndef configLOGGING_TASK_PRIORITY
+    #define configLOGGING_TASK_PRIORITY    ( tskIDLE_PRIORITY + 1 )
 #endif
 
 #include "iot_logging_task.h"
 
+/* Demo Function Includes */
+void vStartSimplePubSubDemo( void  );
+void vRegisterSampleCLICommands( void );
+void vUARTCommandConsoleStart( uint16_t usStackSize, UBaseType_t uxPriority );
 
 /* Select a combination of demos to run
  * These demo has not been evaluated outside of the combination of demos listed below.
@@ -80,6 +98,10 @@
  */
 #define ENABLE_FLEET_PROVISIONING_DEMO      (0)
 
+#if (ENABLE_FLEET_PROVISIONING_DEMO == 1)
+    void vStartFleetProvisioningDemo(void);
+#endif
+
 /* Please select whether to enable or disable the OTA demo
  * (0) : OTA demo is disabled
  * (1) : OTA over MQTT demo is enabled
@@ -87,9 +109,123 @@
 #define ENABLE_OTA_UPDATE_DEMO              (0)
 
 #if ENABLE_OTA_UPDATE_DEMO
-#error "OTA demo is not support in this release"
+    #error "OTA demo is not supported in this release"
+    void vStartOtaDemo( void );
+
+/*------------------------- CLI Task Configurations -------------------------*/
+    /**
+     * @brief Flag which enables OTA update task in background along with other demo tasks.
+     *
+     * @note
+     * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
+     * available notification from OTA service.
+    */
+    #define demoINCLUDE_OTA_UPDATE_TASK            ( 0 )
+
+    /**
+     * @brief Stack size for the OTA Update task.
+     */
+    #ifndef demoMQTT_OTA_UPDATE_TASK_STACK_SIZE
+        #define demoMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
+    #endif
+
+    /**
+     * @brief Task Priority for the OTA Update task.
+     */
+    #ifndef demoMQTT_OTA_UPDATE_TASK_PRIORITY
+        #define demoMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
+    #endif
+
 #endif
 
+/*---------------------------------------------------------------------------*/
+
+/*------------------------- MQTT Task Configurations ------------------------*/
+
+/**
+ * @brief Number of Publish Demo Tasks to create.
+ *
+ * @note
+ * The MQTT Subscribe Demo task shows the basic functionality of connecting to an
+ * MQTT broker, subscribing to a topic, publishing messages to a topic and reporting
+ * the incoming messages on a topic that is already subscribed to.
+ */
+#ifndef demoMQTT_NUM_PUBSUB_TASKS
+    #define demoMQTT_NUM_PUBSUB_TASKS              ( 2 )
+#endif
+
+/**
+ * @brief Stack size in words for the MQTT Demo task.
+ *
+ * @note
+ * Stack size is set to provide adequate room for larger MQTT messages.
+ */
+#ifndef demoMQTT_PUBSUB_TASK_STACK_SIZE
+    #define demoMQTT_PUBSUB_TASK_STACK_SIZE        ( 0x1000 )
+#endif
+
+#ifndef demoMQTT_PUBSUB_TASK_PRIORITY
+    #define demoMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 2 )
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+/*------------------------ MQTT Agent Configurations ------------------------*/
+
+/**
+ * @brief Stack size in words for the MQTT agent task.
+ *
+ * @note
+ * Stack size is capped to an adequate value based on requirements from
+ * MbedTLS stack for establishing a TLS connection.
+ */
+#ifndef demoMQTT_AGENT_TASK_STACK_SIZE
+    #define demoMQTT_AGENT_TASK_STACK_SIZE         ( 0x1800 )
+#endif
+
+/**
+ * @brief Priority for the MQTT Agent Task
+ *
+ * @note
+ * The MQTT agent's task priority is set higher than other MQTT application
+ * tasks, so that the agent can drain the queue as work is being produced.
+ */
+#ifndef demoMQTT_AGENT_TASK_PRIORITY
+    #define demoMQTT_AGENT_TASK_PRIORITY           ( demoMQTT_PUBSUB_TASK_PRIORITY + 1 )
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+/*------------------------- CLI Task Configurations -------------------------*/
+/**
+ * @brief Stack size and priority for CLI task.
+ */
+#ifndef demoCLI_TASK_STACK_SIZE
+    #define demoCLI_TASK_STACK_SIZE                ( 0x1800 )
+#endif
+
+#ifndef demoCLI_TASK_PRIORITY
+    #define demoCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+/*------------------------- Main Task Configurations ------------------------*/
+
+#ifndef mainTEST_RUNNER_TASK_STACK_SIZE
+    #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
+#endif
+
+#ifndef demoUART_COMMAND_CONSOLE_STACK_SIZE
+	#define demoUART_COMMAND_CONSOLE_STACK_SIZE	( configMINIMAL_STACK_SIZE * 6UL )
+#endif
+
+#ifndef demoUART_COMMAND_CONSOLE_TASK_PRIORITY
+	/* The priority used by the UART command console task. */
+	#define demoUART_COMMAND_CONSOLE_TASK_PRIORITY	( tskIDLE_PRIORITY + 1 )
+#endif
+
+/*---------------------------------------------------------------------------*/
 
 /**
  * @brief Path of the file containing the provisioning claim certificate. This
@@ -346,7 +482,7 @@
  * information for the device to connect to broker and perform OTA updates. Disabling the flag results
  * in disabling the CLI task and execution of the demo tasks in normal device operation mode.
  */
-#define appmainPROVISIONING_MODE                  ( 1 )
+#define demoPROVISIONING_MODE                  ( 1 )
 
 /**
  * @brief Certificate used for validating code signing signatures in the OTA PAL.

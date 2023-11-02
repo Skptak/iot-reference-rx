@@ -26,6 +26,8 @@
 #ifndef __AWS_CLIENTCREDENTIAL__H__
 #define __AWS_CLIENTCREDENTIAL__H__
 
+#include "sorenCerts.h"
+
 /*
  * @brief MQTT Broker endpoint.
  *

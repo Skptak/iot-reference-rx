@@ -67,8 +67,11 @@
 
 #include "logging_levels.h"
 
-#define LIBRARY_LOG_NAME     "PUB_SUB_TASK"
-#define LIBRARY_LOG_LEVEL    LOG_DEBUG
+#ifdef LIBRARY_LOG_NAME
+    #undef LIBRARY_LOG_NAME
+    #define LIBRARY_LOG_NAME     "PUB_SUB_TASK"
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
+#endif
 
 #include "logging_stack.h"
 
@@ -170,23 +173,7 @@
     #define mqttexampleINPUT_TOPIC_BUFFER_LENGTH              ( sizeof( mqttexampleINPUT_TOPIC_FORMAT ) + mqttexampleTHING_NAME_MAX_LENGTH + 10U )
 #endif
 
-/**
- * @brief Subscribe Publish demo tasks configuration.
- * Subscribe publish demo task shows the basic functionality of connecting to an MQTT broker, subscribing
- * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
- * Number of subscribe publish demo tasks to be spawned is configurable.
- */
-#ifndef appmainMQTT_NUM_PUBSUB_TASKS
-    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
-#endif
-
-#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
-    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
-#endif
 /*-----------------------------------------------------------*/
-#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
-    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#endif
 
 
 /**
@@ -303,7 +290,7 @@ static char * prvGetThingNameFromKeyStore( void );
  * @param pvParameters The parameters to the task.
  */
 void vSimpleSubscribePublishTask( void * pvParameters );
-void vStartSimplePubSubDemo( void  );
+
 
 /**
  * @brief Starts a group of publish subscribe tasks as requested by the user.
@@ -665,20 +652,23 @@ void vSimpleSubscribePublishTask( void * pvParameters )
     vTaskDelete( NULL );
 }
 
-BaseType_t xStartSimplePubSubTasks( uint32_t ulNumPubsubTasks,
-                                    configSTACK_DEPTH_TYPE uxStackSize,
-                                    UBaseType_t uxPriority )
+/** Soren - There's no reason to have this bounce to another function just to
+ * make the call to xTaskCreate. The return type of it was already being
+ * ignored. The layer of re-direction just makes following the code harder,
+ * as well as less efficient.
+*/
+void vStartSimplePubSubDemo( void  )
 {
     BaseType_t xResult = pdFAIL;
     uint32_t ulTaskNum;
 
-    for( ulTaskNum = 0; ulTaskNum < ulNumPubsubTasks; ulTaskNum++ )
+    for( ulTaskNum = 0; ulTaskNum < demoMQTT_NUM_PUBSUB_TASKS; ulTaskNum++ )
     {
         xResult = xTaskCreate( vSimpleSubscribePublishTask,
                                "PUBSUB",
-                               uxStackSize,
+                               demoMQTT_PUBSUB_TASK_STACK_SIZE,
                                ( void * ) ulTaskNum,
-                               uxPriority,
+                               demoMQTT_PUBSUB_TASK_PRIORITY,
                                NULL );
 
         if( xResult == pdFAIL )
@@ -686,13 +676,4 @@ BaseType_t xStartSimplePubSubTasks( uint32_t ulNumPubsubTasks,
             break;
         }
     }
-
-    return xResult;
-}
-
-void vStartSimplePubSubDemo( void  )
-{
-    xStartSimplePubSubTasks( appmainMQTT_NUM_PUBSUB_TASKS,
-                                       appmainMQTT_PUBSUB_TASK_STACK_SIZE,
-                                       appmainMQTT_PUBSUB_TASK_PRIORITY );
 }

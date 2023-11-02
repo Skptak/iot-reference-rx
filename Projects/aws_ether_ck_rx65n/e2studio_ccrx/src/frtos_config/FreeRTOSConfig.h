@@ -146,77 +146,6 @@ void vConfigureTimerForRunTimeStats( void );
 #define INCLUDE_xTaskGetCurrentTaskHandle       1
 #define INCLUDE_xTaskAbortDelay                 1
 
-#ifndef appmainMQTT_PUBSUB_TASK_PRIORITY
-    #define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 2 )
-#endif
-
-#ifndef appmainMQTT_AGENT_TASK_PRIORITY
-    #define appmainMQTT_AGENT_TASK_PRIORITY           ( tskIDLE_PRIORITY + 3 )
-#endif
-
-/**
- * @brief Flag which enables OTA update task in background along with other demo tasks.
- * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
- * available notification from OTA service.
- */
-#ifndef appmainINCLUDE_OTA_UPDATE_TASK
-    #define appmainINCLUDE_OTA_UPDATE_TASK            ( 0 )
-#endif
-
-
-/**
- * @brief Subscribe Publish demo tasks configuration.
- * Subscribe publish demo task shows the basic functionality of connecting to an MQTT broker, subscribing
- * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
- * Number of subscribe publish demo tasks to be spawned is configurable.
- */
-#ifndef appmainMQTT_NUM_PUBSUB_TASKS
-    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
-#endif
-
-#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
-    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 4096)
-#endif
-
-/**
- * @brief Stack size and priority for OTA Update task.
- */
-#ifndef appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE
-    #define appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
-#endif
-
-#ifndef appmainMQTT_OTA_UPDATE_TASK_PRIORITY
-    #define appmainMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
-#endif
-
-/**
- * @brief Stack size and priority for MQTT agent task.
- * Stack size is capped to an adequate value based on requirements from MbedTLS stack
- * for establishing a TLS connection. Task priority of MQTT agent is set to a priority
- * higher than other MQTT application tasks, so that the agent can drain the queue
- * as work is being produced.
- */
-#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
-    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#endif
-
-/**
- * @brief Stack size and priority for CLI task.
- */
-#ifndef appmainCLI_TASK_STACK_SIZE
-    #define appmainCLI_TASK_STACK_SIZE                ( 6144 )
-#endif
-#ifndef appmainCLI_TASK_PRIORITY
-    #define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
-#endif
-
-#ifndef mainLOGGING_TASK_STACK_SIZE
-    #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
-#endif
-
-#ifndef mainLOGGING_MESSAGE_QUEUE_LENGTH
-    #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x30 )
-#endif
 /* This demo makes use of one or more example stats formatting functions.  These
  * format the raw data provided by the uxTaskGetSystemState() function in to human
  * readable ASCII form.  See the notes in the implementation of vTaskList() within
@@ -225,7 +154,9 @@ void vConfigureTimerForRunTimeStats( void );
  * included in tasks.c.  That is because this project defines its own sprintf()
  * functions. */
 #define configUSE_STATS_FORMATTING_FUNCTIONS    1
+
 #define CONFIG_FREERTOS_ASSERT_FAIL_ABORT
+
 #if defined(ENABLE_UNIT_TESTS) || defined(FREERTOS_ENABLE_UNIT_TESTS)
 /* unity testing */
 #define configASSERT( x ) do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 )

@@ -335,7 +335,6 @@
           <Category Name="mbedtls_config">
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\aws_mbedtls_config.h</Path>
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\mbedtls_config_v3.2.1.h</Path>
-            <Path>..\..\..\Middleware\3rdparty\mbedtls_config\sorenCerts.h</Path>
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\threading_alt.h</Path>
             <Path>..\..\..\Middleware\3rdparty\mbedtls_config\tls13-only.h</Path>
           </Category>
@@ -742,6 +741,7 @@
           <Path>src\frtos_config\rm_littlefs_flash_config.h</Path>
           <Path>src\frtos_config\shadow_config.h</Path>
           <Path>src\frtos_config\sigv4_config.h</Path>
+          <Path>src\frtos_config\sorenCerts.h</Path>
         </Category>
         <Category Name="frtos_skeleton">
           <Path>src\frtos_skeleton\task_function.h</Path>
@@ -1036,84 +1036,84 @@
           <Option>-isa=rxv2</Option>
           <Option>-fpu</Option>
           <Option>-branch=32</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\Fleet_Provisioning_With_CSR_Demo"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\general"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\frtos_config"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\frtos_startup"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\application_code"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\mqtt_agent"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\OtaOverMqtt"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\freertos_plus\standard\crypto\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\logging\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\common_api"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx\implicitlyinclude.h"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\littlefs_common"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\pkcs11_helpers"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\cli"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\dev_mode_key_provisioning\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\portable\Renesas\RX600v2"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\portable\Compiler\Renesas"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS-Plus-CLI"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\interface"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable\os"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycbor\src"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycrypt\lib\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreJSON\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT-Agent\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\backoffAlgorithm\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\pkcs11\published\2-40-errata-1"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\dependency\3rdparty\mbedtls_utils"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_utils"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include\mbedtls"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\library"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_config"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\littlefs"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\base64_decode"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\ports\ota_pal"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\Fleet-Provisioning-for-AWS-IoT-embedded-sdk\source\include"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\Mqtt_Demo_Helpers"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\sockets_wrapper\include"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</Option>
-          <Option>-include="C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\using_mbedtls_pkcs11"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\Fleet_Provisioning_With_CSR_Demo"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\general"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\frtos_config"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\frtos_startup"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\application_code"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\mqtt_agent"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\OtaOverMqtt"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\freertos_plus\standard\crypto\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\logging\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\common_api"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx\implicitlyinclude.h"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\littlefs_common"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\common\pkcs11_helpers"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\cli"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\dev_mode_key_provisioning\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\portable\Renesas\RX600v2"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\portable\Compiler\Renesas"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS-Plus-CLI"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\interface"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable\os"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycbor\src"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycrypt\lib\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreJSON\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT-Agent\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\backoffAlgorithm\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\pkcs11\published\2-40-errata-1"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\dependency\3rdparty\mbedtls_utils"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_utils"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include\mbedtls"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\library"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_config"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\littlefs"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\base64_decode"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Common\ports\ota_pal"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\Fleet-Provisioning-for-AWS-IoT-embedded-sdk\source\include"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Demos\common\Mqtt_Demo_Helpers"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\sockets_wrapper\include"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</Option>
+          <Option>-include="Z:\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\using_mbedtls_pkcs11"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</Option>
           <Option>-define=MBEDTLS_CONFIG_FILE=&lt;"aws_mbedtls_config.h"&gt;,CONFIG_MEDTLS_USE_AFR_MEMORY,MBEDTLS_CMAC_C,MBEDTLS_ERROR_C,MBEDTLS_THREADING_C,MBEDTLS_ALLOW_PRIVATE_ACCESS,__LITTLE_ENDIAN__</Option>
           <Option>-utf8</Option>
           <Option>-nomessage=11174,21644,20010,23034,23035,20177,23033</Option>
           <Option>-debug</Option>
           <Option>-outcode=utf8</Option>
-          <Option>-optimize=0</Option>
           <Option>-goptimize</Option>
+          <Option>-optimize=0</Option>
           <Option>-nologo</Option>
           <Option>-lang=c99</Option>
           <Option>-lang=cpp</Option>
@@ -1123,27 +1123,27 @@
         <AssembleOptions>
           <Option>-isa=rxv2</Option>
           <Option>-fpu</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\general"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</Option>
-          <Option>-include="${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\general"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</Option>
+          <Option>-include="${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</Option>
           <Option>-utf8</Option>
           <Option>-debug</Option>
           <Option>-goptimize</Option>
@@ -1155,12 +1155,12 @@
           <Option>-form=absolute</Option>
           <Option>-nomessage</Option>
           <Option>-vect=_undefined_interrupt_source_isr</Option>
-          <Option>-list=${ProjName}.map</Option>
+          <Option>-list</Option>
           <Option>-samesize=1E</Option>
           <Option>-rom=PFRAM2=RPFRAM2,D=R,D_1=R_1,D_2=R_2</Option>
           <Option>-cpu=RAM=00000000-0003ffff,FIX=00080000-00083fff,FIX=00086000-00087fff,FIX=00088000-0009ffff,FIX=000a0000-000a3fff,RAM=000a4000-000a5fff,FIX=000a6000-000bffff,FIX=000c0000-000dffff,FIX=000e0000-000fffff,ROM=00100000-00107fff,FIX=007fc000-007fcfff,FIX=007fe000-007fffff,RAM=00800000-0085ffff,RAM=fe7f5d00-fe7f5d7f,RAM=fe7f7d70-fe7f7d9f,ROM=ffe00000-ffffffff</Option>
           <Option>-nologo</Option>
-          <Option>-library="${ProjDirPath}/../../../../../../e2_studio/workspace/${ProjName}/src/smc_gen/r_tsip_rx/lib/ccrx/r_tsip_rx65n_little.lib"</Option>
+          <Option>-library="${ProjDirPath}/C:/Users/skptak/e2_studio/workspace/${ProjName}/src/smc_gen/r_tsip_rx/lib/ccrx/r_tsip_rx65n_little.lib"</Option>
           <Option>-start=SU,SI,R_1,B_2,R,RPFRAM2/04,C_LITTLEFS_MANAGEMENT_AREA/0100000,C_USER_APPLICATION_AREA/0102300,B_ETHERNET_BUFFERS_1,B_RX_DESC_1,B_TX_DESC_1,B,B_1,R_2/0800000,PResetPRG,C_1,C_2,C,C$*,D*,W*,L,P,PFRAM2/0FFF00300,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC</Option>
           <Option>-end</Option>
           <Option>-output="${ProjName}.mot"</Option>
@@ -1430,101 +1430,101 @@
           <Path>HardwareDebug\src/smc_gen/r_fwup/src\r_fwup_wrap_com.obj</Path>
           <Path>HardwareDebug\src/smc_gen/r_fwup/src\r_fwup_wrap_flash.obj</Path>
           <Path>HardwareDebug\src/smc_gen/r_fwup/src\r_fwup_wrap_verify.obj</Path>
-          <Path>${ProjDirPath}/../../../../../../e2_studio/workspace/${ProjName}/src/smc_gen/r_tsip_rx/lib/ccrx/r_tsip_rx65n_little.lib</Path>
+          <Path>${ProjDirPath}/C:/Users/skptak/e2_studio/workspace/${ProjName}/src/smc_gen/r_tsip_rx/lib/ccrx/r_tsip_rx65n_little.lib</Path>
         </LinkOrder>
         <CommonOptions>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\Fleet_Provisioning_With_CSR_Demo"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\general"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\frtos_config"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\frtos_startup"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\application_code"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\mqtt_agent"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\OtaOverMqtt"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\freertos_plus\standard\crypto\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\logging\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\common_api"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx\implicitlyinclude.h"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\littlefs_common"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\pkcs11_helpers"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\cli"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\dev_mode_key_provisioning\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\portable\Renesas\RX600v2"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\portable\Compiler\Renesas"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS-Plus-CLI"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\interface"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable\os"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycbor\src"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycrypt\lib\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreJSON\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT-Agent\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\backoffAlgorithm\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\pkcs11\published\2-40-errata-1"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\dependency\3rdparty\mbedtls_utils"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_utils"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include\mbedtls"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\library"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_config"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\littlefs"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\base64_decode"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Common\ports\ota_pal"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\AWS\Fleet-Provisioning-for-AWS-IoT-embedded-sdk\source\include"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Demos\common\Mqtt_Demo_Helpers"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\sockets_wrapper\include"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</IncludePathForC>
-          <IncludePathForC>"C:\Users\skptak\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\using_mbedtls_pkcs11"</IncludePathForC>
-          <IncludePathForC>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</IncludePathForC>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\general"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</IncludePathForAsm>
-          <IncludePathForAsm>"${ProjDirPath}\..\..\..\..\..\..\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</IncludePathForAsm>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\Fleet_Provisioning_With_CSR_Demo"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\general"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\frtos_config"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\frtos_startup"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\application_code"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\mqtt_agent"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\OtaOverMqtt"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\freertos_plus\standard\crypto\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\logging\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\common_api"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\FreeRTOS_common\compiler_support\ccrx\implicitlyinclude.h"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\littlefs_common"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\common\pkcs11_helpers"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\cli"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\dev_mode_key_provisioning\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Kernel\portable\Renesas\RX600v2"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\FreeRTOS-Plus-TCP\source\portable\Compiler\Renesas"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS-Plus-CLI"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT\source\interface"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source\portable\os"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\ota-for-aws-iot-embedded-sdk\source"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycbor\src"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\tinycrypt\lib\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreJSON\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\coreMQTT-Agent\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\backoffAlgorithm\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\pkcs11\published\2-40-errata-1"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\FreeRTOS\corePKCS11\source\dependency\3rdparty\mbedtls_utils"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_utils"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include\mbedtls"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls\library"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\mbedtls_config"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\littlefs"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\3rdparty\base64_decode"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Common\ports\ota_pal"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\common\mqtt-agent-interface"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\AWS\Fleet-Provisioning-for-AWS-IoT-embedded-sdk\source\include"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Demos\common\Mqtt_Demo_Helpers"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\sockets_wrapper\include"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</IncludePathForC>
+          <IncludePathForC>"Z:\repos\fork\iot-reference-rx_Soren\Middleware\network_transport\using_mbedtls_pkcs11"</IncludePathForC>
+          <IncludePathForC>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</IncludePathForC>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\general"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_pincfg"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_bsp"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_config"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_s12ad_rx\src"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_1"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_3"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_4"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\targets"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_ether_rx"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_sci_rx\src"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_byteq\src"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_tsip_rx"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup\src"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_fwup"</IncludePathForAsm>
+          <IncludePathForAsm>"${ProjDirPath}\C:\Users\skptak\e2_studio\workspace\${ProjName}\src\smc_gen\r_flash_rx\src\flash_type_5"</IncludePathForAsm>
           <MacroForC>MBEDTLS_CONFIG_FILE=&lt;"aws_mbedtls_config.h"&gt;</MacroForC>
           <MacroForC>CONFIG_MEDTLS_USE_AFR_MEMORY</MacroForC>
           <MacroForC>MBEDTLS_CMAC_C</MacroForC>

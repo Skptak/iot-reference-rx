@@ -35,6 +35,12 @@
     #error "include FreeRTOS.h must appear in source files before include iot_logging_task.h"
 #endif
 
+/* Library Includes */
+#include <stdint.h>
+
+/* FreeRTOS Includes */
+#include "FreeRTOS.h"
+
 /**
  * @brief Initialization function for logging task.
  *
