@@ -7,8 +7,6 @@
  *  or disable features selectively, and reduce the global
  *  memory footprint.
  */
-#ifndef __AWS_MBEDTLS_CONFIG__
-#define __AWS_MBEDTLS_CONFIG__
 /*
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0
@@ -185,6 +183,11 @@
  */
 #define MBEDTLS_PLATFORM_MEMORY
 
+#include <stddef.h>
+void * mbedtls_platform_calloc( size_t nmemb,
+                                size_t size );
+void mbedtls_platform_free( void * ptr );
+
 /**
  * \def MBEDTLS_PLATFORM_NO_STD_FUNCTIONS
  *
@@ -250,7 +253,9 @@
  *
  * Uncomment to get warnings on using deprecated functions and features.
  */
-//#define MBEDTLS_DEPRECATED_WARNING
+#if defined(__GNUC__)
+    #define MBEDTLS_DEPRECATED_WARNING
+#endif
 
 /**
  * \def MBEDTLS_DEPRECATED_REMOVED
@@ -262,7 +267,7 @@
  *
  * Uncomment to get errors on using deprecated functions and features.
  */
-#define MBEDTLS_DEPRECATED_REMOVED
+//#define MBEDTLS_DEPRECATED_REMOVED
 
 /** \} name SECTION: System support */
 
@@ -1397,7 +1402,7 @@
  * a timing side-channel.
  *
  */
-#define MBEDTLS_SSL_DEBUG_ALL
+//#define MBEDTLS_SSL_DEBUG_ALL
 
 /** \def MBEDTLS_SSL_ENCRYPT_THEN_MAC
  *
@@ -1413,7 +1418,7 @@
  *
  * Comment this macro to disable support for Encrypt-then-MAC
  */
-//#define MBEDTLS_SSL_ENCRYPT_THEN_MAC
+#define MBEDTLS_SSL_ENCRYPT_THEN_MAC
 
 /** \def MBEDTLS_SSL_EXTENDED_MASTER_SECRET
  *
@@ -1429,7 +1434,7 @@
  *
  * Comment this macro to disable support for Extended Master Secret.
  */
-//#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+#define MBEDTLS_SSL_EXTENDED_MASTER_SECRET
 
 /**
  * \def MBEDTLS_SSL_KEEP_PEER_CERTIFICATE
@@ -1496,7 +1501,7 @@
  *
  * Comment this macro to disable support for TLS 1.2 / DTLS 1.2
  */
-//#define MBEDTLS_SSL_PROTO_TLS1_2
+#define MBEDTLS_SSL_PROTO_TLS1_2
 
 /**
  * \def MBEDTLS_SSL_PROTO_TLS1_3
@@ -1519,7 +1524,7 @@
  *
  * Uncomment this macro to enable the support for TLS 1.3.
  */
-#define MBEDTLS_SSL_PROTO_TLS1_3
+//#define MBEDTLS_SSL_PROTO_TLS1_3
 
 /**
  * \def MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE
@@ -1554,7 +1559,7 @@
  *
  * Comment this macro to disable support for DTLS
  */
-//#define MBEDTLS_SSL_PROTO_DTLS
+#define MBEDTLS_SSL_PROTO_DTLS
 
 /**
  * \def MBEDTLS_SSL_ALPN
@@ -1745,7 +1750,7 @@
  *
  * Uncomment this to allow your own alternate threading implementation.
  */
-#define MBEDTLS_THREADING_ALT
+//#define MBEDTLS_THREADING_ALT
 
 /**
  * \def MBEDTLS_THREADING_PTHREAD
@@ -3059,6 +3064,8 @@
  * Enable this layer to allow use of mutexes within mbed TLS
  */
 #define MBEDTLS_THREADING_C
+#define MBEDTLS_THREADING_IMPL
+#include "mbedtls_freertos_port.h"
 
 /**
  * \def MBEDTLS_TIMING_C
@@ -3180,6 +3187,7 @@
  *
  * This module is required for X.509 certificate creation.
  */
+#define MBEDTLS_X509_CRT_WRITE_C
 
 /**
  * \def MBEDTLS_X509_CSR_WRITE_C
@@ -3345,11 +3353,8 @@
 
 /* To Use Function Macros MBEDTLS_PLATFORM_C must be enabled */
 /* MBEDTLS_PLATFORM_XXX_MACRO and MBEDTLS_PLATFORM_XXX_ALT cannot both be defined */
-#include <stddef.h>
-void * mbedtls_platform_calloc( size_t nmemb, size_t size );
-void mbedtls_platform_free( void * ptr );
-#define MBEDTLS_PLATFORM_CALLOC_MACRO        mbedtls_platform_calloc /**< Default allocator macro to use, can be undefined */
-#define MBEDTLS_PLATFORM_FREE_MACRO            mbedtls_platform_free /**< Default free macro to use, can be undefined */
+#define MBEDTLS_PLATFORM_CALLOC_MACRO    mbedtls_platform_calloc /**< Default allocator macro to use, can be undefined */
+#define MBEDTLS_PLATFORM_FREE_MACRO      mbedtls_platform_free   /**< Default free macro to use, can be undefined */
 //#define MBEDTLS_PLATFORM_EXIT_MACRO            exit /**< Default exit macro to use, can be undefined */
 //#define MBEDTLS_PLATFORM_SETBUF_MACRO      setbuf /**< Default setbuf macro to use, can be undefined */
 //#define MBEDTLS_PLATFORM_TIME_MACRO            time /**< Default time macro to use, can be undefined. MBEDTLS_HAVE_TIME must be enabled */
@@ -3583,9 +3588,11 @@ void mbedtls_platform_free( void * ptr );
  */
 //#define MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED
 
-#include "tls13-only.h"
+/** Soren - Include the tls13-only.h file from
+ * https://github.com/Mbed-TLS/mbedtls/blob/development/tests/configs/tls13-only.h
+ * to ensure that only TLS 1.3 options are being used
+*/
+#include "mbedtls/tls13-only.h"
 #include "mbedtls/check_config.h"
-
-#endif /* __AWS_MBEDTLS_CONFIG__ */
 
 /** \} name SECTION: Module configuration options */

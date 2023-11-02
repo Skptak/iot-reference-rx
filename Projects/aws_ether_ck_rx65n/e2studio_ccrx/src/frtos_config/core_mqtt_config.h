@@ -51,7 +51,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL    LOG_INFO
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 #include "logging_stack.h"
@@ -79,7 +79,7 @@
 * <b>Default value:</b> `10`
 *
 */
-#define MQTT_RECV_POLLING_TIMEOUT_MS    ( 1000U )
+#define MQTT_RECV_POLLING_TIMEOUT_MS    ( 10U )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

@@ -46,7 +46,7 @@
     #define LIBRARY_LOG_NAME     "Sockets"
 #endif
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL    LOG_INFO
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 extern void vLoggingPrintf( const char * pcFormatString,

@@ -483,4 +483,13 @@ void vLoggingPrint( const char * pcMessage )
     }
 }
 
+void mbedtls_string_printf(void * ssl, int level, const char * file, int line, const char * str)
+{
+    portDISABLE_INTERRUPTS();
+    vOutputString( ( str ) );
+    vOutputString( ( "\r\n" ) );
+    portENABLE_INTERRUPTS();
+}
+
+
 /*-----------------------------------------------------------*/

@@ -131,4 +131,6 @@ void vLoggingPrintfInfo( const char * pcFormat,
 void vLoggingPrintfDebug( const char * pcFormat,
                           ... );
 
+void mbedtls_string_printf(void * ssl, int level, const char * file, int line, const char * str);
+
 #endif /* AWS_LOGGING_TASK_H */

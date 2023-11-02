@@ -34,6 +34,7 @@
 #elif defined(ENABLE_UNIT_TESTS)
 #include "unity.h"
 #endif
+#include "stdint.h"
 
 /*-----------------------------------------------------------
 * Application specific definitions.
@@ -54,10 +55,10 @@
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configMAX_PRIORITIES                       (7)
 #define configTICK_RATE_HZ                         (( TickType_t ) 1000)
-#define configMINIMAL_STACK_SIZE                   (768)
+#define configMINIMAL_STACK_SIZE                   (0x500)
 #define configTOTAL_HEAP_SIZE_N						(256)
 #define configTOTAL_HEAP_SIZE                      (( size_t ) ( configTOTAL_HEAP_SIZE_N * 1024 ))
-#define configMAX_TASK_NAME_LEN                    (12)
+#define configMAX_TASK_NAME_LEN                    (30)
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
@@ -145,6 +146,77 @@ void vConfigureTimerForRunTimeStats( void );
 #define INCLUDE_xTaskGetCurrentTaskHandle       1
 #define INCLUDE_xTaskAbortDelay                 1
 
+#ifndef appmainMQTT_PUBSUB_TASK_PRIORITY
+    #define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 2 )
+#endif
+
+#ifndef appmainMQTT_AGENT_TASK_PRIORITY
+    #define appmainMQTT_AGENT_TASK_PRIORITY           ( tskIDLE_PRIORITY + 3 )
+#endif
+
+/**
+ * @brief Flag which enables OTA update task in background along with other demo tasks.
+ * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
+ * available notification from OTA service.
+ */
+#ifndef appmainINCLUDE_OTA_UPDATE_TASK
+    #define appmainINCLUDE_OTA_UPDATE_TASK            ( 0 )
+#endif
+
+
+/**
+ * @brief Subscribe Publish demo tasks configuration.
+ * Subscribe publish demo task shows the basic functionality of connecting to an MQTT broker, subscribing
+ * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
+ * Number of subscribe publish demo tasks to be spawned is configurable.
+ */
+#ifndef appmainMQTT_NUM_PUBSUB_TASKS
+    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
+#endif
+
+#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
+    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 4096)
+#endif
+
+/**
+ * @brief Stack size and priority for OTA Update task.
+ */
+#ifndef appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE
+    #define appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
+#endif
+
+#ifndef appmainMQTT_OTA_UPDATE_TASK_PRIORITY
+    #define appmainMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
+#endif
+
+/**
+ * @brief Stack size and priority for MQTT agent task.
+ * Stack size is capped to an adequate value based on requirements from MbedTLS stack
+ * for establishing a TLS connection. Task priority of MQTT agent is set to a priority
+ * higher than other MQTT application tasks, so that the agent can drain the queue
+ * as work is being produced.
+ */
+#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
+    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
+#endif
+
+/**
+ * @brief Stack size and priority for CLI task.
+ */
+#ifndef appmainCLI_TASK_STACK_SIZE
+    #define appmainCLI_TASK_STACK_SIZE                ( 6144 )
+#endif
+#ifndef appmainCLI_TASK_PRIORITY
+    #define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
+#endif
+
+#ifndef mainLOGGING_TASK_STACK_SIZE
+    #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
+#endif
+
+#ifndef mainLOGGING_MESSAGE_QUEUE_LENGTH
+    #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x30 )
+#endif
 /* This demo makes use of one or more example stats formatting functions.  These
  * format the raw data provided by the uxTaskGetSystemState() function in to human
  * readable ASCII form.  See the notes in the implementation of vTaskList() within
@@ -153,7 +225,7 @@ void vConfigureTimerForRunTimeStats( void );
  * included in tasks.c.  That is because this project defines its own sprintf()
  * functions. */
 #define configUSE_STATS_FORMATTING_FUNCTIONS    1
-
+#define CONFIG_FREERTOS_ASSERT_FAIL_ABORT
 #if defined(ENABLE_UNIT_TESTS) || defined(FREERTOS_ENABLE_UNIT_TESTS)
 /* unity testing */
 #define configASSERT( x ) do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 )
@@ -181,7 +253,7 @@ extern void vOutputString( const char * pcMessage );
 
 /* Sets the length of the buffers into which logging messages are written - so
  * also defines the maximum length of each log message. */
-#define configLOGGING_MAX_MESSAGE_LENGTH            192
+#define configLOGGING_MAX_MESSAGE_LENGTH            0x180
 
 /* Set to 1 to prepend each log message with a message number, the task name,
  * and a time stamp. */
@@ -203,9 +275,6 @@ extern void vOutputString( const char * pcMessage );
  * take up unnecessary RAM. */
 #define configCOMMAND_INT_MAX_OUTPUT_SIZE    850
 
-/* Only used when running in the FreeRTOS Windows simulator.  Defines the
- * priority of the task used to simulate Ethernet interrupts. */
-#define configMAC_ISR_SIMULATOR_PRIORITY     ( configMAX_PRIORITIES - 1 )
 
 /* This demo creates a virtual network connection by accessing the raw Ethernet
  * or WiFi data to and from a real network connection.  Many computers have more
@@ -275,8 +344,6 @@ extern void vOutputString( const char * pcMessage );
 #define configPROFILING                      ( 0 )
 
 /* Pseudo random number generater used by some demo tasks. */
-uint32_t ulRand(void);
-#define configRAND32()    ulRand()
 
 /* The platform FreeRTOS is running on. */
 #define configPLATFORM_NAME    "RenesasRX65N"

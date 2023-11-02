@@ -33,7 +33,7 @@
 #include "logging_levels.h"
 
 #define LIBRARY_LOG_NAME     "PkcsTlsTransport"
-#define LIBRARY_LOG_LEVEL    LOG_INFO
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 
 #include "logging_stack.h"
 
@@ -60,6 +60,8 @@
 #include "core_pkcs11.h"
 #include "pkcs11.h"
 #include "core_pki_utils.h"
+
+#include "psa/crypto_values.h"
 
 /* CC-RX Compiler v3.04.00 and below do not support the strnlen function, so use the strlen function instead. */
 #if !defined(strnlen)
@@ -228,6 +230,8 @@ static void sslContextInit( SSLContext_t * pSslContext )
     mbedtls_x509_crt_init( &( pSslContext->rootCa ) );
     mbedtls_x509_crt_init( &( pSslContext->clientCert ) );
     mbedtls_ssl_init( &( pSslContext->context ) );
+    mbedtls_debug_set_threshold(2);
+    mbedtls_ssl_conf_dbg(&( pSslContext->config ), mbedtls_string_printf, NULL);
 
     xInitializePkcs11Session( &( pSslContext->xP11Session ) );
     C_GetFunctionList( &( pSslContext->pxP11FunctionList ) );
@@ -285,6 +289,12 @@ static TlsTransportStatus_t tlsSetup( NetworkContext_t * pNetworkContext,
 
         /* Per mbed TLS docs, mbedtls_ssl_config_defaults only fails on memory allocation. */
         returnStatus = TLS_TRANSPORT_INSUFFICIENT_MEMORY;
+    }
+
+    mbedtlsError = psa_crypto_init();
+    if (mbedtlsError != PSA_SUCCESS)
+    {
+        LogError(("Failed to initialize PSA Crypto implementation: %s", (int)mbedtlsError));
     }
 
     if( returnStatus == TLS_TRANSPORT_SUCCESS )

@@ -62,7 +62,7 @@ extern void vStartSimplePubSubDemo( void  );
  * OTA update task polls regularly for firmware update jobs or acts on a new firmware update
  * available notification from OTA service.
  */
-#define appmainINCLUDE_OTA_UPDATE_TASK            ( 1 )
+#define appmainINCLUDE_OTA_UPDATE_TASK            ( 0 )
 
 
 /**
@@ -71,15 +71,24 @@ extern void vStartSimplePubSubDemo( void  );
  * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
-#define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
-#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
-#define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY +1 )
+#ifndef appmainMQTT_NUM_PUBSUB_TASKS
+    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 1 )
+#endif
+
+#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
+    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 4096)
+#endif
 
 /**
  * @brief Stack size and priority for OTA Update task.
  */
-#define appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
-#define appmainMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
+#ifndef appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE
+    #define appmainMQTT_OTA_UPDATE_TASK_STACK_SIZE    ( 4096 )
+#endif
+
+#ifndef appmainMQTT_OTA_UPDATE_TASK_PRIORITY
+    #define appmainMQTT_OTA_UPDATE_TASK_PRIORITY      ( tskIDLE_PRIORITY )
+#endif
 
 /**
  * @brief Stack size and priority for MQTT agent task.
@@ -88,20 +97,37 @@ extern void vStartSimplePubSubDemo( void  );
  * higher than other MQTT application tasks, so that the agent can drain the queue
  * as work is being produced.
  */
-#define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#define appmainMQTT_AGENT_TASK_PRIORITY           ( tskIDLE_PRIORITY + 2 )
+#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
+    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
+#endif
 
 /**
  * @brief Stack size and priority for CLI task.
  */
-#define appmainCLI_TASK_STACK_SIZE                ( 6144 )
-#define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
+#ifndef appmainCLI_TASK_STACK_SIZE
+    #define appmainCLI_TASK_STACK_SIZE                ( 6144 )
+#endif
 
-#define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
-#define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
-#define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
-#define UNSIGNED_SHORT_RANDOM_NUMBER_MASK         (0xFFFFUL)
+#ifndef appmainCLI_TASK_PRIORITY
+    #define appmainCLI_TASK_PRIORITY                  ( tskIDLE_PRIORITY + 1 )
+#endif
 
+
+#ifndef mainLOGGING_TASK_STACK_SIZE
+    #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
+#endif
+
+#ifndef mainLOGGING_MESSAGE_QUEUE_LENGTH
+    #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 0x30 )
+#endif
+
+#ifndef mainTEST_RUNNER_TASK_STACK_SIZE
+    #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
+#endif
+
+#ifndef UNSIGNED_SHORT_RANDOM_NUMBER_MASK
+    #define UNSIGNED_SHORT_RANDOM_NUMBER_MASK         (0xFFFFUL)
+#endif
 /* The MAC address array is not declared const as the MAC address will
 normally be read from an EEPROM and not hard coded (in real deployed
 applications).*/
@@ -172,8 +198,9 @@ extern void vRegisterSampleCLICommands( void );
  */
 void main_task( void )
 {
-	int32_t xResults, Time2Wait = 10000;
-
+	int32_t xResults, Time2Wait = 1000;
+	int32_t retVal = 0;
+	BaseType_t xStatus = pdFALSE;
 	#define mainUART_COMMAND_CONSOLE_STACK_SIZE	( configMINIMAL_STACK_SIZE * 6UL )
 	/* The priority used by the UART command console task. */
 	#define mainUART_COMMAND_CONSOLE_TASK_PRIORITY	( 1 )
@@ -197,14 +224,46 @@ void main_task( void )
 	{
 		xResults = vprvCacheInit();
 	}
+    retVal = xprvWriteCacheEntry( 9,"thingname", sizeof(sorenAWSIoTThingName),           sorenAWSIoTThingName );
+    configASSERT( retVal == KVS_CORE_THING_NAME );
 
+    retVal = xprvWriteCacheEntry( 8,"endpoint",  sizeof(sorenAWSIoTEndpoint),            sorenAWSIoTEndpoint );
+    configASSERT( retVal == KVS_CORE_MQTT_ENDPOINT );
+
+    retVal = xprvWriteCacheEntry( 4,"cert",      sizeof(sorenClientCertPem),             sorenClientCertPem );
+    configASSERT( retVal == KVS_DEVICE_CERT_ID );
+
+    retVal = xprvWriteCacheEntry( 3,"key",       sizeof(sorenPrivateRSAKey),             sorenPrivateRSAKey );
+    configASSERT( retVal == KVS_DEVICE_PRIVKEY_ID );
+
+    //retVal = xprvWriteCacheEntry( 3,"pub",       sizeof(sorenPublicRSAKey),              sorenPublicRSAKey );
+    //configASSERT( retVal == KVS_DEVICE_PUBKEY_ID );
+
+    /* retVal =  xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA3PEM) - 1,       AmazonRootCA3PEM ); */
+    retVal = xprvWriteCacheEntry( 6,"rootca",    sizeof(AmazonRootCA1PEM),               AmazonRootCA1PEM );
+    configASSERT( retVal == KVS_ROOT_CA_ID );
+
+    retVal = xprvWriteCacheEntry( 8,"template",  sizeof(sorenProvisioningTemplateName),  sorenProvisioningTemplateName );
+    configASSERT( retVal == KVS_TEMPLATE_NAME );
+
+    retVal = xprvWriteCacheEntry( 9,"claimcert", sizeof(sorenClientCertPem) ,            sorenClientCertPem );
+    configASSERT( retVal == KVS_CLAIM_CERT_ID );
+
+    retVal = xprvWriteCacheEntry( 8,"claimkey",  sizeof(sorenPrivateRSAKey) ,            sorenPrivateRSAKey );
+    configASSERT( retVal == KVS_CLAIM_PRIVKEY_ID );
+
+    xStatus = KVStore_xCommitChanges();
+    if(xStatus != pdPASS){
+        //LogError( ( "Got a value of %d from KVStore_xCommitChanges ", xStatus ) );
+        xStatus = pdPASS;
+        //configASSERT( xStatus == pdTRUE );
+    }
 	if(ApplicationCounter(Time2Wait))
 	{
 		/* Remove CLI task before going to demo. */
 		/* CLI and Log tasks use common resources but are not exclusively controlled. */
 		/* For this reason, the CLI task must be deleted before executing the Demo. */
 		vTaskDelete(xCLIHandle);
-
 		/* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
 			are created in the vApplicationIPNetworkEventHook() hook function
 			below.  The hook function is called when the network connects. */

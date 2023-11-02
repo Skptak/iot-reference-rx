@@ -45,6 +45,7 @@
 #include <assert.h>
 
 /* Kernel includes. */
+#include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -64,39 +65,59 @@
 /* Fetches thing name from the key store */
 #include "aws_clientcredential.h"
 
+#include "logging_levels.h"
+
+#define LIBRARY_LOG_NAME     "PUB_SUB_TASK"
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
+
+#include "logging_stack.h"
+
+
 /**
  * @brief Delay for the synchronous publisher task between publishes.
  */
-#define mqttexampleDELAY_BETWEEN_PUBLISH_OPERATIONS_MS    ( 2000U )
+#ifndef mqttexampleDELAY_BETWEEN_PUBLISH_OPERATIONS_MS
+    #define mqttexampleDELAY_BETWEEN_PUBLISH_OPERATIONS_MS    ( 2000U )
+#endif
 
 /**
  * @brief Number of publishes done by each task in this demo.
  */
-#define mqttexamplePUBLISH_COUNT                          10
+#ifndef mqttexamplePUBLISH_COUNT
+    #define mqttexamplePUBLISH_COUNT                          10
+#endif
 
 /**
  * @brief Number of times a publish has to be retried if agent cannot send a QoS0 packet
  * or an ACK is not received for a QoS1 packet.
  */
-#define mqttexampleNUM_PUBLISH_RETRIES                    ( 3 )
+#ifndef mqttexampleNUM_PUBLISH_RETRIES
+    #define mqttexampleNUM_PUBLISH_RETRIES                    ( 3 )
+#endif
 
 /**
  * @brief The maximum amount of time in milliseconds to wait for the commands
  * to be posted to the MQTT agent should the MQTT agent's command queue be full.
  * Tasks wait in the Blocked state, so don't use any CPU time.
  */
-#define mqttexampleMAX_COMMAND_SEND_BLOCK_TIME_MS         ( 1000 )
+#ifndef mqttexampleMAX_COMMAND_SEND_BLOCK_TIME_MS
+    #define mqttexampleMAX_COMMAND_SEND_BLOCK_TIME_MS         ( 1000 )
+#endif
 
 /**
  * @brief Maximum length of the thing name as set by AWS IoT.
  * This is used to set the maximum size of topic buffer that needs to be allocated.
  */
-#define mqttexampleTHING_NAME_MAX_LENGTH                  ( 128 )
+#ifndef mqttexampleTHING_NAME_MAX_LENGTH
+    #define mqttexampleTHING_NAME_MAX_LENGTH                  ( 128 )
+#endif
 
 /**
  * @brief Size of statically allocated buffers for holding payloads.
  */
-#define mqttexampleSTRING_BUFFER_LENGTH                   ( 100 )
+#ifndef mqttexampleSTRING_BUFFER_LENGTH
+    #define mqttexampleSTRING_BUFFER_LENGTH                   ( 100 )
+#endif
 
 /**
  * @brief Format of the loop-back topic.
@@ -112,33 +133,42 @@
  * this demo this can be a task number, when more than one tasks are publishing within a device.
  *
  */
-#define mqttexampleLOOPBACK_TOPIC_FORMAT                  "pubsub_demo/%s/task_%lu"
+#ifndef mqttexampleLOOPBACK_TOPIC_FORMAT
+    #define mqttexampleLOOPBACK_TOPIC_FORMAT                  "pubsub_demo/%s/task_%lu"
+#endif
 
 /**
  * @brief Format for the topic to which demo task sends PUBLISH messages to broker.
  * The topic is set by default as the loopback topic, so that device will receive the same message which is sent to the
  * broker.
  */
-#define mqttexampleOUTPUT_TOPIC_FORMAT                    mqttexampleLOOPBACK_TOPIC_FORMAT
-
+#ifndef mqttexampleOUTPUT_TOPIC_FORMAT
+    #define mqttexampleOUTPUT_TOPIC_FORMAT                    mqttexampleLOOPBACK_TOPIC_FORMAT
+#endif
 /**
  * @brief Size of the static buffer to hold the output topic name.
  * The buffer should accommodate the topic format string, thing name and the task number which is a 32bit integer.
  */
-#define mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH             ( sizeof( mqttexampleOUTPUT_TOPIC_FORMAT ) + mqttexampleTHING_NAME_MAX_LENGTH + 10U )
+#ifndef mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH
+    #define mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH             ( sizeof( mqttexampleOUTPUT_TOPIC_FORMAT ) + mqttexampleTHING_NAME_MAX_LENGTH + 10U )
+#endif
 
 /**
  * @brief Format for the topic to receive incoming messages from the MQTT broker.
  * Topic is set by default as the loopback topic so that the device will receive the same message which is published to the
  * broker.
  */
-#define mqttexampleINPUT_TOPIC_FORMAT                     mqttexampleLOOPBACK_TOPIC_FORMAT
+#ifndef mqttexampleINPUT_TOPIC_FORMAT
+    #define mqttexampleINPUT_TOPIC_FORMAT                     mqttexampleLOOPBACK_TOPIC_FORMAT
+#endif
 
 /**
  * @brief Size of the static buffer to hold the topic name.
  * The buffer should accommodate the topic format string, thing name and the task number which is a 32bit integer.
  */
-#define mqttexampleINPUT_TOPIC_BUFFER_LENGTH              ( sizeof( mqttexampleINPUT_TOPIC_FORMAT ) + mqttexampleTHING_NAME_MAX_LENGTH + 10U )
+#ifndef mqttexampleINPUT_TOPIC_BUFFER_LENGTH
+    #define mqttexampleINPUT_TOPIC_BUFFER_LENGTH              ( sizeof( mqttexampleINPUT_TOPIC_FORMAT ) + mqttexampleTHING_NAME_MAX_LENGTH + 10U )
+#endif
 
 /**
  * @brief Subscribe Publish demo tasks configuration.
@@ -146,12 +176,17 @@
  * to a topic, publishing messages to a topic and reporting the incoming messages on subscribed topic.
  * Number of subscribe publish demo tasks to be spawned is configurable.
  */
-#define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
-#define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
-#define appmainMQTT_PUBSUB_TASK_PRIORITY          ( tskIDLE_PRIORITY + 1 )
+#ifndef appmainMQTT_NUM_PUBSUB_TASKS
+    #define appmainMQTT_NUM_PUBSUB_TASKS              ( 2 )
+#endif
+
+#ifndef appmainMQTT_PUBSUB_TASK_STACK_SIZE
+    #define appmainMQTT_PUBSUB_TASK_STACK_SIZE        ( 2048 )
+#endif
 /*-----------------------------------------------------------*/
-#define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
-#define appmainMQTT_AGENT_TASK_PRIORITY           ( tskIDLE_PRIORITY + 2 )
+#ifndef appmainMQTT_AGENT_TASK_STACK_SIZE
+    #define appmainMQTT_AGENT_TASK_STACK_SIZE         ( 6144 )
+#endif
 
 
 /**
@@ -569,7 +604,7 @@ void vSimpleSubscribePublishTask( void * pvParameters )
 
         /*  Assert if the topic buffer is enough to hold the required topic. */
         configASSERT( xOutTopicLength <= mqttexampleOUTPUT_TOPIC_BUFFER_LENGTH );
-
+        LogDebug( ( "cOutTopicBuf = %s, xOutTopicLength = %d", cOutTopicBuf, xOutTopicLength ) );
         /* For a finite number of publishes... */
         for( ulPublishCount = 0UL; ulPublishCount < mqttexamplePUBLISH_COUNT; ulPublishCount++ )
         {

@@ -36,9 +36,12 @@ Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 #include <stdio.h>
 #include "platform.h"
+#include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "freertos_start.h"
+
+#include "r_bsp_config.h"
 
 #if defined(FREERTOS_ENABLE_UNIT_TESTS)
 #include "unity_internals.h"
@@ -46,6 +49,11 @@ Includes   <System Includes> , "Project Includes"
 #include "unity.h"
 #endif
 
+#include "sorenCerts.h"
+
+#ifndef BSP_CFG_RTOS_USED
+    #define BSP_CFG_RTOS_USED 1
+#endif
 
 #if (BSP_CFG_RTOS_USED == 1)
 /******************************************************************************
@@ -271,7 +279,8 @@ void vAssertCalled(void)
     /* debugging with E1/E2/E2L emulator */
     /* if not using a emulator, you can use LED on/off or serial terminal */
     volatile unsigned long ul = 0;
-
+    // Give 5 seconds for logging task to run hopefully
+    //vTaskDelay(5000);
     taskENTER_CRITICAL();
     {
         /* Program may stop here when you stop it by debugger. In the case,
@@ -279,7 +288,8 @@ void vAssertCalled(void)
         of this function to determine why it was called. */
         while( 0 == ul )
         {
-            R_NOP();
+            //vPortYield();
+            R_BSP_NOP();
         }
     }
     taskEXIT_CRITICAL();
@@ -361,7 +371,7 @@ void Processing_Before_Start_Kernel(void)
 
     /************** task creation ****************************/
     /* Main task. */
-    ret = xTaskCreate(main_task, "MAIN_TASK", 512, NULL, 1, NULL);
+    ret = xTaskCreate(main_task, "MAIN_TASK", configMINIMAL_STACK_SIZE * 3, NULL, 1, NULL);
     if (pdPASS != ret)
     {
         while(1)

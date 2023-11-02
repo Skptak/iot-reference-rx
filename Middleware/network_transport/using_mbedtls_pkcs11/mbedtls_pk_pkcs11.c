@@ -27,7 +27,7 @@
 #include "logging_levels.h"
 
 #define LIBRARY_LOG_NAME     "MbedTLSPkP11"
-#define LIBRARY_LOG_LEVEL    LOG_ERROR
+#define LIBRARY_LOG_LEVEL    LOG_DEBUG
 
 #include "logging_stack.h"
 
